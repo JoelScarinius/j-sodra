@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-20T07:22:28.617140+00:00",
+  "generated_at": "2026-05-27T06:46:16.604122+00:00",
   "enabled_previous_season_complement": true,
   "strategy": "use current season first; if early-season sample is small, fill remaining analysis window from previous season",
   "applies_to": [
@@ -15,10 +15,10 @@
   "team": {
     "target_match_count": 12,
     "current_season_id": 192451,
-    "current_season_played_matches_available": 8,
-    "current_season_matches_used": 8,
+    "current_season_played_matches_available": 9,
+    "current_season_matches_used": 9,
     "previous_season_id": 190620,
-    "previous_season_matches_used": 4,
+    "previous_season_matches_used": 3,
     "analysis_matches_used": 12,
     "is_complemented_with_previous_season": true,
     "scope_label": "current_plus_previous_season"
@@ -26,10 +26,10 @@
   "next_opponent": {
     "target_match_count": 12,
     "current_season_id": 192451,
-    "current_season_played_matches_available": 8,
-    "current_season_matches_used": 8,
+    "current_season_played_matches_available": 9,
+    "current_season_matches_used": 9,
     "previous_season_id": 190620,
-    "previous_season_matches_used": 4,
+    "previous_season_matches_used": 3,
     "analysis_matches_used": 12,
     "is_complemented_with_previous_season": true,
     "scope_label": "current_plus_previous_season"

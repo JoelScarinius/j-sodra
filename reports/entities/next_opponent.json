@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-05-20T07:22:28.617140+00:00",
-  "id": 6742,
-  "name": "Ängelholm",
-  "logo_url": "https://cdn5.wyscout.com/photos/team/public/1626_120x120.png",
+  "generated_at": "2026-05-27T06:46:16.604122+00:00",
+  "id": 6792,
+  "name": "Skövde AIK",
+  "logo_url": "https://cdn5.wyscout.com/photos/team/public/g4038_120x120.png",
   "season_id": 192451,
   "source": "fixtures",
-  "match_id": 5819202,
-  "match_dateutc": "2026-05-24T14:00:00+00:00",
+  "match_id": 5819216,
+  "match_dateutc": "2026-06-01T17:00:00+00:00",
   "status": "Fixture",
-  "label": "Jönköpings Södra - Ängelholm, 0-0",
-  "target_side": "home"
+  "label": "Skövde AIK - Jönköpings Södra, 0-0",
+  "target_side": "away"
 }

@@ -1,7 +1,19 @@
 {
-  "generated_at": "2026-05-20T07:22:28.617140+00:00",
+  "generated_at": "2026-05-27T06:46:16.604122+00:00",
   "team": {
     "matches": [
+      {
+        "match_id": 5819202,
+        "dateutc": "2026-05-24T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Jönköpings Södra - Ängelholm, 3-0",
+        "result": "W",
+        "score": "3-0",
+        "goals_for": 3,
+        "goals_against": 0
+      },
       {
         "match_id": 5819179,
         "dateutc": "2026-05-17T11:00:00+00:00",
@@ -49,51 +61,51 @@
         "score": "3-0",
         "goals_for": 3,
         "goals_against": 0
-      },
-      {
-        "match_id": 5819121,
-        "dateutc": "2026-04-26T14:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Olympic - Jönköpings Södra, 3-1",
-        "result": "L",
-        "score": "3-1",
-        "goals_for": 1,
-        "goals_against": 3
       }
     ],
     "summary": {
-      "wins": 3,
+      "wins": 4,
       "draws": 1,
-      "losses": 1,
-      "points": 10
+      "losses": 0,
+      "points": 13
     }
   },
   "next_opponent": {
     "matches": [
       {
-        "match_id": 5819184,
-        "dateutc": "2026-05-18T17:00:00+00:00",
+        "match_id": 5819199,
+        "dateutc": "2026-05-23T14:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Ängelholm - Kristianstad, 0-1",
+        "label": "Skövde AIK - Ariana, 0-4",
         "result": "L",
-        "score": "0-1",
+        "score": "0-4",
         "goals_for": 0,
+        "goals_against": 4
+      },
+      {
+        "match_id": 5819181,
+        "dateutc": "2026-05-17T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Eskilsminne - Skövde AIK, 1-1",
+        "result": "D",
+        "score": "1-1",
+        "goals_for": 1,
         "goals_against": 1
       },
       {
-        "match_id": 5819168,
-        "dateutc": "2026-05-14T14:00:00+00:00",
+        "match_id": 5819166,
+        "dateutc": "2026-05-13T17:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Ängelholm - Åtvidaberg, 2-2",
-        "result": "D",
-        "score": "2-2",
-        "goals_for": 2,
+        "label": "Utsikten - Skövde AIK, 2-3",
+        "result": "W",
+        "score": "2-3",
+        "goals_for": 3,
         "goals_against": 2
       },
       {
@@ -109,28 +121,16 @@
         "goals_against": 1
       },
       {
-        "match_id": 5819131,
-        "dateutc": "2026-05-01T11:00:00+00:00",
+        "match_id": 5819136,
+        "dateutc": "2026-05-02T14:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Eskilsminne - Ängelholm, 0-6",
-        "result": "W",
-        "score": "0-6",
-        "goals_for": 6,
-        "goals_against": 0
-      },
-      {
-        "match_id": 5819116,
-        "dateutc": "2026-04-25T11:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Ängelholm - Hässleholms IF, 1-1",
+        "label": "Skövde AIK - Åtvidaberg, 0-0",
         "result": "D",
-        "score": "1-1",
-        "goals_for": 1,
-        "goals_against": 1
+        "score": "0-0",
+        "goals_for": 0,
+        "goals_against": 0
       }
     ],
     "summary": {
