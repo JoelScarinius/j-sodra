@@ -1,0 +1,38 @@
+name: Sync League Warehouse
+
+on:
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: JSON payload to post to the sync-league edge function
+        required: false
+        default: '{"provider_league_id":810,"include_events":true}'
+        type: string
+  schedule:
+    - cron: '17 * * * *'
+
+concurrency:
+  group: j-sodra-league-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Call sync-league edge function
+        env:
+          SYNC_LEAGUE_FUNCTION_URL: ${{ secrets.SYNC_LEAGUE_FUNCTION_URL }}
+          SYNC_LEAGUE_TOKEN: ${{ secrets.SYNC_LEAGUE_TOKEN }}
+          SYNC_LEAGUE_PAYLOAD: ${{ github.event.inputs.payload || secrets.SYNC_LEAGUE_PAYLOAD }}
+        run: |
+          test -n "$SYNC_LEAGUE_FUNCTION_URL"
+          test -n "$SYNC_LEAGUE_TOKEN"
+          test -n "$SYNC_LEAGUE_PAYLOAD"
+
+          curl --fail-with-body \
+            --request POST \
+            --url "$SYNC_LEAGUE_FUNCTION_URL" \
+            --header "Authorization: Bearer $SYNC_LEAGUE_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data "$SYNC_LEAGUE_PAYLOAD"

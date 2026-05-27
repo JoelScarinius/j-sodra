@@ -1,0 +1,340 @@
+Use this exact implementation for the J-Sodra Lovable frontend.
+
+Goal
+- Bootstrap from one file only: `reports/index.json`.
+- Keep the current visual design.
+- Fetch the smaller section JSON files referenced by the index and render the page from those sections.
+- Do not reintroduce open-play or shot-map UI.
+- Make refresh feel out of the box. Do not assume I will run anything locally.
+
+Non-negotiable hosting rule
+- I do not want a refresh flow that depends on my laptop, localhost, or a manually started local runner.
+- The browser must only talk to a hosted public endpoint.
+- Prefer one public Supabase Edge Function endpoint for full refresh.
+- If Lovable has access to the connected Supabase project and can manage Supabase functions, deploy or update the refresh edge function there instead of telling me to deploy it manually.
+- Do not wire any frontend code to `localhost`, `127.0.0.1`, LAN IPs, or machine-specific endpoints.
+
+Important backend reality
+- The current analytics pipeline is still Python-based and generates JSON, CSV, and matplotlib images.
+- A Supabase Edge Function is a good public trigger or orchestrator, but it is not the place to run the full Python analytics pipeline inline.
+- So the frontend should treat the Supabase Edge Function as the single public refresh entrypoint.
+- If the hosted backend behind that function is not configured yet, the UI must stay usable and fall back to a published-data reload without asking me to start anything myself.
+
+Bootstrap URL
+- Start with this exact public URL when current storage config is unchanged:
+  - https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/index.json
+
+Refresh webhook URL
+- Prefer `index.refresh.webhook_url` when it exists.
+- Current fallback URL when the Supabase project stays unchanged:
+  - https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports
+
+Storage URL helper
+
+const STORAGE_PUBLIC_BASE = "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public";
+const STORAGE_BUCKET = "plots";
+const STORAGE_PREFIX = "";
+
+const joinUrl = (...parts) =>
+  parts
+    .filter(Boolean)
+    .map((p, i) =>
+      i === 0
+        ? String(p).replace(/\/+$/g, "")
+        : String(p).replace(/^\/+|\/+$/g, "")
+    )
+    .join("/");
+
+const objectUrl = (key) => joinUrl(STORAGE_PUBLIC_BASE, STORAGE_BUCKET, STORAGE_PREFIX, key);
+
+const fetchJson = async (refOrUrl, bustCache = false, init = {}) => {
+  const url = typeof refOrUrl === "string" ? refOrUrl : refOrUrl?.url;
+  if (!url) return null;
+  const finalUrl = bustCache ? `${url}${url.includes("?") ? "&" : "?"}ts=${Date.now()}` : url;
+  const response = await fetch(finalUrl, { cache: "no-store", ...init });
+  if (!response.ok) throw new Error(`Failed to fetch ${finalUrl}`);
+  return response.json();
+};
+
+Initial fetch flow
+1. Fetch `reports/index.json`.
+2. Read `index.sections`.
+3. Fetch these section refs in parallel:
+   - `sections.team`
+   - `sections.next_opponent`
+   - `sections.matchup`
+   - `sections.overview.team`
+   - `sections.overview.next_opponent`
+   - `sections.context.season`
+   - `sections.context.analysis`
+   - `sections.fixtures.upcoming`
+   - `sections.forms.recent_form`
+   - `sections.head_to_head.overview`
+   - `sections.corners.analysis`
+4. Render each section independently as soon as it loads.
+5. If one section fails, keep the page alive and show a section-level fallback.
+
+Refresh model
+- There are two different actions and the UI must label them honestly.
+- Full refresh:
+  - Calls the hosted refresh webhook.
+  - Waits for the backend job to finish.
+  - Then refetches the published JSON files.
+- Reload published data:
+  - Only refetches `reports/index.json` and the section JSON files with cache-busting.
+  - This does not recompute analytics from Wyscout.
+
+Full refresh behavior
+1. Read refresh metadata from `index.refresh`.
+2. Start the refresh job with:
+   - `POST index.refresh.webhook_url`
+   - Fallback to `POST https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports` if the metadata field is missing.
+3. If the POST response returns a `run_id`, treat it as a hosted full refresh.
+4. Poll the status endpoint every 3 seconds until `status === "succeeded"` or `status === "failed"`.
+5. Only after `status === "succeeded"`, refetch `reports/index.json` with a cache-busting query parameter.
+6. Then reload the section JSONs from the fresh index.
+
+Hosted refresh failure behavior
+- If the webhook is missing, returns 404, returns 500, times out, or returns an error such as missing backend configuration, do not tell me to run a local service.
+- Keep the page functional.
+- Show a clear UI message such as:
+  - "Hosted full refresh is not configured yet. Reloading the latest published reports only."
+- Then fall back to published-data reload only.
+- Do not block the dashboard just because hosted full refresh is unavailable.
+
+Refresh request example
+
+const REFRESH_FALLBACK_URL = "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports";
+const REFRESH_POLL_INTERVAL_MS = 3000;
+
+const getRefreshUrl = (index) => index?.refresh?.webhook_url || REFRESH_FALLBACK_URL;
+const getStatusUrl = (index, runId) => {
+  const template = index?.refresh?.status_url_template;
+  if (template && runId) return template.replace("{run_id}", encodeURIComponent(runId));
+  return `${getRefreshUrl(index)}?run_id=${encodeURIComponent(runId)}`;
+};
+
+const FUNCTION_HEADERS = {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+  apikey: SUPABASE_ANON_KEY,
+};
+
+const reloadPublishedReports = async () => {
+  const index = await fetchJson("https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/index.json", true);
+  return index;
+};
+
+const startHostedRefresh = async (index) => {
+  const refreshUrl = getRefreshUrl(index);
+  const response = await fetch(refreshUrl, {
+    method: "POST",
+    headers: FUNCTION_HEADERS,
+    body: JSON.stringify({ force_refresh: true }),
+  });
+
+  let started = null;
+  try {
+    started = await response.json();
+  } catch {
+    started = null;
+  }
+
+  if (!response.ok || !started?.run_id) {
+    const details = started?.error || started?.details || `Refresh endpoint failed with ${response.status}`;
+    throw new Error(details);
+  }
+
+  while (true) {
+    const status = await fetchJson(getStatusUrl(index, started.run_id), true, {
+      headers: FUNCTION_HEADERS,
+    });
+
+    if (status?.status === "succeeded") return status;
+    if (status?.status === "failed") {
+      throw new Error(status?.stderr_tail?.join("\n") || status?.error || "Refresh failed");
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, REFRESH_POLL_INTERVAL_MS));
+  }
+};
+
+const refreshWithHostedFallback = async (index, onInfoMessage) => {
+  try {
+    await startHostedRefresh(index);
+  } catch (error) {
+    onInfoMessage?.("Hosted full refresh is not configured yet. Reloading the latest published reports only.");
+  }
+
+  return reloadPublishedReports();
+};
+
+Critical refresh rules
+- A frontend-only refetch is not a full refresh. It only reloads the last published files from Storage and does not recompute analytics from the Wyscout API.
+- The browser must never depend on a local machine for refresh.
+- If Lovable can deploy Supabase functions in the connected project, it may deploy or update the `refresh-reports` function there.
+- Even then, the frontend should still treat the edge function as the only public refresh endpoint and degrade gracefully if the hosted backend job is unavailable.
+
+What to render
+- Team entity section:
+  - `team.name`
+  - `team.logo_url`
+
+- Next opponent entity section:
+  - `nextOpponent.name`
+  - `nextOpponent.logo_url`
+  - `nextOpponent.match_dateutc`
+  - `nextOpponent.source`
+
+- Header VS block from matchup:
+  - `matchup.home.name`
+  - `matchup.home.logo_url`
+  - `matchup.away.name`
+  - `matchup.away.logo_url`
+  - `matchup.dateutc`
+
+- Season scope transparency:
+  - `seasonContext.filter_to_active_season`
+  - `seasonContext.overview_scope`
+  - `seasonContext.team_season_id`
+  - `seasonContext.team_match_count_in_scope`
+  - `seasonContext.next_opponent_season_id`
+  - `seasonContext.next_opponent_match_count_in_scope`
+
+- Analysis scope transparency:
+  - `analysisContext.strategy`
+  - `analysisContext.team.scope_label`
+  - `analysisContext.team.is_complemented_with_previous_season`
+  - `analysisContext.team.previous_season_matches_used`
+  - `analysisContext.next_opponent.scope_label`
+  - `analysisContext.next_opponent.is_complemented_with_previous_season`
+  - `analysisContext.next_opponent.previous_season_matches_used`
+  - If complemented is true, show:
+    - "Analysis includes previous-season matches to stabilize early-season sample."
+
+- Overview cards for J-Sodra:
+  - `overviewTeam.results.matches_played`
+  - `overviewTeam.results.wins`
+  - `overviewTeam.results.draws`
+  - `overviewTeam.results.losses`
+  - `overviewTeam.results.points`
+  - `overviewTeam.results.goals_for`
+  - `overviewTeam.results.goals_against`
+  - `overviewTeam.event_matches_found`
+  - `overviewTeam.event_matches_missing`
+
+- Overview cards for next opponent:
+  - `overviewOpponent.results.matches_played`
+  - `overviewOpponent.results.wins`
+  - `overviewOpponent.results.draws`
+  - `overviewOpponent.results.losses`
+  - `overviewOpponent.results.points`
+  - `overviewOpponent.results.goals_for`
+  - `overviewOpponent.results.goals_against`
+  - `overviewOpponent.event_matches_found`
+  - `overviewOpponent.event_matches_missing`
+
+- Recent form:
+  - `recentForm.team.matches`
+  - `recentForm.team.summary`
+  - `recentForm.next_opponent.matches`
+  - `recentForm.next_opponent.summary`
+  - Render `season_id` markers when present.
+
+- H2H block:
+  - `headToHead.overview`
+  - `headToHead.last_meeting`
+  - If `headToHead.overview.found === false`, show:
+    - "No previous meeting found. Using recent-form context."
+  - If `headToHead.overview.scope.used_previous_season_fallback === true`, show:
+    - "No H2H meetings in current season. Showing last-season H2H."
+  - If available, render `headToHead.files.plots.goal_diff_recent.url`.
+
+- Corner analysis:
+  - `corners.team.offensive`
+  - `corners.team.defensive`
+  - `corners.next_opponent.offensive`
+  - `corners.next_opponent.defensive`
+  - Render these subfields where present:
+    - `.zones`
+    - `.top_takers_by_xg_created`
+    - `.top_takers_by_first_shot_xg`
+    - `.top_shooters_after_corner`
+    - `.storylines`
+  - For `.top_takers_by_xg_created`, render these exact fields:
+    - `player_name`
+    - `first_shot_xg`
+    - `possession_xg` with fallback to `xg`
+    - `corners`
+    - `first_shot_xg_per_corner`
+    - `xg_per_corner`
+    - `shot_rate_pct`
+    - `goal_rate_pct`
+  - Treat `possession_xg` in corner payloads as full corner-sequence xG for the whole recycled phase after the delivery, not just the initial provider possession id.
+  - For `.top_takers_by_first_shot_xg`, render the same row shape as `.top_takers_by_xg_created`, but keep the backend ordering because it is ranked by first-shot xG instead of total possession xG.
+  - For `.top_shooters_after_corner`, render these exact fields:
+    - `player_name`
+    - `first_shots_after_corner`
+    - `shots_after_corner` with fallback to `shots`
+    - `goals_after_corner` with fallback to `goals`
+    - `first_shot_xg_after_corner`
+    - `xg_after_corner` with fallback to `xg`
+    - `header_shots_after_corner`
+    - `header_goals_after_corner`
+  - Do not default missing numbers to zero if a valid field exists under a different name. Prefer the explicit field names above.
+
+- Corner storyline panel:
+  - `corners.storylines.team_offensive_success_factors`
+  - `corners.storylines.next_opponent_offensive_success_factors`
+
+- Corner plot images:
+  - Use `corners.files.plots.*.url`
+  - Under each plot image, also render when present:
+    - `.title`
+    - `.description`
+    - `.reading_guide`
+    - `.caveats`
+  - Render these when available:
+    - `team_offensive_map`
+    - `team_defensive_map`
+    - `team_target_map`
+    - `team_danger_end_heatmap`
+    - `team_taker_impact`
+    - `team_xg_method_comparison`
+    - `team_shooter_impact`
+    - `next_opponent_offensive_map`
+    - `next_opponent_defensive_map`
+    - `next_opponent_target_map`
+    - `next_opponent_danger_end_heatmap`
+    - `next_opponent_taker_impact`
+    - `next_opponent_xg_method_comparison`
+    - `next_opponent_shooter_impact`
+  - Do not render the old origin heatmaps:
+    - `team_offensive_heatmap`
+    - `next_opponent_offensive_heatmap`
+  - Reason: they only showed corner origin counts at the flags and added little analytical value.
+
+- Optional corner download links:
+  - Use `corners.files.data.*.url` for CSV download actions if the current UI has room for them.
+
+- Upcoming fixtures:
+  - `fixtures.team`
+  - `fixtures.next_opponent`
+
+Critical frontend rules
+- Never assume all fields exist.
+- Null-safe every access.
+- Show "Data unavailable" per card or per section, not whole-page failure.
+- Keep the current tabs and overall layout.
+- Do not look for `lovable_dashboard_payload.json`.
+- Do not look for `dashboard.*` or open-play sections.
+- Polling every 10 minutes is fine for published-file refresh, but only the hosted webhook flow above should be treated as a full API refresh.
+
+Expected result
+- The page loads from a small bootstrap index and parallel section fetches.
+- Overview, H2H, recent form, fixtures, and corners render independently.
+- The refresh UI is honest:
+  - hosted full refresh when the Supabase endpoint is available
+  - published-data reload when it is not
+- The frontend never depends on me running a local process.
+- The UI no longer expects open-play or one giant payload file.

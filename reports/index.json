@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-05-20T07:22:28.617140+00:00",
+  "version": 2,
+  "storage": {
+    "bucket": "plots",
+    "prefix": ""
+  },
+  "refresh": {
+    "supports_force_refresh": true,
+    "requires_server_side_trigger": true,
+    "webhook_url": "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports",
+    "webhook_method": "POST",
+    "status_method": "GET",
+    "status_url_template": "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports?run_id={run_id}",
+    "poll_interval_ms": 3000,
+    "server_command": "python fetch_football_data.py --force-refresh",
+    "frontend_note": "Browser refetch alone only reloads published JSON. To recompute analytics from Wyscout, POST to the refresh webhook, poll the returned run_id until status is succeeded, then refetch reports/index.json with a cache-busting query string."
+  },
+  "sections": {
+    "team": {
+      "path": "reports/entities/team.json",
+      "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/entities/team.json"
+    },
+    "next_opponent": {
+      "path": "reports/entities/next_opponent.json",
+      "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/entities/next_opponent.json"
+    },
+    "matchup": {
+      "path": "reports/matchup/current.json",
+      "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/matchup/current.json"
+    },
+    "overview": {
+      "team": {
+        "path": "reports/overview/team.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/overview/team.json"
+      },
+      "next_opponent": {
+        "path": "reports/overview/next_opponent.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/overview/next_opponent.json"
+      }
+    },
+    "context": {
+      "season": {
+        "path": "reports/context/season.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/context/season.json"
+      },
+      "analysis": {
+        "path": "reports/context/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/context/analysis.json"
+      }
+    },
+    "fixtures": {
+      "upcoming": {
+        "path": "reports/fixtures/upcoming.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/fixtures/upcoming.json"
+      }
+    },
+    "forms": {
+      "recent_form": {
+        "path": "reports/forms/recent_form.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/forms/recent_form.json"
+      }
+    },
+    "head_to_head": {
+      "overview": {
+        "path": "reports/head_to_head/overview.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/head_to_head/overview.json"
+      }
+    },
+    "corners": {
+      "analysis": {
+        "path": "reports/corners/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/analysis.json"
+      }
+    },
+    "exports": {
+      "competitions": {
+        "division1_matches": {
+          "path": "reports/exports/competitions/division1_matches.csv",
+          "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/exports/competitions/division1_matches.csv"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-05-20T07:22:28.617140+00:00",
+  "filter_to_active_season": true,
+  "overview_scope": "current_season_only",
+  "team_season_id": 192451,
+  "team_match_count_in_scope": 8,
+  "team_event_matches_found_in_scope": 7,
+  "team_event_matches_missing_in_scope": 1,
+  "next_opponent_season_id": 192451,
+  "next_opponent_match_count_in_scope": 8,
+  "next_opponent_event_matches_found_in_scope": 8,
+  "next_opponent_event_matches_missing_in_scope": 0
+}
