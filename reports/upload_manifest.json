@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-27T06:46:16.604122+00:00",
+  "generated_at": "2026-06-10T12:55:44.004448+00:00",
   "files": [
     {
       "local_path": "/home/joel/J-Södra/j-sodra/reports/entities/team.json",
@@ -30,18 +30,6 @@
       "relative_path": "reports/overview/next_opponent.json",
       "object_key": "reports/overview/next_opponent.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/overview/next_opponent.json"
-    },
-    {
-      "local_path": "/home/joel/J-Södra/j-sodra/reports/context/season.json",
-      "relative_path": "reports/context/season.json",
-      "object_key": "reports/context/season.json",
-      "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/context/season.json"
-    },
-    {
-      "local_path": "/home/joel/J-Södra/j-sodra/reports/context/analysis.json",
-      "relative_path": "reports/context/analysis.json",
-      "object_key": "reports/context/analysis.json",
-      "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/context/analysis.json"
     },
     {
       "local_path": "/home/joel/J-Södra/j-sodra/reports/fixtures/upcoming.json",
@@ -180,12 +168,6 @@
       "relative_path": "reports/corners/plots/next_opponent_shooter_impact.png",
       "object_key": "reports/corners/plots/next_opponent_shooter_impact.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_shooter_impact.png"
-    },
-    {
-      "local_path": "/home/joel/J-Södra/j-sodra/reports/head_to_head/plots/goal_diff_recent.png",
-      "relative_path": "reports/head_to_head/plots/goal_diff_recent.png",
-      "object_key": "reports/head_to_head/plots/goal_diff_recent.png",
-      "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/head_to_head/plots/goal_diff_recent.png"
     },
     {
       "local_path": "/home/joel/J-Södra/j-sodra/reports/exports/competitions/division1_matches.csv",

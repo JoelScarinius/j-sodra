@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-27T06:46:16.604122+00:00",
+  "generated_at": "2026-06-10T12:55:44.004448+00:00",
   "version": 2,
   "storage": {
     "bucket": "plots",
@@ -37,16 +37,6 @@
       "next_opponent": {
         "path": "reports/overview/next_opponent.json",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/overview/next_opponent.json"
-      }
-    },
-    "context": {
-      "season": {
-        "path": "reports/context/season.json",
-        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/context/season.json"
-      },
-      "analysis": {
-        "path": "reports/context/analysis.json",
-        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/context/analysis.json"
       }
     },
     "fixtures": {

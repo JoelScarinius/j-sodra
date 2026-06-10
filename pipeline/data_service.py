@@ -283,36 +283,7 @@ class DataService:
         )
         current_used_df = current_played_df.head(target_match_count)
 
-        previous_season_id = None
-        previous_used_df = pd.DataFrame()
-        if (
-            filter_to_active_season
-            and self.settings.enable_previous_season_complement
-            and len(current_used_df) < target_match_count
-        ):
-            previous_season_id = self.detect_previous_season_id(
-                matches_df, active_season_id
-            )
-            if previous_season_id is not None:
-                previous_scope_df = self.filter_matches_to_season(
-                    matches_df, previous_season_id
-                )
-                previous_played_df = get_recent_played_matches(
-                    previous_scope_df,
-                    limit=max(
-                        self.settings.max_previous_season_matches, target_match_count
-                    ),
-                )
-                missing_count = min(
-                    target_match_count - len(current_used_df),
-                    self.settings.max_previous_season_matches,
-                )
-                previous_used_df = previous_played_df.head(missing_count)
-
-        analysis_matches_df = pd.concat(
-            [current_used_df, previous_used_df],
-            ignore_index=True,
-        )
+        analysis_matches_df = current_used_df.copy()
         sort_col = match_sort_column(analysis_matches_df)
         if sort_col and not analysis_matches_df.empty:
             analysis_matches_df = analysis_matches_df.sort_values(
@@ -328,8 +299,6 @@ class DataService:
             .astype(int)
             .tolist()
         ]
-
-        previous_used = int(len(previous_used_df))
         return {
             "matches_df": analysis_matches_df,
             "selected_match_ids": selected_match_ids,
@@ -337,15 +306,8 @@ class DataService:
                 **empty_meta,
                 "current_season_played_matches_available": int(len(current_played_df)),
                 "current_season_matches_used": int(len(current_used_df)),
-                "previous_season_id": jsonable(previous_season_id),
-                "previous_season_matches_used": previous_used,
                 "analysis_matches_used": int(len(analysis_matches_df)),
-                "is_complemented_with_previous_season": previous_used > 0,
-                "scope_label": (
-                    "current_plus_previous_season"
-                    if previous_used > 0
-                    else "current_season_only"
-                ),
+                "scope_label": "current_season_only",
             },
         }
 

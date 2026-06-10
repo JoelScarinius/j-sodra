@@ -1,9 +1,10 @@
 Use this exact implementation plan for the new database-backed multi-season dashboard.
 
 Goal
-- Build a Supabase-database-backed explorer for league, season, and team analytics.
-- Keep the current storage-based next-match dashboard working until the new explorer is fully wired.
+- Build a Supabase-database-backed explorer for league, season, and team analytics under `/explorer`.
+- Keep the current storage-based next-match dashboard on `/` working until the new explorer is fully wired.
 - Do not remove or replace the existing `reports/index.json` flow during this phase.
+- Treat the header link label as `Explorer (beta)` until the warehouse route is fully validated.
 
 Non-negotiable data rules
 - Never mix seasons in one dataset unless the user explicitly selects a multi-season compare view.
@@ -11,6 +12,12 @@ Non-negotiable data rules
 - Previous seasons must stay isolated.
 - Do not hardcode team names, season ids, or league ids in the UI.
 - Available teams must come from the synced league and season selector data.
+
+Critical separation from the current storage dashboard
+- The strings `use current season first; if early-season sample is small, fill remaining analysis window from previous season`, `current_plus_previous_season`, and `Analysis includes previous-season matches...` belong to the old storage-backed dashboard only.
+- Do not read `reports/index.json`, `reports/context/analysis.json`, or `reports/context/season.json` anywhere inside `/explorer`.
+- Do not render `strategy`, `scope_label`, `overview_scope`, `previous_season_id`, or `previous_season_matches_used` on the warehouse-backed route.
+- If those strings appear inside `/explorer`, that is a bug and means the route is still wired to the old report JSON contract.
 
 Primary data source for the new explorer
 - Use Supabase RPCs, not local files.
@@ -26,10 +33,11 @@ Bootstrap flow
 1. Call `api_filter_options` with no arguments.
 2. Pick the current league and current season from the response.
 3. Pick the default team from route state, saved state, or a configured team id if present.
+  - Team option rows use `team_id` and `team_name`.
 4. Call `api_dashboard_context(season_id, team_id)`.
 5. Render the default next-match dashboard from that payload.
 6. In parallel, fetch:
-   - `api_standings(season_id, 'current')`
+  - `api_standings(season_id, 'current', team_id)`
    - `api_team_matches(season_id, team_id, 'all', 10, 0)`
    - `api_team_metrics(season_id, team_id, 'all', null)`
    - `api_compare_team_seasons(team_id, [season_id])`
@@ -38,23 +46,28 @@ Page structure
 - Header section
   - Show league name, season name, and team identity.
   - Use `api_dashboard_context.team`.
+  - The team payload includes `team_id`, `provider_team_id`, `name`, `short_name`, `logo_url`, `season_id`, `season_name`, `league_id`, and `league_name`.
 
 - Default next-match card
   - Show next match when present.
   - Use `api_dashboard_context.next_match`.
   - If no upcoming match exists, fall back to `api_dashboard_context.latest_match`.
+  - Match payloads use `kickoff_at`, `opponent_team_name`, and `opponent_team_logo_url`.
 
 - Team summary cards
-  - Use `api_dashboard_context.season_full` and `api_dashboard_context.last_five`.
+  - Use `api_dashboard_context.standing` for table position and record.
+  - Use `api_dashboard_context.season_full` and `api_dashboard_context.last_five` for aggregated metrics.
   - Show points, points per match, goals, xG, and current position.
 
 - Standings table
   - Use `api_standings`.
+  - Pass the selected `team_id` so the table is limited to that team's subgroup when a competition contains parallel tables.
   - Highlight the selected team.
 
 - Match explorer
   - Use `api_team_matches`.
   - Allow venue filter and pagination.
+  - Match rows use `kickoff_at`, `opponent_team_name`, `opponent_team_logo_url`, and `is_home`.
 
 - Dynamic metrics panel
   - Use `api_team_metrics`.
@@ -62,10 +75,12 @@ Page structure
     - match-range slider
     - venue selector
   - The slider should support at least `5`, `10`, and full season.
+  - Metrics payloads expose `matches_in_scope`, `points_per_match`, `avg_goals_for`, `avg_goals_against`, `avg_xg_for`, `avg_xg_against`, `avg_xp`, `avg_xt_for`, `avg_xt_against`, and `current_position`.
 
 - Season compare panel
   - Use `api_compare_team_seasons`.
   - Allow comparing the selected season with one or more previous seasons.
+  - Compare rows use `season_id`, `season_name`, `league_name`, `matches_in_scope`, the `avg_*` fields, and `current_position`.
 
 Filters
 - League selector
@@ -75,9 +90,11 @@ Filters
 - Season selector
   - Populate from `api_filter_options.seasons` filtered by selected league.
   - Default to the row where `is_current === true`.
+  - Every season change must trigger a full refetch of dashboard context, standings, matches, metrics, and compare data using the new `season_id`.
 
 - Team selector
   - Populate from `api_filter_options.teams` filtered by selected league and season.
+  - Use `team_id` as the option value and `team_name` as the label.
   - If the current team is not present in the newly selected season, select the first available team.
 
 - Venue selector
@@ -90,9 +107,22 @@ Filters
 UI behavior rules
 - Preserve the current next-match dashboard feel for the default state.
 - Add an explorer mode without forcing it on first load.
+- Keep `/` untouched and use `/explorer` as the warehouse-backed route during rollout.
+- The `/explorer` route must be fully driven by `league_id`, `season_id`, and `team_id` from the RPC layer, not by any values derived from the `/` dashboard.
+- Do not assume guessed field names like `id`, `name`, or summary objects with a different shape than the live RPC responses.
 - Show a clear season label everywhere data is rendered.
 - If xP or xT is null, show `Unavailable`.
 - If no match history exists for a team-season, show a clear empty state instead of reusing another season.
+- When the warehouse RPCs are empty, do not fall back to storage-derived season data inside `/explorer`.
+- The compare panel may request previous seasons only when the user explicitly adds them; the default compare state is `[season_id]` for the selected season only.
+
+Verified live payload notes
+- `api_filter_options` team rows use `team_id` and `team_name`, not generic `id` and `name`.
+- `api_dashboard_context` returns `standing`, `season_full`, and `last_five`; use `standing` for current table position.
+- `api_standings` should be called as `api_standings(season_id, 'current', team_id)` so parallel North/South tables are not merged in the UI.
+- `api_team_matches` rows use `kickoff_at`, `opponent_team_name`, and `is_home`.
+- `api_team_metrics` and `api_compare_team_seasons` use `matches_in_scope`, `avg_*`, and `current_position`.
+- If the UI crashes on `.toString()` or similar access, first verify the field names match the live RPC payloads rather than earlier assumptions.
 
 Current dashboard preservation
 - Keep the existing storage-based dashboard route alive.

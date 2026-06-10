@@ -103,7 +103,7 @@ def load_settings(force_refresh: bool = False) -> Settings:
             _env_int("ANALYSIS_EVENT_MATCH_TARGET", _env_int("MAX_EVENT_MATCHES", 12)),
         ),
         enable_previous_season_complement=_env_bool(
-            "ENABLE_PREVIOUS_SEASON_COMPLEMENT", "1"
+            "ENABLE_PREVIOUS_SEASON_COMPLEMENT", "0"
         ),
         h2h_fallback_to_previous_season=_env_bool(
             "H2H_FALLBACK_TO_PREVIOUS_SEASON", "1"

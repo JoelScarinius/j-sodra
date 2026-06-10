@@ -1,71 +1,32 @@
 {
-  "generated_at": "2026-05-27T06:46:16.604122+00:00",
+  "generated_at": "2026-06-10T12:55:44.004448+00:00",
   "overview": {
-    "found": true,
+    "found": false,
     "team_id": 6849,
     "team_name": "Jönköpings Södra",
-    "opponent_id": 6792,
-    "opponent_name": "Skövde AIK",
+    "opponent_id": 7018,
+    "opponent_name": "Tvååker",
     "summary": {
-      "matches_played": 2,
-      "wins": 1,
+      "matches_played": 0,
+      "wins": 0,
       "draws": 0,
-      "losses": 1,
-      "goals_for": 1,
-      "goals_against": 1
+      "losses": 0,
+      "goals_for": 0,
+      "goals_against": 0
     },
-    "meetings": [
-      {
-        "match_id": 5678872,
-        "dateutc": "2025-10-06T17:00:00+00:00",
-        "season_id": 190620,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Jönköpings Södra - Skövde AIK, 1-0",
-        "result": "W",
-        "score": "1-0",
-        "goals_for": 1,
-        "goals_against": 0
-      },
-      {
-        "match_id": 5678570,
-        "dateutc": "2025-05-03T11:00:00+00:00",
-        "season_id": 190620,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Skövde AIK - Jönköpings Södra, 1-0",
-        "result": "L",
-        "score": "1-0",
-        "goals_for": 0,
-        "goals_against": 1
-      }
-    ],
+    "meetings": [],
     "scope": {
-      "mode": "previous_season_fallback",
+      "mode": "current_season",
       "requested_current_season_id": 192451,
-      "fallback_previous_season_id": 190620,
-      "used_previous_season_fallback": true
+      "fallback_previous_season_id": null,
+      "used_previous_season_fallback": false
     }
   },
   "last_meeting": {
-    "found": true,
-    "match_id": 5678872,
-    "dateutc": "2025-10-06T17:00:00+00:00",
-    "season_id": 190620,
-    "competition_id": 810,
-    "status": "Played",
-    "label": "Jönköpings Södra - Skövde AIK, 1-0",
-    "result": "W",
-    "score": "1-0",
-    "goals_for": 1,
-    "goals_against": 0
+    "found": false,
+    "note": "No previous meeting found. Using recent-form context."
   },
   "files": {
-    "plots": {
-      "goal_diff_recent": {
-        "path": "reports/head_to_head/plots/goal_diff_recent.png",
-        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/head_to_head/plots/goal_diff_recent.png"
-      }
-    }
+    "plots": {}
   }
 }

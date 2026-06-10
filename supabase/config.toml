@@ -1,0 +1,4 @@
+project_id = "ytzuftamjgafzgyogpke"
+
+[functions.sync-league]
+verify_jwt = false

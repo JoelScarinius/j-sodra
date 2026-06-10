@@ -1,7 +1,31 @@
 {
-  "generated_at": "2026-05-27T06:46:16.604122+00:00",
+  "generated_at": "2026-06-10T12:55:44.004448+00:00",
   "team": {
     "matches": [
+      {
+        "match_id": 5819228,
+        "dateutc": "2026-06-06T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Jönköpings Södra - Trollhättan, 4-1",
+        "result": "W",
+        "score": "4-1",
+        "goals_for": 4,
+        "goals_against": 1
+      },
+      {
+        "match_id": 5819216,
+        "dateutc": "2026-06-01T17:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Skövde AIK - Jönköpings Södra, 1-0",
+        "result": "L",
+        "score": "1-0",
+        "goals_for": 0,
+        "goals_against": 1
+      },
       {
         "match_id": 5819202,
         "dateutc": "2026-05-24T14:00:00+00:00",
@@ -37,107 +61,83 @@
         "score": "1-1",
         "goals_for": 1,
         "goals_against": 1
-      },
-      {
-        "match_id": 5819154,
-        "dateutc": "2026-05-10T14:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Jönköpings Södra - Laholms FK, 2-1",
-        "result": "W",
-        "score": "2-1",
-        "goals_for": 2,
-        "goals_against": 1
-      },
-      {
-        "match_id": 5819133,
-        "dateutc": "2026-05-02T11:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Jönköpings Södra - Kristianstad, 3-0",
-        "result": "W",
-        "score": "3-0",
-        "goals_for": 3,
-        "goals_against": 0
       }
     ],
     "summary": {
-      "wins": 4,
+      "wins": 3,
       "draws": 1,
-      "losses": 0,
-      "points": 13
+      "losses": 1,
+      "points": 10
     }
   },
   "next_opponent": {
     "matches": [
       {
-        "match_id": 5819199,
-        "dateutc": "2026-05-23T14:00:00+00:00",
+        "match_id": 5819232,
+        "dateutc": "2026-06-07T14:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Skövde AIK - Ariana, 0-4",
-        "result": "L",
-        "score": "0-4",
-        "goals_for": 0,
-        "goals_against": 4
-      },
-      {
-        "match_id": 5819181,
-        "dateutc": "2026-05-17T14:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Eskilsminne - Skövde AIK, 1-1",
+        "label": "Åtvidaberg - Tvååker, 2-2",
         "result": "D",
-        "score": "1-1",
-        "goals_for": 1,
-        "goals_against": 1
-      },
-      {
-        "match_id": 5819166,
-        "dateutc": "2026-05-13T17:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Utsikten - Skövde AIK, 2-3",
-        "result": "W",
-        "score": "2-3",
-        "goals_for": 3,
+        "score": "2-2",
+        "goals_for": 2,
         "goals_against": 2
       },
       {
-        "match_id": 5819151,
-        "dateutc": "2026-05-09T14:00:00+00:00",
+        "match_id": 5819215,
+        "dateutc": "2026-05-30T14:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Skövde AIK - Ängelholm, 1-1",
+        "label": "Tvååker - Kristianstad, 1-2",
+        "result": "L",
+        "score": "1-2",
+        "goals_for": 1,
+        "goals_against": 2
+      },
+      {
+        "match_id": 5819198,
+        "dateutc": "2026-05-23T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Tvååker - Trollhättan, 1-1",
         "result": "D",
         "score": "1-1",
         "goals_for": 1,
         "goals_against": 1
       },
       {
-        "match_id": 5819136,
-        "dateutc": "2026-05-02T14:00:00+00:00",
+        "match_id": 5819185,
+        "dateutc": "2026-05-18T17:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Skövde AIK - Åtvidaberg, 0-0",
-        "result": "D",
-        "score": "0-0",
-        "goals_for": 0,
+        "label": "Ariana - Tvååker, 0-1",
+        "result": "W",
+        "score": "0-1",
+        "goals_for": 1,
+        "goals_against": 0
+      },
+      {
+        "match_id": 5819167,
+        "dateutc": "2026-05-14T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Tvååker - Olympic, 1-0",
+        "result": "W",
+        "score": "1-0",
+        "goals_for": 1,
         "goals_against": 0
       }
     ],
     "summary": {
-      "wins": 1,
-      "draws": 3,
+      "wins": 2,
+      "draws": 2,
       "losses": 1,
-      "points": 6
+      "points": 8
     }
   }
 }

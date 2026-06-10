@@ -86,12 +86,14 @@
 ### How to bootstrap safely
 
 1. Run the new migrations.
-2. Deploy the `sync-league` edge function.
+2. Deploy the `sync-league` edge function with JWT verification disabled.
 3. Run one bootstrap sync per league with `include_events=true`.
 4. Verify `season_teams`, `matches`, `team_match_stats`, `standings`, and `aggregated_team_stats` for the current season.
 5. Run the same sync again for the previous season you want to expose.
 6. Only after the data is correct, point the new frontend explorer to the RPC functions.
 7. Keep the current `reports/index.json` flow as the default production route until the new explorer is stable.
+
+`sync-league` authenticates inside the function with `SYNC_LEAGUE_TOKEN`, so the Supabase gateway must not require a JWT for that function.
 
 ### Why this avoids data loss
 
@@ -161,8 +163,8 @@
 - `public.api_dashboard_context(season_id, team_id)`
   - Default next-match header, latest match, standing, season-full metrics, and last-five metrics.
 
-- `public.api_standings(season_id, snapshot_key)`
-  - Table view for the selected season.
+- `public.api_standings(season_id, snapshot_key, team_id)`
+  - Table view for the selected season, optionally scoped to the selected team's subgroup.
 
 - `public.api_team_matches(season_id, team_id, venue_filter, limit, offset)`
   - Match list for sliders, tabs, and recent-form sections.
@@ -273,7 +275,7 @@
 ## Step-by-Step Rollout Plan
 
 1. Apply the new migrations in Supabase.
-2. Deploy `sync-league` with service role and Wyscout credentials.
+2. Deploy `sync-league` with service role and Wyscout credentials, and disable JWT verification for that function.
 3. Add the scheduled GitHub workflow secrets.
 4. Run one manual bootstrap for the current season.
 5. Validate selectors, standings, and team counts.
@@ -282,6 +284,8 @@
 8. Keep the existing storage dashboard live as the default route.
 9. Add xP and xT models only after the warehouse and explorer are trusted.
 10. If you later move plot generation into the warehouse flow, publish into a versioned namespace only.
+
+If you deploy from the Supabase dashboard, turn off JWT verification for `sync-league` before testing it. If you deploy from the CLI later, use `supabase functions deploy sync-league --no-verify-jwt`.
 
 ## Pitfalls
 

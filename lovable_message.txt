@@ -4,6 +4,7 @@ Goal
 - Bootstrap from one file only: `reports/index.json`.
 - Keep the current visual design.
 - Fetch the smaller section JSON files referenced by the index and render the page from those sections.
+- Remove the season/analysis scope box from `/` entirely.
 - Do not reintroduce open-play or shot-map UI.
 - Make refresh feel out of the box. Do not assume I will run anything locally.
 
@@ -65,14 +66,17 @@ Initial fetch flow
    - `sections.matchup`
    - `sections.overview.team`
    - `sections.overview.next_opponent`
-   - `sections.context.season`
-   - `sections.context.analysis`
    - `sections.fixtures.upcoming`
    - `sections.forms.recent_form`
    - `sections.head_to_head.overview`
    - `sections.corners.analysis`
 4. Render each section independently as soon as it loads.
 5. If one section fails, keep the page alive and show a section-level fallback.
+
+Home page cleanup rule
+- Do not fetch, render, or reserve layout space for `sections.context.season` or `sections.context.analysis` on `/`.
+- If those refs are still present in `reports/index.json` during rollout, ignore them.
+- Do not render any season-scope or analysis-scope transparency card, banner, helper text, or badge on `/`.
 
 Refresh model
 - There are two different actions and the UI must label them honestly.
@@ -193,24 +197,8 @@ What to render
   - `matchup.away.logo_url`
   - `matchup.dateutc`
 
-- Season scope transparency:
-  - `seasonContext.filter_to_active_season`
-  - `seasonContext.overview_scope`
-  - `seasonContext.team_season_id`
-  - `seasonContext.team_match_count_in_scope`
-  - `seasonContext.next_opponent_season_id`
-  - `seasonContext.next_opponent_match_count_in_scope`
-
-- Analysis scope transparency:
-  - `analysisContext.strategy`
-  - `analysisContext.team.scope_label`
-  - `analysisContext.team.is_complemented_with_previous_season`
-  - `analysisContext.team.previous_season_matches_used`
-  - `analysisContext.next_opponent.scope_label`
-  - `analysisContext.next_opponent.is_complemented_with_previous_season`
-  - `analysisContext.next_opponent.previous_season_matches_used`
-  - If complemented is true, show:
-    - "Analysis includes previous-season matches to stabilize early-season sample."
+- Do not render `seasonContext` or `analysisContext` on `/`.
+- Do not show any transparency box that mentions season scope, strategy, `scope_label`, or current-season match-count bookkeeping.
 
 - Overview cards for J-Sodra:
   - `overviewTeam.results.matches_played`

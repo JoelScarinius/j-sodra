@@ -1,4 +1,5 @@
-create or replace view public.v_team_season_options as
+create or replace view public.v_team_season_options
+with (security_invoker = true) as
 select
   l.id as league_id,
   l.provider_league_id,
@@ -24,7 +25,8 @@ join public.seasons s
 join public.teams t
   on t.id = st.team_id;
 
-create or replace view public.v_matches_flat as
+create or replace view public.v_matches_flat
+with (security_invoker = true) as
 select
   m.id,
   m.provider_match_id,
@@ -127,10 +129,11 @@ $$;
 
 create or replace function public.api_standings(
   p_season_id bigint,
-  p_snapshot_key text default 'current'
+  p_snapshot_key text default 'current',
+  p_team_id bigint default null
 )
 returns table (
-  position integer,
+  "position" integer,
   team_id bigint,
   provider_team_id bigint,
   team_name text,
@@ -154,8 +157,26 @@ stable
 security definer
 set search_path = public
 as $$
+  with recursive team_scope as (
+    select p_team_id as team_id
+    where p_team_id is not null
+
+    union
+
+    select
+      case
+        when m.home_team_id = team_scope.team_id then m.away_team_id
+        else m.home_team_id
+      end as team_id
+    from public.matches m
+    join team_scope
+      on m.season_id = p_season_id
+     and (m.home_team_id = team_scope.team_id or m.away_team_id = team_scope.team_id)
+    where m.home_team_id is not null
+      and m.away_team_id is not null
+  )
   select
-    s.position,
+    s.position as "position",
     s.team_id,
     t.provider_team_id,
     t.name as team_name,
@@ -178,6 +199,14 @@ as $$
     on t.id = s.team_id
   where s.season_id = p_season_id
     and s.snapshot_key = p_snapshot_key
+    and (
+      p_team_id is null
+      or s.team_id in (
+        select team_scope.team_id
+        from team_scope
+        where team_scope.team_id is not null
+      )
+    )
   order by s.position asc nulls last, t.name asc;
 $$;
 
@@ -528,7 +557,7 @@ grant select on public.v_team_season_options to anon, authenticated;
 grant select on public.v_matches_flat to anon, authenticated;
 
 grant execute on function public.api_filter_options(bigint, bigint) to anon, authenticated;
-grant execute on function public.api_standings(bigint, text) to anon, authenticated;
+grant execute on function public.api_standings(bigint, text, bigint) to anon, authenticated;
 grant execute on function public.api_team_matches(bigint, bigint, text, integer, integer) to anon, authenticated;
 grant execute on function public.api_team_metrics(bigint, bigint, text, integer) to anon, authenticated;
 grant execute on function public.api_compare_team_seasons(bigint, bigint[]) to anon, authenticated;

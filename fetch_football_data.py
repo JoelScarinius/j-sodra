@@ -510,8 +510,8 @@ def main(argv=None) -> int:
     }
 
     analysis_context = {
-        "enabled_previous_season_complement": settings.enable_previous_season_complement,
-        "strategy": "use current season first; if early-season sample is small, fill remaining analysis window from previous season",
+        "enabled_previous_season_complement": False,
+        "strategy": "current season only",
         "applies_to": [
             "recent_form",
             "corner_analysis",
@@ -570,14 +570,6 @@ def main(argv=None) -> int:
     next_opponent_summary_path = write_json(
         settings.report_path("overview", "next_opponent.json"),
         {"generated_at": generated_at, **opponent_summary},
-    )
-    season_context_path = write_json(
-        settings.report_path("context", "season.json"),
-        {"generated_at": generated_at, **season_context},
-    )
-    analysis_context_path = write_json(
-        settings.report_path("context", "analysis.json"),
-        {"generated_at": generated_at, **analysis_context},
     )
     fixtures_path = write_json(
         settings.report_path("fixtures", "upcoming.json"),
@@ -678,10 +670,6 @@ def main(argv=None) -> int:
             "team": build_ref(settings, team_summary_path),
             "next_opponent": build_ref(settings, next_opponent_summary_path),
         },
-        "context": {
-            "season": build_ref(settings, season_context_path),
-            "analysis": build_ref(settings, analysis_context_path),
-        },
         "fixtures": {"upcoming": build_ref(settings, fixtures_path)},
         "forms": {"recent_form": build_ref(settings, recent_form_path)},
         "head_to_head": {"overview": build_ref(settings, head_to_head_path)},
@@ -729,8 +717,6 @@ def main(argv=None) -> int:
         matchup_path,
         team_summary_path,
         next_opponent_summary_path,
-        season_context_path,
-        analysis_context_path,
         fixtures_path,
         recent_form_path,
         head_to_head_path,
@@ -746,6 +732,8 @@ def main(argv=None) -> int:
         deleted = delete_files_from_supabase(
             settings,
             [
+                "reports/context/season.json",
+                "reports/context/analysis.json",
                 "reports/corners/plots/team_offensive_heatmap.png",
                 "reports/corners/plots/next_opponent_offensive_heatmap.png",
             ],

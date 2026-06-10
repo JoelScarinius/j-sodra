@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-27T06:46:16.604122+00:00",
+  "generated_at": "2026-06-10T12:55:44.004448+00:00",
   "team": {
     "id": 6849,
     "name": "Jönköpings Södra",
@@ -7,20 +7,20 @@
     "season_id": 192451
   },
   "season_id": 192451,
-  "season_match_count": 9,
-  "attempted_event_matches": 9,
-  "event_matches_found": 8,
+  "season_match_count": 11,
+  "attempted_event_matches": 11,
+  "event_matches_found": 10,
   "event_matches_missing": 1,
   "event_missing_match_ids": [
     5819073
   ],
   "results": {
-    "matches_played": 9,
-    "wins": 4,
+    "matches_played": 11,
+    "wins": 5,
     "draws": 2,
-    "losses": 3,
-    "points": 14,
-    "goals_for": 15,
-    "goals_against": 10
+    "losses": 4,
+    "points": 17,
+    "goals_for": 19,
+    "goals_against": 12
   }
 }

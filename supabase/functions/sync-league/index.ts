@@ -16,6 +16,10 @@ const FINAL_STATUSES = new Set([
   "match ended",
 ]);
 
+const KNOWN_LEAGUE_NAMES: Record<number, string> = {
+  810: "Ettan",
+};
+
 function jsonResponse(status: number, payload: Record<string, unknown>) {
   return new Response(JSON.stringify(payload), {
     status,
@@ -74,6 +78,29 @@ function pickString(...values: unknown[]) {
   return null;
 }
 
+function isPlaceholderTeamName(value: unknown) {
+  const text = String(value ?? "").trim();
+  return !text || /^Team\s+\d+$/i.test(text);
+}
+
+function dateSortValue(value: unknown) {
+  if (!value) return Number.NEGATIVE_INFINITY;
+  const parsed = Date.parse(`${String(value).slice(0, 10)}T00:00:00Z`);
+  return Number.isFinite(parsed) ? parsed : Number.NEGATIVE_INFINITY;
+}
+
+function pickCurrentSeasonRow(rows: any[]) {
+  return [...rows].sort((left, right) => {
+    const startDiff = dateSortValue(right?.start_date) - dateSortValue(left?.start_date);
+    if (startDiff !== 0) return startDiff;
+
+    const endDiff = dateSortValue(right?.end_date) - dateSortValue(left?.end_date);
+    if (endDiff !== 0) return endDiff;
+
+    return (toNumber(right?.provider_season_id) ?? 0) - (toNumber(left?.provider_season_id) ?? 0);
+  })[0] ?? null;
+}
+
 function extractMatches(payload: any) {
   if (Array.isArray(payload)) return payload;
   if (Array.isArray(payload?.matches)) return payload.matches;
@@ -98,40 +125,89 @@ function extractTeamIdsFromMatchDetail(detail: any) {
   };
 }
 
-function inferSeasonName(summary: any, seasonId: number) {
-  return pickString(
+function inferSeasonName(
+  summary: any,
+  seasonId: number,
+  kickoffValues: string[] = [],
+) {
+  const providerName = pickString(
     summary?.season?.name,
     summary?.seasonName,
     summary?.season?.displayName,
-    `Season ${seasonId}`,
   );
+
+  const years = Array.from(
+    new Set(
+      kickoffValues
+        .map((value) => {
+          const parsed = new Date(value);
+          return Number.isNaN(parsed.getTime()) ? null : parsed.getUTCFullYear();
+        })
+        .filter((value): value is number => value !== null),
+    ),
+  ).sort((a, b) => a - b);
+
+  if (years.length === 1) return String(years[0]);
+  if (years.length > 1) return `${years[0]}/${years[years.length - 1]}`;
+
+  return providerName ?? `Season ${seasonId}`;
 }
 
-function inferLeagueName(firstSummary: any, providerLeagueId: number, fallbackName: string | null) {
+function inferLeagueName(
+  firstSummary: any,
+  providerLeagueId: number,
+  fallbackName: string | null,
+  competitionDetail: any = null,
+) {
   return pickString(
     fallbackName,
+    competitionDetail?.name,
+    competitionDetail?.competition?.name,
     firstSummary?.competition?.name,
     firstSummary?.competitionName,
+    KNOWN_LEAGUE_NAMES[providerLeagueId],
     `Competition ${providerLeagueId}`,
   );
 }
 
-function teamProfileRow(profile: any, providerTeamId: number, fallbackName: string | null) {
+function teamProfileRow(
+  profile: any,
+  providerTeamId: number,
+  fallbackName: string | null,
+  existingRow: any = null,
+) {
+  const preservedName = existingRow && !isPlaceholderTeamName(existingRow.name)
+    ? existingRow.name
+    : null;
+
   return {
     provider: "wyscout",
     provider_team_id: providerTeamId,
-    name: pickString(profile?.name, profile?.officialName, fallbackName, `Team ${providerTeamId}`),
-    short_name: pickString(profile?.shortName, fallbackName),
-    official_name: pickString(profile?.officialName, profile?.name, fallbackName),
+    name: pickString(
+      profile?.name,
+      profile?.officialName,
+      preservedName,
+      fallbackName,
+      `Team ${providerTeamId}`,
+    ),
+    short_name: pickString(profile?.shortName, existingRow?.short_name, fallbackName),
+    official_name: pickString(
+      profile?.officialName,
+      profile?.name,
+      existingRow?.official_name,
+      preservedName,
+      fallbackName,
+    ),
     logo_url: pickString(
       profile?.logoUrl,
       profile?.imageData?.url,
       profile?.imageData?.avatarUrl,
       profile?.images?.logo,
+      existingRow?.logo_url,
     ),
-    country_name: pickString(profile?.area?.name, profile?.country?.name),
-    venue_name: pickString(profile?.venueName, profile?.venue?.name),
-    metadata: profile ?? {},
+    country_name: pickString(profile?.area?.name, profile?.country?.name, existingRow?.country_name),
+    venue_name: pickString(profile?.venueName, profile?.venue?.name, existingRow?.venue_name),
+    metadata: profile ?? existingRow?.metadata ?? {},
   };
 }
 
@@ -202,10 +278,22 @@ function summarizeEvents(events: any[], providerTeamId: number | null) {
   };
 }
 
-function buildTeamStatRows(matchRow: any, detail: any, events: any[]) {
+function buildTeamStatRows(
+  matchRow: any,
+  detail: any,
+  events: any[],
+  options: {
+    existingHomeStat?: any;
+    existingAwayStat?: any;
+    preserveExistingMetrics?: boolean;
+  } = {},
+) {
   const sides = extractTeamIdsFromMatchDetail(detail);
   const homeProviderTeamId = sides.homeProviderTeamId;
   const awayProviderTeamId = sides.awayProviderTeamId;
+  const existingHomeStat = options.existingHomeStat ?? null;
+  const existingAwayStat = options.existingAwayStat ?? null;
+  const preserveExistingMetrics = Boolean(options.preserveExistingMetrics);
 
   if (!homeProviderTeamId || !awayProviderTeamId || !matchRow.home_team_id || !matchRow.away_team_id) {
     return [];
@@ -217,6 +305,27 @@ function buildTeamStatRows(matchRow: any, detail: any, events: any[]) {
   const awayStats = summarizeEvents(events, awayProviderTeamId);
   const matchStatus = normalizeStatus(matchRow.status);
   const finalMatch = isFinalStatus(matchStatus);
+
+  const homeHasComputedMetrics = !preserveExistingMetrics && homeStats.eventCount > 0;
+  const awayHasComputedMetrics = !preserveExistingMetrics && awayStats.eventCount > 0;
+
+  const homeXgFor = homeHasComputedMetrics ? homeStats.xg : existingHomeStat?.xg_for ?? null;
+  const homeXgAgainst = awayHasComputedMetrics
+    ? awayStats.xg
+    : existingHomeStat?.xg_against ?? existingAwayStat?.xg_for ?? null;
+  const awayXgFor = awayHasComputedMetrics ? awayStats.xg : existingAwayStat?.xg_for ?? null;
+  const awayXgAgainst = homeHasComputedMetrics
+    ? homeStats.xg
+    : existingAwayStat?.xg_against ?? existingHomeStat?.xg_for ?? null;
+
+  const homeXtFor = homeHasComputedMetrics ? homeStats.xt : existingHomeStat?.xt_for ?? null;
+  const homeXtAgainst = awayHasComputedMetrics
+    ? awayStats.xt
+    : existingHomeStat?.xt_against ?? existingAwayStat?.xt_for ?? null;
+  const awayXtFor = awayHasComputedMetrics ? awayStats.xt : existingAwayStat?.xt_for ?? null;
+  const awayXtAgainst = homeHasComputedMetrics
+    ? homeStats.xt
+    : existingAwayStat?.xt_against ?? existingHomeStat?.xt_for ?? null;
 
   const homeResult = finalMatch
     ? homeScore > awayScore
@@ -251,16 +360,16 @@ function buildTeamStatRows(matchRow: any, detail: any, events: any[]) {
       goals_for: homeScore,
       goals_against: awayScore,
       points: homePoints,
-      xg_for: homeStats.xg,
-      xg_against: awayStats.xg,
-      xp: expectedPointsFromXg(homeStats.xg, awayStats.xg),
-      xt_for: homeStats.xt,
-      xt_against: awayStats.xt,
-      shots: homeStats.shots,
-      shots_on_target: homeStats.shotsOnTarget,
-      corners: homeStats.corners,
+      xg_for: homeXgFor,
+      xg_against: homeXgAgainst,
+      xp: existingHomeStat?.xp ?? expectedPointsFromXg(homeXgFor, homeXgAgainst),
+      xt_for: homeXtFor,
+      xt_against: homeXtAgainst,
+      shots: homeHasComputedMetrics ? homeStats.shots : toNumber(existingHomeStat?.shots) ?? 0,
+      shots_on_target: homeHasComputedMetrics ? homeStats.shotsOnTarget : toNumber(existingHomeStat?.shots_on_target) ?? 0,
+      corners: homeHasComputedMetrics ? homeStats.corners : toNumber(existingHomeStat?.corners) ?? 0,
       clean_sheet: finalMatch && awayScore === 0,
-      event_count: homeStats.eventCount,
+      event_count: homeHasComputedMetrics ? homeStats.eventCount : toNumber(existingHomeStat?.event_count) ?? 0,
       source_updated_at: new Date().toISOString(),
       payload: { source: "sync-league", detail },
     },
@@ -278,16 +387,16 @@ function buildTeamStatRows(matchRow: any, detail: any, events: any[]) {
       goals_for: awayScore,
       goals_against: homeScore,
       points: awayPoints,
-      xg_for: awayStats.xg,
-      xg_against: homeStats.xg,
-      xp: expectedPointsFromXg(awayStats.xg, homeStats.xg),
-      xt_for: awayStats.xt,
-      xt_against: homeStats.xt,
-      shots: awayStats.shots,
-      shots_on_target: awayStats.shotsOnTarget,
-      corners: awayStats.corners,
+      xg_for: awayXgFor,
+      xg_against: awayXgAgainst,
+      xp: existingAwayStat?.xp ?? expectedPointsFromXg(awayXgFor, awayXgAgainst),
+      xt_for: awayXtFor,
+      xt_against: awayXtAgainst,
+      shots: awayHasComputedMetrics ? awayStats.shots : toNumber(existingAwayStat?.shots) ?? 0,
+      shots_on_target: awayHasComputedMetrics ? awayStats.shotsOnTarget : toNumber(existingAwayStat?.shots_on_target) ?? 0,
+      corners: awayHasComputedMetrics ? awayStats.corners : toNumber(existingAwayStat?.corners) ?? 0,
       clean_sheet: finalMatch && homeScore === 0,
-      event_count: awayStats.eventCount,
+      event_count: awayHasComputedMetrics ? awayStats.eventCount : toNumber(existingAwayStat?.event_count) ?? 0,
       source_updated_at: new Date().toISOString(),
       payload: { source: "sync-league", detail },
     },
@@ -407,6 +516,18 @@ async function selectByProviderIds(client: any, table: string, column: string, i
   return rows;
 }
 
+async function selectByIds(client: any, table: string, column: string, ids: Array<number | string>) {
+  const rows: any[] = [];
+  for (let i = 0; i < ids.length; i += 200) {
+    const batch = ids.slice(i, i + 200);
+    if (!batch.length) continue;
+    const { data, error } = await client.from(table).select("*").in(column, batch);
+    if (error) throw error;
+    rows.push(...(data ?? []));
+  }
+  return rows;
+}
+
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -467,6 +588,13 @@ serve(async (req: Request) => {
     if (runError) throw runError;
     runId = insertedRun?.id ?? null;
 
+    let competitionDetail = null;
+    try {
+      competitionDetail = await wyscoutFetch(`/competitions/${providerLeagueId}`);
+    } catch {
+      competitionDetail = null;
+    }
+
     const competitionPayload = await wyscoutFetch(`/competitions/${providerLeagueId}/matches`);
     const summaries = extractMatches(competitionPayload)
       .map(buildSummaryRecord)
@@ -484,11 +612,21 @@ serve(async (req: Request) => {
     const leagueRow = {
       provider: "wyscout",
       provider_league_id: providerLeagueId,
-      name: inferLeagueName(firstSummary, providerLeagueId, pickString(body?.league_name)),
-      country_name: pickString(firstSummary?.competition?.area?.name, body?.country_name),
+      name: inferLeagueName(
+        firstSummary,
+        providerLeagueId,
+        pickString(body?.league_name),
+        competitionDetail,
+      ),
+      country_name: pickString(
+        competitionDetail?.area?.name,
+        competitionDetail?.country?.name,
+        firstSummary?.competition?.area?.name,
+        body?.country_name,
+      ),
       tier: pickString(body?.tier),
       logo_url: pickString(body?.logo_url),
-      metadata: { request: body },
+      metadata: { request: body, competition_detail: competitionDetail ?? {} },
     };
 
     const { error: upsertLeagueError } = await supabase
@@ -511,7 +649,6 @@ serve(async (req: Request) => {
     }
 
     const orderedSeasonIds = [...seasonBuckets.keys()].sort((a, b) => a - b);
-    const currentProviderSeasonId = orderedSeasonIds[orderedSeasonIds.length - 1];
     const seasonRows = orderedSeasonIds.map((providerSeasonId) => {
       const rows = seasonBuckets.get(providerSeasonId) ?? [];
       const kickoffValues = rows.map((row) => row.kickoffAt).filter(Boolean).sort();
@@ -519,25 +656,40 @@ serve(async (req: Request) => {
         provider: "wyscout",
         provider_season_id: providerSeasonId,
         league_id: localLeague.id,
-        name: inferSeasonName(rows[0]?.raw, providerSeasonId),
+        name: inferSeasonName(rows[0]?.raw, providerSeasonId, kickoffValues),
         start_date: kickoffValues[0] ? kickoffValues[0].slice(0, 10) : null,
         end_date: kickoffValues[kickoffValues.length - 1] ? kickoffValues[kickoffValues.length - 1].slice(0, 10) : null,
-        is_current: providerSeasonId === currentProviderSeasonId,
+        is_current: false,
         sync_policy: "incremental",
         metadata: { provider_league_id: providerLeagueId },
       };
     });
 
-    const { error: resetCurrentError } = await supabase
-      .from("seasons")
-      .update({ is_current: false })
-      .eq("league_id", localLeague.id);
-    if (resetCurrentError) throw resetCurrentError;
-
     const { error: upsertSeasonsError } = await supabase
       .from("seasons")
       .upsert(seasonRows, { onConflict: "provider,provider_season_id" });
     if (upsertSeasonsError) throw upsertSeasonsError;
+
+    const { data: allLeagueSeasons, error: allLeagueSeasonsError } = await supabase
+      .from("seasons")
+      .select("id, provider_season_id, start_date, end_date")
+      .eq("league_id", localLeague.id);
+    if (allLeagueSeasonsError) throw allLeagueSeasonsError;
+
+    const currentSeasonRow = pickCurrentSeasonRow(allLeagueSeasons ?? []);
+    if (currentSeasonRow?.id) {
+      const { error: resetCurrentError } = await supabase
+        .from("seasons")
+        .update({ is_current: false })
+        .eq("league_id", localLeague.id);
+      if (resetCurrentError) throw resetCurrentError;
+
+      const { error: setCurrentError } = await supabase
+        .from("seasons")
+        .update({ is_current: true })
+        .eq("id", currentSeasonRow.id);
+      if (setCurrentError) throw setCurrentError;
+    }
 
     const localSeasons = await selectByProviderIds(supabase, "seasons", "provider_season_id", orderedSeasonIds);
     const seasonIdMap = new Map<number, number>(localSeasons.map((row) => [row.provider_season_id, row.id]));
@@ -545,12 +697,28 @@ serve(async (req: Request) => {
     const providerMatchIds = selectedSummaries.map((summary) => summary.providerMatchId);
     const existingMatches = await selectByProviderIds(supabase, "matches", "provider_match_id", providerMatchIds);
     const existingMatchMap = new Map<number, any>(existingMatches.map((row) => [row.provider_match_id, row]));
+    const existingMatchIds = existingMatches
+      .map((row) => row.id)
+      .filter((value) => Number.isFinite(Number(value)));
+    const existingStats = existingMatchIds.length
+      ? await selectByIds(supabase, "team_match_stats", "match_id", existingMatchIds)
+      : [];
+    const statsPerMatch = new Map<number, number>();
+    const existingStatsByMatchTeam = new Map<string, any>();
+    for (const row of existingStats) {
+      const matchId = Number(row.match_id);
+      statsPerMatch.set(matchId, (statsPerMatch.get(matchId) ?? 0) + 1);
+      existingStatsByMatchTeam.set(`${matchId}:${row.team_id}`, row);
+    }
 
     const nowMs = Date.now();
     const hydrationCandidates = selectedSummaries.filter((summary) => {
       const existing = existingMatchMap.get(summary.providerMatchId);
       if (!existing) return true;
       if (!existing.home_team_id || !existing.away_team_id) return true;
+      if (isFinalStatus(summary.status ?? existing.status) && (statsPerMatch.get(Number(existing.id)) ?? 0) < 2) {
+        return true;
+      }
       if (summary.status !== normalizeStatus(existing.status)) return true;
       if ((summary.homeScore ?? null) !== (existing.home_score ?? null)) return true;
       if ((summary.awayScore ?? null) !== (existing.away_score ?? null)) return true;
@@ -669,6 +837,56 @@ serve(async (req: Request) => {
     const refreshedMatches = await selectByProviderIds(supabase, "matches", "provider_match_id", providerMatchIds);
     const refreshedMatchMap = new Map<number, any>(refreshedMatches.map((row) => [row.provider_match_id, row]));
 
+    const refreshedLocalTeamIds = Array.from(new Set(
+      refreshedMatches
+        .flatMap((row) => [toNumber(row.home_team_id), toNumber(row.away_team_id)])
+        .filter((value): value is number => value !== null),
+    ));
+    const existingSeasonTeams = refreshedLocalTeamIds.length
+      ? await selectByIds(supabase, "teams", "id", refreshedLocalTeamIds)
+      : [];
+    const existingTeamsByProviderId = new Map<number, any>(
+      existingSeasonTeams
+        .filter((row) => row?.provider_team_id)
+        .map((row) => [row.provider_team_id, row]),
+    );
+    const providerTeamIdsToRefresh = new Set<number>(providerTeamIds);
+    for (const teamRow of existingSeasonTeams) {
+      const providerTeamId = toNumber(teamRow?.provider_team_id);
+      if (!providerTeamId) continue;
+      if (
+        isPlaceholderTeamName(teamRow?.name)
+        || !pickString(teamRow?.short_name, teamRow?.logo_url, teamRow?.official_name)
+      ) {
+        providerTeamIdsToRefresh.add(providerTeamId);
+      }
+    }
+
+    if (providerTeamIdsToRefresh.size) {
+      const refreshedTeamProfiles = await mapWithConcurrency([...providerTeamIdsToRefresh], detailConcurrency, async (providerTeamId) => {
+        try {
+          const profile = await wyscoutFetch(`/teams/${providerTeamId}`);
+          return { providerTeamId, profile };
+        } catch {
+          return { providerTeamId, profile: null };
+        }
+      });
+
+      const refreshedTeamRows = refreshedTeamProfiles.map(({ providerTeamId, profile }) => {
+        const existingTeam = existingTeamsByProviderId.get(providerTeamId) ?? null;
+        const fallbackName = detailTeamFallbackNames.get(providerTeamId)
+          ?? (!isPlaceholderTeamName(existingTeam?.name) ? existingTeam?.name : null);
+        return teamProfileRow(profile, providerTeamId, fallbackName, existingTeam);
+      });
+
+      if (refreshedTeamRows.length) {
+        const { error: refreshTeamsError } = await supabase
+          .from("teams")
+          .upsert(refreshedTeamRows, { onConflict: "provider,provider_team_id" });
+        if (refreshTeamsError) throw refreshTeamsError;
+      }
+    }
+
     const finalHydrationTargets = hydrationCandidates.filter((summary) => {
       const matchRow = refreshedMatchMap.get(summary.providerMatchId);
       return matchRow && isFinalStatus(matchRow.status);
@@ -692,7 +910,13 @@ serve(async (req: Request) => {
       if (!matchRow || !detail) continue;
 
       const events = eventMap.get(summary.providerMatchId) ?? [];
-      const statRows = buildTeamStatRows(matchRow, detail, events);
+      const homeStatKey = `${matchRow.id}:${matchRow.home_team_id}`;
+      const awayStatKey = `${matchRow.id}:${matchRow.away_team_id}`;
+      const statRows = buildTeamStatRows(matchRow, detail, events, {
+        existingHomeStat: existingStatsByMatchTeam.get(homeStatKey) ?? null,
+        existingAwayStat: existingStatsByMatchTeam.get(awayStatKey) ?? null,
+        preserveExistingMetrics: !includeEvents,
+      });
       if (statRows.length) {
         const { error: deleteStatsError } = await supabase
           .from("team_match_stats")

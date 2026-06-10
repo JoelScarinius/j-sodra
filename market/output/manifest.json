@@ -1,0 +1,19 @@
+{
+  "team": "Jönköpings Södra",
+  "team_id": 6849,
+  "competition": "Ettan",
+  "season": "2026",
+  "season_id": 192451,
+  "season_year": 2026,
+  "matches_used": 9,
+  "latest_match": "Jönköpings Södra - Ängelholm, 3-0",
+  "radar_player": "A. Eriksson",
+  "files": {
+    "progressive_passes": "market/output/progressive_pass_pulse.png",
+    "defensive_actions": "market/output/defensive_footprint.png",
+    "dropped_balls": "market/output/dropped_possessions.png",
+    "pass_network": "market/output/latest_match_pass_network.png",
+    "shot_map": "market/output/season_shot_map.png",
+    "player_radar": "market/output/standout_player_radar.png"
+  }
+}
