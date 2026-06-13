@@ -213,3 +213,11 @@ Notes:
 ## 9. Lovable handoff text
 
 Send the full content of `lovable_message.txt` to Lovable.
+
+
+# Way of working
+- Gather function calls in fetch_football.py and decouple code.
+- Kanban board backlog
+- Description of how and what has been done and link to pull request.
+- Main branch always updated with standard things J-Södra understands and uses.
+- Dev branch with new things which we develope towards.
