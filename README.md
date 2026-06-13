@@ -221,3 +221,4 @@ Send the full content of `lovable_message.txt` to Lovable.
 - Description of how and what has been done and link to pull request.
 - Main branch always updated with standard things J-Södra understands and uses.
 - Dev branch with new things which we develope towards.
+- Flow chart flow.
