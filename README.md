@@ -214,11 +214,359 @@ Notes:
 
 Send the full content of `lovable_message.txt` to Lovable.
 
-
 # Way of working
+
 - Gather function calls in fetch_football.py and decouple code.
 - Kanban board backlog
 - Description of how and what has been done and link to pull request.
 - Main branch always updated with standard things J-Södra understands and uses.
 - Dev branch with new things which we develope towards.
 - Flow chart flow.
+
+# Current Repo Notes
+
+## Entrypoint And Contract
+
+- The only pipeline entrypoint is `fetch_football_data.py`.
+- The frontend contract is modular under `reports/`.
+- Lovable must bootstrap from `reports/index.json`, then fetch section JSONs from `index.sections`.
+- `lovable_dashboard_payload.json` is obsolete and should not be used.
+
+## Corner Storyline Fields
+
+- Lovable should render corner storyline text from `reports/corners/analysis.json`.
+- Team storyline fields: `corners.team.offensive.storylines`, `corners.team.defensive.storylines`, `corners.storylines.team_offensive_success_factors`.
+- Next-opponent storyline fields: `corners.next_opponent.offensive.storylines`, `corners.next_opponent.defensive.storylines`, `corners.storylines.next_opponent_offensive_success_factors`.
+
+## Plot Colors
+
+- Palette is defined in `pipeline/settings.py`: bg `#002418`, line `#f5f0da`, accent `#d4af37`, accent_2 `#6fcf97`, muted `#8ad6b4`, danger `#f07167`, text `#f5f0da`.
+- Corner heatmap uses Matplotlib colormap `YlOrBr`.
+- Corner danger heatmap uses `YlOrRd`.
+
+## Refresh Flow
+
+- A full refresh requires `python fetch_football_data.py --force-refresh` on the server side.
+- The callable refresh path is browser -> `supabase/functions/refresh-reports` -> `refresh_runner.py` -> `fetch_football_data.py --force-refresh`.
+- The frontend should poll the returned `run_id` until status is `succeeded`, then refetch `reports/index.json`.
+
+## Incremental Caching
+
+- Local event cache lives under `cache/events`.
+- Competition cache lives under `cache/competitions`.
+- `--force-refresh` bypasses both caches for the run.
+
+## Adding a new analytics section
+
+Analytics features are added as section modules under `pipeline/sections/`.
+
+A section is responsible for one dashboard area, for example:
+
+- `overview`
+- `corners`
+- `open_play`
+- `free_kicks`
+- `throw_ins`
+- `defensive`
+
+### Rules
+
+1. Do not add feature logic to `fetch_football_data.py`.
+2. Do not add feature logic directly to `pipeline/orchestrator.py`.
+3. Create or edit a file in `pipeline/sections/`.
+4. Use the shared `PipelineContext`.
+5. Write outputs only under `reports/<section_name>/`.
+6. Return a `SectionResult`.
+7. Register the section in `pipeline/registry.py`.
+8. Use `pipeline/common.py` and `pipeline/analytics.py` for shared helpers.
+9. Use `pipeline/publishing.py` for writing JSON/CSV references.
+10. Use `mplsoccer` as much as possible for pitch-based football visualisations.
+
+### Example
+
+Create:
+
+```text
+
+pipeline/sections/open_play.py
+```
+
+---
+
+# Suggested section template
+
+This is the kind of file collaborators should copy.
+
+```python
+from __future__ import annotations
+
+from pipeline.contracts import SectionResult
+from pipeline.publishing import build_ref, write_json
+
+
+SECTION_NAME = "open_play"
+
+
+def build_section(context) -> SectionResult:
+    """
+    Build the Open Play section.
+
+    This section should only contain open-play specific logic.
+    Shared helpers should live in pipeline/common.py or pipeline/analytics.py.
+    Data fetching should be done through DataService before this section runs.
+    """
+
+    output_path = context.settings.report_path(SECTION_NAME, "analysis.json")
+
+    payload = {
+        "generated_at": context.generated_at,
+        "team": {
+            "summary": {},
+            "metrics": [],
+            "storylines": [],
+        },
+        "next_opponent": {
+            "summary": {},
+            "metrics": [],
+            "storylines": [],
+        },
+        "files": {
+            "plots": {},
+            "data": {},
+        },
+    }
+
+    write_json(output_path, payload)
+
+    return SectionResult(
+        name=SECTION_NAME,
+        files=[output_path],
+        index_entry={
+            "analysis": build_ref(context.settings, output_path),
+        },
+    )
+---
+
+GitHub Actions
+
+  runs fetch_football_data.py
+
+fetch_football_data.py
+
+  parses CLI only
+
+pipeline/orchestrator.py
+
+  builds shared context
+
+  runs registered sections
+
+  writes index.json
+
+  uploads all artifacts
+
+pipeline/sections/*.py
+
+  each collaborator owns one section
+
+pipeline/publishing.py
+
+  uploads everything to Supabase Storage
+
+  follows section refs
+
+Lovable
+
+  reads reports/index.json
+
+
+
+Yes. Below is a **collaboration-ready plugin layer** you can add to the project.
+
+The design is:
+
+1. `fetch_football_data.py` stays tiny.
+2. `pipeline/orchestrator.py` owns the main pipeline.
+3. Collaborators add one file under `pipeline/sections/`.
+4. Each section writes files under `reports/<section_name>/`.
+5. Each section returns a `SectionResult`.
+6. The orchestrator automatically adds the section to `reports/index.json`.
+7. The existing Supabase upload logic uploads the section artifacts together with everything else.
+
+This fits your existing architecture because `DataService` already owns Wyscout/Supabase fetching and caching, while `publishing.py` already owns JSON/CSV writing, public refs, and Supabase Storage uploads. [\[jonkopingu...epoint.com\]](https://jonkopinguniversity-my.sharepoint.com/personal/anjo19go_student_ju_se/Documents/Microsoft%20Copilot%20Chat%20Files/data_service.py), [\[jonkopingu...epoint.com\]](https://jonkopinguniversity-my.sharepoint.com/personal/anjo19go_student_ju_se/Documents/Microsoft%20Copilot%20Chat%20Files/publishing.py)
+
+***
+
+# 1. `fetch_football_data.py`
+
+Replace the root entrypoint with this:
+
+```python
+"""Command-line entrypoint for the J-Södra analytics pipeline.
+
+This file should stay intentionally small.
+
+Do not add feature logic here.
+Do not add Wyscout logic here.
+Do not add plotting logic here.
+
+The job of this file is only to:
+
+1. Parse command-line arguments.
+2. Load settings.
+3. Start the pipeline orchestrator.
+"""
+
+from __future__ import annotations
+
+import argparse
+
+from pipeline.orchestrator import run_pipeline
+from pipeline.settings import load_settings
+
+
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Fetch and publish J-Södra football analytics."
+    )
+
+    parser.add_argument(
+        "--force-refresh",
+        action="store_true",
+        help="Bypass local caches and fetch fresh data from the Wyscout API.",
+    )
+
+    return parser.parse_args(argv)
+
+
+def main(argv=None) -> int:
+    args = parse_args(argv)
+    settings = load_settings(force_refresh=args.force_refresh)
+    return run_pipeline(settings)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+```
+
+---
+
+
+````markdown
+## Adding a new analytics section
+
+Analytics features are added as modular section files under:
+
+```text
+pipeline/sections/
+````
+
+Each section owns one dashboard area.
+
+Examples:
+
+```text
+pipeline/sections/open_play.py
+pipeline/sections/free_kicks.py
+pipeline/sections/throw_ins.py
+pipeline/sections/defensive.py
+```
+
+### Rules for contributors
+
+1. Do not add feature logic to `fetch_football_data.py`.
+2. Do not add feature logic directly to `pipeline/orchestrator.py`.
+3. Create or edit one section file under `pipeline/sections/`.
+4. Use the shared `PipelineContext`.
+5. Write outputs only under `reports/<section_name>/`.
+6. Return a `SectionResult`.
+7. Register the section in `pipeline/registry.py`.
+8. Do not upload directly to Supabase Storage from a section.
+9. Use `pipeline/publishing.py` to write JSON/CSV files.
+10. Use `mplsoccer` as much as possible for football pitch visualisations.
+
+### Section contract
+
+Every section must implement:
+
+```python
+def build_section(context) -> SectionResult:
+    ...
+```
+
+The section must return:
+
+```python
+SectionResult(
+    name="section_name",
+    files=[...],
+    index_entry={...},
+)
+```
+
+### How publishing works
+
+A section writes local files under:
+
+```text
+reports/<section_name>/
+```
+
+The orchestrator collects all files from every section and uploads them to Supabase Storage when:
+
+```bash
+UPLOAD_TO_SUPABASE_STORAGE=1
+```
+
+The frontend should discover section files through:
+
+```text
+reports/index.json
+```
+
+The frontend should not hardcode paths where possible.
+
+````
+
+---
+
+# 14. What collaborators will see in `reports/index.json`
+
+After this is integrated, the generated `reports/index.json` will contain extra sections like:
+
+```json
+{
+  "sections": {
+    "open_play": {
+      "analysis": {
+        "path": "reports/open_play/analysis.json",
+        "url": "https://..."
+      }
+    },
+    "free_kicks": {
+      "analysis": {
+        "path": "reports/free_kicks/analysis.json",
+        "url": "https://..."
+      }
+    },
+    "throw_ins": {
+      "analysis": {
+        "path": "reports/throw_ins/analysis.json",
+        "url": "https://..."
+      }
+    },
+    "defensive": {
+      "analysis": {
+        "path": "reports/defensive/analysis.json",
+        "url": "https://..."
+      }
+    }
+  }
+}
+````
+
+The Lovable frontend can then safely show the tabs, even while sections are still marked as:
+
+```json
+"status": "in_progress"
+```

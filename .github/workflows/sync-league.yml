@@ -9,7 +9,7 @@ on:
         default: '{"provider_league_id":810,"provider_season_ids":[192451],"include_events":false,"detail_concurrency":2,"event_concurrency":1,"hydrate_recent_hours":72}'
         type: string
   schedule:
-    - cron: '17 * * * *'
+    - cron: "17 * * * *"
 
 concurrency:
   group: j-sodra-league-sync

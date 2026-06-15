@@ -894,12 +894,12 @@ serve(async (req: Request) => {
 
     const hydratedEvents = includeEvents
       ? await mapWithConcurrency(finalHydrationTargets, eventConcurrency, async (summary) => {
-          const payload = await wyscoutFetch(`/matches/${summary.providerMatchId}/events`);
-          return {
-            providerMatchId: summary.providerMatchId,
-            events: Array.isArray(payload?.events) ? payload.events : Array.isArray(payload) ? payload : [],
-          };
-        })
+        const payload = await wyscoutFetch(`/matches/${summary.providerMatchId}/events`);
+        return {
+          providerMatchId: summary.providerMatchId,
+          events: Array.isArray(payload?.events) ? payload.events : Array.isArray(payload) ? payload : [],
+        };
+      })
       : [];
     const eventMap = new Map<number, any[]>(hydratedEvents.map((row) => [row.providerMatchId, row.events]));
 

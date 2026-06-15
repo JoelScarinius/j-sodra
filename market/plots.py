@@ -193,7 +193,9 @@ def _add_colorbar(fig, mappable, rect: tuple[float, float, float, float], label:
     return colorbar
 
 
-def plot_progressive_passes(dataset, progressive_df: pd.DataFrame, output_path: Path) -> Path:
+def plot_progressive_passes(
+    dataset, progressive_df: pd.DataFrame, output_path: Path
+) -> Path:
     pitch = _pitch()
     fig, ax, footer_ax = _pitch_figure(
         pitch,
@@ -256,9 +258,16 @@ def plot_progressive_passes(dataset, progressive_df: pd.DataFrame, output_path: 
             zorder=6,
         )
 
-    top_players = progressive_df.groupby("player_name").size().sort_values(ascending=False).head(4)
+    top_players = (
+        progressive_df.groupby("player_name")
+        .size()
+        .sort_values(ascending=False)
+        .head(4)
+    )
     final_third_entries = int(progressive_df["pass_end_x"].ge(75).sum())
-    subtitle = f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    subtitle = (
+        f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    )
     _add_header(fig, "Progressive Pass Map", subtitle)
     _add_footer(
         footer_ax,
@@ -267,14 +276,18 @@ def plot_progressive_passes(dataset, progressive_df: pd.DataFrame, output_path: 
             "Arrow start = pass origin. Arrow head = reception point. Gold arrows are the 12 biggest gains; green arrows are the next 30.",
             f"Season total: {len(progressive_df)} accurate progressive passes | Final-third entries: {final_third_entries} | Mean gain: {progressive_df['progression_gain'].mean():.1f}m",
             "Most frequent progressive passers: "
-            + ", ".join(f"{_short_name(name)} ({count})" for name, count in top_players.items()),
+            + ", ".join(
+                f"{_short_name(name)} ({count})" for name, count in top_players.items()
+            ),
         ],
         width=130,
     )
     return _save(fig, output_path)
 
 
-def plot_defensive_actions(dataset, defensive_df: pd.DataFrame, output_path: Path) -> Path:
+def plot_defensive_actions(
+    dataset, defensive_df: pd.DataFrame, output_path: Path
+) -> Path:
     pitch = _pitch()
     fig, ax, footer_ax = _pitch_figure(
         pitch,
@@ -298,10 +311,14 @@ def plot_defensive_actions(dataset, defensive_df: pd.DataFrame, output_path: Pat
 
     high_regains = defensive_df[defensive_df["high_regain"]].copy()
     mix = defensive_df.groupby("action_family").size().sort_values(ascending=False)
-    average_height = float(defensive_df["start_x"].mean()) if not defensive_df.empty else 0.0
+    average_height = (
+        float(defensive_df["start_x"].mean()) if not defensive_df.empty else 0.0
+    )
     own_third_share = float(defensive_df["start_x"].le(33.3).mean() * 100.0)
     high_regain_share = float(high_regains.shape[0] / max(len(defensive_df), 1) * 100.0)
-    subtitle = f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    subtitle = (
+        f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    )
     _add_header(fig, "Defensive Action Heatmap", subtitle)
     _add_footer(
         footer_ax,
@@ -309,7 +326,8 @@ def plot_defensive_actions(dataset, defensive_df: pd.DataFrame, output_path: Pat
             "What it shows: where J-Sodra make defensive actions in the 2026 season.",
             "Each square counts interceptions, recoveries, defensive duels, clearances, and goalkeeper exits. Brighter squares mean more actions in that zone.",
             f"Total actions: {len(defensive_df)} | Average defensive height: {average_height:.1f}m | High-regain share (x >= 60): {high_regain_share:.0f}% | Own-third share: {own_third_share:.0f}%",
-            "Action mix: " + ", ".join(f"{label} {count}" for label, count in mix.items()),
+            "Action mix: "
+            + ", ".join(f"{label} {count}" for label, count in mix.items()),
         ],
         width=132,
     )
@@ -378,8 +396,12 @@ def plot_pass_network(
             zorder=4,
         )
         for row in positions.itertuples(index=False):
-            label_x = float(row.average_x) + (2.1 if float(row.average_x) < 74 else -2.1)
-            label_y = float(row.average_y) + (1.8 if float(row.average_y) <= 50 else -1.8)
+            label_x = float(row.average_x) + (
+                2.1 if float(row.average_x) < 74 else -2.1
+            )
+            label_y = float(row.average_y) + (
+                1.8 if float(row.average_y) <= 50 else -1.8
+            )
             ax.text(
                 label_x,
                 label_y,
@@ -414,8 +436,16 @@ def plot_pass_network(
             "What it shows: accurate open-play passes between the 11 most involved J-Sodra players from the latest match.",
             "Node size = touches. Link width = completed passes between the player pair. Only core links are shown so the network stays readable.",
             f"Accurate open-play passes in scope: {len(passes)} | Core links shown: {len(links)} | Core players shown: {len(positions)}",
-            (f"Average line height: {float(network_height):.1f}m | {strongest_text}" if network_height is not None and strongest_text else "")
-            or (f"Average line height: {float(network_height):.1f}m" if network_height is not None else strongest_text or ""),
+            (
+                f"Average line height: {float(network_height):.1f}m | {strongest_text}"
+                if network_height is not None and strongest_text
+                else ""
+            )
+            or (
+                f"Average line height: {float(network_height):.1f}m"
+                if network_height is not None
+                else strongest_text or ""
+            ),
         ],
         width=122,
     )
@@ -473,9 +503,17 @@ def plot_shot_map(dataset, shots_df: pd.DataFrame, output_path: Path) -> Path:
             zorder=5,
         )
 
-    box_shots = int(shots_df["inside_box"].sum()) if "inside_box" in shots_df.columns else 0
-    on_target = int(shots_df["shot_on_target"].sum()) if "shot_on_target" in shots_df.columns else 0
-    subtitle = f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    box_shots = (
+        int(shots_df["inside_box"].sum()) if "inside_box" in shots_df.columns else 0
+    )
+    on_target = (
+        int(shots_df["shot_on_target"].sum())
+        if "shot_on_target" in shots_df.columns
+        else 0
+    )
+    subtitle = (
+        f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    )
     _add_header(fig, "Shot Map", subtitle)
     _add_footer(
         footer_ax,
@@ -550,12 +588,16 @@ def plot_dropped_balls(dataset, dropped_df: pd.DataFrame, output_path: Path) -> 
         zorder=5,
     )
 
-    top_loser = dropped_df.groupby("player_name").size().sort_values(ascending=False).head(1)
+    top_loser = (
+        dropped_df.groupby("player_name").size().sort_values(ascending=False).head(1)
+    )
     top_loser_text = None
     if not top_loser.empty:
         top_loser_text = f"Most frequent drop: {_short_name(top_loser.index[0])} ({int(top_loser.iloc[0])})"
 
-    subtitle = f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    subtitle = (
+        f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+    )
     _add_header(fig, "Dropped Possessions", subtitle)
     _add_footer(
         footer_ax,
@@ -604,18 +646,15 @@ def plot_player_radar(dataset, radar_payload: dict, output_path: Path) -> Path:
     ax.scatter(angles[:-1], values[:-1], color=STYLE["accent_2"], s=75, zorder=5)
 
     player = radar_payload["player"]
-    subtitle = (
-        f"{player['player_name']} | {dataset.team_name} | compared with {radar_payload['comparison_size']} players"
-    )
+    subtitle = f"{player['player_name']} | {dataset.team_name} | compared with {radar_payload['comparison_size']} players"
     _add_header(fig, "Player Radar", subtitle)
     _add_footer(
         footer_ax,
         [
             "What it shows: percentile ranks for the selected player against teammates with enough 2026 match data.",
             f"Eligible comparison floor: {radar_payload['minimum_appearances']} matches with event data | Touches per match: {player['touches_per_match']:.1f}",
-            "Raw per-match values: " + ", ".join(
-                f"{item['label']} {item['display_value']}" for item in metrics
-            ),
+            "Raw per-match values: "
+            + ", ".join(f"{item['label']} {item['display_value']}" for item in metrics),
         ],
         width=110,
     )

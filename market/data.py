@@ -90,7 +90,9 @@ def _derive_primary_year(matches_df: pd.DataFrame) -> int | None:
 
 def _derive_competition_label(service: DataService, matches_df: pd.DataFrame) -> str:
     if not matches_df.empty and "competitionId" in matches_df.columns:
-        competition_ids = pd.to_numeric(matches_df["competitionId"], errors="coerce").dropna()
+        competition_ids = pd.to_numeric(
+            matches_df["competitionId"], errors="coerce"
+        ).dropna()
         if not competition_ids.empty:
             competition_id = int(competition_ids.iloc[0])
             detail = service.fetch_api(f"/competitions/{competition_id}")
@@ -118,7 +120,9 @@ def _resolve_team(
     explicit_team_name: str | None,
 ) -> tuple[int, str]:
     if explicit_team_id is not None:
-        team_name = explicit_team_name or service.resolve_team_name_by_id(explicit_team_id)
+        team_name = explicit_team_name or service.resolve_team_name_by_id(
+            explicit_team_id
+        )
         if team_name:
             return int(explicit_team_id), str(team_name)
         return int(explicit_team_id), f"Team {int(explicit_team_id)}"
@@ -194,7 +198,9 @@ def load_marketing_dataset(
     event_rows, _, _ = service.fetch_events_for_match_ids(match_ids)
     events_df = pd.json_normalize(event_rows) if event_rows else pd.DataFrame()
     team_events_df = (
-        events_df[team_event_mask(events_df, resolved_team_id, resolved_team_name)].copy()
+        events_df[
+            team_event_mask(events_df, resolved_team_id, resolved_team_name)
+        ].copy()
         if not events_df.empty
         else pd.DataFrame()
     )
@@ -209,7 +215,9 @@ def load_marketing_dataset(
     if latest_match_id is not None:
         latest_match_id = int(latest_match_id)
 
-    destination = Path(output_dir or settings.output_dir / "market" / "output").resolve()
+    destination = Path(
+        output_dir or settings.output_dir / "market" / "output"
+    ).resolve()
     destination.mkdir(parents=True, exist_ok=True)
 
     return MarketingDataset(

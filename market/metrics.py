@@ -53,11 +53,7 @@ def _column(frame: pd.DataFrame, name: str, default):
 
 def _secondary_tags(value) -> set[str]:
     if isinstance(value, (list, tuple, set)):
-        return {
-            str(item).strip().lower()
-            for item in value
-            if str(item).strip()
-        }
+        return {str(item).strip().lower() for item in value if str(item).strip()}
     if isinstance(value, str) and value.strip():
         return {value.strip().lower()}
     return set()
@@ -83,15 +79,21 @@ def prepare_event_frame(events_df: pd.DataFrame) -> pd.DataFrame:
 
     frame = events_df.copy()
     frame["event_id"] = pd.to_numeric(_column(frame, "id", np.nan), errors="coerce")
-    frame["event_type"] = _column(frame, "type.primary", "").fillna("").astype(str).str.lower()
-    frame["secondary_tags"] = _column(frame, "type.secondary", []).apply(_secondary_tags)
+    frame["event_type"] = (
+        _column(frame, "type.primary", "").fillna("").astype(str).str.lower()
+    )
+    frame["secondary_tags"] = _column(frame, "type.secondary", []).apply(
+        _secondary_tags
+    )
     frame["player_name"] = (
         _column(frame, "player.name", "").fillna("").astype(str).str.strip()
     )
     frame["recipient_name"] = (
         _column(frame, "pass.recipient.name", "").fillna("").astype(str).str.strip()
     )
-    frame["player_id"] = pd.to_numeric(_column(frame, "player.id", np.nan), errors="coerce")
+    frame["player_id"] = pd.to_numeric(
+        _column(frame, "player.id", np.nan), errors="coerce"
+    )
     frame["matchId"] = pd.to_numeric(_column(frame, "matchId", np.nan), errors="coerce")
     frame["team_id"] = pd.to_numeric(_column(frame, "team.id", np.nan), errors="coerce")
     frame["opponent_team_id"] = pd.to_numeric(
@@ -136,12 +138,8 @@ def progressive_passes(events_df: pd.DataFrame) -> pd.DataFrame:
         lambda tags: "progressive_pass" in tags
     )
     passes["progression_gain"] = passes["pass_end_x"] - passes["start_x"]
-    passes.loc[:, "progressive"] = (
-        passes["progressive"]
-        | (
-            passes["progression_gain"].ge(15)
-            & passes["pass_end_x"].gt(passes["start_x"])
-        )
+    passes.loc[:, "progressive"] = passes["progressive"] | (
+        passes["progression_gain"].ge(15) & passes["pass_end_x"].gt(passes["start_x"])
     )
     passes = passes[passes["progressive"] & ~passes["set_piece"]].copy()
     return passes.sort_values(
@@ -176,7 +174,9 @@ def defensive_actions(events_df: pd.DataFrame) -> pd.DataFrame:
         return pd.DataFrame()
 
     mask = frame["event_type"].isin({"clearance", "interception", "goalkeeper_exit"})
-    mask = mask | frame["secondary_tags"].apply(lambda tags: _has_any(tags, DEFENSIVE_TAGS))
+    mask = mask | frame["secondary_tags"].apply(
+        lambda tags: _has_any(tags, DEFENSIVE_TAGS)
+    )
     actions = frame[mask].copy()
     if actions.empty:
         return actions
@@ -207,7 +207,9 @@ def shot_events(events_df: pd.DataFrame) -> pd.DataFrame:
 
     shots["goal"] = shots["secondary_tags"].apply(lambda tags: "goal" in tags)
     shots["inside_box"] = shots["start_x"].ge(83) & shots["start_y"].between(18, 82)
-    shots["distance"] = np.sqrt((100 - shots["start_x"]) ** 2 + (50 - shots["start_y"]) ** 2)
+    shots["distance"] = np.sqrt(
+        (100 - shots["start_x"]) ** 2 + (50 - shots["start_y"]) ** 2
+    )
     return shots.sort_values(by=["shot_xg", "distance"], ascending=[False, True])
 
 
@@ -262,9 +264,7 @@ def build_pass_network(
             "meta": {},
         }
 
-    passes = passes[
-        ~passes["secondary_tags"].apply(_is_set_piece)
-    ].copy()
+    passes = passes[~passes["secondary_tags"].apply(_is_set_piece)].copy()
     passes = passes[
         passes["player_name"].isin(player_pool)
         & passes["recipient_name"].isin(player_pool)
@@ -434,7 +434,10 @@ def player_metric_table(events_df: pd.DataFrame) -> pd.DataFrame:
     )
     touches = player_events.groupby(PLAYER_GROUP, dropna=False).size().rename("touches")
     prog_pass_counts = (
-        progressive_passes(frame).groupby(PLAYER_GROUP, dropna=False).size().rename("progressive_passes")
+        progressive_passes(frame)
+        .groupby(PLAYER_GROUP, dropna=False)
+        .size()
+        .rename("progressive_passes")
     )
     prog_carry_counts = (
         progressive_carries(frame)
@@ -453,12 +456,19 @@ def player_metric_table(events_df: pd.DataFrame) -> pd.DataFrame:
         .rename("shot_assists")
     )
     box_touches = (
-        player_events[player_events["start_x"].ge(83) & player_events["start_y"].between(18, 82)]
+        player_events[
+            player_events["start_x"].ge(83) & player_events["start_y"].between(18, 82)
+        ]
         .groupby(PLAYER_GROUP, dropna=False)
         .size()
         .rename("box_touches")
     )
-    xg = shot_events(frame).groupby(PLAYER_GROUP, dropna=False)["shot_xg"].sum().rename("xg")
+    xg = (
+        shot_events(frame)
+        .groupby(PLAYER_GROUP, dropna=False)["shot_xg"]
+        .sum()
+        .rename("xg")
+    )
     defensive = (
         defensive_actions(frame)
         .groupby(PLAYER_GROUP, dropna=False)
@@ -467,7 +477,15 @@ def player_metric_table(events_df: pd.DataFrame) -> pd.DataFrame:
     )
 
     table = appearances.to_frame().join(
-        [touches, prog_pass_counts, prog_carry_counts, shot_assists, box_touches, xg, defensive],
+        [
+            touches,
+            prog_pass_counts,
+            prog_carry_counts,
+            shot_assists,
+            box_touches,
+            xg,
+            defensive,
+        ],
         how="left",
     )
     table = table.fillna(0.0).reset_index()
@@ -492,7 +510,9 @@ def player_metric_table(events_df: pd.DataFrame) -> pd.DataFrame:
         + table["xg_per_match"] * 6.0
         + table["defensive_actions_per_match"] * 0.35
     )
-    return table.sort_values(by=["selection_score", "touches"], ascending=False).reset_index(drop=True)
+    return table.sort_values(
+        by=["selection_score", "touches"], ascending=False
+    ).reset_index(drop=True)
 
 
 def select_player_radar(
@@ -503,12 +523,16 @@ def select_player_radar(
         return None
 
     minimum_appearances = max(2, math.ceil(player_table["appearances"].max() / 4))
-    comparison = player_table[player_table["appearances"].ge(minimum_appearances)].copy()
+    comparison = player_table[
+        player_table["appearances"].ge(minimum_appearances)
+    ].copy()
     if comparison.empty:
         comparison = player_table.copy()
 
     for _, column, _ in RADAR_METRICS:
-        comparison[f"{column}_pct"] = comparison[column].rank(pct=True, method="average") * 100
+        comparison[f"{column}_pct"] = (
+            comparison[column].rank(pct=True, method="average") * 100
+        )
 
     if player_name:
         lowered = comparison["player_name"].fillna("").astype(str).str.lower()
@@ -517,7 +541,9 @@ def select_player_radar(
         if selected.empty:
             selected = comparison.head(1)
     else:
-        selected = comparison.sort_values(by=["selection_score", "touches"], ascending=False).head(1)
+        selected = comparison.sort_values(
+            by=["selection_score", "touches"], ascending=False
+        ).head(1)
 
     if selected.empty:
         return None
@@ -530,7 +556,9 @@ def select_player_radar(
                 "label": label,
                 "percentile": float(player.get(f"{column}_pct", 0.0) or 0.0),
                 "raw_value": float(player.get(column, 0.0) or 0.0),
-                "display_value": formatter.format(float(player.get(column, 0.0) or 0.0)),
+                "display_value": formatter.format(
+                    float(player.get(column, 0.0) or 0.0)
+                ),
             }
         )
 

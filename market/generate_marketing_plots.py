@@ -28,9 +28,13 @@ def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate standalone marketing visuals from the J-Sodra Wyscout feed."
     )
-    parser.add_argument("--team-id", type=int, default=None, help="Explicit Wyscout team id.")
+    parser.add_argument(
+        "--team-id", type=int, default=None, help="Explicit Wyscout team id."
+    )
     parser.add_argument("--team-name", default=None, help="Explicit team name lookup.")
-    parser.add_argument("--season-id", type=int, default=None, help="Explicit season id.")
+    parser.add_argument(
+        "--season-id", type=int, default=None, help="Explicit season id."
+    )
     parser.add_argument(
         "--player",
         default=None,
@@ -75,15 +79,23 @@ def main() -> int:
     radar_payload = select_player_radar(player_table, args.player)
 
     if progressive_df.empty:
-        raise RuntimeError("No progressive passes were available for the requested slice.")
+        raise RuntimeError(
+            "No progressive passes were available for the requested slice."
+        )
     if defensive_df.empty:
-        raise RuntimeError("No defensive actions were available for the requested slice.")
+        raise RuntimeError(
+            "No defensive actions were available for the requested slice."
+        )
     if dropped_df.empty:
-        raise RuntimeError("No dropped-ball turnovers were available for the requested slice.")
+        raise RuntimeError(
+            "No dropped-ball turnovers were available for the requested slice."
+        )
     if shots_df.empty:
         raise RuntimeError("No shots were available for the requested slice.")
     if radar_payload is None:
-        raise RuntimeError("No player radar candidate could be built from the requested slice.")
+        raise RuntimeError(
+            "No player radar candidate could be built from the requested slice."
+        )
 
     output_dir = Path(dataset.output_dir)
     files = {
@@ -129,10 +141,15 @@ def main() -> int:
         "matches_used": int(len(dataset.played_matches_df)),
         "latest_match": dataset.latest_match_label,
         "radar_player": radar_payload["player"]["player_name"],
-        "files": {key: str(path.relative_to(output_dir.parent.parent)) for key, path in files.items()},
+        "files": {
+            key: str(path.relative_to(output_dir.parent.parent))
+            for key, path in files.items()
+        },
     }
     manifest_path = output_dir / "manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
 
     print(json.dumps(manifest, indent=2, ensure_ascii=False))
     return 0
