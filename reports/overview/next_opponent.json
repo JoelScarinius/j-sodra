@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-06-10T12:55:44.004448+00:00",
+  "generated_at": "2026-06-13T19:14:03.757597+00:00",
   "team": {
-    "id": 7018,
-    "name": "Tvååker",
-    "logo_url": "https://cdn5.wyscout.com/photos/team/public/g17508_120x120.png",
+    "id": 6785,
+    "name": "Lund",
+    "logo_url": "https://cdn5.wyscout.com/photos/team/public/g4031_120x120.png",
     "season_id": 192451
   },
   "season_id": 192451,
-  "season_match_count": 11,
+  "season_match_count": 12,
   "attempted_event_matches": 10,
   "event_matches_found": 10,
   "event_matches_missing": 0,
   "event_missing_match_ids": [],
   "results": {
-    "matches_played": 11,
-    "wins": 4,
-    "draws": 3,
-    "losses": 4,
-    "points": 15,
-    "goals_for": 10,
-    "goals_against": 12
+    "matches_played": 12,
+    "wins": 6,
+    "draws": 4,
+    "losses": 2,
+    "points": 22,
+    "goals_for": 24,
+    "goals_against": 15
   }
 }

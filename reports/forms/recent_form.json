@@ -1,7 +1,19 @@
 {
-  "generated_at": "2026-06-10T12:55:44.004448+00:00",
+  "generated_at": "2026-06-13T19:14:03.757597+00:00",
   "team": {
     "matches": [
+      {
+        "match_id": 5819246,
+        "dateutc": "2026-06-13T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Tvååker - Jönköpings Södra, 2-1",
+        "result": "L",
+        "score": "2-1",
+        "goals_for": 1,
+        "goals_against": 2
+      },
       {
         "match_id": 5819228,
         "dateutc": "2026-06-06T14:00:00+00:00",
@@ -49,18 +61,76 @@
         "score": "2-0",
         "goals_for": 2,
         "goals_against": 0
-      },
+      }
+    ],
+    "summary": {
+      "wins": 3,
+      "draws": 0,
+      "losses": 2,
+      "points": 9
+    }
+  },
+  "next_opponent": {
+    "matches": [
       {
-        "match_id": 5819169,
-        "dateutc": "2026-05-14T14:00:00+00:00",
+        "match_id": 5819243,
+        "dateutc": "2026-06-12T17:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Trelleborg - Jönköpings Södra, 1-1",
+        "label": "Lund - Ariana, 1-4",
+        "result": "L",
+        "score": "1-4",
+        "goals_for": 1,
+        "goals_against": 4
+      },
+      {
+        "match_id": 5819230,
+        "dateutc": "2026-06-07T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Kristianstad - Lund, 1-1",
         "result": "D",
         "score": "1-1",
         "goals_for": 1,
         "goals_against": 1
+      },
+      {
+        "match_id": 5819218,
+        "dateutc": "2026-06-03T17:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Olympic - Lund, 1-3",
+        "result": "W",
+        "score": "1-3",
+        "goals_for": 3,
+        "goals_against": 1
+      },
+      {
+        "match_id": 5819196,
+        "dateutc": "2026-05-22T17:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Lund - Eskilsminne, 4-2",
+        "result": "W",
+        "score": "4-2",
+        "goals_for": 4,
+        "goals_against": 2
+      },
+      {
+        "match_id": 5819180,
+        "dateutc": "2026-05-17T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Lund - Utsikten, 5-0",
+        "result": "W",
+        "score": "5-0",
+        "goals_for": 5,
+        "goals_against": 0
       }
     ],
     "summary": {
@@ -68,76 +138,6 @@
       "draws": 1,
       "losses": 1,
       "points": 10
-    }
-  },
-  "next_opponent": {
-    "matches": [
-      {
-        "match_id": 5819232,
-        "dateutc": "2026-06-07T14:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Åtvidaberg - Tvååker, 2-2",
-        "result": "D",
-        "score": "2-2",
-        "goals_for": 2,
-        "goals_against": 2
-      },
-      {
-        "match_id": 5819215,
-        "dateutc": "2026-05-30T14:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Tvååker - Kristianstad, 1-2",
-        "result": "L",
-        "score": "1-2",
-        "goals_for": 1,
-        "goals_against": 2
-      },
-      {
-        "match_id": 5819198,
-        "dateutc": "2026-05-23T11:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Tvååker - Trollhättan, 1-1",
-        "result": "D",
-        "score": "1-1",
-        "goals_for": 1,
-        "goals_against": 1
-      },
-      {
-        "match_id": 5819185,
-        "dateutc": "2026-05-18T17:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Ariana - Tvååker, 0-1",
-        "result": "W",
-        "score": "0-1",
-        "goals_for": 1,
-        "goals_against": 0
-      },
-      {
-        "match_id": 5819167,
-        "dateutc": "2026-05-14T11:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Tvååker - Olympic, 1-0",
-        "result": "W",
-        "score": "1-0",
-        "goals_for": 1,
-        "goals_against": 0
-      }
-    ],
-    "summary": {
-      "wins": 2,
-      "draws": 2,
-      "losses": 1,
-      "points": 8
     }
   }
 }

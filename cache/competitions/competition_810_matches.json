@@ -1,8 +1,118 @@
 {
   "competition_id": 810,
   "competition_name": "Ettan",
-  "fetched_at": "2026-06-10T12:56:54.592156+00:00",
+  "fetched_at": "2026-06-13T19:15:04.733052+00:00",
   "matches": [
+    {
+      "matchId": 5819236,
+      "label": "Järfälla - Arlanda, 2-3",
+      "date": "2026-06-13 16:00:00",
+      "dateutc": "2026-06-13 14:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819237,
+      "label": "Karlstad - Gefle, 2-0",
+      "date": "2026-06-13 16:00:00",
+      "dateutc": "2026-06-13 14:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819238,
+      "label": "Stocksund - Sollentuna, 3-3",
+      "date": "2026-06-13 16:00:00",
+      "dateutc": "2026-06-13 14:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819247,
+      "label": "Åtvidaberg - Eskilsminne, 4-0",
+      "date": "2026-06-13 16:00:00",
+      "dateutc": "2026-06-13 14:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819248,
+      "label": "Trollhättan - Kristianstad, 1-1",
+      "date": "2026-06-13 16:00:00",
+      "dateutc": "2026-06-13 14:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819244,
+      "label": "Ängelholm - Utsikten, 4-2",
+      "date": "2026-06-13 13:00:00",
+      "dateutc": "2026-06-13 11:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819245,
+      "label": "Olympic - Laholms FK, 3-2",
+      "date": "2026-06-13 13:00:00",
+      "dateutc": "2026-06-13 11:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819246,
+      "label": "Tvååker - Jönköpings Södra, 2-1",
+      "date": "2026-06-13 13:00:00",
+      "dateutc": "2026-06-13 11:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819235,
+      "label": "Umeå - Piteå, 2-0",
+      "date": "2026-06-12 19:00:00",
+      "dateutc": "2026-06-12 17:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
+    {
+      "matchId": 5819243,
+      "label": "Lund - Ariana, 1-4",
+      "date": "2026-06-12 19:00:00",
+      "dateutc": "2026-06-12 17:00:00",
+      "status": "Played",
+      "competitionId": 810,
+      "seasonId": 192451,
+      "roundId": 4437479,
+      "gameweek": 12
+    },
     {
       "matchId": 5819226,
       "label": "Järfälla - Stocksund, 1-6",

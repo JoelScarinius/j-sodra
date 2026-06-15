@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-10T12:55:44.004448+00:00",
-  "id": 7018,
-  "name": "Tvååker",
-  "logo_url": "https://cdn5.wyscout.com/photos/team/public/g17508_120x120.png",
+  "generated_at": "2026-06-13T19:14:03.757597+00:00",
+  "id": 6785,
+  "name": "Lund",
+  "logo_url": "https://cdn5.wyscout.com/photos/team/public/g4031_120x120.png",
   "season_id": 192451,
   "source": "fixtures",
-  "match_id": 5819246,
-  "match_dateutc": "2026-06-13T11:00:00+00:00",
+  "match_id": 5819260,
+  "match_dateutc": "2026-06-18T17:00:00+00:00",
   "status": "Fixture",
-  "label": "Tvååker - Jönköpings Södra, 0-0",
-  "target_side": "away"
+  "label": "Jönköpings Södra - Lund, 0-0",
+  "target_side": "home"
 }
