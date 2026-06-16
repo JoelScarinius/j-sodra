@@ -24,9 +24,9 @@ The system is designed so multiple collaborators can work on separate dashboard 
 
 ```text
 GitHub Actions
-  -> runs fetch_football_data.py
+  -> runs run_pipeline.py
 
-fetch_football_data.py
+run_pipeline.py
   -> small command-line entrypoint only
 
 pipeline/orchestrator.py
@@ -56,7 +56,7 @@ Lovable frontend
 
 ### 3.1 Keep the entrypoint small
 
-`fetch_football_data.py` must stay small.
+`run_pipeline.py` must stay small.
 
 It should only:
 
@@ -64,7 +64,7 @@ It should only:
 2. load settings,
 3. call the pipeline orchestrator.
 
-Do **not** add feature logic, Wyscout logic, plotting logic, or section-specific logic to `fetch_football_data.py`.
+Do **not** add feature logic, Wyscout logic, plotting logic, or section-specific logic to `run_pipeline.py`.
 
 ### 3.2 Data access belongs in `DataService`
 
@@ -397,19 +397,19 @@ REPORTS_DIR=reports
 Run the pipeline:
 
 ```bash
-python fetch_football_data.py
+python run_pipeline.py
 ```
 
 Force a full upstream refresh:
 
 ```bash
-python fetch_football_data.py --force-refresh
+python run_pipeline.py --force-refresh
 ```
 
 Run only specific modular sections:
 
 ```bash
-ENABLED_SECTIONS=open_play,defensive python fetch_football_data.py
+ENABLED_SECTIONS=open_play,defensive python run_pipeline.py
 ```
 
 ---
@@ -453,7 +453,7 @@ The scheduled workflow runs the pipeline automatically.
 Typical command:
 
 ```bash
-python fetch_football_data.py --force-refresh
+python run_pipeline.py --force-refresh
 ```
 
 The workflow needs the same environment variables as local runs, stored as GitHub repository secrets.
@@ -484,7 +484,7 @@ A full refresh must run server-side:
 Lovable frontend
   -> Supabase refresh Edge Function
   -> refresh_runner.py
-  -> python fetch_football_data.py --force-refresh
+  -> python run_pipeline.py --force-refresh
   -> reports updated
   -> frontend refetches reports/index.json
 ```
@@ -580,7 +580,7 @@ Every pull request should explain:
 ## 14. Where code should go
 
 ```text
-fetch_football_data.py
+run_pipeline.py
   CLI only. Do not add feature logic.
 
 pipeline/orchestrator.py

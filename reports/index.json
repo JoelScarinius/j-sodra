@@ -13,7 +13,7 @@
     "status_method": "GET",
     "status_url_template": "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports?run_id={run_id}",
     "poll_interval_ms": 3000,
-    "server_command": "python fetch_football_data.py --force-refresh",
+    "server_command": "python run_pipeline.py --force-refresh",
     "frontend_note": "Browser refetch alone only reloads published JSON. To recompute analytics from Wyscout, POST to the refresh webhook, poll the returned run_id until status is succeeded, then refetch reports/index.json with a cache-busting query string."
   },
   "sections": {

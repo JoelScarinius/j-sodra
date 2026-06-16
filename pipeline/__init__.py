@@ -1,1 +1,1 @@
-"""J-Sodra analytics pipeline package."""
+"""Dashboard section packages."""

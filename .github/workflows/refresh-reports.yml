@@ -17,7 +17,7 @@ on:
         default: true
         type: boolean
   schedule:
-    - cron: '17 * * * *'
+    - cron: "17 * * * *"
 
 concurrency:
   group: j-sodra-refresh
@@ -54,4 +54,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run analytics refresh
-        run: python fetch_football_data.py --force-refresh
+        run: python run_pipeline.py --force-refresh

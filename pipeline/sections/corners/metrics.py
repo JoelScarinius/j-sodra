@@ -1,3 +1,16 @@
+"""Corner section metrics.
+
+This file owns corner-specific data preparation and calculations.
+It should not write files, upload files, or decide frontend layout.
+
+Responsibilities:
+- identify corner events
+- classify delivery zones
+- calculate corner-sequence outcomes
+- calculate offensive/defensive summaries
+- calculate taker and shooter impact
+"""
+
 from __future__ import annotations
 
 import ast
@@ -5,7 +18,8 @@ import re
 
 import pandas as pd
 
-from .common import normalize_text, safe_bool, safe_numeric, team_event_mask
+from pipeline.common import normalize_text, safe_bool, safe_numeric, team_event_mask
+from pipeline.sections.corners.storylines import build_corner_storylines
 
 
 CORNER_SEQUENCE_WINDOW_SECONDS = 20
@@ -19,6 +33,23 @@ CORNER_SEQUENCE_BREAK_TYPES = {
     "game_interruption",
 }
 
+def empty_corner_summary() -> dict:
+    return {
+        "total": 0,
+        "left_side": 0,
+        "right_side": 0,
+        "shot_assist_tag": 0,
+        "assist_tag": 0,
+        "loss_tag": 0,
+        "possession_shot": 0,
+        "possession_goal": 0,
+        "possession_xg": 0.0,
+        "first_shot_xg": 0.0,
+        "possession_xg_per_corner": 0.0,
+        "first_shot_xg_per_corner": 0.0,
+        "possession_shot_rate_pct": 0.0,
+        "possession_goal_rate_pct": 0.0,
+    }
 
 def parse_secondary_tags(value) -> list[str]:
     if isinstance(value, list):
@@ -130,126 +161,6 @@ def build_corner_dataframe(events_df: pd.DataFrame) -> pd.DataFrame:
 
     return corners
 
-
-def _summarize_corner_sequences(
-    events_df: pd.DataFrame, corners_df: pd.DataFrame
-) -> pd.DataFrame:
-    if events_df.empty or corners_df.empty or "id" not in corners_df.columns:
-        return pd.DataFrame()
-
-    ordered = events_df.copy()
-    ordered["type.primary"] = (
-        ordered.get("type.primary", pd.Series("", index=ordered.index, dtype=object))
-        .fillna("")
-        .astype(str)
-        .str.lower()
-    )
-    ordered["matchId"] = pd.to_numeric(ordered.get("matchId"), errors="coerce")
-    ordered["team.id"] = pd.to_numeric(ordered.get("team.id"), errors="coerce")
-    ordered["event_id"] = pd.to_numeric(
-        ordered.get("id", pd.Series(index=ordered.index, dtype=float)),
-        errors="coerce",
-    )
-    ordered["possession_event_index"] = pd.to_numeric(
-        ordered.get("possession.eventIndex", pd.Series(index=ordered.index, dtype=float)),
-        errors="coerce",
-    )
-    minute = pd.to_numeric(ordered.get("minute"), errors="coerce").fillna(0)
-    second = pd.to_numeric(ordered.get("second"), errors="coerce").fillna(0)
-    ordered["event_time_seconds"] = (minute * 60) + second
-    ordered["is_shot"] = ordered["type.primary"].eq("shot")
-    ordered["is_goal"] = safe_bool(ordered.get("shot.isGoal"))
-
-    body_part = ordered.get(
-        "shot.bodyPart", pd.Series("", index=ordered.index, dtype=object)
-    )
-    body_part = body_part.fillna("").astype(str).str.lower()
-    ordered["is_header_shot"] = ordered["is_shot"] & body_part.str.contains("head")
-    ordered["is_header_goal"] = ordered["is_header_shot"] & ordered["is_goal"]
-    ordered["shot_xg"] = safe_numeric(ordered.get("shot.xg"))
-    ordered["shot_player_name"] = ordered.get(
-        "player.name", pd.Series("", index=ordered.index, dtype=object)
-    )
-    ordered["shot_player_id"] = pd.to_numeric(
-        ordered.get("player.id", pd.Series(index=ordered.index, dtype=float)),
-        errors="coerce",
-    )
-
-    sort_columns = [
-        "matchId",
-        "matchPeriod",
-        "event_time_seconds",
-        "possession_event_index",
-        "event_id",
-    ]
-    available_sort_columns = [
-        column for column in sort_columns if column in ordered.columns
-    ]
-    ordered = ordered.sort_values(
-        by=available_sort_columns, ascending=True, na_position="last"
-    )
-
-    summary_rows = []
-    for corner in corners_df.to_dict(orient="records"):
-        corner_id = pd.to_numeric(pd.Series([corner.get("id")]), errors="coerce").iloc[0]
-        match_id = pd.to_numeric(pd.Series([corner.get("matchId")]), errors="coerce").iloc[0]
-        team_id = pd.to_numeric(pd.Series([corner.get("team.id")]), errors="coerce").iloc[0]
-        corner_time = pd.to_numeric(
-            pd.Series([corner.get("event_time_seconds")]), errors="coerce"
-        ).fillna(0).iloc[0]
-        match_period = corner.get("matchPeriod")
-
-        mask = ordered["matchId"].eq(match_id) & ordered["event_time_seconds"].between(
-            corner_time,
-            corner_time + CORNER_SEQUENCE_WINDOW_SECONDS,
-        )
-        if pd.notna(match_period) and "matchPeriod" in ordered.columns:
-            mask &= ordered["matchPeriod"].eq(match_period)
-
-        window = ordered.loc[mask].copy()
-        after_corner = window[
-            (window["event_time_seconds"] > corner_time)
-            | (
-                window["event_time_seconds"].eq(corner_time)
-                & window["event_id"].gt(corner_id)
-            )
-        ].reset_index(drop=True)
-
-        break_positions = after_corner.index[
-            after_corner["type.primary"].isin(CORNER_SEQUENCE_BREAK_TYPES)
-        ]
-        sequence_events = (
-            after_corner.iloc[: break_positions[0]]
-            if len(break_positions)
-            else after_corner
-        )
-
-        shots = sequence_events[
-            sequence_events["team.id"].eq(team_id) & sequence_events["is_shot"]
-        ].copy()
-        first_shot = shots.iloc[0] if not shots.empty else None
-
-        summary_rows.append(
-            {
-                "id": corner_id,
-                "possession_shot": bool(not shots.empty),
-                "possession_goal": bool(shots["is_goal"].any()) if not shots.empty else False,
-                "possession_shot_count": int(len(shots)),
-                "possession_goal_count": int(shots["is_goal"].sum()) if not shots.empty else 0,
-                "possession_header_shot_count": int(shots["is_header_shot"].sum()) if not shots.empty else 0,
-                "possession_header_goal_count": int(shots["is_header_goal"].sum()) if not shots.empty else 0,
-                "possession_xg": round(float(shots["shot_xg"].sum()), 4) if not shots.empty else 0.0,
-                "first_shot_xg": round(float(first_shot.get("shot_xg", 0.0) or 0.0), 4)
-                if first_shot is not None
-                else 0.0,
-                "first_shooter_name": first_shot.get("shot_player_name") if first_shot is not None else None,
-                "first_shooter_id": first_shot.get("shot_player_id") if first_shot is not None else None,
-            }
-        )
-
-    return pd.DataFrame(summary_rows)
-
-
 def annotate_corner_possession_outcomes(
     events_df: pd.DataFrame, corners_df: pd.DataFrame
 ) -> pd.DataFrame:
@@ -343,26 +254,6 @@ def annotate_corner_possession_outcomes(
         merged.get("first_shooter_id"), errors="coerce"
     )
     return merged
-
-
-def empty_corner_summary() -> dict:
-    return {
-        "total": 0,
-        "left_side": 0,
-        "right_side": 0,
-        "shot_assist_tag": 0,
-        "assist_tag": 0,
-        "loss_tag": 0,
-        "possession_shot": 0,
-        "possession_goal": 0,
-        "possession_xg": 0.0,
-        "first_shot_xg": 0.0,
-        "possession_xg_per_corner": 0.0,
-        "first_shot_xg_per_corner": 0.0,
-        "possession_shot_rate_pct": 0.0,
-        "possession_goal_rate_pct": 0.0,
-    }
-
 
 def summarize_corners(corner_df: pd.DataFrame) -> dict:
     if corner_df.empty:
@@ -673,96 +564,6 @@ def corner_shooter_impact(
 
     return output.head(top_n).to_dict(orient="records")
 
-
-def build_corner_storylines(
-    team_name: str,
-    offensive_summary: dict,
-    zone_rows: list[dict],
-    takers: dict,
-    shooters: list[dict],
-) -> list[str]:
-    if int(offensive_summary.get("total", 0) or 0) == 0:
-        return [f"No corners available yet for {team_name}."]
-
-    lines = []
-    total = int(offensive_summary.get("total", 0) or 0)
-    left = int(offensive_summary.get("left_side", 0) or 0)
-    right = int(offensive_summary.get("right_side", 0) or 0)
-    dominant_side = "right" if right >= left else "left"
-    dominant_share = round((max(left, right) / total) * 100, 1) if total else 0.0
-    lines.append(
-        f"{team_name} takes {dominant_share}% of corners from the {dominant_side} side ({max(left, right)}/{total})."
-    )
-
-    shot_rate = float(offensive_summary.get("possession_shot_rate_pct", 0.0) or 0.0)
-    goal_rate = float(offensive_summary.get("possession_goal_rate_pct", 0.0) or 0.0)
-    lines.append(
-        f"Corner sequences produce shots at {shot_rate:.2f}% and goals at {goal_rate:.2f}% for {team_name}."
-    )
-
-    first_shot_xg_total = float(offensive_summary.get("first_shot_xg", 0.0) or 0.0)
-    possession_xg_total = float(offensive_summary.get("possession_xg", 0.0) or 0.0)
-    recycled_xg_total = max(possession_xg_total - first_shot_xg_total, 0.0)
-    if recycled_xg_total <= 0.005:
-        lines.append(
-            f"Corner sequences create {possession_xg_total:.2f} total xG for {team_name}, and all of it comes from the first shot in this sample."
-        )
-    else:
-        lines.append(
-            f"Corner sequences create {first_shot_xg_total:.2f} first-shot xG and {possession_xg_total:.2f} full-sequence xG for {team_name}, with {recycled_xg_total:.2f} added after the first attempt."
-        )
-
-    if zone_rows:
-        best_zone = zone_rows[0]
-        zone_first_shot_xg = float(best_zone.get("first_shot_xg_per_corner", 0.0) or 0.0)
-        zone_total_xg = float(
-            best_zone.get("possession_xg_per_corner", best_zone.get("xg_per_corner", 0.0))
-            or 0.0
-        )
-        zone_recycled_xg = max(zone_total_xg - zone_first_shot_xg, 0.0)
-        if zone_recycled_xg <= 0.0005:
-            lines.append(
-                f"Most dangerous delivery zone: {best_zone.get('delivery_zone')} ({zone_total_xg:.3f} total xG per corner, all from the first shot in this sample)."
-            )
-        else:
-            lines.append(
-                f"Most dangerous delivery zone: {best_zone.get('delivery_zone')} ({zone_first_shot_xg:.3f} first-shot xG and {zone_total_xg:.3f} total xG per corner)."
-            )
-
-    top_takers = (
-        takers.get("top_takers_by_xg_created", []) if isinstance(takers, dict) else []
-    )
-    if top_takers:
-        leader = top_takers[0]
-        leader_total_xg = float(leader.get("possession_xg", 0.0) or 0.0)
-        leader_first_xg = float(leader.get("first_shot_xg", 0.0) or 0.0)
-        leader_recycled_xg = max(leader_total_xg - leader_first_xg, 0.0)
-        if leader_recycled_xg <= 0.005:
-            lines.append(
-                f"Primary value creator: {leader.get('player_name')} with {leader_total_xg:.2f} total xG created from corners, all from first-shot outcomes in this sample."
-            )
-        else:
-            lines.append(
-                f"Primary value creator: {leader.get('player_name')} with {leader_first_xg:.2f} first-shot xG and {leader_total_xg:.2f} total xG created from corners."
-            )
-
-    if shooters:
-        target = shooters[0]
-        target_total_xg = float(target.get("xg_after_corner", 0.0) or 0.0)
-        target_first_xg = float(target.get("first_shot_xg_after_corner", 0.0) or 0.0)
-        target_recycled_xg = max(target_total_xg - target_first_xg, 0.0)
-        if target_recycled_xg <= 0.005:
-            lines.append(
-                f"Main corner target: {target.get('player_name')} with {target_total_xg:.2f} total xG after corners, all from the first shot in this sample."
-            )
-        else:
-            lines.append(
-                f"Main corner target: {target.get('player_name')} with {target_first_xg:.2f} first-shot xG and {target_total_xg:.2f} total xG after corners."
-            )
-
-    return lines
-
-
 def build_corner_analysis(events_df: pd.DataFrame, team_id, team_name: str) -> dict:
     corners = build_corner_dataframe(events_df)
     corners = annotate_corner_possession_outcomes(events_df, corners)
@@ -830,3 +631,123 @@ def build_corner_analysis(events_df: pd.DataFrame, team_id, team_name: str) -> d
         "offensive_storylines": offensive_storylines,
         "defensive_storylines": defensive_storylines,
     }
+
+def _summarize_corner_sequences(
+    events_df: pd.DataFrame, corners_df: pd.DataFrame
+) -> pd.DataFrame:
+    if events_df.empty or corners_df.empty or "id" not in corners_df.columns:
+        return pd.DataFrame()
+
+    ordered = events_df.copy()
+    ordered["type.primary"] = (
+        ordered.get("type.primary", pd.Series("", index=ordered.index, dtype=object))
+        .fillna("")
+        .astype(str)
+        .str.lower()
+    )
+    ordered["matchId"] = pd.to_numeric(ordered.get("matchId"), errors="coerce")
+    ordered["team.id"] = pd.to_numeric(ordered.get("team.id"), errors="coerce")
+    ordered["event_id"] = pd.to_numeric(
+        ordered.get("id", pd.Series(index=ordered.index, dtype=float)),
+        errors="coerce",
+    )
+    ordered["possession_event_index"] = pd.to_numeric(
+        ordered.get("possession.eventIndex", pd.Series(index=ordered.index, dtype=float)),
+        errors="coerce",
+    )
+    minute = pd.to_numeric(ordered.get("minute"), errors="coerce").fillna(0)
+    second = pd.to_numeric(ordered.get("second"), errors="coerce").fillna(0)
+    ordered["event_time_seconds"] = (minute * 60) + second
+    ordered["is_shot"] = ordered["type.primary"].eq("shot")
+    ordered["is_goal"] = safe_bool(ordered.get("shot.isGoal"))
+
+    body_part = ordered.get(
+        "shot.bodyPart", pd.Series("", index=ordered.index, dtype=object)
+    )
+    body_part = body_part.fillna("").astype(str).str.lower()
+    ordered["is_header_shot"] = ordered["is_shot"] & body_part.str.contains("head")
+    ordered["is_header_goal"] = ordered["is_header_shot"] & ordered["is_goal"]
+    ordered["shot_xg"] = safe_numeric(ordered.get("shot.xg"))
+    ordered["shot_player_name"] = ordered.get(
+        "player.name", pd.Series("", index=ordered.index, dtype=object)
+    )
+    ordered["shot_player_id"] = pd.to_numeric(
+        ordered.get("player.id", pd.Series(index=ordered.index, dtype=float)),
+        errors="coerce",
+    )
+
+    sort_columns = [
+        "matchId",
+        "matchPeriod",
+        "event_time_seconds",
+        "possession_event_index",
+        "event_id",
+    ]
+    available_sort_columns = [
+        column for column in sort_columns if column in ordered.columns
+    ]
+    ordered = ordered.sort_values(
+        by=available_sort_columns, ascending=True, na_position="last"
+    )
+
+    summary_rows = []
+    for corner in corners_df.to_dict(orient="records"):
+        corner_id = pd.to_numeric(pd.Series([corner.get("id")]), errors="coerce").iloc[0]
+        match_id = pd.to_numeric(pd.Series([corner.get("matchId")]), errors="coerce").iloc[0]
+        team_id = pd.to_numeric(pd.Series([corner.get("team.id")]), errors="coerce").iloc[0]
+        corner_time = pd.to_numeric(
+            pd.Series([corner.get("event_time_seconds")]), errors="coerce"
+        ).fillna(0).iloc[0]
+        match_period = corner.get("matchPeriod")
+
+        mask = ordered["matchId"].eq(match_id) & ordered["event_time_seconds"].between(
+            corner_time,
+            corner_time + CORNER_SEQUENCE_WINDOW_SECONDS,
+        )
+        if pd.notna(match_period) and "matchPeriod" in ordered.columns:
+            mask &= ordered["matchPeriod"].eq(match_period)
+
+        window = ordered.loc[mask].copy()
+        after_corner = window[
+            (window["event_time_seconds"] > corner_time)
+            | (
+                window["event_time_seconds"].eq(corner_time)
+                & window["event_id"].gt(corner_id)
+            )
+        ].reset_index(drop=True)
+
+        break_positions = after_corner.index[
+            after_corner["type.primary"].isin(CORNER_SEQUENCE_BREAK_TYPES)
+        ]
+        sequence_events = (
+            after_corner.iloc[: break_positions[0]]
+            if len(break_positions)
+            else after_corner
+        )
+
+        shots = sequence_events[
+            sequence_events["team.id"].eq(team_id) & sequence_events["is_shot"]
+        ].copy()
+        first_shot = shots.iloc[0] if not shots.empty else None
+
+        summary_rows.append(
+            {
+                "id": corner_id,
+                "possession_shot": bool(not shots.empty),
+                "possession_goal": bool(shots["is_goal"].any()) if not shots.empty else False,
+                "possession_shot_count": int(len(shots)),
+                "possession_goal_count": int(shots["is_goal"].sum()) if not shots.empty else 0,
+                "possession_header_shot_count": int(shots["is_header_shot"].sum()) if not shots.empty else 0,
+                "possession_header_goal_count": int(shots["is_header_goal"].sum()) if not shots.empty else 0,
+                "possession_xg": round(float(shots["shot_xg"].sum()), 4) if not shots.empty else 0.0,
+                "first_shot_xg": round(float(first_shot.get("shot_xg", 0.0) or 0.0), 4)
+                if first_shot is not None
+                else 0.0,
+                "first_shooter_name": first_shot.get("shot_player_name") if first_shot is not None else None,
+                "first_shooter_id": first_shot.get("shot_player_id") if first_shot is not None else None,
+            }
+        )
+
+    return pd.DataFrame(summary_rows)
+
+

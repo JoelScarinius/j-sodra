@@ -1,11 +1,12 @@
 {
-  "generated_at": "2026-06-13T19:14:03.757597+00:00",
+  "generated_at": "2026-06-16T12:51:26.840718+00:00",
+  "section": "head_to_head",
   "overview": {
     "found": false,
-    "team_id": 6849,
-    "team_name": "Jönköpings Södra",
-    "opponent_id": 6785,
-    "opponent_name": "Lund",
+    "team_id": 1,
+    "team_name": "J-Södra",
+    "opponent_id": 2,
+    "opponent_name": "Next opponent",
     "summary": {
       "matches_played": 0,
       "wins": 0,
@@ -17,7 +18,7 @@
     "meetings": [],
     "scope": {
       "mode": "current_season",
-      "requested_current_season_id": 192451,
+      "requested_current_season_id": null,
       "fallback_previous_season_id": null,
       "used_previous_season_fallback": false
     }
