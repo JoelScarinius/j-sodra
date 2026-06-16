@@ -577,7 +577,55 @@ Every pull request should explain:
 
 ---
 
-## 14. Where code should go
+## 14. Issue workflow
+
+All work should be connected to an issue. The state of each issue is tracked in the kanban board “J-Södra” under the Projects tab.
+
+Issues move through the following states:
+
+Backlog → Ready → In Progress → In Review → Done
+
+### Backlog
+
+Issues that are not fully defined or need clarification are placed in Backlog.
+
+These issues are not yet ready to be picked up for implementation.
+
+### Ready
+
+Issues with a clear description and defined scope are placed in Ready.
+
+This is the pool of tasks that collaborators can pick from.
+
+When starting work on an issue, it should be:
+- assigned to yourself
+- moved to “In Progress”
+
+### In Progress
+
+Issues that are actively being worked on.
+
+Work should happen in a dedicated branch linked to the issue.
+
+### In Review
+
+Issues that are completed and waiting for review.
+
+When work is finished:
+- open a pull request
+- move the issue to “In Review”
+
+At least one other collaborator should review the PR before merging.
+
+If changes are needed, the issue goes back to “In Progress”.
+
+### Done
+
+Issues that have been reviewed and merged successfully.
+
+No further work is required for these issues.
+
+## 15. Where code should go
 
 ```text
 run_pipeline.py
@@ -616,7 +664,7 @@ pipeline/visualisations/*.py or pipeline/plots.py
 
 ---
 
-## 15. Current known dashboard sections
+## 16. Current known dashboard sections
 
 ### Overview
 
@@ -652,7 +700,7 @@ In progress. Should cover defensive actions, pressing, recoveries, entries conce
 
 ---
 
-## 16. Golden rule
+## 17. Golden rule
 
 If a collaborator is unsure where code belongs, use this rule:
 
