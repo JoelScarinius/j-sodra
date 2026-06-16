@@ -16,7 +16,14 @@ from pipeline.registry import get_enabled_sections
 
 
 def _allow_section_failure() -> bool:
-    return str(os.getenv("ALLOW_SECTION_FAILURES", "0")).lower() in {"1", "true", "yes", "on"}
+    """Return whether section failures should be logged instead of raised."""
+
+    return str(os.getenv("ALLOW_SECTION_FAILURES", "0")).lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
 
 
 def run_registered_sections(context: PipelineContext) -> list[SectionResult]:
@@ -41,7 +48,8 @@ def run_registered_sections(context: PipelineContext) -> list[SectionResult]:
 
         if not isinstance(result, SectionResult):
             raise TypeError(
-                f"Section {section_name} must return SectionResult, got {type(result).__name__}"
+                f"Section {section_name} must return SectionResult, "
+                f"got {type(result).__name__}"
             )
 
         print(
