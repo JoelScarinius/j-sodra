@@ -29,6 +29,9 @@ def _corner_side_payload(
     shooters: list[dict],
     storylines: list[str],
 ) -> dict:
+    """Build the frontend payload for one corner side/scope."""
+
+    takers = takers if isinstance(takers, dict) else {}
     return {
         **summary,
         "zones": zones,
@@ -41,6 +44,8 @@ def _corner_side_payload(
 
 
 def _corner_plot_meta(plot_name: str, subject_name: str) -> dict:
+    """Return human-readable metadata for a generated corner plot."""
+
     if plot_name.endswith("offensive_map"):
         return {
             "title": f"{subject_name} corner delivery map",
@@ -51,6 +56,7 @@ def _corner_plot_meta(plot_name: str, subject_name: str) -> dict:
                 "White rings mark shot-ending sequences. Red stars mark goal-ending sequences.",
             ],
         }
+
     if plot_name.endswith("defensive_map"):
         return {
             "title": f"Opposition corner deliveries faced by {subject_name}",
@@ -60,38 +66,47 @@ def _corner_plot_meta(plot_name: str, subject_name: str) -> dict:
                 "White rings mark shot-ending sequences against. Red stars mark goal-ending sequences against.",
             ],
         }
+
     if plot_name.endswith("target_map"):
         return {
             "title": f"{subject_name} corner target map",
             "description": "Aggregated view of recurring target players and target zones.",
         }
+
     if plot_name.endswith("danger_end_heatmap"):
         return {
             "title": f"{subject_name} xG-weighted corner danger map",
             "description": "Hotspot map of first-delivery end locations weighted by full corner-sequence xG.",
         }
+
     if plot_name.endswith("taker_impact"):
         return {
             "title": f"{subject_name} corner takers ranked by value created",
             "description": "Horizontal bar chart ranking corner takers by full corner-sequence xG created.",
         }
+
     if plot_name.endswith("xg_method_comparison"):
         return {
             "title": f"{subject_name} corner xG split: first shot vs recycled threat",
             "description": "Stacked bars showing first-shot xG and extra recycled threat after corners.",
         }
+
     if plot_name.endswith("shooter_impact"):
         return {
             "title": f"{subject_name} finishers after corners by xG",
             "description": "Horizontal bar chart ranking finishers after corner sequences by xG.",
         }
+
     return {}
 
 
-def _corner_plot_ref(context, path, plot_name: str):
+def _corner_plot_ref(context, path, plot_name: str) -> dict:
+    """Build a frontend file reference for one plot and attach plot metadata."""
+
     ref = build_ref(context.settings, path)
     if not path:
         return ref
+
     subject_name = (
         context.team_name
         if plot_name.startswith("team_")
@@ -101,7 +116,9 @@ def _corner_plot_ref(context, path, plot_name: str):
     return ref
 
 
-def _build_or_reuse_corner_analysis(context):
+def _build_or_reuse_corner_analysis(context) -> tuple[dict, dict]:
+    """Use precomputed corner analysis from context.extras or compute it here."""
+
     extras = context.extras or {}
 
     team_corner = extras.get("team_corner")
@@ -124,6 +141,8 @@ def _build_or_reuse_corner_analysis(context):
 
 
 def build_section(context) -> SectionResult:
+    """Build and publish the Corners dashboard section."""
+
     team_corner, opponent_corner = _build_or_reuse_corner_analysis(context)
 
     plot_paths = generate_corner_plots(
