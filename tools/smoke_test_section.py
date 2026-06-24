@@ -74,8 +74,8 @@ def main() -> int:
             "logo_url": None,
             "season_id": None,
         },
-        team_data=empty_dataset(),
-        opponent_data=empty_dataset(),
+        team_data=empty_dataset(settings),
+        opponent_data=empty_dataset(settings),
         matchup=None,
         extras={},
     )
