@@ -1,12 +1,19 @@
+"""General reusable helpers for the analytics pipeline.
+
+Only put helpers here when they are useful across multiple sections or pipeline
+modules. Section-specific logic belongs in pipeline/sections/<section_name>/.
+"""
+
 from __future__ import annotations
 
 import unicodedata
 from datetime import datetime, timezone
+from typing import Any
 
 import pandas as pd
 
 
-def normalize_text(value) -> str:
+def normalize_text(value: Any) -> str:
     if value is None:
         return ""
     text = str(value)
@@ -14,7 +21,7 @@ def normalize_text(value) -> str:
     return text.lower().strip()
 
 
-def extract_list(payload, key: str) -> list:
+def extract_list(payload: Any, key: str) -> list:
     if payload is None:
         return []
     if isinstance(payload, list):
@@ -25,7 +32,7 @@ def extract_list(payload, key: str) -> list:
     return []
 
 
-def extract_matches(payload) -> list:
+def extract_matches(payload: Any) -> list:
     if payload is None:
         return []
     if isinstance(payload, list):
@@ -38,10 +45,10 @@ def extract_matches(payload) -> list:
     return []
 
 
-def match_id(record) -> int | None:
+def match_id(record: Any) -> int | None:
     if not isinstance(record, dict):
         return None
-    value = record.get("matchId") or record.get("wyId")
+    value = record.get("matchId") or record.get("wyId") or record.get("id")
     if value is None:
         return None
     try:
@@ -67,13 +74,13 @@ def safe_numeric(series) -> pd.Series:
     return pd.to_numeric(series, errors="coerce").fillna(0.0)
 
 
-def to_iso(value):
+def to_iso(value: Any):
     if value is None:
         return None
     if isinstance(value, pd.Timestamp):
         if pd.isna(value):
             return None
-        return value.to_pydatetime().astimezone(timezone.utc).isoformat()
+        value = value.to_pydatetime()
     if isinstance(value, datetime):
         if value.tzinfo is None:
             value = value.replace(tzinfo=timezone.utc)
@@ -81,7 +88,7 @@ def to_iso(value):
     return str(value)
 
 
-def jsonable(value):
+def jsonable(value: Any):
     try:
         if pd.isna(value):
             return None
@@ -94,13 +101,13 @@ def jsonable(value):
     return str(value)
 
 
-def normalize_s3_part(value) -> str:
+def normalize_s3_part(value: Any) -> str:
     if value is None:
         return ""
     return str(value).strip().strip("/")
 
 
-def parse_iso_datetime(value) -> datetime | None:
+def parse_iso_datetime(value: Any) -> datetime | None:
     if not value:
         return None
     try:
@@ -151,13 +158,14 @@ def team_event_mask(events_df: pd.DataFrame, team_id, team_name: str) -> pd.Seri
     return mask
 
 
-def extract_logo_url(profile) -> str | None:
+def extract_logo_url(profile: Any) -> str | None:
     if not isinstance(profile, dict):
         return None
     for key in (
         "imageDataURL",
         "logoDataURL",
         "logoURL",
+        "logoUrl",
         "logo",
         "image",
         "badge",
