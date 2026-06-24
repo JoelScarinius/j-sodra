@@ -28,18 +28,32 @@ from pipeline.context import PipelineContext
 from pipeline.settings import load_settings
 
 
-def empty_dataset():
+def empty_dataset(settings, season_id=None):
     return {
         "matches_df": pd.DataFrame(),
         "season_matches_df": pd.DataFrame(),
-        "analysis_matches_df": pd.DataFrame(),
-        "events_df": pd.DataFrame(),
-        "analysis_events_df": pd.DataFrame(),
+        "recent_played_df": pd.DataFrame(),
         "selected_match_ids": [],
+        "events_df": pd.DataFrame(),
         "with_events": [],
         "without_events": [],
-        "analysis_scope": {},
-        "season_id": None,
+        "analysis_matches_df": pd.DataFrame(),
+        "analysis_selected_match_ids": [],
+        "analysis_events_df": pd.DataFrame(),
+        "analysis_with_events": [],
+        "analysis_without_events": [],
+        "analysis_scope": {
+            "target_match_count": int(getattr(settings, "analysis_event_match_target", 0) or 0),
+            "current_season_id": season_id,
+            "current_season_played_matches_available": 0,
+            "current_season_matches_used": 0,
+            "previous_season_id": None,
+            "previous_season_matches_used": 0,
+            "analysis_matches_used": 0,
+            "is_complemented_with_previous_season": False,
+            "scope_label": "current_season_only",
+        },
+        "season_id": season_id,
     }
 
 
