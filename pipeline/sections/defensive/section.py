@@ -16,7 +16,7 @@ Expected future outputs:
 
 Contributor rules:
     1. Keep defensive logic in this file or in dedicated defensive helpers.
-    2. Do not add defensive logic to fetch_football_data.py.
+    2. Do not add defensive logic to run_pipeline.py.
     3. Do not upload directly to Supabase here.
     4. Return all created files in SectionResult.files.
     5. Use mplsoccer for pitch visualisations where possible.

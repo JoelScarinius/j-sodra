@@ -1,14 +1,13 @@
 """Run registered analytics sections.
 
-The orchestrator calls this module after shared team/opponent datasets have
-been collected.
-
-This module is intentionally small. It does not know how sections calculate
-their data. It only runs registered section modules and collects their results.
+This module belongs in the pipeline root because it is shared pipeline
+infrastructure. It knows how to run sections, but it does not know how any
+individual section calculates metrics or writes its payload.
 """
 
 from __future__ import annotations
 
+import os
 import traceback
 
 from pipeline.context import PipelineContext
@@ -16,21 +15,25 @@ from pipeline.contracts import SectionResult
 from pipeline.registry import get_enabled_sections
 
 
+def _allow_section_failure() -> bool:
+    """Return whether section failures should be logged instead of raised."""
+
+    return str(os.getenv("ALLOW_SECTION_FAILURES", "0")).lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+
+
 def run_registered_sections(context: PipelineContext) -> list[SectionResult]:
-    """Run all enabled modular analytics sections.
-
-    A section failure should fail the pipeline. This is intentional because a
-    broken section should not silently publish incomplete data to the dashboard.
-
-    If you later want non-critical experimental sections, add an
-    allow_failure flag to the registry.
-    """
+    """Run all enabled section modules and return their SectionResult objects."""
 
     results: list[SectionResult] = []
+    allow_failure = _allow_section_failure()
 
     for section_module in get_enabled_sections():
         section_name = getattr(section_module, "SECTION_NAME", section_module.__name__)
-
         print(f"\nRunning section: {section_name}")
 
         try:
@@ -38,6 +41,9 @@ def run_registered_sections(context: PipelineContext) -> list[SectionResult]:
         except Exception as exc:
             print(f"Section failed: {section_name}")
             traceback.print_exc()
+            if allow_failure:
+                print(f"Continuing because ALLOW_SECTION_FAILURES=1: {section_name}")
+                continue
             raise RuntimeError(f"Section failed: {section_name}") from exc
 
         if not isinstance(result, SectionResult):
@@ -50,7 +56,6 @@ def run_registered_sections(context: PipelineContext) -> list[SectionResult]:
             f"Section completed: {result.name} "
             f"({len(result.existing_files())}/{len(result.files)} files created)"
         )
-
         results.append(result)
 
     return results

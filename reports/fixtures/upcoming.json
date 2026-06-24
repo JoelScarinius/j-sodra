@@ -1,16 +1,6 @@
 {
-  "generated_at": "2026-06-13T19:14:03.757597+00:00",
+  "generated_at": "2026-06-24T10:58:35.906709+00:00",
   "team": [
-    {
-      "match_id": 5819260,
-      "dateutc": "2026-06-18T17:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6785,
-      "opponent_name": "Lund",
-      "target_side": "home",
-      "label": "Jönköpings Södra - Lund, 0-0"
-    },
     {
       "match_id": 5819279,
       "dateutc": "2026-06-27T14:00:00+00:00",
@@ -50,58 +40,68 @@
       "opponent_name": "Laholms FK",
       "target_side": "away",
       "label": "Laholms FK - Jönköpings Södra, 0-0"
+    },
+    {
+      "match_id": 5819343,
+      "dateutc": "2026-08-22T14:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 6786,
+      "opponent_name": "Rosengård",
+      "target_side": "home",
+      "label": "Jönköpings Södra - Rosengård, 0-0"
     }
   ],
   "next_opponent": [
     {
-      "match_id": 5819260,
-      "dateutc": "2026-06-18T17:00:00+00:00",
+      "match_id": 5819279,
+      "dateutc": "2026-06-27T14:00:00+00:00",
       "status": "Fixture",
       "season_id": 192451,
       "opponent_id": 6849,
       "opponent_name": "Jönköpings Södra",
-      "target_side": "away",
-      "label": "Jönköpings Södra - Lund, 0-0"
+      "target_side": "home",
+      "label": "Ariana - Jönköpings Södra, 0-0"
     },
     {
-      "match_id": 5819281,
-      "dateutc": "2026-06-27T14:00:00+00:00",
+      "match_id": 5819292,
+      "dateutc": "2026-08-01T11:00:00+00:00",
       "status": "Fixture",
       "season_id": 192451,
-      "opponent_id": 6792,
-      "opponent_name": "Skövde AIK",
-      "target_side": "home",
-      "label": "Lund - Skövde AIK, 0-0"
+      "opponent_id": 6742,
+      "opponent_name": "Ängelholm",
+      "target_side": "away",
+      "label": "Ängelholm - Ariana, 0-0"
     },
     {
-      "match_id": 5819298,
-      "dateutc": "2026-08-02T14:00:00+00:00",
+      "match_id": 5819308,
+      "dateutc": "2026-08-08T11:00:00+00:00",
       "status": "Fixture",
       "season_id": 192451,
       "opponent_id": 6715,
       "opponent_name": "Trelleborg",
-      "target_side": "away",
-      "label": "Trelleborg - Lund, 0-0"
-    },
-    {
-      "match_id": 5819311,
-      "dateutc": "2026-08-08T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6792,
-      "opponent_name": "Skövde AIK",
-      "target_side": "away",
-      "label": "Skövde AIK - Lund, 0-0"
-    },
-    {
-      "match_id": 5819323,
-      "dateutc": "2026-08-14T17:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 24438,
-      "opponent_name": "Hässleholms IF",
       "target_side": "home",
-      "label": "Lund - Hässleholms IF, 0-0"
+      "label": "Ariana - Trelleborg, 0-0"
+    },
+    {
+      "match_id": 5819325,
+      "dateutc": "2026-08-15T11:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 7014,
+      "opponent_name": "Olympic",
+      "target_side": "away",
+      "label": "Olympic - Ariana, 0-0"
+    },
+    {
+      "match_id": 5819339,
+      "dateutc": "2026-08-22T11:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 6785,
+      "opponent_name": "Lund",
+      "target_side": "home",
+      "label": "Ariana - Lund, 0-0"
     }
   ]
 }

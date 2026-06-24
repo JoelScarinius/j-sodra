@@ -1,3 +1,5 @@
+"""Publishing helpers for local report files and Supabase Storage upload."""
+
 from __future__ import annotations
 
 import json
@@ -14,7 +16,7 @@ except Exception:
     boto3 = None
     BotoConfig = None
 
-from .common import normalize_s3_part
+from pipeline.common import normalize_s3_part
 
 
 def write_json(path: Path, payload) -> Path:
@@ -64,9 +66,11 @@ def public_url_for_path(settings, path: Path | str) -> str:
     bucket = normalize_s3_part(settings.supabase_s3_bucket)
     if not base or not bucket:
         return ""
+
     key = normalize_s3_part(storage_key_for_path(settings, path))
     if not key:
         return ""
+
     return f"{base}/storage/v1/object/public/{bucket}/{key}"
 
 
@@ -106,17 +110,14 @@ def delete_files_from_supabase(settings, relative_paths: list[str | Path]) -> li
     if client is None:
         return []
 
-    deleted = []
+    deleted: list[str] = []
     for relative_path in relative_paths:
         relative = Path(relative_path).as_posix().lstrip("/")
         if not relative:
             continue
         object_key = storage_key_for_path(settings, settings.output_dir / relative)
         try:
-            client.delete_object(
-                Bucket=settings.supabase_s3_bucket,
-                Key=object_key,
-            )
+            client.delete_object(Bucket=settings.supabase_s3_bucket, Key=object_key)
             deleted.append(object_key)
         except Exception as exc:
             print(f"Delete failed for {relative}: {exc}")
@@ -124,15 +125,28 @@ def delete_files_from_supabase(settings, relative_paths: list[str | Path]) -> li
     return deleted
 
 
+def _unique_existing_files(file_paths: list[Path]) -> list[Path]:
+    unique: list[Path] = []
+    seen: set[Path] = set()
+    for file_path in file_paths:
+        path = Path(file_path)
+        if not path.exists() or not path.is_file():
+            continue
+        resolved = path.resolve()
+        if resolved in seen:
+            continue
+        seen.add(resolved)
+        unique.append(path)
+    return unique
+
+
 def upload_files_to_supabase(settings, file_paths: list[Path]) -> list[dict]:
     client = _supabase_storage_client(settings)
     if client is None:
         return []
 
-    uploaded = []
-    for file_path in file_paths:
-        if not file_path.exists() or not file_path.is_file():
-            continue
+    uploaded: list[dict] = []
+    for file_path in _unique_existing_files(file_paths):
         object_key = storage_key_for_path(settings, file_path)
         content_type, _ = mimetypes.guess_type(file_path.name)
         if not content_type:
@@ -149,9 +163,7 @@ def upload_files_to_supabase(settings, file_paths: list[Path]) -> list[dict]:
             uploaded.append(
                 {
                     "local_path": str(file_path),
-                    "relative_path": relative_output_path(
-                        settings, file_path
-                    ).as_posix(),
+                    "relative_path": relative_output_path(settings, file_path).as_posix(),
                     "object_key": object_key,
                     "public_url": public_url_for_path(settings, file_path),
                 }

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-13T19:14:03.757597+00:00",
-  "version": 2,
+  "generated_at": "2026-06-24T10:58:35.906709+00:00",
+  "version": 3,
   "storage": {
     "bucket": "plots",
     "prefix": ""
@@ -13,8 +13,8 @@
     "status_method": "GET",
     "status_url_template": "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports?run_id={run_id}",
     "poll_interval_ms": 3000,
-    "server_command": "python fetch_football_data.py --force-refresh",
-    "frontend_note": "Browser refetch alone only reloads published JSON. To recompute analytics from Wyscout, POST to the refresh webhook, poll the returned run_id until status is succeeded, then refetch reports/index.json with a cache-busting query string."
+    "server_command": "python run_pipeline.py --force-refresh",
+    "frontend_note": "Browser refetch alone only reloads published JSON. To recompute analytics, POST to the refresh webhook, poll the returned run_id until succeeded, then refetch reports/index.json with a cache-busting query string."
   },
   "sections": {
     "team": {

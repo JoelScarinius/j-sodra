@@ -1,34 +1,31 @@
 """Pipeline context shared with modular analytics sections.
 
-A section should receive one PipelineContext object instead of many separate
-arguments. This keeps section code easy to read and makes collaboration easier.
+Sections receive one PipelineContext object instead of many separate arguments.
+This keeps section code readable and makes collaboration easier.
 
-Sections should read from this context and write their own outputs under:
-
-    reports/<section_name>/
-
-Sections should not fetch from Wyscout directly unless there is a very good
-reason. Shared data should normally come from DataService and the datasets
-already collected by the orchestrator.
+Sections should normally read already-collected data from this context and write
+outputs under reports/<section_name>/. They should not fetch directly from
+Wyscout unless there is a clear reason.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, TYPE_CHECKING
 
 import pandas as pd
 
-from pipeline.data_service import DataService
-from pipeline.settings import Settings
+if TYPE_CHECKING:
+    from pipeline.data_service import DataService
+    from pipeline.settings import Settings
 
 
-@dataclass
+@dataclass(slots=True)
 class PipelineContext:
-    """Shared runtime context for analytics sections."""
+    """Shared runtime context passed to every analytics section."""
 
-    settings: Settings
-    service: DataService
+    settings: "Settings"
+    service: "DataService"
     generated_at: str
 
     team: dict[str, Any]
@@ -38,7 +35,6 @@ class PipelineContext:
     opponent_data: dict[str, Any]
 
     matchup: dict[str, Any] | None = None
-
     extras: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -66,31 +62,38 @@ class PipelineContext:
         return self.next_opponent.get("season_id")
 
     def team_matches_df(self) -> pd.DataFrame:
-        return self.team_data.get("matches_df", pd.DataFrame())
+        return _dataframe_from(self.team_data, "matches_df")
 
     def team_season_matches_df(self) -> pd.DataFrame:
-        return self.team_data.get("season_matches_df", pd.DataFrame())
+        return _dataframe_from(self.team_data, "season_matches_df")
 
     def team_analysis_matches_df(self) -> pd.DataFrame:
-        return self.team_data.get("analysis_matches_df", pd.DataFrame())
+        return _dataframe_from(self.team_data, "analysis_matches_df")
 
     def team_events_df(self) -> pd.DataFrame:
-        return self.team_data.get("events_df", pd.DataFrame())
+        return _dataframe_from(self.team_data, "events_df")
 
     def team_analysis_events_df(self) -> pd.DataFrame:
-        return self.team_data.get("analysis_events_df", pd.DataFrame())
+        return _dataframe_from(self.team_data, "analysis_events_df")
 
     def opponent_matches_df(self) -> pd.DataFrame:
-        return self.opponent_data.get("matches_df", pd.DataFrame())
+        return _dataframe_from(self.opponent_data, "matches_df")
 
     def opponent_season_matches_df(self) -> pd.DataFrame:
-        return self.opponent_data.get("season_matches_df", pd.DataFrame())
+        return _dataframe_from(self.opponent_data, "season_matches_df")
 
     def opponent_analysis_matches_df(self) -> pd.DataFrame:
-        return self.opponent_data.get("analysis_matches_df", pd.DataFrame())
+        return _dataframe_from(self.opponent_data, "analysis_matches_df")
 
     def opponent_events_df(self) -> pd.DataFrame:
-        return self.opponent_data.get("events_df", pd.DataFrame())
+        return _dataframe_from(self.opponent_data, "events_df")
 
     def opponent_analysis_events_df(self) -> pd.DataFrame:
-        return self.opponent_data.get("analysis_events_df", pd.DataFrame())
+        return _dataframe_from(self.opponent_data, "analysis_events_df")
+
+
+def _dataframe_from(payload: dict[str, Any], key: str) -> pd.DataFrame:
+    """Return a DataFrame from a dataset dictionary or an empty DataFrame."""
+
+    value = payload.get(key)
+    return value if isinstance(value, pd.DataFrame) else pd.DataFrame()

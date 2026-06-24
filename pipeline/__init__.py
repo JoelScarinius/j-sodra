@@ -1,1 +1,1 @@
-"""J-Sodra analytics pipeline package."""
+"""J-Södra analytics pipeline package."""

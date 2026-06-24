@@ -1,11 +1,12 @@
 {
-  "generated_at": "2026-06-13T19:14:03.757597+00:00",
+  "generated_at": "2026-06-24T10:58:35.906709+00:00",
+  "section": "head_to_head",
   "overview": {
     "found": false,
     "team_id": 6849,
     "team_name": "Jönköpings Södra",
-    "opponent_id": 6785,
-    "opponent_name": "Lund",
+    "opponent_id": 71745,
+    "opponent_name": "Ariana",
     "summary": {
       "matches_played": 0,
       "wins": 0,

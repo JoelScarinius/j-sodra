@@ -1,6 +1,12 @@
+"""Corner section plots.
+
+This file owns visualisations for the Corners dashboard section.
+Pitch-based football plots should use mplsoccer and the shared repo colours
+from settings.plot_style.
+"""
+
 from __future__ import annotations
 
-from itertools import combinations, permutations
 from pathlib import Path
 from textwrap import fill
 
@@ -15,27 +21,9 @@ except Exception:
     LinearSegmentedColormap = None
 
 try:
-    from mplsoccer import Pitch, VerticalPitch
+    from mplsoccer import VerticalPitch
 except Exception:
-    Pitch = None
     VerticalPitch = None
-
-
-def _pitch(style: dict[str, str]):
-    if Pitch is None or plt is None:
-        return None
-    return Pitch(
-        pitch_type="custom",
-        pitch_length=100,
-        pitch_width=100,
-        pitch_color=style["bg"],
-        line_color=style["line"],
-        linewidth=1.4,
-        goal_type="box",
-        spot_type="square",
-        corner_arcs=True,
-        line_zorder=3,
-    )
 
 
 def _goal_zoom_pitch(style: dict[str, str]):
@@ -101,10 +89,7 @@ def _recycled_xg_delta(row: dict, total_key: str, first_key: str) -> float:
 
 
 def _max_recycled_xg(rows: list[dict], total_key: str, first_key: str) -> float:
-    return max(
-        (_recycled_xg_delta(row, total_key, first_key) for row in rows),
-        default=0.0,
-    )
+    return max((_recycled_xg_delta(row, total_key, first_key) for row in rows), default=0.0)
 
 
 def _goal_zoom_label_slots() -> list[dict[str, float | str]]:
@@ -116,8 +101,6 @@ def _goal_zoom_label_slots() -> list[dict[str, float | str]]:
                 {
                     "text_x": text_x,
                     "text_y": text_y,
-                    "anchor_x": text_x + 0.078,
-                    "anchor_y": text_y + 0.034,
                     "ha": "left",
                     "va": "center",
                     "column": column,
@@ -126,93 +109,9 @@ def _goal_zoom_label_slots() -> list[dict[str, float | str]]:
     return slots
 
 
-def _goal_zoom_display_xy(x: float, y: float) -> tuple[float, float]:
-    return y, x
-
-
-def _segments_intersect(
-    start_a: tuple[float, float],
-    end_a: tuple[float, float],
-    start_b: tuple[float, float],
-    end_b: tuple[float, float],
-) -> bool:
-    def orientation(
-        point_a: tuple[float, float],
-        point_b: tuple[float, float],
-        point_c: tuple[float, float],
-    ) -> float:
-        return (point_b[0] - point_a[0]) * (point_c[1] - point_a[1]) - (
-            point_b[1] - point_a[1]
-        ) * (point_c[0] - point_a[0])
-
-    orient_1 = orientation(start_a, end_a, start_b)
-    orient_2 = orientation(start_a, end_a, end_b)
-    orient_3 = orientation(start_b, end_b, start_a)
-    orient_4 = orientation(start_b, end_b, end_a)
-
-    if max(abs(orient_1), abs(orient_2), abs(orient_3), abs(orient_4)) < 1e-9:
-        return False
-
-    return (orient_1 > 0) != (orient_2 > 0) and (orient_3 > 0) != (orient_4 > 0)
-
-
-def _assign_goal_zoom_label_slots(
-    ax, label_items: list[dict[str, float | str]]
-) -> list[dict[str, float | str]]:
-    if not label_items:
-        return []
-
+def _annotate_goal_zoom_labels(ax, label_items: list[dict[str, float | str]], style: dict[str, str]):
     slots = _goal_zoom_label_slots()
-    point_positions = [
-        ax.transData.transform(
-            _goal_zoom_display_xy(float(item["x"]), float(item["y"]))
-        )
-        for item in label_items
-    ]
-    slot_positions = [
-        ax.transAxes.transform((float(slot["anchor_x"]), float(slot["anchor_y"])))
-        for slot in slots
-    ]
-    plot_center_x = 0.5 * (ax.bbox.x0 + ax.bbox.x1)
-    mismatch_penalty = 12_000.0
-    crossing_penalty = 4_000_000.0
-
-    best_score = float("inf")
-    best_assignment: tuple[int, ...] | None = None
-    for candidate in permutations(range(len(slots)), len(label_items)):
-        score = 0.0
-        segments: list[tuple[tuple[float, float], tuple[float, float]]] = []
-        for point_xy, slot_index in zip(point_positions, candidate):
-            slot_xy = slot_positions[slot_index]
-            score += float(
-                np.square(point_xy[0] - slot_xy[0])
-                + np.square(point_xy[1] - slot_xy[1])
-            )
-
-            point_prefers_right = point_xy[0] >= plot_center_x
-            slot_column = str(slots[slot_index]["column"])
-            if slot_column != "center" and point_prefers_right != (slot_column == "right"):
-                score += mismatch_penalty
-
-            segments.append((slot_xy, point_xy))
-
-        for (start_a, end_a), (start_b, end_b) in combinations(segments, 2):
-            if _segments_intersect(start_a, end_a, start_b, end_b):
-                score += crossing_penalty
-
-        if score < best_score:
-            best_score = score
-            best_assignment = candidate
-
-    if best_assignment is None:
-        return slots[: len(label_items)]
-    return [slots[index] for index in best_assignment]
-
-
-def _annotate_goal_zoom_labels(
-    ax, label_items: list[dict[str, float | str]], style: dict[str, str]
-):
-    for label_item, slot in zip(label_items, _assign_goal_zoom_label_slots(ax, label_items)):
+    for label_item, slot in zip(label_items, slots):
         _add_goal_zoom_annotation(
             ax=ax,
             x=float(label_item["x"]),
@@ -221,6 +120,11 @@ def _annotate_goal_zoom_labels(
             style=style,
             slot=slot,
         )
+
+
+def _goal_zoom_display_xy(x: float, y: float) -> tuple[float, float]:
+    # VerticalPitch uses displayed coordinates as (y, x) for our custom 100x100 feed.
+    return y, x
 
 
 def _add_goal_zoom_annotation(
@@ -232,7 +136,7 @@ def _add_goal_zoom_annotation(
     slot: dict[str, float | str],
 ):
     display_x, display_y = _goal_zoom_display_xy(x, y)
-    annotation = ax.annotate(
+    return ax.annotate(
         text,
         xy=(display_x, display_y),
         xytext=(float(slot["text_x"]), float(slot["text_y"])),
@@ -257,13 +161,9 @@ def _add_goal_zoom_annotation(
             "alpha": 0.72,
             "shrinkA": 0,
             "shrinkB": 0,
-            "relpos": (0.5, 1.0),
             "connectionstyle": "arc3,rad=0",
         },
     )
-    if annotation.arrow_patch is not None:
-        annotation.arrow_patch.set_zorder(9)
-    return annotation
 
 
 def _finalize_goal_zoom_figure(fig, title: str, style: dict[str, str]):
@@ -281,54 +181,14 @@ def _draw_goal_highlight(ax, style: dict[str, str]):
     goal_right = 55.4
     goal_line = 100.0
     goal_depth = max(ax.get_ylim()) - 0.25
-
-    ax.plot(
-        [goal_left, goal_right],
-        [goal_line, goal_line],
-        color=style["line"],
-        linewidth=3.0,
-        alpha=0.98,
-        zorder=7,
-        solid_capstyle="round",
-    )
-    ax.plot(
-        [goal_left, goal_left],
-        [goal_line, goal_depth],
-        color=style["line"],
-        linewidth=2.2,
-        alpha=0.95,
-        zorder=7,
-    )
-    ax.plot(
-        [goal_right, goal_right],
-        [goal_line, goal_depth],
-        color=style["line"],
-        linewidth=2.2,
-        alpha=0.95,
-        zorder=7,
-    )
-    ax.plot(
-        [goal_left, goal_right],
-        [goal_depth, goal_depth],
-        color=style["line"],
-        linewidth=1.1,
-        alpha=0.55,
-        zorder=7,
-    )
+    ax.plot([goal_left, goal_right], [goal_line, goal_line], color=style["line"], linewidth=3.0, zorder=7)
+    ax.plot([goal_left, goal_left], [goal_line, goal_depth], color=style["line"], linewidth=2.2, zorder=7)
+    ax.plot([goal_right, goal_right], [goal_line, goal_depth], color=style["line"], linewidth=2.2, zorder=7)
+    ax.plot([goal_left, goal_right], [goal_depth, goal_depth], color=style["line"], linewidth=1.1, alpha=0.55, zorder=7)
 
 
 def _plot_pitch_message(ax, message: str, style: dict[str, str]):
-    ax.text(
-        50,
-        50,
-        message,
-        ha="center",
-        va="center",
-        color=style["line"],
-        fontsize=12,
-        fontweight="bold",
-    )
-
+    ax.text(50, 50, message, ha="center", va="center", color=style["line"], fontsize=12, fontweight="bold")
 
 def _plot_corner_map(
     corner_df: pd.DataFrame, title: str, output_path: Path, style: dict[str, str]
@@ -957,100 +817,32 @@ def _plot_corner_xg_method_comparison(
     return output_path
 
 
-def _plot_h2h_results(
-    head_to_head_overview: dict,
-    team_name: str,
-    opponent_name: str,
-    output_path: Path,
-    style: dict[str, str],
-):
-    if plt is None:
-        return None
 
-    meetings = (
-        head_to_head_overview.get("meetings", [])
-        if isinstance(head_to_head_overview, dict)
-        else []
-    )
-    if not meetings:
-        return None
-
-    latest = list(reversed(meetings[:6]))
-    labels = []
-    goal_diff = []
-    for row in latest:
-        if row.get("goals_for") is None or row.get("goals_against") is None:
-            continue
-        labels.append(
-            str(
-                row.get("dateutc")
-                or row.get("season_id")
-                or row.get("label")
-                or "Meeting"
-            )[:10]
-        )
-        goal_diff.append(
-            int(row.get("goals_for") or 0) - int(row.get("goals_against") or 0)
-        )
-
-    if not labels:
-        return None
-
-    fig, ax = plt.subplots(figsize=(10, 5))
-    fig.patch.set_facecolor(style["bg"])
-    ax.set_facecolor(style["bg"])
-
-    colors = [
-        (
-            style["accent_2"]
-            if value > 0
-            else (style["danger"] if value < 0 else style["muted"])
-        )
-        for value in goal_diff
-    ]
-    ax.bar(labels, goal_diff, color=colors, alpha=0.9)
-    ax.axhline(0, color=style["line"], linewidth=1.0)
-    ax.set_ylabel(f"Goal diff ({team_name} - {opponent_name})", color=style["line"])
-    ax.tick_params(colors=style["line"], labelrotation=20)
-    for spine in ax.spines.values():
-        spine.set_color(style["line"])
-    ax.set_title(
-        f"{team_name} vs {opponent_name} recent H2H goal difference",
-        color=style["line"],
-    )
-    fig.tight_layout()
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(output_path, dpi=160, facecolor=style["bg"])
-    plt.close(fig)
-    return output_path
-
-
-def generate_section_plots(
+def generate_corner_plots(
+    *,
     settings,
     team_name: str,
     team_corner: dict,
     opponent_name: str | None,
     opponent_corner: dict,
-    head_to_head_overview: dict,
-) -> dict[str, dict[str, Path]]:
-    if Pitch is None or VerticalPitch is None or plt is None:
-        print("mplsoccer or matplotlib missing, skipping visualizations.")
-        return {"corners": {}, "head_to_head": {}}
+) -> dict[str, Path]:
+    """Generate all Corners section plots and return name -> path."""
+
+    if VerticalPitch is None or plt is None:
+        print("mplsoccer or matplotlib missing, skipping corner visualizations.")
+        return {}
 
     style = settings.plot_style
     corner_dir = settings.report_path("corners", "plots")
-    h2h_dir = settings.report_path("head_to_head", "plots")
     corner_dir.mkdir(parents=True, exist_ok=True)
-    h2h_dir.mkdir(parents=True, exist_ok=True)
 
-    plots = {"corners": {}, "head_to_head": {}}
+    plots: dict[str, Path] = {}
 
-    def store(domain: str, name: str, path: Path | None):
+    def store(name: str, path: Path | None):
         if path is not None:
-            plots[domain][name] = path
+            plots[name] = path
 
     store(
-        "corners",
         "team_offensive_map",
         _plot_corner_map(
             team_corner.get("offensive_df", pd.DataFrame()),
@@ -1060,7 +852,6 @@ def generate_section_plots(
         ),
     )
     store(
-        "corners",
         "team_defensive_map",
         _plot_corner_map(
             team_corner.get("defensive_df", pd.DataFrame()),
@@ -1070,7 +861,6 @@ def generate_section_plots(
         ),
     )
     store(
-        "corners",
         "team_target_map",
         _plot_corner_target_map(
             team_corner.get("offensive_df", pd.DataFrame()),
@@ -1080,7 +870,6 @@ def generate_section_plots(
         ),
     )
     store(
-        "corners",
         "team_danger_end_heatmap",
         _plot_corner_end_threat_heatmap(
             team_corner.get("offensive_df", pd.DataFrame()),
@@ -1090,7 +879,6 @@ def generate_section_plots(
         ),
     )
     store(
-        "corners",
         "team_taker_impact",
         _plot_corner_player_impact_bar(
             team_corner.get("offensive_takers", {}).get("top_takers_by_xg_created", []),
@@ -1102,7 +890,6 @@ def generate_section_plots(
         ),
     )
     store(
-        "corners",
         "team_xg_method_comparison",
         _plot_corner_xg_method_comparison(
             team_corner.get("offensive_takers", {}).get("top_takers_by_xg_created", []),
@@ -1112,7 +899,6 @@ def generate_section_plots(
         ),
     )
     store(
-        "corners",
         "team_shooter_impact",
         _plot_corner_player_impact_bar(
             team_corner.get("offensive_shooters", []),
@@ -1126,7 +912,6 @@ def generate_section_plots(
 
     if opponent_name:
         store(
-            "corners",
             "next_opponent_offensive_map",
             _plot_corner_map(
                 opponent_corner.get("offensive_df", pd.DataFrame()),
@@ -1136,7 +921,6 @@ def generate_section_plots(
             ),
         )
         store(
-            "corners",
             "next_opponent_defensive_map",
             _plot_corner_map(
                 opponent_corner.get("defensive_df", pd.DataFrame()),
@@ -1146,7 +930,6 @@ def generate_section_plots(
             ),
         )
         store(
-            "corners",
             "next_opponent_target_map",
             _plot_corner_target_map(
                 opponent_corner.get("offensive_df", pd.DataFrame()),
@@ -1156,7 +939,6 @@ def generate_section_plots(
             ),
         )
         store(
-            "corners",
             "next_opponent_danger_end_heatmap",
             _plot_corner_end_threat_heatmap(
                 opponent_corner.get("offensive_df", pd.DataFrame()),
@@ -1166,12 +948,9 @@ def generate_section_plots(
             ),
         )
         store(
-            "corners",
             "next_opponent_taker_impact",
             _plot_corner_player_impact_bar(
-                opponent_corner.get("offensive_takers", {}).get(
-                    "top_takers_by_xg_created", []
-                ),
+                opponent_corner.get("offensive_takers", {}).get("top_takers_by_xg_created", []),
                 f"{opponent_name} corner takers by xG created",
                 corner_dir / "next_opponent_taker_impact.png",
                 "possession_xg",
@@ -1180,19 +959,15 @@ def generate_section_plots(
             ),
         )
         store(
-            "corners",
             "next_opponent_xg_method_comparison",
             _plot_corner_xg_method_comparison(
-                opponent_corner.get("offensive_takers", {}).get(
-                    "top_takers_by_xg_created", []
-                ),
+                opponent_corner.get("offensive_takers", {}).get("top_takers_by_xg_created", []),
                 f"{opponent_name} corner xG split: first shot vs recycled threat",
                 corner_dir / "next_opponent_xg_method_comparison.png",
                 style,
             ),
         )
         store(
-            "corners",
             "next_opponent_shooter_impact",
             _plot_corner_player_impact_bar(
                 opponent_corner.get("offensive_shooters", []),
@@ -1200,19 +975,6 @@ def generate_section_plots(
                 corner_dir / "next_opponent_shooter_impact.png",
                 "xg_after_corner",
                 "xG after corners",
-                style,
-            ),
-        )
-
-    if opponent_name and head_to_head_overview.get("found"):
-        store(
-            "head_to_head",
-            "goal_diff_recent",
-            _plot_h2h_results(
-                head_to_head_overview,
-                team_name,
-                opponent_name,
-                h2h_dir / "goal_diff_recent.png",
                 style,
             ),
         )

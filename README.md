@@ -6,7 +6,31 @@ This repository contains the data pipeline and publishing contract used by the L
 
 ---
 
-## 1. What this project does
+## Table of Contents
+
+1. [Project purpose](#1-project-purpose)
+2. [Architecture overview](#2-architecture-overview)
+3. [Repository structure](#3-repository-structure)
+4. [Core design principles](#4-core-design-principles)
+5. [Section folder pattern](#5-section-folder-pattern)
+6. [Adding or changing a section](#6-adding-or-changing-a-section)
+7. [Frontend output contract](#7-frontend-output-contract)
+8. [Visual design and plotting rules](#8-visual-design-and-plotting-rules)
+9. [Environment setup](#9-environment-setup)
+10. [Running locally](#10-running-locally)
+11. [Testing sections](#11-testing-sections)
+12. [Supabase Storage publishing](#12-supabase-storage-publishing)
+13. [GitHub Actions and refresh flow](#13-github-actions-and-refresh-flow)
+14. [Supabase Edge Functions](#14-supabase-edge-functions)
+15. [Caching](#15-caching)
+16. [Branching and issue workflow](#16-branching-and-issue-workflow)
+17. [Where code should go](#17-where-code-should-go)
+18. [Current dashboard sections](#18-current-dashboard-sections)
+19. [Golden rule](#19-golden-rule)
+
+---
+
+## 1. Project purpose
 
 The goal is to give J-Södra a simple analytics hub for:
 
@@ -20,25 +44,29 @@ The system is designed so multiple collaborators can work on separate dashboard 
 
 ---
 
-## 2. System overview
+## 2. Architecture overview
 
 ```text
 GitHub Actions
-  -> runs fetch_football_data.py
+  -> runs run_pipeline.py
 
-fetch_football_data.py
+run_pipeline.py
   -> small command-line entrypoint only
+  -> parses arguments
+  -> loads settings
+  -> calls pipeline.orchestrator.run_pipeline(...)
 
 pipeline/orchestrator.py
-  -> coordinates the pipeline
-  -> creates shared PipelineContext
-  -> runs registered analytics sections
+  -> coordinates shared data collection
+  -> creates PipelineContext
+  -> writes core reports
+  -> runs registered section modules
   -> writes reports/index.json
   -> uploads generated artifacts when enabled
 
-pipeline/sections/*.py
-  -> one dashboard section per file
-  -> each collaborator usually owns one section
+pipeline/sections/<section_name>/
+  -> one dashboard section per folder
+  -> section-specific metrics, plots, storylines, and publishing
 
 pipeline/publishing.py
   -> writes JSON/CSV files
@@ -50,109 +78,169 @@ Lovable frontend
   -> follows section references from index.sections
 ```
 
+A browser refresh only reloads already-published files. A real data refresh must run the server-side pipeline.
+
 ---
 
-## 3. Important design principles
+## 3. Repository structure
 
-### 3.1 Keep the entrypoint small
+Recommended structure:
 
-`fetch_football_data.py` must stay small.
+```text
+.
+├── run_pipeline.py
+├── README.md
+├── .env.example
+├── requirements.txt
+├── pipeline/
+│   ├── __init__.py
+│   ├── analytics.py
+│   ├── common.py
+│   ├── context.py
+│   ├── contracts.py
+│   ├── data_service.py
+│   ├── orchestrator.py
+│   ├── publishing.py
+│   ├── registry.py
+│   ├── section_runner.py
+│   ├── settings.py
+│   └── sections/
+│       ├── __init__.py
+│       ├── _helpers.py
+│       ├── corners/
+│       │   ├── __init__.py
+│       │   ├── metrics.py
+│       │   ├── plots.py
+│       │   ├── section.py
+│       │   └── storylines.py
+│       ├── head_to_head/
+│       │   ├── __init__.py
+│       │   ├── plots.py
+│       │   └── section.py
+│       ├── open_play/
+│       ├── free_kicks/
+│       ├── throw_ins/
+│       └── defensive/
+├── reports/
+│   └── index.json
+├── supabase/
+│   └── functions/
+└── tools/
+    └── smoke_test_section.py
+```
+
+`reports/` is generated output. Do not manually edit files in `reports/`; update the pipeline or section code and regenerate reports.
+
+---
+
+## 4. Core design principles
+
+### 4.1 Keep the entrypoint small
+
+`run_pipeline.py` must stay small.
 
 It should only:
 
 1. parse command-line arguments,
 2. load settings,
-3. call the pipeline orchestrator.
+3. call `pipeline.orchestrator.run_pipeline(...)`.
 
-Do **not** add feature logic, Wyscout logic, plotting logic, or section-specific logic to `fetch_football_data.py`.
+Do **not** add feature logic, Wyscout logic, plotting logic, or section-specific logic to `run_pipeline.py`.
 
-### 3.2 Data access belongs in `DataService`
+### 4.2 Keep the orchestrator clean
 
-All Wyscout/Supabase data access should go through `pipeline/data_service.py`.
+`pipeline/orchestrator.py` should coordinate the pipeline only.
 
-Collaborators should normally not call the Wyscout API directly from a section file. Instead, sections should use the shared datasets available through `PipelineContext`.
+It may:
 
-### 3.3 Publishing belongs in `publishing.py`
+- resolve the target team,
+- collect shared datasets,
+- resolve the next opponent,
+- build shared `PipelineContext`,
+- write core reports,
+- run registered sections,
+- write `reports/index.json`,
+- upload generated files.
 
-Sections should write files locally, but they should not upload directly to Supabase Storage.
+It should not contain corner logic, open-play logic, defensive logic, plot implementation, or section-specific JSON contracts.
 
-The normal flow is:
+### 4.3 Data access belongs in `DataService`
+
+All Wyscout/Supabase data access should go through:
+
+```text
+pipeline/data_service.py
+```
+
+Collaborators should normally not call Wyscout directly from a section file. Sections should use the shared datasets available through `PipelineContext`.
+
+### 4.4 Publishing belongs in `publishing.py`
+
+Sections write files locally, but they should not upload directly to Supabase Storage.
+
+Normal flow:
 
 1. section creates JSON/CSV/PNG files under `reports/<section_name>/`,
 2. section returns a `SectionResult`,
-3. orchestrator collects all files,
+3. orchestrator collects all generated files,
 4. `pipeline/publishing.py` uploads files to Supabase Storage if upload is enabled.
-
-### 3.4 One section, one responsibility
-
-Each dashboard area should live in one file under `pipeline/sections/`.
-
-Examples:
-
-```text
-pipeline/sections/open_play.py
-pipeline/sections/free_kicks.py
-pipeline/sections/throw_ins.py
-pipeline/sections/defensive.py
-```
-
-A collaborator working on open play should mostly work in `pipeline/sections/open_play.py`.
 
 ---
 
-## 4. Should section files be self-contained?
+## 5. Section folder pattern
 
-Short answer: **mostly yes, but not completely**.
+All dashboard-specific football logic should live under:
 
-A section file should be self-contained as a dashboard feature. That means the section file should contain or call the code needed to build that section's metrics, storylines, data exports, and plots.
+```text
+pipeline/sections/<section_name>/
+```
 
-However, a section file should **not** duplicate shared infrastructure.
+A full section can use this structure:
+
+```text
+pipeline/sections/<section_name>/
+  __init__.py      # exposes SECTION_NAME and build_section
+  section.py       # publishes the section contract
+  metrics.py       # calculates section-specific metrics
+  plots.py         # creates section-specific visualisations
+  storylines.py    # creates section-specific written insights
+```
+
+For a small section, it is fine to start with only:
+
+```text
+pipeline/sections/open_play/
+  __init__.py
+  section.py
+```
+
+Split into `metrics.py`, `plots.py`, and `storylines.py` when the file becomes hard to read.
+
+### What should be self-contained?
+
+A section should be self-contained as a dashboard feature, but it should not duplicate shared infrastructure.
 
 Use this rule:
 
 ```text
-Section-specific football logic        -> pipeline/sections/<section_name>.py
+Section-specific football logic        -> pipeline/sections/<section_name>/
 Reusable football calculations         -> pipeline/analytics.py
 General helper functions               -> pipeline/common.py
 Wyscout/Supabase fetching              -> pipeline/data_service.py
 Writing JSON/CSV and file references   -> pipeline/publishing.py
-Pitch/plot helper functions            -> pipeline/visualisations/ or pipeline/plots.py
+Pipeline coordination                  -> pipeline/orchestrator.py
+Running enabled sections               -> pipeline/section_runner.py
 ```
-
-### Recommended section structure
-
-For small sections, it is fine to keep metrics and plotting in the same section file.
-
-For larger sections, split helper logic into a submodule, for example:
-
-```text
-pipeline/sections/open_play.py
-pipeline/visualisations/open_play_maps.py
-```
-
-or:
-
-```text
-pipeline/sections/open_play.py
-pipeline/open_play/metrics.py
-pipeline/open_play/plots.py
-```
-
-But do not over-engineer too early. Start with one section file, then split only when the file becomes hard to read.
 
 ---
 
-## 5. Adding a new analytics section
+## 6. Adding or changing a section
 
-Analytics features are added as modular section files under:
-
-```text
-pipeline/sections/
-```
-
-Every section must implement:
+Every section package must expose:
 
 ```python
+SECTION_NAME = "section_name"
+
 def build_section(context) -> SectionResult:
     ...
 ```
@@ -171,14 +259,14 @@ SectionResult(
 
 Before opening a pull request, make sure the section:
 
-- [ ] lives under `pipeline/sections/`,
+- [ ] lives under `pipeline/sections/<section_name>/`,
 - [ ] has a clear `SECTION_NAME`,
 - [ ] implements `build_section(context)`,
 - [ ] uses the shared `PipelineContext`,
 - [ ] writes files only under `reports/<section_name>/`,
 - [ ] returns all generated files in `SectionResult.files`,
 - [ ] adds frontend references through `SectionResult.index_entry`,
-- [ ] uses `pipeline/publishing.py` helpers for writing JSON/CSV and refs,
+- [ ] uses `pipeline/publishing.py` helpers for JSON/CSV and refs,
 - [ ] does not upload directly to Supabase,
 - [ ] does not fetch directly from Wyscout unless agreed,
 - [ ] uses the shared visual style from `pipeline/settings.py`,
@@ -238,11 +326,92 @@ def build_section(context) -> SectionResult:
 
 ---
 
-## 6. Plotting and visual design rules
+## 7. Frontend output contract
+
+The Lovable frontend should start by loading:
+
+```text
+reports/index.json
+```
+
+The frontend should then read the `sections` object and fetch the files listed there.
+
+Do not rely on old root-level payload files.
+
+Expected report tree:
+
+```text
+reports/
+  index.json
+  entities/
+    team.json
+    next_opponent.json
+  matchup/
+    current.json
+  overview/
+    team.json
+    next_opponent.json
+  fixtures/
+    upcoming.json
+  forms/
+    recent_form.json
+  head_to_head/
+    overview.json
+    plots/
+      goal_diff_recent.png
+  corners/
+    analysis.json
+    data/
+    plots/
+  open_play/
+    analysis.json
+    data/
+    plots/
+  free_kicks/
+    analysis.json
+    data/
+    plots/
+  throw_ins/
+    analysis.json
+    data/
+    plots/
+  defensive/
+    analysis.json
+    data/
+    plots/
+  exports/
+    competitions/
+  upload_manifest.json
+```
+
+Example `reports/index.json` section reference:
+
+```json
+{
+  "sections": {
+    "corners": {
+      "analysis": {
+        "path": "reports/corners/analysis.json",
+        "url": "https://..."
+      }
+    },
+    "head_to_head": {
+      "overview": {
+        "path": "reports/head_to_head/overview.json",
+        "url": "https://..."
+      }
+    }
+  }
+}
+```
+
+---
+
+## 8. Visual design and plotting rules
 
 The dashboard should look and feel like one product. All sections must follow the same club-inspired visual language.
 
-### 6.1 Required colour palette
+### 8.1 Required colour palette
 
 The palette is defined in `pipeline/settings.py` and should be reused everywhere.
 
@@ -270,11 +439,11 @@ Usage guidance:
 
 Do not invent a new palette inside a section. If new colours are needed, add them centrally in `pipeline/settings.py`.
 
-### 6.2 Use `mplsoccer` for football pitch plots
+### 8.2 Use `mplsoccer` for football pitch plots
 
 Use `mplsoccer` as much as possible for pitch-based football visualisations.
 
-Examples of plots that should normally use `mplsoccer`:
+Examples:
 
 - shot maps,
 - pass maps,
@@ -294,7 +463,7 @@ Matplotlib can still be used for normal charts such as:
 - tables,
 - trend charts.
 
-### 6.3 Plot file rules
+### 8.3 Plot file rules
 
 Plots should be written under:
 
@@ -308,72 +477,51 @@ Data exports should be written under:
 reports/<section_name>/data/
 ```
 
-The section should include plot/data references in its `analysis.json` payload and in `SectionResult.index_entry` when useful.
+The section should include plot/data references in its `analysis.json` or section payload.
 
 ---
 
-## 7. Frontend output contract
+## 9. Environment setup
 
-The frontend should start by loading:
+Create a local `.env` file from the example file:
 
-```text
-reports/index.json
+```bash
+cp .env.example .env
 ```
 
-The frontend should then read `sections` from `reports/index.json` and fetch the files listed there.
+PowerShell:
 
-Do not rely on old root-level payload files.
-
-Current report tree:
-
-```text
-reports/
-  index.json
-  entities/
-    team.json
-    next_opponent.json
-  matchup/
-    current.json
-  overview/
-    team.json
-    next_opponent.json
-  fixtures/
-    upcoming.json
-  forms/
-    recent_form.json
-  head_to_head/
-    overview.json
-    plots/
-  corners/
-    analysis.json
-    data/
-    plots/
-  open_play/
-    analysis.json
-    data/
-    plots/
-  free_kicks/
-    analysis.json
-    data/
-    plots/
-  throw_ins/
-    analysis.json
-    data/
-    plots/
-  defensive/
-    analysis.json
-    data/
-    plots/
-  exports/
-    competitions/
-  upload_manifest.json
+```powershell
+Copy-Item .env.example .env
 ```
 
-`reports/index.json` is the frontend bootstrap file.
+Fill in the required Supabase/Wyscout values.
+
+Never commit `.env`. Only `.env.example` should be committed.
+
+Important local variables:
+
+```env
+SUPABASE_FUNCTION_URL=https://<project-ref>.supabase.co/functions/v1/wyscout-proxy
+SUPABASE_ANON_KEY=your_supabase_anon_key
+OUTPUT_DIR=.
+REPORTS_DIR=reports
+```
+
+For Supabase Storage upload:
+
+```env
+UPLOAD_TO_SUPABASE_STORAGE=1
+SUPABASE_S3_ENDPOINT=https://<project-ref>.storage.supabase.co/storage/v1/s3
+SUPABASE_S3_BUCKET=your_bucket_name
+SUPABASE_S3_ACCESS_KEY=your_s3_access_key
+SUPABASE_S3_SECRET_KEY=your_s3_secret_key
+SUPABASE_PUBLIC_BASE_URL=https://<project-ref>.supabase.co
+```
 
 ---
 
-## 8. Running locally
+## 10. Running locally
 
 Install dependencies:
 
@@ -381,44 +529,117 @@ Install dependencies:
 pip install -r requirements.txt
 ```
 
-Create a local `.env` file. Do not commit secrets.
-
-```bash
-SUPABASE_FUNCTION_URL=https://<project-ref>.supabase.co/functions/v1/wyscout-proxy
-SUPABASE_ANON_KEY=your_supabase_anon_key
-
-FILTER_TO_ACTIVE_SEASON=1
-ENABLE_PREVIOUS_SEASON_COMPLEMENT=0
-H2H_FALLBACK_TO_PREVIOUS_SEASON=1
-OUTPUT_DIR=.
-REPORTS_DIR=reports
-```
-
 Run the pipeline:
 
 ```bash
-python fetch_football_data.py
+python run_pipeline.py
 ```
 
 Force a full upstream refresh:
 
 ```bash
-python fetch_football_data.py --force-refresh
+python run_pipeline.py --force-refresh
 ```
 
-Run only specific modular sections:
+Run only specific modular sections.
+
+Bash/macOS/Linux:
 
 ```bash
-ENABLED_SECTIONS=open_play,defensive python fetch_football_data.py
+ENABLED_SECTIONS=corners,head_to_head python run_pipeline.py
+```
+
+PowerShell:
+
+```powershell
+$env:ENABLED_SECTIONS="corners,head_to_head"
+python .\run_pipeline.py
+Remove-Item Env:\ENABLED_SECTIONS
+```
+
+PowerShell one-liner:
+
+```powershell
+$env:ENABLED_SECTIONS="corners,head_to_head"; python .\run_pipeline.py; Remove-Item Env:\ENABLED_SECTIONS
 ```
 
 ---
 
-## 9. Supabase Storage publishing
+## 11. Testing sections
+
+### 11.1 Compile checks
+
+Run this before pushing changes:
+
+```bash
+python -m py_compile run_pipeline.py pipeline/orchestrator.py pipeline/registry.py pipeline/section_runner.py
+```
+
+Compile a specific section:
+
+```bash
+python -m py_compile pipeline/sections/corners/section.py pipeline/sections/corners/metrics.py pipeline/sections/corners/plots.py pipeline/sections/corners/storylines.py
+```
+
+### 11.2 Smoke-test a section without fetching Wyscout
+
+The smoke test does not fetch Wyscout data. It creates an empty `PipelineContext` and runs one section.
+
+```bash
+python tools/smoke_test_section.py corners
+python tools/smoke_test_section.py head_to_head
+```
+
+This checks:
+
+- imports,
+- section wiring,
+- JSON writing,
+- `SectionResult` output,
+- basic report contract shape.
+
+### 11.3 Run one section with real pipeline data
+
+PowerShell:
+
+```powershell
+$env:ENABLED_SECTIONS="corners"
+python .\run_pipeline.py
+Remove-Item Env:\ENABLED_SECTIONS
+```
+
+Then check:
+
+```text
+reports/index.json
+reports/corners/analysis.json
+reports/corners/data/
+reports/corners/plots/
+```
+
+### 11.4 Check `reports/index.json`
+
+PowerShell-safe command:
+
+```powershell
+@'
+import json
+from pathlib import Path
+
+index = json.loads(Path("reports/index.json").read_text(encoding="utf-8"))
+print(index["sections"].keys())
+print(index["sections"].get("corners"))
+print(index["sections"].get("head_to_head"))
+'@ | python -
+```
+
+---
+
+## 12. Supabase Storage publishing
 
 To upload generated artifacts to Supabase Storage:
 
-```bash
+```env
 UPLOAD_TO_SUPABASE_STORAGE=1
 SUPABASE_S3_ENDPOINT=https://<project-ref>.storage.supabase.co/storage/v1/s3
 SUPABASE_S3_BUCKET=your_bucket_name
@@ -446,19 +667,19 @@ Re-uploading the same report path overwrites the existing object at that key.
 
 ---
 
-## 10. GitHub Actions refresh
+## 13. GitHub Actions and refresh flow
 
 The scheduled workflow runs the pipeline automatically.
 
 Typical command:
 
 ```bash
-python fetch_football_data.py --force-refresh
+python run_pipeline.py --force-refresh
 ```
 
 The workflow needs the same environment variables as local runs, stored as GitHub repository secrets.
 
-Important secrets:
+Important GitHub Actions secrets:
 
 ```text
 SUPABASE_FUNCTION_URL
@@ -474,32 +695,70 @@ If the workflow fails with `Invalid JWT`, check that `SUPABASE_ANON_KEY` is the 
 
 ---
 
-## 11. Refresh flow from Lovable
+## 14. Supabase Edge Functions
 
-A browser refresh only reloads already-published JSON files. It does not recompute analytics from Wyscout.
+### 14.1 `refresh-reports`
 
-A full refresh must run server-side:
+Preferred manual refresh flow:
 
 ```text
-Lovable frontend
-  -> Supabase refresh Edge Function
-  -> refresh_runner.py
-  -> python fetch_football_data.py --force-refresh
-  -> reports updated
-  -> frontend refetches reports/index.json
+Lovable Refresh button
+  -> Supabase Edge Function refresh-reports
+  -> GitHub Actions workflow_dispatch
+  -> python run_pipeline.py --force-refresh
+  -> reports uploaded to Supabase Storage
+  -> Lovable polls refresh status
+  -> Lovable reloads reports/index.json
 ```
 
-When a refresh succeeds, the frontend should refetch `reports/index.json` with a cache-busting query string and reload section JSON files.
+This function keeps the GitHub token server-side. The frontend should never store or expose the GitHub token.
+
+Required Supabase Edge Function secrets:
+
+```text
+GITHUB_OWNER
+GITHUB_REPO
+GITHUB_TOKEN
+GITHUB_REFRESH_WORKFLOW_FILE
+GITHUB_REFRESH_REF
+```
+
+The GitHub workflow must support `workflow_dispatch`.
+
+### 14.2 `sync-league`
+
+`sync-league` is a warehouse sync function.
+
+Purpose:
+
+```text
+Wyscout -> Supabase Edge Function -> Supabase warehouse tables
+```
+
+It syncs league, season, team, match, event, and team-match-stat data into the Supabase database. It does not generate the `reports/` folder and does not upload report JSON/PNG/CSV files to Supabase Storage.
+
+Typical required Supabase secrets:
+
+```text
+WYSCOUT_CLIENT_ID
+WYSCOUT_CLIENT_SECRET
+WYSCOUT_BASE_URL
+SUPABASE_URL
+SUPABASE_SERVICE_ROLE_KEY
+SYNC_LEAGUE_TOKEN
+```
+
+Use `sync-league` when the Supabase warehouse/RPC flow is needed. Use `run_pipeline.py` when generating Lovable report files.
 
 ---
 
-## 12. Caching
+## 15. Caching
 
-### Event cache
+### 15.1 Event cache
 
 Enabled by default:
 
-```bash
+```env
 ENABLE_INCREMENTAL_EVENT_FETCH=1
 EVENT_CACHE_DIR=cache/events
 EVENT_CACHE_RECHECK_MISSING_HOURS=24
@@ -511,11 +770,11 @@ Notes:
 - `--force-refresh` bypasses the cache,
 - set `ENABLE_INCREMENTAL_EVENT_FETCH=0` to always hit the API for events.
 
-### Competition cache
+### 15.2 Competition cache
 
 Enabled by default:
 
-```bash
+```env
 ENABLE_INCREMENTAL_COMPETITION_FETCH=1
 COMPETITION_CACHE_DIR=cache/competitions
 COMPETITION_CACHE_TTL_HOURS=24
@@ -529,32 +788,28 @@ Notes:
 
 ---
 
-## 13. Branching and way of working
+## 16. Branching and issue workflow
 
-### `main`
+### 16.1 Branches
 
 `main` should always contain stable functionality that J-Södra can understand and use.
 
-Rules:
+Rules for `main`:
 
 - must run successfully,
 - must keep the frontend contract stable,
 - must not include unfinished experiments unless clearly hidden/disabled,
 - must not include secrets.
 
-### `dev`
-
 `dev` is for active development.
 
-Rules:
+Rules for `dev`:
 
 - new dashboard sections can be developed here,
 - pull requests should usually target `dev` first,
 - tested features can later be merged into `main`.
 
-### Feature branches
-
-Use clear branch names:
+Use clear feature branch names:
 
 ```text
 feature/open-play-section
@@ -563,7 +818,29 @@ feature/defensive-maps
 fix/github-refresh-jwt
 ```
 
-### Pull request checklist
+### 16.2 Issue workflow
+
+All work should be connected to an issue. The state of each issue is tracked in the Kanban board under the Projects tab.
+
+Issue states:
+
+```text
+Backlog -> Ready -> In Progress -> In Review -> Done
+```
+
+When starting work:
+
+- assign the issue to yourself,
+- move the issue to `In Progress`,
+- create a dedicated branch.
+
+When work is finished:
+
+- open a pull request,
+- move the issue to `In Review`,
+- ask at least one collaborator to review.
+
+### 16.3 Pull request checklist
 
 Every pull request should explain:
 
@@ -577,58 +854,10 @@ Every pull request should explain:
 
 ---
 
-## 14. Issue workflow
-
-All work should be connected to an issue. The state of each issue is tracked in the kanban board “J-Södra” under the Projects tab.
-
-Issues move through the following states:
-
-Backlog → Ready → In Progress → In Review → Done
-
-### Backlog
-
-Issues that are not fully defined or need clarification are placed in Backlog.
-
-These issues are not yet ready to be picked up for implementation.
-
-### Ready
-
-Issues with a clear description and defined scope are placed in Ready.
-
-This is the pool of tasks that collaborators can pick from.
-
-When starting work on an issue, it should be:
-- assigned to yourself
-- moved to “In Progress”
-
-### In Progress
-
-Issues that are actively being worked on.
-
-Work should happen in a dedicated branch linked to the issue.
-
-### In Review
-
-Issues that are completed and waiting for review.
-
-When work is finished:
-- open a pull request
-- move the issue to “In Review”
-
-At least one other collaborator should review the PR before merging.
-
-If changes are needed, the issue goes back to “In Progress”.
-
-### Done
-
-Issues that have been reviewed and merged successfully.
-
-No further work is required for these issues.
-
-## 15. Where code should go
+## 17. Where code should go
 
 ```text
-fetch_football_data.py
+run_pipeline.py
   CLI only. Do not add feature logic.
 
 pipeline/orchestrator.py
@@ -636,6 +865,9 @@ pipeline/orchestrator.py
 
 pipeline/registry.py
   List of enabled modular sections.
+
+pipeline/section_runner.py
+  Shared helper for running registered sections.
 
 pipeline/context.py
   Shared PipelineContext passed to sections.
@@ -655,16 +887,25 @@ pipeline/data_service.py
 pipeline/publishing.py
   JSON/CSV writing, refs, Supabase Storage upload.
 
-pipeline/sections/*.py
-  Section-specific analytics and section-specific outputs.
+pipeline/sections/<section_name>/section.py
+  Section publishing contract.
 
-pipeline/visualisations/*.py or pipeline/plots.py
-  Shared plotting helpers and mplsoccer pitch visualisations.
+pipeline/sections/<section_name>/metrics.py
+  Section-specific calculations.
+
+pipeline/sections/<section_name>/plots.py
+  Section-specific visualisations.
+
+pipeline/sections/<section_name>/storylines.py
+  Section-specific written insights.
+
+pipeline/plots.py
+  Deprecated compatibility wrapper only. Do not add new plots here.
 ```
 
 ---
 
-## 16. Current known dashboard sections
+## 18. Current dashboard sections
 
 ### Overview
 
@@ -676,11 +917,21 @@ Recent match results and form summary.
 
 ### Head-to-head
 
-Previous meetings between J-Södra and the next opponent, when available.
+Previous meetings between J-Södra and the next opponent, including optional recent H2H goal-difference plot.
 
 ### Corners
 
-Corner attacking and defensive analysis, including CSV exports and plots.
+Corner attacking and defensive analysis, including CSV exports, plots, and storylines.
+
+Current Corners section structure:
+
+```text
+pipeline/sections/corners/
+  metrics.py      # calculations
+  plots.py        # visualisations
+  section.py      # published JSON/CSV/PNG contract
+  storylines.py   # text insights
+```
 
 ### Open play
 
@@ -700,12 +951,13 @@ In progress. Should cover defensive actions, pressing, recoveries, entries conce
 
 ---
 
-## 17. Golden rule
+## 19. Golden rule
 
 If a collaborator is unsure where code belongs, use this rule:
 
-> If it is specific to one dashboard tab, put it in that section file.  
+> If it is specific to one dashboard tab, put it in that section folder.  
 > If multiple sections need it, move it to a shared helper module.  
 > If it fetches data, it belongs in `DataService`.  
-> If it writes/uploads files, it belongs in `publishing.py`.  
+> If it writes or uploads files, it belongs in `publishing.py`.  
+> If it coordinates the pipeline, it belongs in `orchestrator.py`.  
 > If it draws a football pitch, use `mplsoccer` and the shared repo colours.
