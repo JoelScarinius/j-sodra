@@ -22,14 +22,13 @@ from pipeline.sections import head_to_head
 from pipeline.sections import open_play
 from pipeline.sections import throw_ins
 
-
 DEFAULT_ENABLED_SECTIONS: list[ModuleType] = [
     head_to_head,
     corners,
-    open_play,
-    free_kicks,
-    throw_ins,
-    defensive,
+    # open_play,
+    # free_kicks,
+    # throw_ins,
+    # defensive,
 ]
 
 
@@ -38,7 +37,9 @@ def _normalise_name(value: str) -> str:
 
 
 def _section_name(module: ModuleType) -> str:
-    return _normalise_name(getattr(module, "SECTION_NAME", module.__name__.split(".")[-1]))
+    return _normalise_name(
+        getattr(module, "SECTION_NAME", module.__name__.split(".")[-1])
+    )
 
 
 def get_enabled_sections() -> list[ModuleType]:
@@ -49,12 +50,12 @@ def get_enabled_sections() -> list[ModuleType]:
         return list(DEFAULT_ENABLED_SECTIONS)
 
     requested_names = {
-        _normalise_name(value)
-        for value in configured.split(",")
-        if value.strip()
+        _normalise_name(value) for value in configured.split(",") if value.strip()
     }
 
-    modules_by_name = {_section_name(module): module for module in DEFAULT_ENABLED_SECTIONS}
+    modules_by_name = {
+        _section_name(module): module for module in DEFAULT_ENABLED_SECTIONS
+    }
     unknown = sorted(requested_names - set(modules_by_name))
 
     if unknown:

@@ -1,24 +1,26 @@
 {
-  "generated_at": "2026-06-13T19:14:03.757597+00:00",
+  "generated_at": "2026-06-24T09:47:41.776288+00:00",
   "team": {
-    "id": 6785,
-    "name": "Lund",
-    "logo_url": "https://cdn5.wyscout.com/photos/team/public/g4031_120x120.png",
+    "id": 71745,
+    "name": "Ariana",
+    "logo_url": "https://cdn5.wyscout.com/photos/team/public/g-17414_120x120.png",
     "season_id": 192451
   },
   "season_id": 192451,
-  "season_match_count": 12,
+  "season_match_count": 13,
   "attempted_event_matches": 10,
-  "event_matches_found": 10,
-  "event_matches_missing": 0,
-  "event_missing_match_ids": [],
+  "event_matches_found": 9,
+  "event_matches_missing": 1,
+  "event_missing_match_ids": [
+    5819264
+  ],
   "results": {
-    "matches_played": 12,
-    "wins": 6,
-    "draws": 4,
-    "losses": 2,
-    "points": 22,
-    "goals_for": 24,
-    "goals_against": 15
+    "matches_played": 13,
+    "wins": 7,
+    "draws": 3,
+    "losses": 3,
+    "points": 24,
+    "goals_for": 27,
+    "goals_against": 16
   }
 }

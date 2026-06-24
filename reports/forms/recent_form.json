@@ -1,7 +1,19 @@
 {
-  "generated_at": "2026-06-13T19:14:03.757597+00:00",
+  "generated_at": "2026-06-24T09:47:41.776288+00:00",
   "team": {
     "matches": [
+      {
+        "match_id": 5819260,
+        "dateutc": "2026-06-18T17:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Jönköpings Södra - Lund, 0-0",
+        "result": "D",
+        "score": "0-0",
+        "goals_for": 0,
+        "goals_against": 0
+      },
       {
         "match_id": 5819246,
         "dateutc": "2026-06-13T11:00:00+00:00",
@@ -49,29 +61,29 @@
         "score": "3-0",
         "goals_for": 3,
         "goals_against": 0
-      },
-      {
-        "match_id": 5819179,
-        "dateutc": "2026-05-17T11:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Jönköpings Södra - Hässleholms IF, 2-0",
-        "result": "W",
-        "score": "2-0",
-        "goals_for": 2,
-        "goals_against": 0
       }
     ],
     "summary": {
-      "wins": 3,
-      "draws": 0,
+      "wins": 2,
+      "draws": 1,
       "losses": 2,
-      "points": 9
+      "points": 7
     }
   },
   "next_opponent": {
     "matches": [
+      {
+        "match_id": 5819264,
+        "dateutc": "2026-06-21T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Ariana - Olympic, 1-2",
+        "result": "L",
+        "score": "1-2",
+        "goals_for": 1,
+        "goals_against": 2
+      },
       {
         "match_id": 5819243,
         "dateutc": "2026-06-12T17:00:00+00:00",
@@ -79,65 +91,53 @@
         "competition_id": 810,
         "status": "Played",
         "label": "Lund - Ariana, 1-4",
-        "result": "L",
+        "result": "W",
         "score": "1-4",
-        "goals_for": 1,
-        "goals_against": 4
+        "goals_for": 4,
+        "goals_against": 1
       },
       {
-        "match_id": 5819230,
+        "match_id": 5819229,
         "dateutc": "2026-06-07T11:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Kristianstad - Lund, 1-1",
-        "result": "D",
-        "score": "1-1",
-        "goals_for": 1,
-        "goals_against": 1
-      },
-      {
-        "match_id": 5819218,
-        "dateutc": "2026-06-03T17:00:00+00:00",
-        "season_id": 192451,
-        "competition_id": 810,
-        "status": "Played",
-        "label": "Olympic - Lund, 1-3",
+        "label": "Ariana - Eskilsminne, 2-1",
         "result": "W",
-        "score": "1-3",
-        "goals_for": 3,
+        "score": "2-1",
+        "goals_for": 2,
         "goals_against": 1
       },
       {
-        "match_id": 5819196,
-        "dateutc": "2026-05-22T17:00:00+00:00",
+        "match_id": 5819213,
+        "dateutc": "2026-05-30T14:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Lund - Eskilsminne, 4-2",
+        "label": "Ariana - Laholms FK, 4-2",
         "result": "W",
         "score": "4-2",
         "goals_for": 4,
         "goals_against": 2
       },
       {
-        "match_id": 5819180,
-        "dateutc": "2026-05-17T11:00:00+00:00",
+        "match_id": 5819199,
+        "dateutc": "2026-05-23T14:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Lund - Utsikten, 5-0",
+        "label": "Skövde AIK - Ariana, 0-4",
         "result": "W",
-        "score": "5-0",
-        "goals_for": 5,
+        "score": "0-4",
+        "goals_for": 4,
         "goals_against": 0
       }
     ],
     "summary": {
-      "wins": 3,
-      "draws": 1,
+      "wins": 4,
+      "draws": 0,
       "losses": 1,
-      "points": 10
+      "points": 12
     }
   }
 }
