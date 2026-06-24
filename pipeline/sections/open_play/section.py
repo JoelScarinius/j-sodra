@@ -25,42 +25,46 @@ Contributor rules:
 from __future__ import annotations
 
 from pipeline.contracts import SectionResult
-from pipeline.sections._helpers import write_basic_section
+from pipeline.publishing import build_ref, write_json
 
 SECTION_NAME = "open_play"
 
 
 def build_section(context) -> SectionResult:
-    """Build the Open Play dashboard section.
+    """Write a placeholder open-play payload.
 
-    This first version publishes a stable placeholder contract so Lovable can
-    safely show the tab while the real analysis is implemented.
+    Do not register this section in DEFAULT_ENABLED_SECTIONS until real open-play
+    metrics, plots, and Lovable UI expectations are ready.
     """
 
-    extra = {
-        "planned_metrics": [
-            "Possession progression",
-            "Final-third entries",
-            "Box entries",
-            "Shot-ending open-play attacks",
-            "xG from open play",
-            "Open-play threat conceded",
-        ],
-        "implementation_notes": [
-            "Use context.team_analysis_events_df() for J-Södra event data.",
-            "Use context.opponent_analysis_events_df() for next-opponent event data.",
-            "Use context.team_analysis_matches_df() and context.opponent_analysis_matches_df() for match scope.",
-            "Use mplsoccer for pitch maps and football-specific visualisations.",
-        ],
-    }
+    output_path = write_json(
+        context.settings.report_path(SECTION_NAME, "analysis.json"),
+        {
+            "generated_at": context.generated_at,
+            "section": SECTION_NAME,
+            "status": "not_ready",
+            "message": "Open-play analytics are not implemented yet.",
+            "team": {
+                "id": context.team_id,
+                "name": context.team_name,
+                "summary": {},
+                "metrics": [],
+                "storylines": [],
+            },
+            "next_opponent": {
+                "id": context.opponent_id,
+                "name": context.opponent_name,
+                "summary": {},
+                "metrics": [],
+                "storylines": [],
+            },
+            "files": {"data": {}, "plots": {}},
+        },
+    )
 
-    return write_basic_section(
-        context=context,
-        section_name=SECTION_NAME,
-        title="Open Play",
-        description=(
-            "Open-play attacking and defensive patterns for J-Södra and the next opponent."
-        ),
-        status="in_progress",
-        extra=extra,
+    return SectionResult(
+        name=SECTION_NAME,
+        files=[output_path],
+        index_entry={"analysis": build_ref(context.settings, output_path)},
+        metadata={"status": "not_ready"},
     )

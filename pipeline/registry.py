@@ -16,11 +16,13 @@ import os
 from types import ModuleType
 
 from pipeline.sections import corners
-from pipeline.sections import defensive
-from pipeline.sections import free_kicks
+
+# from pipeline.sections import defensive
+# from pipeline.sections import free_kicks
 from pipeline.sections import head_to_head
-from pipeline.sections import open_play
-from pipeline.sections import throw_ins
+
+# from pipeline.sections import open_play
+# from pipeline.sections import throw_ins
 
 DEFAULT_ENABLED_SECTIONS: list[ModuleType] = [
     head_to_head,
