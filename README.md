@@ -786,6 +786,21 @@ Notes:
 - `--force-refresh` bypasses the cache,
 - if a competition search does not resolve, no CSV is written for that export.
 
+### 15.3 Player cache
+
+Enabled by default:
+
+```env
+ENABLE_INCREMENTAL_PLAYER_FETCH=1
+PLAYER_CACHE_DIR=cache/players
+PLAYER_CACHE_TTL_HOURS=24
+```
+
+Notes:
+
+- competition player lists and per-player advanced stats are cached separately (one file per competition's player list, one file per player+competition stats lookup),
+- `--force-refresh` bypasses the cache.
+
 ---
 
 ## 16. Branching and issue workflow

@@ -85,6 +85,10 @@ class Settings:
     competition_cache_ttl_hours: int
     competition_cache_dir: Path
 
+    enable_incremental_player_fetch: bool
+    player_cache_ttl_hours: int
+    player_cache_dir: Path
+
     force_refresh_from_api: bool
     plot_style: dict[str, str]
 
@@ -141,6 +145,9 @@ def load_settings(force_refresh: bool = False) -> Settings:
         enable_incremental_competition_fetch=_env_bool("ENABLE_INCREMENTAL_COMPETITION_FETCH", "1"),
         competition_cache_ttl_hours=max(0, _env_int("COMPETITION_CACHE_TTL_HOURS", 24)),
         competition_cache_dir=output_dir / os.getenv("COMPETITION_CACHE_DIR", "cache/competitions"),
+        enable_incremental_player_fetch=_env_bool("ENABLE_INCREMENTAL_PLAYER_FETCH", "1"),
+        player_cache_ttl_hours=max(0, _env_int("PLAYER_CACHE_TTL_HOURS", 24)),
+        player_cache_dir=output_dir / os.getenv("PLAYER_CACHE_DIR", "cache/players"),
         force_refresh_from_api=bool(force_refresh or env_force_refresh),
         plot_style=dict(PLOT_STYLE),
     )

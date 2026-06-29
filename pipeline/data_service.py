@@ -541,6 +541,23 @@ class DataService:
             and not self.settings.force_refresh_from_api
         )
 
+    def _competition_players_cache_file_path(self, competition_id) -> Path:
+        return (
+            self.settings.player_cache_dir
+            / f"competition_{int(competition_id)}_players.json"
+        )
+
+    def _player_advanced_stats_cache_file_path(self, player_id, competition_id) -> Path:
+        return self.settings.player_cache_dir / (
+            f"player_{int(player_id)}_advancedstats_comp{int(competition_id)}.json"
+        )
+
+    def _use_player_cache(self) -> bool:
+        return (
+            self.settings.enable_incremental_player_fetch
+            and not self.settings.force_refresh_from_api
+        )
+
     def _load_cached_match_events(self, match_id):
         if not self._use_event_cache():
             return None
@@ -824,6 +841,95 @@ class DataService:
 
         return list(discovered.values())
 
+    def _load_cached_competition_players(self, competition_id):
+        if not self._use_player_cache():
+            return None
+
+        cache_path = self._competition_players_cache_file_path(competition_id)
+        if not cache_path.exists():
+            return None
+
+        try:
+            payload = json.loads(cache_path.read_text(encoding="utf-8"))
+        except Exception:
+            return None
+
+        players = payload.get("players")
+        if not isinstance(players, list):
+            return None
+
+        fetched_at = parse_iso_datetime(payload.get("fetched_at"))
+        if fetched_at is None:
+            return None
+        age = datetime.now(timezone.utc) - fetched_at
+        if age > timedelta(hours=self.settings.player_cache_ttl_hours):
+            return None
+        return players
+
+    def _write_cached_competition_players(self, competition_id, players: list):
+        if not self.settings.enable_incremental_player_fetch:
+            return
+
+        try:
+            self.settings.player_cache_dir.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "competition_id": int(competition_id),
+                "fetched_at": datetime.now(timezone.utc).isoformat(),
+                "players": players,
+            }
+            self._competition_players_cache_file_path(competition_id).write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except Exception as exc:
+            print(f"Player cache write failed for competition {competition_id}: {exc}")
+
+    def _load_cached_player_advanced_stats(self, player_id, competition_id):
+        if not self._use_player_cache():
+            return None
+
+        cache_path = self._player_advanced_stats_cache_file_path(player_id, competition_id)
+        if not cache_path.exists():
+            return None
+
+        try:
+            payload = json.loads(cache_path.read_text(encoding="utf-8"))
+        except Exception:
+            return None
+
+        stats = payload.get("stats")
+        if not isinstance(stats, dict):
+            return None
+
+        fetched_at = parse_iso_datetime(payload.get("fetched_at"))
+        if fetched_at is None:
+            return None
+        age = datetime.now(timezone.utc) - fetched_at
+        if age > timedelta(hours=self.settings.player_cache_ttl_hours):
+            return None
+        return stats
+
+    def _write_cached_player_advanced_stats(self, player_id, competition_id, stats: dict):
+        if not self.settings.enable_incremental_player_fetch:
+            return
+
+        try:
+            self.settings.player_cache_dir.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "player_id": int(player_id),
+                "competition_id": int(competition_id),
+                "fetched_at": datetime.now(timezone.utc).isoformat(),
+                "stats": stats,
+            }
+            self._player_advanced_stats_cache_file_path(
+                player_id, competition_id
+            ).write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except Exception as exc:
+            print(f"Player cache write failed for player {player_id}: {exc}")
+
     def _fetch_competition_matches_with_cache(
         self,
         competition_id,
@@ -907,3 +1013,76 @@ class DataService:
             f"Saved {len(combined)} matches -> {output_path.relative_to(self.settings.output_dir)}"
         )
         return output_path
+
+    def get_competition_players(self, competition_id) -> list[dict]:
+        competition_id = int(competition_id)
+
+        cached_players = self._load_cached_competition_players(competition_id)
+        if cached_players is not None:
+            return cached_players
+
+        players: list[dict] = []
+        page = 1
+        page_size = 100
+        while True:
+            payload = self.fetch_api(
+                f"/competitions/{competition_id}/players",
+                {"limit": page_size, "page": page},
+            )
+            page_players = extract_list(payload, "players")
+            if not page_players and isinstance(payload, list):
+                page_players = payload
+            if not page_players:
+                break
+            players.extend(page_players)
+
+            meta = payload.get("meta") if isinstance(payload, dict) else None
+            page_count = meta.get("page_count") if isinstance(meta, dict) else None
+            if not isinstance(page_count, int) or page >= page_count:
+                break
+            page += 1
+
+        self._write_cached_competition_players(competition_id, players)
+        return players
+
+    def extract_player_ids(self, players: list[dict]) -> list[int]:
+        player_ids: list[int] = []
+        seen_ids: set[int] = set()
+        for player in players:
+            if not isinstance(player, dict):
+                continue
+            wy_id = player.get("wyId") or player.get("id")
+            if wy_id is None:
+                continue
+            try:
+                wy_id = int(wy_id)
+            except Exception:
+                continue
+            if wy_id in seen_ids:
+                continue
+            seen_ids.add(wy_id)
+            player_ids.append(wy_id)
+        return player_ids
+
+    def get_player_advanced_stats(self, player_id, competition_id) -> dict | None:
+        if player_id is None:
+            return None
+        try:
+            player_id = int(player_id)
+        except Exception:
+            return None
+        competition_id = int(competition_id)
+
+        cached_stats = self._load_cached_player_advanced_stats(player_id, competition_id)
+        if cached_stats is not None:
+            return cached_stats
+
+        payload = self.fetch_api(
+            f"/players/{player_id}/advancedstats",
+            {"compId": competition_id},
+        )
+        if not isinstance(payload, dict):
+            return None
+
+        self._write_cached_player_advanced_stats(player_id, competition_id, payload)
+        return payload

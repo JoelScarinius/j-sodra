@@ -172,6 +172,44 @@ def _write_core_reports(
     return section_refs, files
 
 
+def _detect_primary_competition_id(matches_df: pd.DataFrame):
+    """Return the most common competitionId found in a team's matches."""
+
+    if matches_df.empty or "competitionId" not in matches_df.columns:
+        return None
+
+    competition_ids = pd.to_numeric(matches_df["competitionId"], errors="coerce").dropna()
+    if competition_ids.empty:
+        return None
+    return int(competition_ids.mode().iloc[0])
+
+
+def _refresh_competition_player_cache(service: DataService, competition_id) -> dict:
+    """Fetch and disk-cache competition players and per-player advanced stats."""
+
+    if competition_id is None:
+        print("\nSkipping player cache refresh: no competition id resolved.")
+        return {"competition_id": None, "player_count": 0, "stats_cached": 0}
+
+    print(f"\nRefreshing player cache for competition {competition_id}...")
+    players = service.get_competition_players(competition_id)
+    player_ids = service.extract_player_ids(players)
+    print(f"Found {len(player_ids)} players in competition {competition_id}.")
+
+    stats_cached = 0
+    for player_id in player_ids:
+        stats = service.get_player_advanced_stats(player_id, competition_id)
+        if stats:
+            stats_cached += 1
+    print(f"Player advanced stats cached: {stats_cached}/{len(player_ids)}.")
+
+    return {
+        "competition_id": competition_id,
+        "player_count": len(player_ids),
+        "stats_cached": stats_cached,
+    }
+
+
 def _export_competitions(service: DataService) -> list:
     """Export competition CSV snapshots used by the dashboard."""
 
@@ -448,6 +486,9 @@ def run_pipeline(settings) -> int:
     for result in section_results:
         section_refs[result.name] = result.index_entry
         section_files.extend(result.existing_files())
+
+    primary_competition_id = _detect_primary_competition_id(matches_df)
+    _refresh_competition_player_cache(service, primary_competition_id)
 
     competition_paths = _export_competitions(service)
     if competition_paths:
