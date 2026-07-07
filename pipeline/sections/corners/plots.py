@@ -16,9 +16,11 @@ import pandas as pd
 try:
     import matplotlib.pyplot as plt
     from matplotlib.colors import LinearSegmentedColormap
+    from matplotlib.lines import Line2D
 except Exception:
     plt = None
     LinearSegmentedColormap = None
+    Line2D = None
 
 try:
     from mplsoccer import VerticalPitch
@@ -89,7 +91,9 @@ def _recycled_xg_delta(row: dict, total_key: str, first_key: str) -> float:
 
 
 def _max_recycled_xg(rows: list[dict], total_key: str, first_key: str) -> float:
-    return max((_recycled_xg_delta(row, total_key, first_key) for row in rows), default=0.0)
+    return max(
+        (_recycled_xg_delta(row, total_key, first_key) for row in rows), default=0.0
+    )
 
 
 def _goal_zoom_label_slots() -> list[dict[str, float | str]]:
@@ -109,7 +113,9 @@ def _goal_zoom_label_slots() -> list[dict[str, float | str]]:
     return slots
 
 
-def _annotate_goal_zoom_labels(ax, label_items: list[dict[str, float | str]], style: dict[str, str]):
+def _annotate_goal_zoom_labels(
+    ax, label_items: list[dict[str, float | str]], style: dict[str, str]
+):
     slots = _goal_zoom_label_slots()
     for label_item, slot in zip(label_items, slots):
         _add_goal_zoom_annotation(
@@ -181,14 +187,49 @@ def _draw_goal_highlight(ax, style: dict[str, str]):
     goal_right = 55.4
     goal_line = 100.0
     goal_depth = max(ax.get_ylim()) - 0.25
-    ax.plot([goal_left, goal_right], [goal_line, goal_line], color=style["line"], linewidth=3.0, zorder=7)
-    ax.plot([goal_left, goal_left], [goal_line, goal_depth], color=style["line"], linewidth=2.2, zorder=7)
-    ax.plot([goal_right, goal_right], [goal_line, goal_depth], color=style["line"], linewidth=2.2, zorder=7)
-    ax.plot([goal_left, goal_right], [goal_depth, goal_depth], color=style["line"], linewidth=1.1, alpha=0.55, zorder=7)
+    ax.plot(
+        [goal_left, goal_right],
+        [goal_line, goal_line],
+        color=style["line"],
+        linewidth=3.0,
+        zorder=7,
+    )
+    ax.plot(
+        [goal_left, goal_left],
+        [goal_line, goal_depth],
+        color=style["line"],
+        linewidth=2.2,
+        zorder=7,
+    )
+    ax.plot(
+        [goal_right, goal_right],
+        [goal_line, goal_depth],
+        color=style["line"],
+        linewidth=2.2,
+        zorder=7,
+    )
+    ax.plot(
+        [goal_left, goal_right],
+        [goal_depth, goal_depth],
+        color=style["line"],
+        linewidth=1.1,
+        alpha=0.55,
+        zorder=7,
+    )
 
 
 def _plot_pitch_message(ax, message: str, style: dict[str, str]):
-    ax.text(50, 50, message, ha="center", va="center", color=style["line"], fontsize=12, fontweight="bold")
+    ax.text(
+        50,
+        50,
+        message,
+        ha="center",
+        va="center",
+        color=style["line"],
+        fontsize=12,
+        fontweight="bold",
+    )
+
 
 def _plot_corner_map(
     corner_df: pd.DataFrame, title: str, output_path: Path, style: dict[str, str]
@@ -200,42 +241,12 @@ def _plot_corner_map(
     fig, ax = pitch.draw(figsize=(11, 6.2))
     fig.patch.set_facecolor(style["bg"])
     ax.set_facecolor(style["bg"])
-    _apply_goal_zoom_crop(ax)
-    _draw_goal_highlight(ax, style)
 
     if corner_df.empty:
         _plot_pitch_message(ax, "No corner data available", style)
     else:
         left = corner_df[corner_df["side"] == "left"]
         right = corner_df[corner_df["side"] == "right"]
-        if not left.empty:
-            pitch.arrows(
-                left["start_x"],
-                left["start_y"],
-                left["end_x"],
-                left["end_y"],
-                ax=ax,
-                color=style["accent"],
-                alpha=0.32,
-                width=1.8,
-                headwidth=4,
-                headlength=5,
-                zorder=2,
-            )
-        if not right.empty:
-            pitch.arrows(
-                right["start_x"],
-                right["start_y"],
-                right["end_x"],
-                right["end_y"],
-                ax=ax,
-                color=style["accent_2"],
-                alpha=0.32,
-                width=1.8,
-                headwidth=4,
-                headlength=5,
-                zorder=2,
-            )
         colors = (
             corner_df["side"]
             .map({"left": style["accent"], "right": style["accent_2"]})
@@ -258,12 +269,48 @@ def _plot_corner_map(
             zorder=4,
         )
 
-        shot_mask = corner_df.get(
-            "possession_shot", pd.Series(False, index=corner_df.index)
-        ).fillna(False).astype(bool)
-        goal_mask = corner_df.get(
-            "possession_goal", pd.Series(False, index=corner_df.index)
-        ).fillna(False).astype(bool)
+        if Line2D is not None:
+            legend_handles = [
+                Line2D(
+                    [0],
+                    [0],
+                    marker="o",
+                    color="none",
+                    markerfacecolor=style["accent"],
+                    markeredgecolor=style["bg"],
+                    markersize=8,
+                    label="Left-side corners",
+                ),
+                Line2D(
+                    [0],
+                    [0],
+                    marker="o",
+                    color="none",
+                    markerfacecolor=style["accent_2"],
+                    markeredgecolor=style["bg"],
+                    markersize=8,
+                    label="Right-side corners",
+                ),
+            ]
+            ax.legend(
+                handles=legend_handles,
+                loc="upper left",
+                frameon=True,
+                facecolor=style["bg"],
+                edgecolor=style["line"],
+                labelcolor=style["line"],
+            )
+
+        shot_mask = (
+            corner_df.get("possession_shot", pd.Series(False, index=corner_df.index))
+            .fillna(False)
+            .astype(bool)
+        )
+        goal_mask = (
+            corner_df.get("possession_goal", pd.Series(False, index=corner_df.index))
+            .fillna(False)
+            .astype(bool)
+        )
 
         if shot_mask.any():
             pitch.scatter(
@@ -311,10 +358,9 @@ def _plot_corner_map(
             representative_indices: list[int] = []
             for row in label_rows.itertuples(index=False):
                 player_rows = grouped_targets.get_group(row.target_player).copy()
-                player_rows["_distance_to_mean"] = (
-                    np.square(player_rows["end_x"] - float(row.avg_end_x))
-                    + np.square(player_rows["end_y"] - float(row.avg_end_y))
-                )
+                player_rows["_distance_to_mean"] = np.square(
+                    player_rows["end_x"] - float(row.avg_end_x)
+                ) + np.square(player_rows["end_y"] - float(row.avg_end_y))
                 player_rows["_xg_sort"] = pd.to_numeric(
                     player_rows.get("possession_xg"), errors="coerce"
                 ).fillna(0.0)
@@ -332,7 +378,9 @@ def _plot_corner_map(
                 )
 
             if representative_indices:
-                representative_sizes = marker_size.loc[representative_indices].mul(1.35).add(80)
+                representative_sizes = (
+                    marker_size.loc[representative_indices].mul(1.35).add(80)
+                )
                 pitch.scatter(
                     corner_df.loc[representative_indices, "end_x"],
                     corner_df.loc[representative_indices, "end_y"],
@@ -348,7 +396,7 @@ def _plot_corner_map(
 
         _plot_context_note(
             fig,
-            "Each arrow is one corner delivery. Filled circles are delivery end points, and larger circles mean more full corner-sequence xG. White ring = shot in the sequence. Red star = goal. Player callouts connect to highlighted representative circles, while the text totals all targets and full-sequence xG for that player.",
+            "Each dot is one corner landing point. Green dots are left-side corners, yellow dots are right-side corners. Larger circles mean more full corner-sequence xG. White ring = shot in the sequence. Red star = goal. Player callouts connect to representative circles, while the text totals all targets and full-sequence xG for that player.",
             style,
         )
 
@@ -369,8 +417,6 @@ def _plot_corner_target_map(
     fig, ax = pitch.draw(figsize=(11, 6.2))
     fig.patch.set_facecolor(style["bg"])
     ax.set_facecolor(style["bg"])
-    _apply_goal_zoom_crop(ax)
-    _draw_goal_highlight(ax, style)
 
     if corner_df.empty:
         _plot_pitch_message(ax, "No target-player data available", style)
@@ -393,7 +439,9 @@ def _plot_corner_target_map(
                     possession_xg=("possession_xg", "sum"),
                 )
                 .reset_index()
-                .sort_values(["possession_xg", "corners", "possession_shot"], ascending=False)
+                .sort_values(
+                    ["possession_xg", "corners", "possession_shot"], ascending=False
+                )
                 .head(6)
             )
 
@@ -476,8 +524,6 @@ def _plot_corner_end_threat_heatmap(
     fig, ax = pitch.draw(figsize=(11, 6.2))
     fig.patch.set_facecolor(style["bg"])
     ax.set_facecolor(style["bg"])
-    _apply_goal_zoom_crop(ax)
-    _draw_goal_highlight(ax, style)
 
     if corner_df.empty:
         _plot_pitch_message(ax, "No corner threat data available", style)
@@ -515,7 +561,12 @@ def _plot_corner_end_threat_heatmap(
             cmap = (
                 LinearSegmentedColormap.from_list(
                     "corner_threat",
-                    [style["muted"], style["accent_2"], style["accent"], style["danger"]],
+                    [
+                        style["muted"],
+                        style["accent_2"],
+                        style["accent"],
+                        style["danger"],
+                    ],
                 )
                 if LinearSegmentedColormap is not None
                 else "YlOrRd"
@@ -525,9 +576,7 @@ def _plot_corner_end_threat_heatmap(
                 normalized = hotspot / max_hotspot
                 hotspot_mask = hotspot > 0
                 if hotspot_mask.any():
-                    hotspot_sizes = 110 + 780 * np.power(
-                        normalized[hotspot_mask], 0.92
-                    )
+                    hotspot_sizes = 110 + 780 * np.power(normalized[hotspot_mask], 0.92)
                     pitch.scatter(
                         grid_x[hotspot_mask],
                         grid_y[hotspot_mask],
@@ -553,12 +602,20 @@ def _plot_corner_end_threat_heatmap(
                 zorder=4.8,
             )
 
-            shot_mask = corner_df.get(
-                "possession_shot", pd.Series(False, index=corner_df.index)
-            ).fillna(False).astype(bool)
-            goal_mask = corner_df.get(
-                "possession_goal", pd.Series(False, index=corner_df.index)
-            ).fillna(False).astype(bool)
+            shot_mask = (
+                corner_df.get(
+                    "possession_shot", pd.Series(False, index=corner_df.index)
+                )
+                .fillna(False)
+                .astype(bool)
+            )
+            goal_mask = (
+                corner_df.get(
+                    "possession_goal", pd.Series(False, index=corner_df.index)
+                )
+                .fillna(False)
+                .astype(bool)
+            )
             if shot_mask.any():
                 pitch.scatter(
                     pd.to_numeric(corner_df.loc[shot_mask, "end_x"], errors="coerce"),
@@ -646,9 +703,7 @@ def _plot_corner_player_impact_bar(
                 if recycled_xg > 0.004:
                     details.append(f"+{recycled_xg:.2f} recycled xG")
             if "shots_after_corner" in row:
-                details.append(
-                    f"{int(row.get('shots_after_corner', 0) or 0)} shots"
-                )
+                details.append(f"{int(row.get('shots_after_corner', 0) or 0)} shots")
             if "first_shot_xg_after_corner" in row and value_key == "xg_after_corner":
                 recycled_xg = _recycled_xg_delta(
                     row, "xg_after_corner", "first_shot_xg_after_corner"
@@ -656,11 +711,11 @@ def _plot_corner_player_impact_bar(
                 if recycled_xg > 0.004:
                     details.append(f"+{recycled_xg:.2f} recycled xG")
             if "goals_after_corner" in row:
-                details.append(
-                    f"{int(row.get('goals_after_corner', 0) or 0)} goals"
-                )
+                details.append(f"{int(row.get('goals_after_corner', 0) or 0)} goals")
 
-            detail_text = f"{value:.2f} | {' | '.join(details)}" if details else f"{value:.2f}"
+            detail_text = (
+                f"{value:.2f} | {' | '.join(details)}" if details else f"{value:.2f}"
+            )
             ax.text(
                 bar.get_width() + (max_value * 0.03),
                 bar.get_y() + (bar.get_height() / 2),
@@ -817,7 +872,6 @@ def _plot_corner_xg_method_comparison(
     return output_path
 
 
-
 def generate_corner_plots(
     *,
     settings,
@@ -950,7 +1004,9 @@ def generate_corner_plots(
         store(
             "next_opponent_taker_impact",
             _plot_corner_player_impact_bar(
-                opponent_corner.get("offensive_takers", {}).get("top_takers_by_xg_created", []),
+                opponent_corner.get("offensive_takers", {}).get(
+                    "top_takers_by_xg_created", []
+                ),
                 f"{opponent_name} corner takers by xG created",
                 corner_dir / "next_opponent_taker_impact.png",
                 "possession_xg",
@@ -961,7 +1017,9 @@ def generate_corner_plots(
         store(
             "next_opponent_xg_method_comparison",
             _plot_corner_xg_method_comparison(
-                opponent_corner.get("offensive_takers", {}).get("top_takers_by_xg_created", []),
+                opponent_corner.get("offensive_takers", {}).get(
+                    "top_takers_by_xg_created", []
+                ),
                 f"{opponent_name} corner xG split: first shot vs recycled threat",
                 corner_dir / "next_opponent_xg_method_comparison.png",
                 style,

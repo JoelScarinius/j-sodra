@@ -1,0 +1,152 @@
+{
+  "generated_at": "2026-07-07T23:08:25.791015+00:00",
+  "section": "throw_ins",
+  "title": "Throw-ins",
+  "description": "Simple throw-in view showing where the ball lands and how often the move becomes a shot or goal.",
+  "status": "ready",
+  "team": {
+    "id": 6849,
+    "name": "Jönköpings Södra",
+    "summary": {
+      "total": 562,
+      "created_shots": 22,
+      "goals": 2,
+      "xg": 1.502,
+      "xg_for": 1.502,
+      "retention_pct": 96.09,
+      "attacking_third_share_pct": 36.65,
+      "defensive_third_share_pct": 27.22,
+      "competition_label": "League campaign",
+      "season_label": "2026",
+      "latest_match_label": "Ariana - Jönköpings Södra, 1-0"
+    },
+    "metrics": [
+      {
+        "label": "Throw-ins",
+        "value": 562,
+        "format": "count"
+      },
+      {
+        "label": "Created shots",
+        "value": 22,
+        "format": "count"
+      },
+      {
+        "label": "Goals",
+        "value": 2,
+        "format": "count"
+      },
+      {
+        "label": "xG",
+        "value": 1.502,
+        "format": "0.000"
+      },
+      {
+        "label": "Retention",
+        "value": 96.1,
+        "format": "percent"
+      }
+    ],
+    "storylines": [
+      "Jönköpings Södra took 37% of throw-ins from the attacking third and 27% from the defensive third.",
+      "Throw-ins generated 22 shots and 2 goals in the sampled window.",
+      "Most throw-ins were retained or recycled safely, with 96% not immediately ending in a shot."
+    ]
+  },
+  "next_opponent": {
+    "id": 6786,
+    "name": "Rosengård",
+    "summary": {
+      "total": 597,
+      "created_shots": 17,
+      "goals": 0,
+      "xg": 0.484,
+      "xg_for": 0.484,
+      "retention_pct": 97.15,
+      "attacking_third_share_pct": 34.34,
+      "defensive_third_share_pct": 28.31,
+      "competition_label": "League campaign",
+      "season_label": "2026",
+      "latest_match_label": "Åtvidaberg - Rosengård, 3-3"
+    },
+    "metrics": [
+      {
+        "label": "Throw-ins",
+        "value": 597,
+        "format": "count"
+      },
+      {
+        "label": "Created shots",
+        "value": 17,
+        "format": "count"
+      },
+      {
+        "label": "Goals",
+        "value": 0,
+        "format": "count"
+      },
+      {
+        "label": "xG",
+        "value": 0.484,
+        "format": "0.000"
+      },
+      {
+        "label": "Retention",
+        "value": 97.2,
+        "format": "percent"
+      }
+    ],
+    "storylines": [
+      "Rosengård took 34% of throw-ins from the attacking third and 28% from the defensive third.",
+      "Throw-ins generated 17 shots and 0 goals in the sampled window.",
+      "Most throw-ins were retained or recycled safely, with 97% not immediately ending in a shot."
+    ]
+  },
+  "files": {
+    "data": {},
+    "plots": {
+      "team_attacking_third": {
+        "path": "reports/throw_ins/plots/team_attacking_third.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/team_attacking_third.png",
+        "title": "team attacking third",
+        "description": "Shows where attacking throw-ins usually land and whether they lead to a shot.",
+        "reading_guide": [
+          "Darker areas mean the team lands there often.",
+          "Gold circles mean a shot happened soon after the throw-in.",
+          "Red stars mean the throw-in sequence ended in a goal."
+        ]
+      },
+      "team_defensive_third": {
+        "path": "reports/throw_ins/plots/team_defensive_third.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/team_defensive_third.png",
+        "title": "team defensive third",
+        "description": "Shows where defensive throw-ins land near the team’s own goal.",
+        "reading_guide": [
+          "The map shows how safely the team handles throw-ins near its own goal.",
+          "Gold circles mean the throw-in sequence quickly led to a shot."
+        ]
+      },
+      "next_opponent_attacking_third": {
+        "path": "reports/throw_ins/plots/next_opponent_attacking_third.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/next_opponent_attacking_third.png",
+        "title": "next opponent attacking third",
+        "description": "Shows where attacking throw-ins usually land and whether they lead to a shot.",
+        "reading_guide": [
+          "Darker areas mean the team lands there often.",
+          "Gold circles mean a shot happened soon after the throw-in.",
+          "Red stars mean the throw-in sequence ended in a goal."
+        ]
+      },
+      "next_opponent_defensive_third": {
+        "path": "reports/throw_ins/plots/next_opponent_defensive_third.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/next_opponent_defensive_third.png",
+        "title": "next opponent defensive third",
+        "description": "Shows where defensive throw-ins land near the team’s own goal.",
+        "reading_guide": [
+          "The map shows how safely the team handles throw-ins near its own goal.",
+          "Gold circles mean the throw-in sequence quickly led to a shot."
+        ]
+      }
+    }
+  }
+}

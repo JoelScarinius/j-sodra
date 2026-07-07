@@ -85,6 +85,16 @@ def prepare_event_frame(events_df: pd.DataFrame) -> pd.DataFrame:
     frame["secondary_tags"] = _column(frame, "type.secondary", []).apply(
         _secondary_tags
     )
+    frame["possession_tags"] = _column(frame, "possession.types", []).apply(
+        _secondary_tags
+    )
+    frame["event_tags"] = frame.apply(
+        lambda row: {row["event_type"]}
+        | row["secondary_tags"]
+        | row["possession_tags"],
+        axis=1,
+    )
+    frame["set_piece"] = frame["event_tags"].apply(_is_set_piece)
     frame["player_name"] = (
         _column(frame, "player.name", "").fillna("").astype(str).str.strip()
     )
@@ -133,7 +143,6 @@ def progressive_passes(events_df: pd.DataFrame) -> pd.DataFrame:
         return passes
 
     passes = passes[passes["recipient_name"].ne("")]
-    passes["set_piece"] = passes["secondary_tags"].apply(_is_set_piece)
     passes["progressive"] = passes["secondary_tags"].apply(
         lambda tags: "progressive_pass" in tags
     )
@@ -219,7 +228,8 @@ def build_pass_network(
     max_players: int = 11,
     min_link_count: int = 3,
 ) -> dict[str, pd.DataFrame | dict]:
-    if match_id is None:
+    frame = prepare_event_frame(events_df)
+    if frame.empty:
         return {
             "positions": pd.DataFrame(),
             "links": pd.DataFrame(),
@@ -227,8 +237,23 @@ def build_pass_network(
             "meta": {},
         }
 
-    frame = prepare_event_frame(events_df)
-    match_frame = frame[frame["matchId"].eq(float(match_id))].copy()
+    match_frame = pd.DataFrame()
+    if match_id is not None:
+        match_frame = frame[frame["matchId"].eq(float(match_id))].copy()
+    if match_frame.empty:
+        pass_frame = frame[frame["event_type"].eq("pass")].copy()
+        candidate_frame = pass_frame if not pass_frame.empty else frame.copy()
+        candidate_match_ids = candidate_frame["matchId"].dropna().unique().tolist()
+        if candidate_match_ids:
+            candidate_frame = candidate_frame.copy()
+            candidate_frame["_clock"] = candidate_frame.apply(_event_clock, axis=1)
+            fallback_match_id = (
+                candidate_frame.groupby("matchId")["_clock"]
+                .max()
+                .sort_values(ascending=False)
+                .index[0]
+            )
+            match_frame = frame[frame["matchId"].eq(float(fallback_match_id))].copy()
     if match_frame.empty:
         return {
             "positions": pd.DataFrame(),
@@ -264,7 +289,7 @@ def build_pass_network(
             "meta": {},
         }
 
-    passes = passes[~passes["secondary_tags"].apply(_is_set_piece)].copy()
+    passes = passes[~passes["set_piece"]].copy()
     passes = passes[
         passes["player_name"].isin(player_pool)
         & passes["recipient_name"].isin(player_pool)
@@ -358,9 +383,7 @@ def dropped_ball_turnovers(
         if failed_passes.empty:
             continue
 
-        failed_passes = failed_passes[
-            ~failed_passes["secondary_tags"].apply(_is_set_piece)
-        ].copy()
+        failed_passes = failed_passes[~failed_passes["set_piece"]].copy()
         if failed_passes.empty:
             continue
 

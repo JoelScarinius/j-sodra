@@ -214,7 +214,9 @@ def _write_index(
                 "webhook_method": "POST",
                 "status_method": "GET",
                 "status_url_template": (
-                    f"{refresh_webhook_url}?run_id={{run_id}}" if refresh_webhook_url else None
+                    f"{refresh_webhook_url}?run_id={{run_id}}"
+                    if refresh_webhook_url
+                    else None
                 ),
                 "poll_interval_ms": 3000,
                 "server_command": "python run_pipeline.py --force-refresh",
@@ -301,7 +303,9 @@ def run_pipeline(settings) -> int:
     opponent_logo_url = extract_logo_url(opponent_profile or {})
 
     if opponent_name:
-        print(f"Next opponent source={next_opponent_info.get('source')}: {opponent_name} (ID: {opponent_id})")
+        print(
+            f"Next opponent source={next_opponent_info.get('source')}: {opponent_name} (ID: {opponent_id})"
+        )
     else:
         print("No next opponent could be resolved from fixtures or recent matches.")
 
@@ -328,7 +332,9 @@ def run_pipeline(settings) -> int:
         )
 
     print("\nComputing shared summaries, form, and H2H...")
-    opponent_analysis_matches_df = opponent_data.get("analysis_matches_df", pd.DataFrame())
+    opponent_analysis_matches_df = opponent_data.get(
+        "analysis_matches_df", pd.DataFrame()
+    )
 
     team_recent_form = build_recent_form(
         team_analysis_matches_df,
@@ -341,7 +347,9 @@ def run_pipeline(settings) -> int:
         limit=settings.recent_form_matches,
     )
 
-    team_result_summary = summarize_results_from_matches(team_season_matches_df, team_name)
+    team_result_summary = summarize_results_from_matches(
+        team_season_matches_df, team_name
+    )
     opponent_result_summary = summarize_results_from_matches(
         opponent_data.get("season_matches_df", pd.DataFrame()),
         opponent_name or "",
@@ -354,7 +362,9 @@ def run_pipeline(settings) -> int:
         opponent_name=opponent_name,
         matches_df=matches_df,
         active_season_id=active_season_id,
-        fallback_previous_season_id=team_data.get("analysis_scope", {}).get("previous_season_id"),
+        fallback_previous_season_id=team_data.get("analysis_scope", {}).get(
+            "previous_season_id"
+        ),
         max_h2h_matches=settings.max_h2h_matches,
         h2h_fallback_to_previous_season=settings.h2h_fallback_to_previous_season,
     )
@@ -393,21 +403,44 @@ def run_pipeline(settings) -> int:
         "season_id": active_season_id,
         "season_match_count": int(len(team_season_matches_df)),
         "attempted_event_matches": len(team_data.get("selected_match_ids", [])),
+        "analysis_match_count": len(team_data.get("analysis_selected_match_ids", [])),
         "event_matches_found": len(team_data.get("with_events", [])),
         "event_matches_missing": len(team_data.get("without_events", [])),
         "event_missing_match_ids": team_data.get("without_events", []),
+        "analysis_scope": team_data.get("analysis_scope", {}),
         "results": team_result_summary,
     }
     opponent_summary = {
         "team": opponent_payload,
         "season_id": opponent_data.get("season_id"),
-        "season_match_count": int(len(opponent_data.get("season_matches_df", pd.DataFrame()))),
+        "season_match_count": int(
+            len(opponent_data.get("season_matches_df", pd.DataFrame()))
+        ),
         "attempted_event_matches": len(opponent_data.get("selected_match_ids", [])),
+        "analysis_match_count": len(
+            opponent_data.get("analysis_selected_match_ids", [])
+        ),
         "event_matches_found": len(opponent_data.get("with_events", [])),
         "event_matches_missing": len(opponent_data.get("without_events", [])),
         "event_missing_match_ids": opponent_data.get("without_events", []),
+        "analysis_scope": opponent_data.get("analysis_scope", {}),
         "results": opponent_result_summary,
     }
+
+    if team_data.get("analysis_scope", {}).get("previous_season_id") is not None:
+        team_summary["previous_season"] = {
+            "season_id": team_data["analysis_scope"].get("previous_season_id"),
+            "matches_used": team_data["analysis_scope"].get(
+                "previous_season_matches_used", 0
+            ),
+        }
+    if opponent_data.get("analysis_scope", {}).get("previous_season_id") is not None:
+        opponent_summary["previous_season"] = {
+            "season_id": opponent_data["analysis_scope"].get("previous_season_id"),
+            "matches_used": opponent_data["analysis_scope"].get(
+                "previous_season_matches_used", 0
+            ),
+        }
 
     context = PipelineContext(
         settings=settings,
@@ -475,9 +508,13 @@ def run_pipeline(settings) -> int:
                 settings.report_path("upload_manifest.json"),
                 {"generated_at": generated_at, "files": uploaded},
             )
-            print(f"Uploaded {len(uploaded)} files and wrote manifest -> {manifest_path}")
+            print(
+                f"Uploaded {len(uploaded)} files and wrote manifest -> {manifest_path}"
+            )
     else:
-        print("\nUpload disabled. Set UPLOAD_TO_SUPABASE_STORAGE=1 to push reports to the bucket.")
+        print(
+            "\nUpload disabled. Set UPLOAD_TO_SUPABASE_STORAGE=1 to push reports to the bucket."
+        )
 
     print("\nDone.")
     return 0

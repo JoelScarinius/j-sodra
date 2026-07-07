@@ -255,6 +255,31 @@ SectionResult(
 )
 ```
 
+### 6.1 Step-by-step section workflow
+
+Use this sequence every time you add or update a dashboard section:
+
+1. Pick the section folder first. The active dashboard tabs are `head_to_head`, `corners`, `open_play`, `free_kicks`, `throw_ins`, and `defensive`.
+2. Decide whether the idea is section-specific or reusable. Put reusable football math in `pipeline/analytics.py` or `pipeline/common.py`. Keep tab-specific logic inside `pipeline/sections/<section_name>/`.
+3. Start from the section contract. The section must expose `SECTION_NAME` and `build_section(context)` from its package `__init__.py`.
+4. Read only the shared data from `PipelineContext`. Use the existing `team_*` and `opponent_*` DataFrame helpers instead of fetching Wyscout directly from the section.
+5. Build the content payload. Write a single section JSON file to `reports/<section_name>/analysis.json` and any supporting CSV or PNG files to `reports/<section_name>/data/` or `reports/<section_name>/plots/`.
+6. Make the visuals easy to read. Reuse the club palette from `pipeline/settings.py`, use `mplsoccer` for pitch-based visuals, and add short explainable footer text to every plot.
+7. Return every generated file. The `SectionResult.files` list must include the section JSON plus every CSV and PNG that should be published.
+8. Add frontend references. Put the public file references in `SectionResult.index_entry` so `reports/index.json` can point the frontend to the new section.
+9. Register the section. Import the package in `pipeline/registry.py` and add it to `DEFAULT_ENABLED_SECTIONS`.
+10. Run a narrow local check. Use `ENABLED_SECTIONS=<section_name> python run_pipeline.py` or the smoke test helper to verify the section writes the expected files.
+11. Publish to Supabase Storage. Set `UPLOAD_TO_SUPABASE_STORAGE=1` plus the Supabase S3 credentials. The pipeline uploads every file returned in `SectionResult.files` to the matching path under the bucket.
+12. Verify the frontend contract. Check `reports/index.json` after the run. The Lovable frontend reads that file first and then follows the section references.
+
+### 6.2 Practical rules
+
+- Use `section.py` as the publishing entrypoint for each tab.
+- Use `metrics.py` for calculations, `plots.py` for visuals, and `storylines.py` for narrative text when the section becomes large enough.
+- Do not upload directly to Supabase from a section.
+- Do not put section logic in `run_pipeline.py`.
+- Do not manually edit files inside `reports/`.
+
 ### Contributor checklist
 
 Before opening a pull request, make sure the section:
@@ -665,6 +690,8 @@ uploads to:
 
 Re-uploading the same report path overwrites the existing object at that key.
 
+The pipeline uploads the exact files returned by each section. For example, if a section returns `reports/open_play/analysis.json` and four PNG plots, those same files are uploaded to the same relative paths in the bucket.
+
 ---
 
 ## 13. GitHub Actions and refresh flow
@@ -935,19 +962,19 @@ pipeline/sections/corners/
 
 ### Open play
 
-In progress. Should cover progression, entries, open-play shots, xG, and threat conceded.
+Implemented as a stable section. Covers progression, pass networks, shot creation, xG, and player profiles for both teams.
 
 ### Free kicks
 
-In progress. Should cover direct and indirect free-kick threat for and against.
+Implemented as a stable section. Covers attacking and defensive free-kick landing zones, shot creation, and goal outcomes.
 
 ### Throw-ins
 
-In progress. Should cover throw-in retention, progression, zones, and shot creation.
+Implemented as a stable section. Covers throw-in retention, progression, zones, and shot creation.
 
 ### Defensive
 
-In progress. Should cover defensive actions, pressing, recoveries, entries conceded, and shot/xG conceded.
+Implemented as a stable section. Covers defensive actions, high regains, average line height, and shot/xG threat.
 
 ---
 

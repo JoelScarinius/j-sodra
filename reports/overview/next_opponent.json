@@ -1,26 +1,36 @@
 {
-  "generated_at": "2026-06-24T10:58:35.906709+00:00",
+  "generated_at": "2026-07-07T23:08:25.791015+00:00",
   "team": {
-    "id": 71745,
-    "name": "Ariana",
-    "logo_url": "https://cdn5.wyscout.com/photos/team/public/g-17414_120x120.png",
+    "id": 6786,
+    "name": "Rosengård",
+    "logo_url": "https://cdn5.wyscout.com/photos/team/public/g4032_120x120.png",
     "season_id": 192451
   },
   "season_id": 192451,
-  "season_match_count": 13,
+  "season_match_count": 14,
   "attempted_event_matches": 10,
-  "event_matches_found": 9,
-  "event_matches_missing": 1,
-  "event_missing_match_ids": [
-    5819264
-  ],
+  "analysis_match_count": 12,
+  "event_matches_found": 10,
+  "event_matches_missing": 0,
+  "event_missing_match_ids": [],
+  "analysis_scope": {
+    "target_match_count": 12,
+    "current_season_id": 192451,
+    "current_season_played_matches_available": 14,
+    "current_season_matches_used": 12,
+    "previous_season_id": null,
+    "previous_season_matches_used": 0,
+    "analysis_matches_used": 12,
+    "is_complemented_with_previous_season": false,
+    "scope_label": "current_season_only"
+  },
   "results": {
-    "matches_played": 13,
-    "wins": 7,
-    "draws": 3,
-    "losses": 3,
-    "points": 24,
-    "goals_for": 27,
-    "goals_against": 16
+    "matches_played": 14,
+    "wins": 6,
+    "draws": 4,
+    "losses": 4,
+    "points": 22,
+    "goals_for": 23,
+    "goals_against": 19
   }
 }

@@ -1,0 +1,252 @@
+{
+  "generated_at": "2026-07-07T23:08:25.791015+00:00",
+  "section": "open_play",
+  "title": "Open Play",
+  "description": "Simple view of forward passing, shots, pass connections, and top player profiles for both teams.",
+  "status": "ready",
+  "team": {
+    "id": 6849,
+    "name": "Jönköpings Södra",
+    "summary": {
+      "progressive_passes": 449,
+      "progressive_carries": 334,
+      "shots": 161,
+      "shots_for": 161,
+      "shots_against": 124,
+      "goals": 16,
+      "goals_for": 16,
+      "goals_against": 11,
+      "xg": 19.273,
+      "xg_for": 19.273,
+      "xg_against": 12.648,
+      "xp": null,
+      "box_shots": 111,
+      "on_target": 53,
+      "competition_label": "League campaign",
+      "season_label": "2026",
+      "latest_match_label": "Ariana - Jönköpings Södra, 1-0"
+    },
+    "metrics": [
+      {
+        "label": "Progressive passes",
+        "value": 449,
+        "format": "count"
+      },
+      {
+        "label": "Progressive carries",
+        "value": 334,
+        "format": "count"
+      },
+      {
+        "label": "Shots",
+        "value": 161,
+        "format": "count"
+      },
+      {
+        "label": "Goals",
+        "value": 16,
+        "format": "count"
+      },
+      {
+        "label": "xG",
+        "value": 19.273,
+        "format": "0.000"
+      },
+      {
+        "label": "Shots against",
+        "value": 124,
+        "format": "count"
+      },
+      {
+        "label": "xG against",
+        "value": 12.648,
+        "format": "0.000"
+      }
+    ],
+    "storylines": [
+      "Jönköpings Södra produced 449 progressive passes and 334 progressive carries in the sampled window.",
+      "Open play generated 161 shots, 16 goals, and 19.27 xG.",
+      "Opponents generated 124 shots, 11 goals, and 12.65 xG against in the same sample.",
+      "The clearest passing relationship is H. Lyck to S. Crona with 19 completed passes.",
+      "The radar plot highlights A. Eriksson as the strongest all-round open-play profile in this sample.",
+      "The published report includes the selected analysis match count and season scope so the frontend can keep the match slider in sync with the exposed data window."
+    ],
+    "analysis_scope": {
+      "target_match_count": 12,
+      "current_season_id": 192451,
+      "current_season_played_matches_available": 14,
+      "current_season_matches_used": 12,
+      "previous_season_id": null,
+      "previous_season_matches_used": 0,
+      "analysis_matches_used": 12,
+      "is_complemented_with_previous_season": false,
+      "scope_label": "current_season_only"
+    },
+    "analysis_match_count": 12
+  },
+  "next_opponent": {
+    "id": 6786,
+    "name": "Rosengård",
+    "summary": {
+      "progressive_passes": 563,
+      "progressive_carries": 354,
+      "shots": 183,
+      "shots_for": 183,
+      "shots_against": 120,
+      "goals": 18,
+      "goals_for": 18,
+      "goals_against": 15,
+      "xg": 18.125,
+      "xg_for": 18.125,
+      "xg_against": 13.406,
+      "xp": null,
+      "box_shots": 102,
+      "on_target": 62,
+      "competition_label": "League campaign",
+      "season_label": "2026",
+      "latest_match_label": "Åtvidaberg - Rosengård, 3-3"
+    },
+    "metrics": [
+      {
+        "label": "Progressive passes",
+        "value": 563,
+        "format": "count"
+      },
+      {
+        "label": "Progressive carries",
+        "value": 354,
+        "format": "count"
+      },
+      {
+        "label": "Shots",
+        "value": 183,
+        "format": "count"
+      },
+      {
+        "label": "Goals",
+        "value": 18,
+        "format": "count"
+      },
+      {
+        "label": "xG",
+        "value": 18.125,
+        "format": "0.000"
+      },
+      {
+        "label": "Shots against",
+        "value": 120,
+        "format": "count"
+      },
+      {
+        "label": "xG against",
+        "value": 13.406,
+        "format": "0.000"
+      }
+    ],
+    "storylines": [
+      "Rosengård produced 563 progressive passes and 354 progressive carries in the sampled window.",
+      "Open play generated 183 shots, 18 goals, and 18.12 xG.",
+      "Opponents generated 120 shots, 15 goals, and 13.41 xG against in the same sample.",
+      "The clearest passing relationship is G. Backaliden to R. Bonde with 26 completed passes.",
+      "The radar plot highlights E. Onotu as the strongest all-round open-play profile in this sample.",
+      "The published report includes the selected analysis match count and season scope so the frontend can keep the match slider in sync with the exposed data window."
+    ],
+    "analysis_scope": {
+      "target_match_count": 12,
+      "current_season_id": 192451,
+      "current_season_played_matches_available": 14,
+      "current_season_matches_used": 12,
+      "previous_season_id": null,
+      "previous_season_matches_used": 0,
+      "analysis_matches_used": 12,
+      "is_complemented_with_previous_season": false,
+      "scope_label": "current_season_only"
+    },
+    "analysis_match_count": 12
+  },
+  "files": {
+    "data": {},
+    "plots": {
+      "team_progressive_passes": {
+        "path": "reports/open_play/plots/team_progressive_passes.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_progressive_passes.png",
+        "title": "Jönköpings Södra progressive pass map",
+        "description": "Shows the team's forward passes that moved the ball a clear step closer to goal.",
+        "reading_guide": [
+          "Gold arrows show the biggest forward moves.",
+          "Green arrows show the other important forward passes."
+        ]
+      },
+      "team_shot_map": {
+        "path": "reports/open_play/plots/team_shot_map.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_shot_map.png",
+        "title": "Jönköpings Södra shot map",
+        "description": "Shows where the team took shots and how dangerous each shot was.",
+        "reading_guide": [
+          "Bigger circles mean better chances.",
+          "Gold circles are goals, green circles are shots on target, and muted circles are missed or blocked shots."
+        ]
+      },
+      "team_pass_network": {
+        "path": "reports/open_play/plots/team_pass_network.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_pass_network.png",
+        "title": "Jönköpings Södra pass network",
+        "description": "Shows which players passed to each other most often in the latest match.",
+        "reading_guide": [
+          "Larger dots mean more touches.",
+          "Thicker lines mean more passes between two players."
+        ]
+      },
+      "team_player_radar": {
+        "path": "reports/open_play/plots/team_player_radar.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_player_radar.png",
+        "title": "Jönköpings Södra player radar",
+        "description": "Shows one player's all-round profile compared with similar teammates.",
+        "reading_guide": [
+          "Each spoke is one simple stat.",
+          "A bigger filled shape means a stronger profile on that stat."
+        ]
+      },
+      "next_opponent_progressive_passes": {
+        "path": "reports/open_play/plots/next_opponent_progressive_passes.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_progressive_passes.png",
+        "title": "Rosengård progressive pass map",
+        "description": "Shows the team's forward passes that moved the ball a clear step closer to goal.",
+        "reading_guide": [
+          "Gold arrows show the biggest forward moves.",
+          "Green arrows show the other important forward passes."
+        ]
+      },
+      "next_opponent_shot_map": {
+        "path": "reports/open_play/plots/next_opponent_shot_map.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_shot_map.png",
+        "title": "Rosengård shot map",
+        "description": "Shows where the team took shots and how dangerous each shot was.",
+        "reading_guide": [
+          "Bigger circles mean better chances.",
+          "Gold circles are goals, green circles are shots on target, and muted circles are missed or blocked shots."
+        ]
+      },
+      "next_opponent_pass_network": {
+        "path": "reports/open_play/plots/next_opponent_pass_network.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_pass_network.png",
+        "title": "Rosengård pass network",
+        "description": "Shows which players passed to each other most often in the latest match.",
+        "reading_guide": [
+          "Larger dots mean more touches.",
+          "Thicker lines mean more passes between two players."
+        ]
+      },
+      "next_opponent_player_radar": {
+        "path": "reports/open_play/plots/next_opponent_player_radar.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_player_radar.png",
+        "title": "Rosengård player radar",
+        "description": "Shows one player's all-round profile compared with similar teammates.",
+        "reading_guide": [
+          "Each spoke is one simple stat.",
+          "A bigger filled shape means a stronger profile on that stat."
+        ]
+      }
+    }
+  }
+}

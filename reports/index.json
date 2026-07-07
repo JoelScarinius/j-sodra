@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-24T10:58:35.906709+00:00",
+  "generated_at": "2026-07-07T23:08:25.791015+00:00",
   "version": 3,
   "storage": {
     "bucket": "plots",
@@ -61,6 +61,30 @@
       "analysis": {
         "path": "reports/corners/analysis.json",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/analysis.json"
+      }
+    },
+    "open_play": {
+      "analysis": {
+        "path": "reports/open_play/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/analysis.json"
+      }
+    },
+    "free_kicks": {
+      "analysis": {
+        "path": "reports/free_kicks/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/free_kicks/analysis.json"
+      }
+    },
+    "throw_ins": {
+      "analysis": {
+        "path": "reports/throw_ins/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/analysis.json"
+      }
+    },
+    "defensive": {
+      "analysis": {
+        "path": "reports/defensive/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/analysis.json"
       }
     },
     "exports": {
