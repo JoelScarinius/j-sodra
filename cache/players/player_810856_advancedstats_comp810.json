@@ -1,7 +1,7 @@
 {
   "player_id": 810856,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:00:41.316041+00:00",
+  "fetched_at": "2026-06-30T17:19:23.880950+00:00",
   "stats": {
     "playerId": 810856,
     "competitionId": 810,
@@ -89,7 +89,7 @@
       "successfulPenalties": 0,
       "successfulLinkupPlays": 5,
       "accelerations": 3,
-      "pressingDuels": 8,
+      "pressingDuels": 9,
       "pressingDuelsWon": 0,
       "looseBallDuels": 12,
       "looseBallDuelsWon": 5,

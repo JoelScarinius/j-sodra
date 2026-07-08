@@ -1,7 +1,7 @@
 {
   "player_id": 1199344,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T12:55:50.538861+00:00",
+  "fetched_at": "2026-06-30T17:13:58.394550+00:00",
   "stats": {
     "playerId": 1199344,
     "competitionId": 810,
@@ -86,7 +86,7 @@
       "opponentHalfRecoveries": 0,
       "dangerousOpponentHalfRecoveries": 0,
       "losses": 62,
-      "ownHalfLosses": 11,
+      "ownHalfLosses": 12,
       "dangerousOwnHalfLosses": 1,
       "xgShot": 0,
       "xgAssist": 0,
@@ -130,8 +130,8 @@
       "successfulLateralPasses": 100
     },
     "average": {
-      "passLength": 35.41,
-      "longPassLength": 55.41,
+      "passLength": 35.43,
+      "longPassLength": 55.46,
       "dribbleDistanceFromOpponentGoal": 0,
       "ballRecoveries": 3.88,
       "duels": 0.46,
@@ -174,7 +174,7 @@
       "dangerousOpponentHalfRecoveries": 0,
       "ballLosses": 0,
       "losses": 7.07,
-      "ownHalfLosses": 1.25,
+      "ownHalfLosses": 1.37,
       "dangerousOwnHalfLosses": 0.11,
       "duelsWon": 0.34,
       "defensiveDuelsWon": 0,

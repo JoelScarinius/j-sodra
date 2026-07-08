@@ -1,6 +1,6 @@
 {
   "competition_id": 810,
-  "fetched_at": "2026-06-29T12:50:07.704522+00:00",
+  "fetched_at": "2026-06-30T17:12:02.166528+00:00",
   "players": [
     {
       "wyId": 1339461,
@@ -7091,7 +7091,7 @@
         "code3": "FWD"
       },
       "foot": null,
-      "currentTeamId": 6781,
+      "currentTeamId": 7066,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",

@@ -1,7 +1,7 @@
 {
   "player_id": 1262590,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T12:54:41.211747+00:00",
+  "fetched_at": "2026-06-30T17:13:25.263005+00:00",
   "stats": {
     "playerId": 1262590,
     "competitionId": 810,
@@ -111,7 +111,7 @@
       "offsides": 4,
       "clearances": 6,
       "secondAssists": 0,
-      "thirdAssists": 0,
+      "thirdAssists": 1,
       "shotsBlocked": 2,
       "foulsSuffered": 5,
       "progressivePasses": 38,
@@ -220,7 +220,7 @@
       "offsides": 0.31,
       "clearances": 0.47,
       "secondAssists": 0,
-      "thirdAssists": 0,
+      "thirdAssists": 0.08,
       "foulsSuffered": 0.39,
       "progressivePasses": 2.99,
       "counterpressingRecoveries": 1.18,

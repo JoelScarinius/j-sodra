@@ -1,0 +1,210 @@
+{
+  "generated_at": "2026-07-08T10:37:12.947884+00:00",
+  "benchmark_scope": "position",
+  "players": [
+    {
+      "player_id": 1322996,
+      "name": "A. Jacob",
+      "team_id": 6722,
+      "team_name": "IK Sirius",
+      "position": "Striker",
+      "position_group": "forward",
+      "games": 9,
+      "stats": [
+        {
+          "key": "average.goals",
+          "label": "Goals/90",
+          "raw": 0.5,
+          "percentile": 78.1,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.175,
+            "q3": 0.36,
+            "max": 1.49,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.xgShot",
+          "label": "xG/90",
+          "raw": 0.4,
+          "percentile": 76.11,
+          "benchmark": {
+            "q1": 0.07,
+            "q2": 0.21,
+            "q3": 0.36,
+            "max": 1.26,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.shots",
+          "label": "Shots/90",
+          "raw": 2.49,
+          "percentile": 74.92,
+          "benchmark": {
+            "q1": 0.8099999999999999,
+            "q2": 1.73,
+            "q3": 2.4925,
+            "max": 5.29,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.touchInBox",
+          "label": "Box touches/90",
+          "raw": 3.98,
+          "percentile": 75.37,
+          "benchmark": {
+            "q1": 1.68,
+            "q2": 2.96,
+            "q3": 3.935,
+            "max": 7.0,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.keyPasses",
+          "label": "Key passes/90",
+          "raw": 0.0,
+          "percentile": 0.0,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.20500000000000002,
+            "q3": 0.46,
+            "max": 1.88,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.successfulDribbles",
+          "label": "Dribbles/90",
+          "raw": 0.0,
+          "percentile": 0.0,
+          "benchmark": {
+            "q1": 0.4775,
+            "q2": 1.255,
+            "q3": 2.4825,
+            "max": 7.87,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "percent.aerialDuelsWon",
+          "label": "Aerial won %",
+          "raw": 33.33,
+          "percentile": 50.0,
+          "benchmark": {
+            "q1": 16.67,
+            "q2": 33.33,
+            "q3": 45.1125,
+            "max": 100.0,
+            "sample_size": 188
+          }
+        }
+      ]
+    },
+    {
+      "player_id": 1315729,
+      "name": "W.Gibson",
+      "team_id": 68159,
+      "team_name": "Östers IF",
+      "position": "Striker",
+      "position_group": "forward",
+      "games": 13,
+      "stats": [
+        {
+          "key": "average.goals",
+          "label": "Goals/90",
+          "raw": 0.49,
+          "percentile": 77.88,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.175,
+            "q3": 0.36,
+            "max": 1.49,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.xgShot",
+          "label": "xG/90",
+          "raw": 0.56,
+          "percentile": 80.56,
+          "benchmark": {
+            "q1": 0.07,
+            "q2": 0.21,
+            "q3": 0.36,
+            "max": 1.26,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.shots",
+          "label": "Shots/90",
+          "raw": 2.63,
+          "percentile": 76.23,
+          "benchmark": {
+            "q1": 0.8099999999999999,
+            "q2": 1.73,
+            "q3": 2.4925,
+            "max": 5.29,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.touchInBox",
+          "label": "Box touches/90",
+          "raw": 4.11,
+          "percentile": 76.43,
+          "benchmark": {
+            "q1": 1.68,
+            "q2": 2.96,
+            "q3": 3.935,
+            "max": 7.0,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.keyPasses",
+          "label": "Key passes/90",
+          "raw": 0.0,
+          "percentile": 0.0,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.20500000000000002,
+            "q3": 0.46,
+            "max": 1.88,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "average.successfulDribbles",
+          "label": "Dribbles/90",
+          "raw": 0.82,
+          "percentile": 36.01,
+          "benchmark": {
+            "q1": 0.4775,
+            "q2": 1.255,
+            "q3": 2.4825,
+            "max": 7.87,
+            "sample_size": 188
+          }
+        },
+        {
+          "key": "percent.aerialDuelsWon",
+          "label": "Aerial won %",
+          "raw": 48.57,
+          "percentile": 76.57,
+          "benchmark": {
+            "q1": 16.67,
+            "q2": 33.33,
+            "q3": 45.1125,
+            "max": 100.0,
+            "sample_size": 188
+          }
+        }
+      ]
+    }
+  ]
+}

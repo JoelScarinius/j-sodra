@@ -1,0 +1,5021 @@
+{
+  "competition_id": 810,
+  "computed_at": "2026-07-07T20:32:39.461671+00:00",
+  "benchmarks": {
+    "goalkeeper": {
+      "average.passLength": {
+        "q1": 0.0,
+        "q2": 27.14,
+        "q3": 32.14,
+        "max": 55.63,
+        "sample_size": 79
+      },
+      "average.longPassLength": {
+        "q1": 0.0,
+        "q2": 46.79,
+        "q3": 49.28,
+        "max": 60.2,
+        "sample_size": 79
+      },
+      "average.dribbleDistanceFromOpponentGoal": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 9.85,
+        "sample_size": 79
+      },
+      "average.ballRecoveries": {
+        "q1": 0.0,
+        "q2": 3.88,
+        "q3": 4.955,
+        "max": 8.46,
+        "sample_size": 79
+      },
+      "average.duels": {
+        "q1": 0.0,
+        "q2": 0.46,
+        "q3": 0.91,
+        "max": 2.42,
+        "sample_size": 79
+      },
+      "average.defensiveDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.1,
+        "max": 0.92,
+        "sample_size": 79
+      },
+      "average.offensiveDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.135,
+        "max": 0.46,
+        "sample_size": 79
+      },
+      "average.aerialDuels": {
+        "q1": 0.0,
+        "q2": 0.21,
+        "q3": 0.51,
+        "max": 2.42,
+        "sample_size": 79
+      },
+      "average.fouls": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.47,
+        "sample_size": 79
+      },
+      "average.goals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.06,
+        "sample_size": 79
+      },
+      "average.assists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.9,
+        "sample_size": 79
+      },
+      "average.passes": {
+        "q1": 0.0,
+        "q2": 18.92,
+        "q3": 25.32,
+        "max": 37.5,
+        "sample_size": 79
+      },
+      "average.smartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.15,
+        "sample_size": 79
+      },
+      "average.passesToFinalThird": {
+        "q1": 0.0,
+        "q2": 1.22,
+        "q3": 2.67,
+        "max": 9.32,
+        "sample_size": 79
+      },
+      "average.crosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.15,
+        "sample_size": 79
+      },
+      "average.dribbles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.11,
+        "sample_size": 79
+      },
+      "average.shots": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.06,
+        "sample_size": 79
+      },
+      "average.headShots": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.interceptions": {
+        "q1": 0.0,
+        "q2": 1.15,
+        "q3": 1.875,
+        "max": 3.28,
+        "sample_size": 79
+      },
+      "average.successfulDefensiveAction": {
+        "q1": 0.0,
+        "q2": 1.25,
+        "q3": 1.8849999999999998,
+        "max": 3.28,
+        "sample_size": 79
+      },
+      "average.yellowCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.46,
+        "sample_size": 79
+      },
+      "average.redCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.09,
+        "sample_size": 79
+      },
+      "average.directRedCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.09,
+        "sample_size": 79
+      },
+      "average.successfulAttackingActions": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.11,
+        "sample_size": 79
+      },
+      "average.freeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.directFreeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.corners": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.penalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.accelerations": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.12,
+        "sample_size": 79
+      },
+      "average.looseBallDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.07,
+        "max": 0.92,
+        "sample_size": 79
+      },
+      "average.missedBalls": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.31,
+        "sample_size": 79
+      },
+      "average.forwardPasses": {
+        "q1": 0.0,
+        "q2": 9.86,
+        "q3": 14.23,
+        "max": 23.1,
+        "sample_size": 79
+      },
+      "average.backPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.17,
+        "sample_size": 79
+      },
+      "average.throughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.185,
+        "max": 0.9,
+        "sample_size": 79
+      },
+      "average.keyPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.9,
+        "sample_size": 79
+      },
+      "average.verticalPasses": {
+        "q1": 0.0,
+        "q2": 6.9,
+        "q3": 10.14,
+        "max": 18.48,
+        "sample_size": 79
+      },
+      "average.longPasses": {
+        "q1": 0.0,
+        "q2": 5.68,
+        "q3": 9.129999999999999,
+        "max": 17.44,
+        "sample_size": 79
+      },
+      "average.shotAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.28,
+        "sample_size": 79
+      },
+      "average.shotOnTargetAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.9,
+        "sample_size": 79
+      },
+      "average.linkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.opponentHalfRecoveries": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.dangerousOpponentHalfRecoveries": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.ballLosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.2,
+        "sample_size": 79
+      },
+      "average.losses": {
+        "q1": 0.0,
+        "q2": 3.28,
+        "q3": 4.94,
+        "max": 11.25,
+        "sample_size": 79
+      },
+      "average.ownHalfLosses": {
+        "q1": 0.0,
+        "q2": 1.15,
+        "q3": 1.6400000000000001,
+        "max": 3.75,
+        "sample_size": 79
+      },
+      "average.dangerousOwnHalfLosses": {
+        "q1": 0.0,
+        "q2": 0.06,
+        "q3": 0.25,
+        "max": 1.88,
+        "sample_size": 79
+      },
+      "average.duelsWon": {
+        "q1": 0.0,
+        "q2": 0.3,
+        "q3": 0.705,
+        "max": 2.42,
+        "sample_size": 79
+      },
+      "average.defensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.92,
+        "sample_size": 79
+      },
+      "average.offensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.095,
+        "max": 0.46,
+        "sample_size": 79
+      },
+      "average.successfulPasses": {
+        "q1": 0.0,
+        "q2": 15.34,
+        "q3": 20.54,
+        "max": 33.01,
+        "sample_size": 79
+      },
+      "average.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.successfulForwardPasses": {
+        "q1": 0.0,
+        "q2": 6.96,
+        "q3": 10.315,
+        "max": 16.18,
+        "sample_size": 79
+      },
+      "average.successfulBackPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.15,
+        "sample_size": 79
+      },
+      "average.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.07,
+        "max": 0.9,
+        "sample_size": 79
+      },
+      "average.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.9,
+        "sample_size": 79
+      },
+      "average.successfulVerticalPasses": {
+        "q1": 0.0,
+        "q2": 6.76,
+        "q3": 9.715,
+        "max": 17.92,
+        "sample_size": 79
+      },
+      "average.successfulLongPasses": {
+        "q1": 0.0,
+        "q2": 2.96,
+        "q3": 5.4,
+        "max": 10.45,
+        "sample_size": 79
+      },
+      "average.successfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.11,
+        "sample_size": 79
+      },
+      "average.defensiveActions": {
+        "q1": 0.0,
+        "q2": 1.25,
+        "q3": 1.92,
+        "max": 3.55,
+        "sample_size": 79
+      },
+      "average.attackingActions": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.15,
+        "sample_size": 79
+      },
+      "average.freeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.successfulPenalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.looseBallDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.03,
+        "max": 0.29,
+        "sample_size": 79
+      },
+      "average.successfulPassesToFinalThird": {
+        "q1": 0.0,
+        "q2": 0.47,
+        "q3": 1.2149999999999999,
+        "max": 5.79,
+        "sample_size": 79
+      },
+      "average.xgShot": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.03,
+        "sample_size": 79
+      },
+      "average.xgAssist": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.03,
+        "sample_size": 79
+      },
+      "average.xgSave": {
+        "q1": 0.0,
+        "q2": 1.07,
+        "q3": 1.4249999999999998,
+        "max": 3.26,
+        "sample_size": 79
+      },
+      "average.receivedPass": {
+        "q1": 0.0,
+        "q2": 9.46,
+        "q3": 14.83,
+        "max": 25.31,
+        "sample_size": 79
+      },
+      "average.touchInBox": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.07,
+        "sample_size": 79
+      },
+      "average.progressiveRun": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.14,
+        "sample_size": 79
+      },
+      "average.offsides": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.clearances": {
+        "q1": 0.0,
+        "q2": 0.27,
+        "q3": 0.5549999999999999,
+        "max": 3.02,
+        "sample_size": 79
+      },
+      "average.secondAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.31,
+        "sample_size": 79
+      },
+      "average.thirdAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.07,
+        "sample_size": 79
+      },
+      "average.foulsSuffered": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.21,
+        "max": 0.76,
+        "sample_size": 79
+      },
+      "average.progressivePasses": {
+        "q1": 0.0,
+        "q2": 4.66,
+        "q3": 6.885,
+        "max": 12.46,
+        "sample_size": 79
+      },
+      "average.counterpressingRecoveries": {
+        "q1": 0.0,
+        "q2": 0.15,
+        "q3": 0.52,
+        "max": 1.9,
+        "sample_size": 79
+      },
+      "average.slidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.46,
+        "sample_size": 79
+      },
+      "average.goalKicks": {
+        "q1": 0.0,
+        "q2": 3.45,
+        "q3": 5.984999999999999,
+        "max": 15.45,
+        "sample_size": 79
+      },
+      "average.shotsBlocked": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.15,
+        "sample_size": 79
+      },
+      "average.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.06,
+        "sample_size": 79
+      },
+      "average.successfulProgressivePasses": {
+        "q1": 0.0,
+        "q2": 2.84,
+        "q3": 4.6,
+        "max": 9.85,
+        "sample_size": 79
+      },
+      "average.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.07,
+        "sample_size": 79
+      },
+      "average.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 2.55,
+        "q3": 4.845000000000001,
+        "max": 12.73,
+        "sample_size": 79
+      },
+      "average.dribblesAgainst": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.07500000000000001,
+        "max": 0.92,
+        "sample_size": 79
+      },
+      "average.dribblesAgainstWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.92,
+        "sample_size": 79
+      },
+      "average.goalKicksShort": {
+        "q1": 0.0,
+        "q2": 1.07,
+        "q3": 2.33,
+        "max": 5.83,
+        "sample_size": 79
+      },
+      "average.goalKicksLong": {
+        "q1": 0.0,
+        "q2": 1.71,
+        "q3": 3.4000000000000004,
+        "max": 13.64,
+        "sample_size": 79
+      },
+      "average.fieldAerialDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.fieldAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.gkConcededGoals": {
+        "q1": 0.0,
+        "q2": 0.98,
+        "q3": 1.6549999999999998,
+        "max": 3.67,
+        "sample_size": 79
+      },
+      "average.gkShotsAgainst": {
+        "q1": 0.0,
+        "q2": 3.72,
+        "q3": 5.005,
+        "max": 10.28,
+        "sample_size": 79
+      },
+      "average.gkExits": {
+        "q1": 0.0,
+        "q2": 0.97,
+        "q3": 1.7149999999999999,
+        "max": 3.74,
+        "sample_size": 79
+      },
+      "average.gkAerialDuels": {
+        "q1": 0.0,
+        "q2": 0.21,
+        "q3": 0.51,
+        "max": 2.42,
+        "sample_size": 79
+      },
+      "average.gkSaves": {
+        "q1": 0.0,
+        "q2": 2.4,
+        "q3": 3.385,
+        "max": 7.16,
+        "sample_size": 79
+      },
+      "average.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "average.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.17,
+        "q3": 0.43000000000000005,
+        "max": 2.42,
+        "sample_size": 79
+      },
+      "average.newDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.3,
+        "q3": 0.725,
+        "max": 2.42,
+        "sample_size": 79
+      },
+      "average.newDefensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.035,
+        "max": 0.92,
+        "sample_size": 79
+      },
+      "average.newOffensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.095,
+        "max": 0.46,
+        "sample_size": 79
+      },
+      "average.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.11,
+        "sample_size": 79
+      },
+      "average.lateralPasses": {
+        "q1": 0.0,
+        "q2": 6.9,
+        "q3": 10.14,
+        "max": 18.48,
+        "sample_size": 79
+      },
+      "average.successfulLateralPasses": {
+        "q1": 0.0,
+        "q2": 6.76,
+        "q3": 9.715,
+        "max": 17.92,
+        "sample_size": 79
+      },
+      "percent.duelsWon": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 80.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.defensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.offensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.aerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulPasses": {
+        "q1": 0.0,
+        "q2": 75.64,
+        "q3": 85.475,
+        "max": 95.65,
+        "sample_size": 79
+      },
+      "percent.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.successfulPassesToFinalThird": {
+        "q1": 0.0,
+        "q2": 33.33,
+        "q3": 46.83,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.successfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.headShotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.goalConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.penaltiesConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.win": {
+        "q1": 0.0,
+        "q2": 14.3,
+        "q3": 38.5,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulForwardPasses": {
+        "q1": 0.0,
+        "q2": 64.0,
+        "q3": 74.94,
+        "max": 88.37,
+        "sample_size": 79
+      },
+      "percent.successfulBackPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 20.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulVerticalPasses": {
+        "q1": 0.0,
+        "q2": 94.29,
+        "q3": 97.35,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulLongPasses": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 61.165,
+        "max": 77.78,
+        "sample_size": 79
+      },
+      "percent.successfulShotAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.yellowCardsPerFoul": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 200.0,
+        "sample_size": 79
+      },
+      "percent.successfulProgressivePasses": {
+        "q1": 0.0,
+        "q2": 58.06,
+        "q3": 68.945,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 75.0,
+        "q3": 83.33,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.dribblesAgainstWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.fieldAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.gkSaves": {
+        "q1": 0.0,
+        "q2": 59.26,
+        "q3": 71.58500000000001,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 79
+      },
+      "percent.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.newDuelsWon": {
+        "q1": 0.0,
+        "q2": 58.33,
+        "q3": 80.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.newDefensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 12.5,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.newOffensiveDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 79
+      },
+      "percent.successfulLateralPasses": {
+        "q1": 0.0,
+        "q2": 94.29,
+        "q3": 97.35,
+        "max": 100.0,
+        "sample_size": 79
+      }
+    },
+    "defender": {
+      "average.passLength": {
+        "q1": 17.4,
+        "q2": 19.44,
+        "q3": 21.265,
+        "max": 27.38,
+        "sample_size": 239
+      },
+      "average.longPassLength": {
+        "q1": 24.509999999999998,
+        "q2": 34.38,
+        "q3": 38.355000000000004,
+        "max": 54.74,
+        "sample_size": 239
+      },
+      "average.dribbleDistanceFromOpponentGoal": {
+        "q1": 0.655,
+        "q2": 11.76,
+        "q3": 23.060000000000002,
+        "max": 76.7,
+        "sample_size": 239
+      },
+      "average.ballRecoveries": {
+        "q1": 6.23,
+        "q2": 8.26,
+        "q3": 9.98,
+        "max": 16.13,
+        "sample_size": 239
+      },
+      "average.duels": {
+        "q1": 10.31,
+        "q2": 13.95,
+        "q3": 17.490000000000002,
+        "max": 30.41,
+        "sample_size": 239
+      },
+      "average.defensiveDuels": {
+        "q1": 4.195,
+        "q2": 5.85,
+        "q3": 7.53,
+        "max": 14.0,
+        "sample_size": 239
+      },
+      "average.offensiveDuels": {
+        "q1": 1.12,
+        "q2": 2.65,
+        "q3": 4.92,
+        "max": 14.45,
+        "sample_size": 239
+      },
+      "average.aerialDuels": {
+        "q1": 1.26,
+        "q2": 2.18,
+        "q3": 3.215,
+        "max": 8.22,
+        "sample_size": 239
+      },
+      "average.fouls": {
+        "q1": 0.425,
+        "q2": 0.84,
+        "q3": 1.24,
+        "max": 3.64,
+        "sample_size": 239
+      },
+      "average.goals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.08,
+        "max": 0.73,
+        "sample_size": 239
+      },
+      "average.assists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.07,
+        "max": 1.18,
+        "sample_size": 239
+      },
+      "average.passes": {
+        "q1": 30.315,
+        "q2": 39.05,
+        "q3": 46.489999999999995,
+        "max": 79.04,
+        "sample_size": 239
+      },
+      "average.smartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.51,
+        "sample_size": 239
+      },
+      "average.passesToFinalThird": {
+        "q1": 3.025,
+        "q2": 5.13,
+        "q3": 7.04,
+        "max": 14.72,
+        "sample_size": 239
+      },
+      "average.crosses": {
+        "q1": 0.0,
+        "q2": 0.5,
+        "q3": 1.895,
+        "max": 6.0,
+        "sample_size": 239
+      },
+      "average.dribbles": {
+        "q1": 0.0,
+        "q2": 0.56,
+        "q3": 1.245,
+        "max": 6.69,
+        "sample_size": 239
+      },
+      "average.shots": {
+        "q1": 0.0,
+        "q2": 0.39,
+        "q3": 0.72,
+        "max": 4.0,
+        "sample_size": 239
+      },
+      "average.headShots": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.17,
+        "max": 0.92,
+        "sample_size": 239
+      },
+      "average.interceptions": {
+        "q1": 2.62,
+        "q2": 3.9,
+        "q3": 4.695,
+        "max": 9.18,
+        "sample_size": 239
+      },
+      "average.successfulDefensiveAction": {
+        "q1": 6.1850000000000005,
+        "q2": 8.22,
+        "q3": 9.614999999999998,
+        "max": 17.42,
+        "sample_size": 239
+      },
+      "average.yellowCards": {
+        "q1": 0.0,
+        "q2": 0.08,
+        "q3": 0.195,
+        "max": 0.92,
+        "sample_size": 239
+      },
+      "average.redCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.51,
+        "sample_size": 239
+      },
+      "average.directRedCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.11,
+        "sample_size": 239
+      },
+      "average.successfulAttackingActions": {
+        "q1": 0.20500000000000002,
+        "q2": 0.74,
+        "q3": 1.65,
+        "max": 5.66,
+        "sample_size": 239
+      },
+      "average.freeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.81,
+        "sample_size": 239
+      },
+      "average.directFreeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.42,
+        "sample_size": 239
+      },
+      "average.corners": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 5.17,
+        "sample_size": 239
+      },
+      "average.penalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.08,
+        "sample_size": 239
+      },
+      "average.accelerations": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.15,
+        "max": 1.12,
+        "sample_size": 239
+      },
+      "average.looseBallDuels": {
+        "q1": 1.11,
+        "q2": 1.65,
+        "q3": 2.26,
+        "max": 4.74,
+        "sample_size": 239
+      },
+      "average.missedBalls": {
+        "q1": 0.0,
+        "q2": 0.26,
+        "q3": 0.44,
+        "max": 2.0,
+        "sample_size": 239
+      },
+      "average.forwardPasses": {
+        "q1": 10.165,
+        "q2": 14.56,
+        "q3": 19.08,
+        "max": 32.87,
+        "sample_size": 239
+      },
+      "average.backPasses": {
+        "q1": 2.4050000000000002,
+        "q2": 4.45,
+        "q3": 6.845000000000001,
+        "max": 17.61,
+        "sample_size": 239
+      },
+      "average.throughPasses": {
+        "q1": 0.0,
+        "q2": 0.24,
+        "q3": 0.585,
+        "max": 1.54,
+        "sample_size": 239
+      },
+      "average.keyPasses": {
+        "q1": 0.0,
+        "q2": 0.08,
+        "q3": 0.27,
+        "max": 1.54,
+        "sample_size": 239
+      },
+      "average.verticalPasses": {
+        "q1": 7.5649999999999995,
+        "q2": 11.88,
+        "q3": 17.28,
+        "max": 35.52,
+        "sample_size": 239
+      },
+      "average.longPasses": {
+        "q1": 2.3600000000000003,
+        "q2": 4.3,
+        "q3": 6.16,
+        "max": 12.57,
+        "sample_size": 239
+      },
+      "average.shotAssists": {
+        "q1": 0.0,
+        "q2": 0.21,
+        "q3": 0.6,
+        "max": 2.35,
+        "sample_size": 239
+      },
+      "average.shotOnTargetAssists": {
+        "q1": 0.0,
+        "q2": 0.08,
+        "q3": 0.27,
+        "max": 1.54,
+        "sample_size": 239
+      },
+      "average.linkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 4.63,
+        "sample_size": 239
+      },
+      "average.opponentHalfRecoveries": {
+        "q1": 1.19,
+        "q2": 1.9,
+        "q3": 2.665,
+        "max": 6.18,
+        "sample_size": 239
+      },
+      "average.dangerousOpponentHalfRecoveries": {
+        "q1": 0.0,
+        "q2": 0.18,
+        "q3": 0.39,
+        "max": 2.65,
+        "sample_size": 239
+      },
+      "average.ballLosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.58,
+        "sample_size": 239
+      },
+      "average.losses": {
+        "q1": 7.3149999999999995,
+        "q2": 9.76,
+        "q3": 11.475000000000001,
+        "max": 20.0,
+        "sample_size": 239
+      },
+      "average.ownHalfLosses": {
+        "q1": 3.0949999999999998,
+        "q2": 3.79,
+        "q3": 4.7,
+        "max": 9.78,
+        "sample_size": 239
+      },
+      "average.dangerousOwnHalfLosses": {
+        "q1": 0.26,
+        "q2": 0.53,
+        "q3": 0.815,
+        "max": 1.96,
+        "sample_size": 239
+      },
+      "average.duelsWon": {
+        "q1": 3.68,
+        "q2": 5.01,
+        "q3": 6.675000000000001,
+        "max": 11.83,
+        "sample_size": 239
+      },
+      "average.defensiveDuelsWon": {
+        "q1": 0.89,
+        "q2": 1.33,
+        "q3": 1.75,
+        "max": 4.53,
+        "sample_size": 239
+      },
+      "average.offensiveDuelsWon": {
+        "q1": 0.51,
+        "q2": 1.22,
+        "q3": 2.39,
+        "max": 6.69,
+        "sample_size": 239
+      },
+      "average.successfulPasses": {
+        "q1": 22.04,
+        "q2": 31.22,
+        "q3": 38.585,
+        "max": 72.39,
+        "sample_size": 239
+      },
+      "average.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.31,
+        "sample_size": 239
+      },
+      "average.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 0.17,
+        "q3": 0.635,
+        "max": 3.53,
+        "sample_size": 239
+      },
+      "average.successfulForwardPasses": {
+        "q1": 6.255000000000001,
+        "q2": 10.0,
+        "q3": 13.99,
+        "max": 28.13,
+        "sample_size": 239
+      },
+      "average.successfulBackPasses": {
+        "q1": 2.24,
+        "q2": 4.36,
+        "q3": 6.575,
+        "max": 17.61,
+        "sample_size": 239
+      },
+      "average.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.16,
+        "max": 1.03,
+        "sample_size": 239
+      },
+      "average.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 0.08,
+        "q3": 0.265,
+        "max": 1.18,
+        "sample_size": 239
+      },
+      "average.successfulVerticalPasses": {
+        "q1": 5.46,
+        "q2": 10.51,
+        "q3": 15.84,
+        "max": 35.27,
+        "sample_size": 239
+      },
+      "average.successfulLongPasses": {
+        "q1": 0.845,
+        "q2": 1.85,
+        "q3": 2.9050000000000002,
+        "max": 6.13,
+        "sample_size": 239
+      },
+      "average.successfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.41,
+        "q3": 0.855,
+        "max": 4.63,
+        "sample_size": 239
+      },
+      "average.defensiveActions": {
+        "q1": 8.1,
+        "q2": 10.35,
+        "q3": 12.004999999999999,
+        "max": 20.13,
+        "sample_size": 239
+      },
+      "average.attackingActions": {
+        "q1": 0.53,
+        "q2": 2.04,
+        "q3": 3.76,
+        "max": 10.29,
+        "sample_size": 239
+      },
+      "average.freeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.31,
+        "sample_size": 239
+      },
+      "average.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.21,
+        "sample_size": 239
+      },
+      "average.successfulPenalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.08,
+        "sample_size": 239
+      },
+      "average.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 3.09,
+        "sample_size": 239
+      },
+      "average.looseBallDuelsWon": {
+        "q1": 0.355,
+        "q2": 0.73,
+        "q3": 1.065,
+        "max": 3.91,
+        "sample_size": 239
+      },
+      "average.successfulPassesToFinalThird": {
+        "q1": 1.67,
+        "q2": 3.16,
+        "q3": 4.470000000000001,
+        "max": 12.27,
+        "sample_size": 239
+      },
+      "average.xgShot": {
+        "q1": 0.0,
+        "q2": 0.03,
+        "q3": 0.06,
+        "max": 0.68,
+        "sample_size": 239
+      },
+      "average.xgAssist": {
+        "q1": 0.0,
+        "q2": 0.02,
+        "q3": 0.06,
+        "max": 0.34,
+        "sample_size": 239
+      },
+      "average.xgSave": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.receivedPass": {
+        "q1": 19.509999999999998,
+        "q2": 26.37,
+        "q3": 32.614999999999995,
+        "max": 61.43,
+        "sample_size": 239
+      },
+      "average.touchInBox": {
+        "q1": 0.165,
+        "q2": 0.63,
+        "q3": 1.065,
+        "max": 4.41,
+        "sample_size": 239
+      },
+      "average.progressiveRun": {
+        "q1": 0.2,
+        "q2": 0.8,
+        "q3": 1.6,
+        "max": 5.68,
+        "sample_size": 239
+      },
+      "average.offsides": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.0,
+        "sample_size": 239
+      },
+      "average.clearances": {
+        "q1": 1.06,
+        "q2": 1.88,
+        "q3": 2.71,
+        "max": 6.32,
+        "sample_size": 239
+      },
+      "average.secondAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.91,
+        "sample_size": 239
+      },
+      "average.thirdAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.59,
+        "sample_size": 239
+      },
+      "average.foulsSuffered": {
+        "q1": 0.25,
+        "q2": 0.62,
+        "q3": 1.1749999999999998,
+        "max": 4.0,
+        "sample_size": 239
+      },
+      "average.progressivePasses": {
+        "q1": 4.97,
+        "q2": 7.15,
+        "q3": 9.605,
+        "max": 15.93,
+        "sample_size": 239
+      },
+      "average.counterpressingRecoveries": {
+        "q1": 2.2649999999999997,
+        "q2": 3.28,
+        "q3": 4.245,
+        "max": 7.74,
+        "sample_size": 239
+      },
+      "average.slidingTackles": {
+        "q1": 0.0,
+        "q2": 0.13,
+        "q3": 0.34,
+        "max": 2.0,
+        "sample_size": 239
+      },
+      "average.goalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.20500000000000002,
+        "max": 5.19,
+        "sample_size": 239
+      },
+      "average.shotsBlocked": {
+        "q1": 0.0,
+        "q2": 0.27,
+        "q3": 0.58,
+        "max": 2.28,
+        "sample_size": 239
+      },
+      "average.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.08,
+        "q3": 0.23,
+        "max": 2.0,
+        "sample_size": 239
+      },
+      "average.successfulProgressivePasses": {
+        "q1": 2.9699999999999998,
+        "q2": 4.88,
+        "q3": 6.5,
+        "max": 12.78,
+        "sample_size": 239
+      },
+      "average.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.18,
+        "max": 2.0,
+        "sample_size": 239
+      },
+      "average.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.19,
+        "max": 5.19,
+        "sample_size": 239
+      },
+      "average.dribblesAgainst": {
+        "q1": 1.09,
+        "q2": 1.8,
+        "q3": 2.675,
+        "max": 7.45,
+        "sample_size": 239
+      },
+      "average.dribblesAgainstWon": {
+        "q1": 0.395,
+        "q2": 0.83,
+        "q3": 1.245,
+        "max": 4.0,
+        "sample_size": 239
+      },
+      "average.goalKicksShort": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.175,
+        "max": 5.05,
+        "sample_size": 239
+      },
+      "average.goalKicksLong": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.29,
+        "sample_size": 239
+      },
+      "average.fieldAerialDuels": {
+        "q1": 1.26,
+        "q2": 2.18,
+        "q3": 3.215,
+        "max": 8.22,
+        "sample_size": 239
+      },
+      "average.fieldAerialDuelsWon": {
+        "q1": 0.415,
+        "q2": 1.05,
+        "q3": 1.665,
+        "max": 4.19,
+        "sample_size": 239
+      },
+      "average.gkConcededGoals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.gkShotsAgainst": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.gkExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.gkAerialDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "average.newDuelsWon": {
+        "q1": 5.65,
+        "q2": 7.44,
+        "q3": 9.245000000000001,
+        "max": 16.0,
+        "sample_size": 239
+      },
+      "average.newDefensiveDuelsWon": {
+        "q1": 2.6500000000000004,
+        "q2": 3.8,
+        "q3": 4.765,
+        "max": 12.0,
+        "sample_size": 239
+      },
+      "average.newOffensiveDuelsWon": {
+        "q1": 0.48,
+        "q2": 1.21,
+        "q3": 2.09,
+        "max": 6.17,
+        "sample_size": 239
+      },
+      "average.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.29,
+        "q3": 0.79,
+        "max": 4.11,
+        "sample_size": 239
+      },
+      "average.lateralPasses": {
+        "q1": 7.5649999999999995,
+        "q2": 11.88,
+        "q3": 17.28,
+        "max": 35.52,
+        "sample_size": 239
+      },
+      "average.successfulLateralPasses": {
+        "q1": 5.46,
+        "q2": 10.51,
+        "q3": 15.84,
+        "max": 35.27,
+        "sample_size": 239
+      },
+      "percent.duelsWon": {
+        "q1": 30.009999999999998,
+        "q2": 36.51,
+        "q3": 43.75,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.defensiveDuelsWon": {
+        "q1": 14.495000000000001,
+        "q2": 21.18,
+        "q3": 27.305,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.offensiveDuelsWon": {
+        "q1": 34.165,
+        "q2": 50.0,
+        "q3": 57.14,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.aerialDuelsWon": {
+        "q1": 29.52,
+        "q2": 47.62,
+        "q3": 58.71,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulPasses": {
+        "q1": 73.21000000000001,
+        "q2": 79.07,
+        "q3": 85.66,
+        "max": 94.51,
+        "sample_size": 239
+      },
+      "percent.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulPassesToFinalThird": {
+        "q1": 47.334999999999994,
+        "q2": 60.47,
+        "q3": 71.58500000000001,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 25.0,
+        "q3": 41.045,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulDribbles": {
+        "q1": 0.0,
+        "q2": 66.67,
+        "q3": 83.77,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 18.18,
+        "q3": 40.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.headShotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.goalConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 12.5,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.penaltiesConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.win": {
+        "q1": 0.0,
+        "q2": 25.0,
+        "q3": 45.5,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulForwardPasses": {
+        "q1": 60.13,
+        "q2": 68.97,
+        "q3": 75.03,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulBackPasses": {
+        "q1": 90.48,
+        "q2": 95.0,
+        "q3": 97.22,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 33.33,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 100.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulVerticalPasses": {
+        "q1": 71.68,
+        "q2": 85.4,
+        "q3": 93.92,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulLongPasses": {
+        "q1": 33.33,
+        "q2": 44.83,
+        "q3": 51.45,
+        "max": 75.0,
+        "sample_size": 239
+      },
+      "percent.successfulShotAssists": {
+        "q1": 0.0,
+        "q2": 41.18,
+        "q3": 60.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.yellowCardsPerFoul": {
+        "q1": 0.0,
+        "q2": 7.1,
+        "q3": 19.1,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulProgressivePasses": {
+        "q1": 56.81,
+        "q2": 65.71,
+        "q3": 72.36,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 60.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.dribblesAgainstWon": {
+        "q1": 28.57,
+        "q2": 44.44,
+        "q3": 52.275000000000006,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.fieldAerialDuelsWon": {
+        "q1": 29.52,
+        "q2": 47.62,
+        "q3": 58.71,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "percent.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "percent.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 239
+      },
+      "percent.newDuelsWon": {
+        "q1": 46.95,
+        "q2": 53.19,
+        "q3": 59.03,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.newDefensiveDuelsWon": {
+        "q1": 53.379999999999995,
+        "q2": 62.79,
+        "q3": 69.28,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.newOffensiveDuelsWon": {
+        "q1": 28.475,
+        "q2": 42.19,
+        "q3": 50.0,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 68.75,
+        "max": 100.0,
+        "sample_size": 239
+      },
+      "percent.successfulLateralPasses": {
+        "q1": 71.68,
+        "q2": 85.4,
+        "q3": 93.92,
+        "max": 100.0,
+        "sample_size": 239
+      }
+    },
+    "midfielder": {
+      "average.passLength": {
+        "q1": 15.535,
+        "q2": 17.495,
+        "q3": 19.6625,
+        "max": 38.04,
+        "sample_size": 242
+      },
+      "average.longPassLength": {
+        "q1": 15.8625,
+        "q2": 25.994999999999997,
+        "q3": 34.3975,
+        "max": 61.55,
+        "sample_size": 242
+      },
+      "average.dribbleDistanceFromOpponentGoal": {
+        "q1": 7.49,
+        "q2": 19.229999999999997,
+        "q3": 28.745,
+        "max": 63.0,
+        "sample_size": 242
+      },
+      "average.ballRecoveries": {
+        "q1": 3.68,
+        "q2": 6.375,
+        "q3": 8.705,
+        "max": 16.23,
+        "sample_size": 242
+      },
+      "average.duels": {
+        "q1": 12.7925,
+        "q2": 16.494999999999997,
+        "q3": 19.802500000000002,
+        "max": 37.59,
+        "sample_size": 242
+      },
+      "average.defensiveDuels": {
+        "q1": 4.25,
+        "q2": 5.925000000000001,
+        "q3": 7.6075,
+        "max": 19.18,
+        "sample_size": 242
+      },
+      "average.offensiveDuels": {
+        "q1": 2.955,
+        "q2": 5.43,
+        "q3": 8.485,
+        "max": 26.38,
+        "sample_size": 242
+      },
+      "average.aerialDuels": {
+        "q1": 1.06,
+        "q2": 1.8250000000000002,
+        "q3": 2.91,
+        "max": 9.86,
+        "sample_size": 242
+      },
+      "average.fouls": {
+        "q1": 0.645,
+        "q2": 1.08,
+        "q3": 1.5875000000000001,
+        "max": 4.91,
+        "sample_size": 242
+      },
+      "average.goals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.17,
+        "max": 1.08,
+        "sample_size": 242
+      },
+      "average.assists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.14,
+        "max": 1.35,
+        "sample_size": 242
+      },
+      "average.passes": {
+        "q1": 23.2425,
+        "q2": 30.15,
+        "q3": 41.879999999999995,
+        "max": 77.61,
+        "sample_size": 242
+      },
+      "average.smartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.09,
+        "max": 1.05,
+        "sample_size": 242
+      },
+      "average.passesToFinalThird": {
+        "q1": 2.1825,
+        "q2": 3.69,
+        "q3": 5.835,
+        "max": 19.77,
+        "sample_size": 242
+      },
+      "average.crosses": {
+        "q1": 0.22,
+        "q2": 0.735,
+        "q3": 1.6975,
+        "max": 5.53,
+        "sample_size": 242
+      },
+      "average.dribbles": {
+        "q1": 0.3325,
+        "q2": 1.125,
+        "q3": 2.1775,
+        "max": 14.19,
+        "sample_size": 242
+      },
+      "average.shots": {
+        "q1": 0.2675,
+        "q2": 0.82,
+        "q3": 1.5875000000000001,
+        "max": 3.61,
+        "sample_size": 242
+      },
+      "average.headShots": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.13,
+        "max": 1.37,
+        "sample_size": 242
+      },
+      "average.interceptions": {
+        "q1": 1.71,
+        "q2": 2.745,
+        "q3": 4.077500000000001,
+        "max": 7.11,
+        "sample_size": 242
+      },
+      "average.successfulDefensiveAction": {
+        "q1": 4.46,
+        "q2": 6.92,
+        "q3": 9.0425,
+        "max": 19.18,
+        "sample_size": 242
+      },
+      "average.yellowCards": {
+        "q1": 0.0,
+        "q2": 0.08,
+        "q3": 0.2,
+        "max": 1.24,
+        "sample_size": 242
+      },
+      "average.redCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.46,
+        "sample_size": 242
+      },
+      "average.directRedCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.46,
+        "sample_size": 242
+      },
+      "average.successfulAttackingActions": {
+        "q1": 0.4225,
+        "q2": 1.355,
+        "q3": 2.34,
+        "max": 9.53,
+        "sample_size": 242
+      },
+      "average.freeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.2275,
+        "max": 2.54,
+        "sample_size": 242
+      },
+      "average.directFreeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.84,
+        "sample_size": 242
+      },
+      "average.corners": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.4875,
+        "max": 5.87,
+        "sample_size": 242
+      },
+      "average.penalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.24,
+        "sample_size": 242
+      },
+      "average.accelerations": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.24,
+        "max": 1.33,
+        "sample_size": 242
+      },
+      "average.looseBallDuels": {
+        "q1": 1.1875,
+        "q2": 1.835,
+        "q3": 2.4475000000000002,
+        "max": 5.89,
+        "sample_size": 242
+      },
+      "average.missedBalls": {
+        "q1": 0.1225,
+        "q2": 0.355,
+        "q3": 0.6475,
+        "max": 2.06,
+        "sample_size": 242
+      },
+      "average.forwardPasses": {
+        "q1": 6.1625,
+        "q2": 9.335,
+        "q3": 13.82,
+        "max": 39.17,
+        "sample_size": 242
+      },
+      "average.backPasses": {
+        "q1": 3.6350000000000002,
+        "q2": 5.89,
+        "q3": 8.01,
+        "max": 17.0,
+        "sample_size": 242
+      },
+      "average.throughPasses": {
+        "q1": 0.0,
+        "q2": 0.215,
+        "q3": 0.48,
+        "max": 1.91,
+        "sample_size": 242
+      },
+      "average.keyPasses": {
+        "q1": 0.0,
+        "q2": 0.175,
+        "q3": 0.43,
+        "max": 1.24,
+        "sample_size": 242
+      },
+      "average.verticalPasses": {
+        "q1": 5.952500000000001,
+        "q2": 8.524999999999999,
+        "q3": 13.934999999999999,
+        "max": 34.75,
+        "sample_size": 242
+      },
+      "average.longPasses": {
+        "q1": 1.2225,
+        "q2": 2.28,
+        "q3": 3.89,
+        "max": 16.21,
+        "sample_size": 242
+      },
+      "average.shotAssists": {
+        "q1": 0.10250000000000001,
+        "q2": 0.565,
+        "q3": 0.98,
+        "max": 3.26,
+        "sample_size": 242
+      },
+      "average.shotOnTargetAssists": {
+        "q1": 0.0,
+        "q2": 0.175,
+        "q3": 0.43,
+        "max": 1.24,
+        "sample_size": 242
+      },
+      "average.linkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.27999999999999997,
+        "max": 5.19,
+        "sample_size": 242
+      },
+      "average.opponentHalfRecoveries": {
+        "q1": 1.635,
+        "q2": 2.5,
+        "q3": 3.4775,
+        "max": 6.84,
+        "sample_size": 242
+      },
+      "average.dangerousOpponentHalfRecoveries": {
+        "q1": 0.0,
+        "q2": 0.29,
+        "q3": 0.54,
+        "max": 3.83,
+        "sample_size": 242
+      },
+      "average.ballLosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.38,
+        "sample_size": 242
+      },
+      "average.losses": {
+        "q1": 7.695,
+        "q2": 9.615,
+        "q3": 11.3925,
+        "max": 17.09,
+        "sample_size": 242
+      },
+      "average.ownHalfLosses": {
+        "q1": 1.9024999999999999,
+        "q2": 3.1550000000000002,
+        "q3": 3.9275,
+        "max": 7.56,
+        "sample_size": 242
+      },
+      "average.dangerousOwnHalfLosses": {
+        "q1": 0.1,
+        "q2": 0.36,
+        "q3": 0.5974999999999999,
+        "max": 3.46,
+        "sample_size": 242
+      },
+      "average.duelsWon": {
+        "q1": 4.325,
+        "q2": 6.015000000000001,
+        "q3": 7.5975,
+        "max": 15.85,
+        "sample_size": 242
+      },
+      "average.defensiveDuelsWon": {
+        "q1": 0.64,
+        "q2": 1.1949999999999998,
+        "q3": 1.795,
+        "max": 5.9,
+        "sample_size": 242
+      },
+      "average.offensiveDuelsWon": {
+        "q1": 1.2425,
+        "q2": 2.54,
+        "q3": 3.8274999999999997,
+        "max": 15.07,
+        "sample_size": 242
+      },
+      "average.successfulPasses": {
+        "q1": 16.12,
+        "q2": 24.075000000000003,
+        "q3": 34.29,
+        "max": 65.31,
+        "sample_size": 242
+      },
+      "average.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.89,
+        "sample_size": 242
+      },
+      "average.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 0.24,
+        "q3": 0.59,
+        "max": 2.05,
+        "sample_size": 242
+      },
+      "average.successfulForwardPasses": {
+        "q1": 3.7175,
+        "q2": 6.045,
+        "q3": 9.4525,
+        "max": 29.79,
+        "sample_size": 242
+      },
+      "average.successfulBackPasses": {
+        "q1": 3.3,
+        "q2": 5.54,
+        "q3": 7.55,
+        "max": 16.52,
+        "sample_size": 242
+      },
+      "average.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.1575,
+        "max": 1.13,
+        "sample_size": 242
+      },
+      "average.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 0.175,
+        "q3": 0.425,
+        "max": 1.24,
+        "sample_size": 242
+      },
+      "average.successfulVerticalPasses": {
+        "q1": 3.815,
+        "q2": 6.375,
+        "q3": 12.267499999999998,
+        "max": 31.19,
+        "sample_size": 242
+      },
+      "average.successfulLongPasses": {
+        "q1": 0.4175,
+        "q2": 1.06,
+        "q3": 1.9875,
+        "max": 9.2,
+        "sample_size": 242
+      },
+      "average.successfulDribbles": {
+        "q1": 0.1525,
+        "q2": 0.78,
+        "q3": 1.6,
+        "max": 10.64,
+        "sample_size": 242
+      },
+      "average.defensiveActions": {
+        "q1": 6.2875,
+        "q2": 9.385000000000002,
+        "q3": 11.3875,
+        "max": 26.56,
+        "sample_size": 242
+      },
+      "average.attackingActions": {
+        "q1": 1.2125,
+        "q2": 3.235,
+        "q3": 5.525,
+        "max": 19.73,
+        "sample_size": 242
+      },
+      "average.freeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.1,
+        "max": 1.47,
+        "sample_size": 242
+      },
+      "average.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.43,
+        "sample_size": 242
+      },
+      "average.successfulPenalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.24,
+        "sample_size": 242
+      },
+      "average.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.1275,
+        "max": 5.19,
+        "sample_size": 242
+      },
+      "average.looseBallDuelsWon": {
+        "q1": 0.3675,
+        "q2": 0.715,
+        "q3": 1.0075,
+        "max": 2.46,
+        "sample_size": 242
+      },
+      "average.successfulPassesToFinalThird": {
+        "q1": 1.2575,
+        "q2": 2.32,
+        "q3": 4.077500000000001,
+        "max": 14.12,
+        "sample_size": 242
+      },
+      "average.xgShot": {
+        "q1": 0.01,
+        "q2": 0.07,
+        "q3": 0.15,
+        "max": 0.61,
+        "sample_size": 242
+      },
+      "average.xgAssist": {
+        "q1": 0.0,
+        "q2": 0.04,
+        "q3": 0.1,
+        "max": 0.38,
+        "sample_size": 242
+      },
+      "average.xgSave": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.receivedPass": {
+        "q1": 14.59,
+        "q2": 20.68,
+        "q3": 28.455,
+        "max": 57.94,
+        "sample_size": 242
+      },
+      "average.touchInBox": {
+        "q1": 0.3625,
+        "q2": 1.2149999999999999,
+        "q3": 2.4225000000000003,
+        "max": 5.32,
+        "sample_size": 242
+      },
+      "average.progressiveRun": {
+        "q1": 0.3725,
+        "q2": 0.995,
+        "q3": 1.835,
+        "max": 8.2,
+        "sample_size": 242
+      },
+      "average.offsides": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.11,
+        "max": 1.33,
+        "sample_size": 242
+      },
+      "average.clearances": {
+        "q1": 0.225,
+        "q2": 0.75,
+        "q3": 1.38,
+        "max": 5.19,
+        "sample_size": 242
+      },
+      "average.secondAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.4,
+        "sample_size": 242
+      },
+      "average.thirdAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.26,
+        "sample_size": 242
+      },
+      "average.foulsSuffered": {
+        "q1": 0.5375000000000001,
+        "q2": 0.98,
+        "q3": 1.4725,
+        "max": 4.84,
+        "sample_size": 242
+      },
+      "average.progressivePasses": {
+        "q1": 2.8475,
+        "q2": 4.78,
+        "q3": 6.74,
+        "max": 23.05,
+        "sample_size": 242
+      },
+      "average.counterpressingRecoveries": {
+        "q1": 2.04,
+        "q2": 3.17,
+        "q3": 4.5625,
+        "max": 11.8,
+        "sample_size": 242
+      },
+      "average.slidingTackles": {
+        "q1": 0.0,
+        "q2": 0.13,
+        "q3": 0.31,
+        "max": 1.73,
+        "sample_size": 242
+      },
+      "average.goalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.22,
+        "sample_size": 242
+      },
+      "average.shotsBlocked": {
+        "q1": 0.0,
+        "q2": 0.14,
+        "q3": 0.33,
+        "max": 1.91,
+        "sample_size": 242
+      },
+      "average.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.24,
+        "q3": 0.58,
+        "max": 1.81,
+        "sample_size": 242
+      },
+      "average.successfulProgressivePasses": {
+        "q1": 1.8525,
+        "q2": 3.165,
+        "q3": 4.7725,
+        "max": 19.04,
+        "sample_size": 242
+      },
+      "average.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.18,
+        "max": 1.73,
+        "sample_size": 242
+      },
+      "average.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.22,
+        "sample_size": 242
+      },
+      "average.dribblesAgainst": {
+        "q1": 0.65,
+        "q2": 1.37,
+        "q3": 1.96,
+        "max": 7.5,
+        "sample_size": 242
+      },
+      "average.dribblesAgainstWon": {
+        "q1": 0.23750000000000002,
+        "q2": 0.58,
+        "q3": 0.9575,
+        "max": 3.75,
+        "sample_size": 242
+      },
+      "average.goalKicksShort": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.22,
+        "sample_size": 242
+      },
+      "average.goalKicksLong": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.37,
+        "sample_size": 242
+      },
+      "average.fieldAerialDuels": {
+        "q1": 1.06,
+        "q2": 1.8250000000000002,
+        "q3": 2.91,
+        "max": 9.86,
+        "sample_size": 242
+      },
+      "average.fieldAerialDuelsWon": {
+        "q1": 0.2125,
+        "q2": 0.69,
+        "q3": 1.4275,
+        "max": 5.62,
+        "sample_size": 242
+      },
+      "average.gkConcededGoals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.gkShotsAgainst": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.gkExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.gkAerialDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "average.newDuelsWon": {
+        "q1": 6.105,
+        "q2": 8.17,
+        "q3": 9.7075,
+        "max": 16.93,
+        "sample_size": 242
+      },
+      "average.newDefensiveDuelsWon": {
+        "q1": 2.4275,
+        "q2": 3.5999999999999996,
+        "q3": 4.795,
+        "max": 11.8,
+        "sample_size": 242
+      },
+      "average.newOffensiveDuelsWon": {
+        "q1": 1.08,
+        "q2": 2.035,
+        "q3": 3.1975,
+        "max": 11.42,
+        "sample_size": 242
+      },
+      "average.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.6,
+        "q3": 1.18,
+        "max": 7.43,
+        "sample_size": 242
+      },
+      "average.lateralPasses": {
+        "q1": 5.952500000000001,
+        "q2": 8.524999999999999,
+        "q3": 13.934999999999999,
+        "max": 34.75,
+        "sample_size": 242
+      },
+      "average.successfulLateralPasses": {
+        "q1": 3.815,
+        "q2": 6.375,
+        "q3": 12.267499999999998,
+        "max": 31.19,
+        "sample_size": 242
+      },
+      "percent.duelsWon": {
+        "q1": 30.3925,
+        "q2": 35.71,
+        "q3": 41.3875,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.defensiveDuelsWon": {
+        "q1": 12.567499999999999,
+        "q2": 20.43,
+        "q3": 26.142500000000002,
+        "max": 75.0,
+        "sample_size": 242
+      },
+      "percent.offensiveDuelsWon": {
+        "q1": 35.0725,
+        "q2": 45.64,
+        "q3": 55.1275,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.aerialDuelsWon": {
+        "q1": 21.145,
+        "q2": 36.36,
+        "q3": 52.38,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulPasses": {
+        "q1": 70.25,
+        "q2": 79.085,
+        "q3": 84.135,
+        "max": 95.83,
+        "sample_size": 242
+      },
+      "percent.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulPassesToFinalThird": {
+        "q1": 50.0,
+        "q2": 65.38,
+        "q3": 73.33,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 27.525,
+        "q3": 44.86,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulDribbles": {
+        "q1": 45.91,
+        "q2": 66.67,
+        "q3": 80.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 26.380000000000003,
+        "q3": 42.86,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.headShotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.goalConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 14.29,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.penaltiesConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.win": {
+        "q1": 0.0,
+        "q2": 26.8,
+        "q3": 46.2,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulForwardPasses": {
+        "q1": 55.9425,
+        "q2": 66.67,
+        "q3": 73.7175,
+        "max": 93.75,
+        "sample_size": 242
+      },
+      "percent.successfulBackPasses": {
+        "q1": 87.5,
+        "q2": 93.21000000000001,
+        "q3": 97.0475,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 36.457499999999996,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 100.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulVerticalPasses": {
+        "q1": 66.82,
+        "q2": 81.14,
+        "q3": 89.9825,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulLongPasses": {
+        "q1": 33.33,
+        "q2": 47.495,
+        "q3": 55.0625,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulShotAssists": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 66.67,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 46.875,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.yellowCardsPerFoul": {
+        "q1": 0.0,
+        "q2": 5.6,
+        "q3": 14.3,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulProgressivePasses": {
+        "q1": 56.64,
+        "q2": 70.225,
+        "q3": 76.8875,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 55.355000000000004,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.dribblesAgainstWon": {
+        "q1": 25.0,
+        "q2": 41.745000000000005,
+        "q3": 55.56,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.fieldAerialDuelsWon": {
+        "q1": 21.145,
+        "q2": 36.36,
+        "q3": 52.38,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "percent.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "percent.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 242
+      },
+      "percent.newDuelsWon": {
+        "q1": 39.495,
+        "q2": 47.13,
+        "q3": 53.504999999999995,
+        "max": 72.26,
+        "sample_size": 242
+      },
+      "percent.newDefensiveDuelsWon": {
+        "q1": 50.0,
+        "q2": 60.47,
+        "q3": 67.4275,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.newOffensiveDuelsWon": {
+        "q1": 26.47,
+        "q2": 36.84,
+        "q3": 46.285,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 60.0,
+        "max": 100.0,
+        "sample_size": 242
+      },
+      "percent.successfulLateralPasses": {
+        "q1": 66.82,
+        "q2": 81.14,
+        "q3": 89.9825,
+        "max": 100.0,
+        "sample_size": 242
+      }
+    },
+    "forward": {
+      "average.passLength": {
+        "q1": 13.934999999999999,
+        "q2": 15.91,
+        "q3": 17.869999999999997,
+        "max": 26.87,
+        "sample_size": 188
+      },
+      "average.longPassLength": {
+        "q1": 4.775,
+        "q2": 15.84,
+        "q3": 26.2775,
+        "max": 42.95,
+        "sample_size": 188
+      },
+      "average.dribbleDistanceFromOpponentGoal": {
+        "q1": 8.9025,
+        "q2": 20.814999999999998,
+        "q3": 28.1875,
+        "max": 58.64,
+        "sample_size": 188
+      },
+      "average.ballRecoveries": {
+        "q1": 2.2575000000000003,
+        "q2": 3.7649999999999997,
+        "q3": 5.0725,
+        "max": 12.29,
+        "sample_size": 188
+      },
+      "average.duels": {
+        "q1": 14.565000000000001,
+        "q2": 18.67,
+        "q3": 22.78,
+        "max": 40.02,
+        "sample_size": 188
+      },
+      "average.defensiveDuels": {
+        "q1": 3.1625,
+        "q2": 4.8149999999999995,
+        "q3": 6.880000000000001,
+        "max": 16.45,
+        "sample_size": 188
+      },
+      "average.offensiveDuels": {
+        "q1": 4.9675,
+        "q2": 7.82,
+        "q3": 10.5775,
+        "max": 20.25,
+        "sample_size": 188
+      },
+      "average.aerialDuels": {
+        "q1": 1.0875000000000001,
+        "q2": 2.355,
+        "q3": 4.305,
+        "max": 12.77,
+        "sample_size": 188
+      },
+      "average.fouls": {
+        "q1": 0.5375000000000001,
+        "q2": 1.0750000000000002,
+        "q3": 1.66,
+        "max": 5.63,
+        "sample_size": 188
+      },
+      "average.goals": {
+        "q1": 0.0,
+        "q2": 0.175,
+        "q3": 0.36,
+        "max": 1.49,
+        "sample_size": 188
+      },
+      "average.assists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.14250000000000002,
+        "max": 1.88,
+        "sample_size": 188
+      },
+      "average.passes": {
+        "q1": 12.41,
+        "q2": 19.25,
+        "q3": 27.2075,
+        "max": 70.07,
+        "sample_size": 188
+      },
+      "average.smartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 3.75,
+        "sample_size": 188
+      },
+      "average.passesToFinalThird": {
+        "q1": 0.82,
+        "q2": 1.55,
+        "q3": 3.01,
+        "max": 11.45,
+        "sample_size": 188
+      },
+      "average.crosses": {
+        "q1": 0.19,
+        "q2": 0.895,
+        "q3": 1.9925,
+        "max": 5.27,
+        "sample_size": 188
+      },
+      "average.dribbles": {
+        "q1": 0.75,
+        "q2": 1.745,
+        "q3": 3.3525,
+        "max": 11.73,
+        "sample_size": 188
+      },
+      "average.shots": {
+        "q1": 0.8099999999999999,
+        "q2": 1.73,
+        "q3": 2.4925,
+        "max": 5.29,
+        "sample_size": 188
+      },
+      "average.headShots": {
+        "q1": 0.0,
+        "q2": 0.1,
+        "q3": 0.42,
+        "max": 1.75,
+        "sample_size": 188
+      },
+      "average.interceptions": {
+        "q1": 1.0825,
+        "q2": 1.81,
+        "q3": 2.525,
+        "max": 6.15,
+        "sample_size": 188
+      },
+      "average.successfulDefensiveAction": {
+        "q1": 3.1425,
+        "q2": 4.77,
+        "q3": 6.7475000000000005,
+        "max": 15.32,
+        "sample_size": 188
+      },
+      "average.yellowCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.17,
+        "max": 1.25,
+        "sample_size": 188
+      },
+      "average.redCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.33,
+        "sample_size": 188
+      },
+      "average.directRedCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.25,
+        "sample_size": 188
+      },
+      "average.successfulAttackingActions": {
+        "q1": 1.085,
+        "q2": 2.09,
+        "q3": 3.17,
+        "max": 7.5,
+        "sample_size": 188
+      },
+      "average.freeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.57,
+        "sample_size": 188
+      },
+      "average.directFreeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.55,
+        "sample_size": 188
+      },
+      "average.corners": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 5.93,
+        "sample_size": 188
+      },
+      "average.penalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.32,
+        "sample_size": 188
+      },
+      "average.accelerations": {
+        "q1": 0.0,
+        "q2": 0.04,
+        "q3": 0.34,
+        "max": 1.67,
+        "sample_size": 188
+      },
+      "average.looseBallDuels": {
+        "q1": 1.35,
+        "q2": 2.0949999999999998,
+        "q3": 3.1675,
+        "max": 9.23,
+        "sample_size": 188
+      },
+      "average.missedBalls": {
+        "q1": 0.21,
+        "q2": 0.555,
+        "q3": 0.8150000000000001,
+        "max": 5.63,
+        "sample_size": 188
+      },
+      "average.forwardPasses": {
+        "q1": 2.485,
+        "q2": 4.625,
+        "q3": 6.8,
+        "max": 26.62,
+        "sample_size": 188
+      },
+      "average.backPasses": {
+        "q1": 2.9974999999999996,
+        "q2": 4.875,
+        "q3": 6.81,
+        "max": 13.59,
+        "sample_size": 188
+      },
+      "average.throughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.25,
+        "max": 5.0,
+        "sample_size": 188
+      },
+      "average.keyPasses": {
+        "q1": 0.0,
+        "q2": 0.20500000000000002,
+        "q3": 0.46,
+        "max": 1.88,
+        "sample_size": 188
+      },
+      "average.verticalPasses": {
+        "q1": 2.925,
+        "q2": 5.26,
+        "q3": 7.6425,
+        "max": 28.56,
+        "sample_size": 188
+      },
+      "average.longPasses": {
+        "q1": 0.17,
+        "q2": 0.9199999999999999,
+        "q3": 1.8800000000000001,
+        "max": 11.41,
+        "sample_size": 188
+      },
+      "average.shotAssists": {
+        "q1": 0.23249999999999998,
+        "q2": 0.59,
+        "q3": 1.0725,
+        "max": 3.75,
+        "sample_size": 188
+      },
+      "average.shotOnTargetAssists": {
+        "q1": 0.0,
+        "q2": 0.20500000000000002,
+        "q3": 0.46,
+        "max": 1.88,
+        "sample_size": 188
+      },
+      "average.linkupPlays": {
+        "q1": 0.0,
+        "q2": 0.51,
+        "q3": 1.0925,
+        "max": 7.87,
+        "sample_size": 188
+      },
+      "average.opponentHalfRecoveries": {
+        "q1": 1.2275,
+        "q2": 1.94,
+        "q3": 2.5749999999999997,
+        "max": 5.59,
+        "sample_size": 188
+      },
+      "average.dangerousOpponentHalfRecoveries": {
+        "q1": 0.0,
+        "q2": 0.28,
+        "q3": 0.52,
+        "max": 1.88,
+        "sample_size": 188
+      },
+      "average.ballLosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.13,
+        "sample_size": 188
+      },
+      "average.losses": {
+        "q1": 7.5975,
+        "q2": 10.23,
+        "q3": 11.7675,
+        "max": 22.5,
+        "sample_size": 188
+      },
+      "average.ownHalfLosses": {
+        "q1": 1.68,
+        "q2": 2.475,
+        "q3": 3.2649999999999997,
+        "max": 12.38,
+        "sample_size": 188
+      },
+      "average.dangerousOwnHalfLosses": {
+        "q1": 0.0,
+        "q2": 0.245,
+        "q3": 0.46,
+        "max": 3.38,
+        "sample_size": 188
+      },
+      "average.duelsWon": {
+        "q1": 4.6275,
+        "q2": 6.42,
+        "q3": 8.262500000000001,
+        "max": 15.46,
+        "sample_size": 188
+      },
+      "average.defensiveDuelsWon": {
+        "q1": 0.365,
+        "q2": 0.825,
+        "q3": 1.5150000000000001,
+        "max": 5.74,
+        "sample_size": 188
+      },
+      "average.offensiveDuelsWon": {
+        "q1": 1.7975,
+        "q2": 3.315,
+        "q3": 4.692500000000001,
+        "max": 12.5,
+        "sample_size": 188
+      },
+      "average.successfulPasses": {
+        "q1": 8.682500000000001,
+        "q2": 13.524999999999999,
+        "q3": 20.755000000000003,
+        "max": 64.89,
+        "sample_size": 188
+      },
+      "average.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.36,
+        "sample_size": 188
+      },
+      "average.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 0.22999999999999998,
+        "q3": 0.67,
+        "max": 2.54,
+        "sample_size": 188
+      },
+      "average.successfulForwardPasses": {
+        "q1": 1.2,
+        "q2": 2.465,
+        "q3": 4.675,
+        "max": 23.09,
+        "sample_size": 188
+      },
+      "average.successfulBackPasses": {
+        "q1": 2.66,
+        "q2": 4.295,
+        "q3": 6.182499999999999,
+        "max": 12.7,
+        "sample_size": 188
+      },
+      "average.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.07250000000000001,
+        "max": 0.55,
+        "sample_size": 188
+      },
+      "average.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 0.2,
+        "q3": 0.4525,
+        "max": 1.88,
+        "sample_size": 188
+      },
+      "average.successfulVerticalPasses": {
+        "q1": 2.0525,
+        "q2": 3.5300000000000002,
+        "q3": 5.5725,
+        "max": 27.55,
+        "sample_size": 188
+      },
+      "average.successfulLongPasses": {
+        "q1": 0.0,
+        "q2": 0.42,
+        "q3": 0.895,
+        "max": 4.47,
+        "sample_size": 188
+      },
+      "average.successfulDribbles": {
+        "q1": 0.4775,
+        "q2": 1.255,
+        "q3": 2.4825,
+        "max": 7.87,
+        "sample_size": 188
+      },
+      "average.defensiveActions": {
+        "q1": 4.66,
+        "q2": 6.83,
+        "q3": 9.53,
+        "max": 23.23,
+        "sample_size": 188
+      },
+      "average.attackingActions": {
+        "q1": 2.8099999999999996,
+        "q2": 4.720000000000001,
+        "q3": 7.15,
+        "max": 17.96,
+        "sample_size": 188
+      },
+      "average.freeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.92,
+        "sample_size": 188
+      },
+      "average.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.2,
+        "sample_size": 188
+      },
+      "average.successfulPenalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.32,
+        "sample_size": 188
+      },
+      "average.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.28,
+        "q3": 0.715,
+        "max": 6.67,
+        "sample_size": 188
+      },
+      "average.looseBallDuelsWon": {
+        "q1": 0.3375,
+        "q2": 0.67,
+        "q3": 0.9724999999999999,
+        "max": 3.44,
+        "sample_size": 188
+      },
+      "average.successfulPassesToFinalThird": {
+        "q1": 0.41,
+        "q2": 0.935,
+        "q3": 1.7325,
+        "max": 8.13,
+        "sample_size": 188
+      },
+      "average.xgShot": {
+        "q1": 0.07,
+        "q2": 0.21,
+        "q3": 0.36,
+        "max": 1.26,
+        "sample_size": 188
+      },
+      "average.xgAssist": {
+        "q1": 0.0,
+        "q2": 0.06,
+        "q3": 0.1125,
+        "max": 0.57,
+        "sample_size": 188
+      },
+      "average.xgSave": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.receivedPass": {
+        "q1": 8.1425,
+        "q2": 13.17,
+        "q3": 19.7225,
+        "max": 51.44,
+        "sample_size": 188
+      },
+      "average.touchInBox": {
+        "q1": 1.68,
+        "q2": 2.96,
+        "q3": 3.935,
+        "max": 7.0,
+        "sample_size": 188
+      },
+      "average.progressiveRun": {
+        "q1": 0.4875,
+        "q2": 1.16,
+        "q3": 2.2,
+        "max": 5.73,
+        "sample_size": 188
+      },
+      "average.offsides": {
+        "q1": 0.0,
+        "q2": 0.2,
+        "q3": 0.4475,
+        "max": 1.91,
+        "sample_size": 188
+      },
+      "average.clearances": {
+        "q1": 0.1675,
+        "q2": 0.495,
+        "q3": 0.88,
+        "max": 3.27,
+        "sample_size": 188
+      },
+      "average.secondAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.88,
+        "sample_size": 188
+      },
+      "average.thirdAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.27,
+        "sample_size": 188
+      },
+      "average.foulsSuffered": {
+        "q1": 0.475,
+        "q2": 0.955,
+        "q3": 1.4625,
+        "max": 3.9,
+        "sample_size": 188
+      },
+      "average.progressivePasses": {
+        "q1": 1.19,
+        "q2": 2.35,
+        "q3": 4.3125,
+        "max": 11.63,
+        "sample_size": 188
+      },
+      "average.counterpressingRecoveries": {
+        "q1": 1.3725,
+        "q2": 2.02,
+        "q3": 2.7925,
+        "max": 6.55,
+        "sample_size": 188
+      },
+      "average.slidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.25,
+        "max": 1.14,
+        "sample_size": 188
+      },
+      "average.goalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.27,
+        "sample_size": 188
+      },
+      "average.shotsBlocked": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.17250000000000001,
+        "max": 1.67,
+        "sample_size": 188
+      },
+      "average.shotsOnTarget": {
+        "q1": 0.1275,
+        "q2": 0.61,
+        "q3": 1.0625,
+        "max": 1.99,
+        "sample_size": 188
+      },
+      "average.successfulProgressivePasses": {
+        "q1": 0.65,
+        "q2": 1.61,
+        "q3": 3.1774999999999998,
+        "max": 9.14,
+        "sample_size": 188
+      },
+      "average.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0925,
+        "max": 0.97,
+        "sample_size": 188
+      },
+      "average.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.27,
+        "sample_size": 188
+      },
+      "average.dribblesAgainst": {
+        "q1": 0.24,
+        "q2": 0.745,
+        "q3": 1.4425,
+        "max": 6.77,
+        "sample_size": 188
+      },
+      "average.dribblesAgainstWon": {
+        "q1": 0.0,
+        "q2": 0.25,
+        "q3": 0.66,
+        "max": 3.11,
+        "sample_size": 188
+      },
+      "average.goalKicksShort": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.27,
+        "sample_size": 188
+      },
+      "average.goalKicksLong": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.fieldAerialDuels": {
+        "q1": 1.0875000000000001,
+        "q2": 2.355,
+        "q3": 4.305,
+        "max": 12.77,
+        "sample_size": 188
+      },
+      "average.fieldAerialDuelsWon": {
+        "q1": 0.23,
+        "q2": 0.8,
+        "q3": 1.5275,
+        "max": 6.1,
+        "sample_size": 188
+      },
+      "average.gkConcededGoals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.gkShotsAgainst": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.gkExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.gkAerialDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "average.newDuelsWon": {
+        "q1": 5.65,
+        "q2": 7.79,
+        "q3": 9.6975,
+        "max": 18.85,
+        "sample_size": 188
+      },
+      "average.newDefensiveDuelsWon": {
+        "q1": 1.6975,
+        "q2": 2.775,
+        "q3": 4.074999999999999,
+        "max": 11.49,
+        "sample_size": 188
+      },
+      "average.newOffensiveDuelsWon": {
+        "q1": 1.36,
+        "q2": 2.34,
+        "q3": 3.99,
+        "max": 8.75,
+        "sample_size": 188
+      },
+      "average.newSuccessfulDribbles": {
+        "q1": 0.27,
+        "q2": 0.9199999999999999,
+        "q3": 1.7850000000000001,
+        "max": 6.25,
+        "sample_size": 188
+      },
+      "average.lateralPasses": {
+        "q1": 2.925,
+        "q2": 5.26,
+        "q3": 7.6425,
+        "max": 28.56,
+        "sample_size": 188
+      },
+      "average.successfulLateralPasses": {
+        "q1": 2.0525,
+        "q2": 3.5300000000000002,
+        "q3": 5.5725,
+        "max": 27.55,
+        "sample_size": 188
+      },
+      "percent.duelsWon": {
+        "q1": 28.265,
+        "q2": 34.405,
+        "q3": 40.1575,
+        "max": 66.67,
+        "sample_size": 188
+      },
+      "percent.defensiveDuelsWon": {
+        "q1": 10.53,
+        "q2": 18.92,
+        "q3": 25.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.offensiveDuelsWon": {
+        "q1": 32.025,
+        "q2": 41.605000000000004,
+        "q3": 50.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.aerialDuelsWon": {
+        "q1": 16.67,
+        "q2": 33.33,
+        "q3": 45.1125,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulPasses": {
+        "q1": 65.9025,
+        "q2": 72.995,
+        "q3": 79.6325,
+        "max": 92.61,
+        "sample_size": 188
+      },
+      "percent.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulPassesToFinalThird": {
+        "q1": 40.0,
+        "q2": 58.33,
+        "q3": 70.455,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 25.0,
+        "q3": 37.57,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulDribbles": {
+        "q1": 58.972500000000004,
+        "q2": 71.43,
+        "q3": 80.62,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.shotsOnTarget": {
+        "q1": 13.8425,
+        "q2": 36.36,
+        "q3": 50.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.headShotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 33.33,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.goalConversion": {
+        "q1": 0.0,
+        "q2": 9.091,
+        "q3": 18.75,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.penaltiesConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.win": {
+        "q1": 0.0,
+        "q2": 25.0,
+        "q3": 44.4,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulForwardPasses": {
+        "q1": 46.15,
+        "q2": 60.0,
+        "q3": 69.23,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulBackPasses": {
+        "q1": 84.1575,
+        "q2": 91.3,
+        "q3": 95.01,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 25.5675,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 100.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulVerticalPasses": {
+        "q1": 60.769999999999996,
+        "q2": 70.28999999999999,
+        "q3": 80.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulLongPasses": {
+        "q1": 0.0,
+        "q2": 40.0,
+        "q3": 55.955,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulShotAssists": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 66.67,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 50.0,
+        "q3": 71.43,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.yellowCardsPerFoul": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 13.3,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulProgressivePasses": {
+        "q1": 49.2025,
+        "q2": 65.215,
+        "q3": 76.47,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 33.33,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.dribblesAgainstWon": {
+        "q1": 0.0,
+        "q2": 33.33,
+        "q3": 50.6575,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.fieldAerialDuelsWon": {
+        "q1": 16.67,
+        "q2": 33.33,
+        "q3": 45.1125,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "percent.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "percent.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 188
+      },
+      "percent.newDuelsWon": {
+        "q1": 31.905,
+        "q2": 39.765,
+        "q3": 46.022499999999994,
+        "max": 75.0,
+        "sample_size": 188
+      },
+      "percent.newDefensiveDuelsWon": {
+        "q1": 45.337500000000006,
+        "q2": 57.415,
+        "q3": 65.08250000000001,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.newOffensiveDuelsWon": {
+        "q1": 24.6225,
+        "q2": 31.91,
+        "q3": 40.0275,
+        "max": 60.0,
+        "sample_size": 188
+      },
+      "percent.newSuccessfulDribbles": {
+        "q1": 31.677500000000002,
+        "q2": 50.0,
+        "q3": 60.0,
+        "max": 100.0,
+        "sample_size": 188
+      },
+      "percent.successfulLateralPasses": {
+        "q1": 60.769999999999996,
+        "q2": 70.28999999999999,
+        "q3": 80.0,
+        "max": 100.0,
+        "sample_size": 188
+      }
+    },
+    "general": {
+      "average.passLength": {
+        "q1": 15.24,
+        "q2": 17.82,
+        "q3": 20.43,
+        "max": 55.63,
+        "sample_size": 755
+      },
+      "average.longPassLength": {
+        "q1": 11.5,
+        "q2": 27.12,
+        "q3": 36.655,
+        "max": 61.55,
+        "sample_size": 755
+      },
+      "average.dribbleDistanceFromOpponentGoal": {
+        "q1": 0.0,
+        "q2": 14.03,
+        "q3": 25.58,
+        "max": 76.7,
+        "sample_size": 755
+      },
+      "average.ballRecoveries": {
+        "q1": 2.795,
+        "q2": 5.5,
+        "q3": 8.515,
+        "max": 16.23,
+        "sample_size": 755
+      },
+      "average.duels": {
+        "q1": 9.09,
+        "q2": 15.24,
+        "q3": 19.09,
+        "max": 40.02,
+        "sample_size": 755
+      },
+      "average.defensiveDuels": {
+        "q1": 2.3449999999999998,
+        "q2": 5.15,
+        "q3": 7.1,
+        "max": 19.18,
+        "sample_size": 755
+      },
+      "average.offensiveDuels": {
+        "q1": 0.865,
+        "q2": 4.27,
+        "q3": 7.795,
+        "max": 26.38,
+        "sample_size": 755
+      },
+      "average.aerialDuels": {
+        "q1": 0.71,
+        "q2": 1.83,
+        "q3": 3.13,
+        "max": 12.77,
+        "sample_size": 755
+      },
+      "average.fouls": {
+        "q1": 0.13,
+        "q2": 0.86,
+        "q3": 1.42,
+        "max": 5.63,
+        "sample_size": 755
+      },
+      "average.goals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.15,
+        "max": 1.49,
+        "sample_size": 755
+      },
+      "average.assists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.09,
+        "max": 1.88,
+        "sample_size": 755
+      },
+      "average.passes": {
+        "q1": 16.54,
+        "q2": 28.66,
+        "q3": 40.065,
+        "max": 79.04,
+        "sample_size": 755
+      },
+      "average.smartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 3.75,
+        "sample_size": 755
+      },
+      "average.passesToFinalThird": {
+        "q1": 1.21,
+        "q2": 3.11,
+        "q3": 5.49,
+        "max": 19.77,
+        "sample_size": 755
+      },
+      "average.crosses": {
+        "q1": 0.0,
+        "q2": 0.56,
+        "q3": 1.6949999999999998,
+        "max": 6.0,
+        "sample_size": 755
+      },
+      "average.dribbles": {
+        "q1": 0.0,
+        "q2": 0.79,
+        "q3": 1.9249999999999998,
+        "max": 14.19,
+        "sample_size": 755
+      },
+      "average.shots": {
+        "q1": 0.0,
+        "q2": 0.56,
+        "q3": 1.52,
+        "max": 5.29,
+        "sample_size": 755
+      },
+      "average.headShots": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.17,
+        "max": 1.75,
+        "sample_size": 755
+      },
+      "average.interceptions": {
+        "q1": 1.17,
+        "q2": 2.45,
+        "q3": 4.005,
+        "max": 9.18,
+        "sample_size": 755
+      },
+      "average.successfulDefensiveAction": {
+        "q1": 2.545,
+        "q2": 6.13,
+        "q3": 8.695,
+        "max": 19.18,
+        "sample_size": 755
+      },
+      "average.yellowCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.16,
+        "max": 1.25,
+        "sample_size": 755
+      },
+      "average.redCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.51,
+        "sample_size": 755
+      },
+      "average.directRedCards": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.46,
+        "sample_size": 755
+      },
+      "average.successfulAttackingActions": {
+        "q1": 0.0,
+        "q2": 1.1,
+        "q3": 2.27,
+        "max": 9.53,
+        "sample_size": 755
+      },
+      "average.freeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.81,
+        "sample_size": 755
+      },
+      "average.directFreeKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.84,
+        "sample_size": 755
+      },
+      "average.corners": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 5.93,
+        "sample_size": 755
+      },
+      "average.penalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.32,
+        "sample_size": 755
+      },
+      "average.accelerations": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.19,
+        "max": 1.67,
+        "sample_size": 755
+      },
+      "average.looseBallDuels": {
+        "q1": 0.655,
+        "q2": 1.7,
+        "q3": 2.39,
+        "max": 9.23,
+        "sample_size": 755
+      },
+      "average.missedBalls": {
+        "q1": 0.0,
+        "q2": 0.3,
+        "q3": 0.59,
+        "max": 5.63,
+        "sample_size": 755
+      },
+      "average.forwardPasses": {
+        "q1": 3.4699999999999998,
+        "q2": 9.23,
+        "q3": 14.805,
+        "max": 39.17,
+        "sample_size": 755
+      },
+      "average.backPasses": {
+        "q1": 1.585,
+        "q2": 4.49,
+        "q3": 6.945,
+        "max": 17.61,
+        "sample_size": 755
+      },
+      "average.throughPasses": {
+        "q1": 0.0,
+        "q2": 0.14,
+        "q3": 0.42,
+        "max": 5.0,
+        "sample_size": 755
+      },
+      "average.keyPasses": {
+        "q1": 0.0,
+        "q2": 0.09,
+        "q3": 0.355,
+        "max": 1.88,
+        "sample_size": 755
+      },
+      "average.verticalPasses": {
+        "q1": 4.08,
+        "q2": 8.1,
+        "q3": 13.42,
+        "max": 35.52,
+        "sample_size": 755
+      },
+      "average.longPasses": {
+        "q1": 0.645,
+        "q2": 2.32,
+        "q3": 4.86,
+        "max": 17.44,
+        "sample_size": 755
+      },
+      "average.shotAssists": {
+        "q1": 0.0,
+        "q2": 0.33,
+        "q3": 0.835,
+        "max": 3.75,
+        "sample_size": 755
+      },
+      "average.shotOnTargetAssists": {
+        "q1": 0.0,
+        "q2": 0.09,
+        "q3": 0.355,
+        "max": 1.88,
+        "sample_size": 755
+      },
+      "average.linkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.245,
+        "max": 7.87,
+        "sample_size": 755
+      },
+      "average.opponentHalfRecoveries": {
+        "q1": 0.56,
+        "q2": 1.91,
+        "q3": 2.775,
+        "max": 6.84,
+        "sample_size": 755
+      },
+      "average.dangerousOpponentHalfRecoveries": {
+        "q1": 0.0,
+        "q2": 0.2,
+        "q3": 0.46,
+        "max": 3.83,
+        "sample_size": 755
+      },
+      "average.ballLosses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.58,
+        "sample_size": 755
+      },
+      "average.losses": {
+        "q1": 6.33,
+        "q2": 9.33,
+        "q3": 11.325,
+        "max": 22.5,
+        "sample_size": 755
+      },
+      "average.ownHalfLosses": {
+        "q1": 1.64,
+        "q2": 3.03,
+        "q3": 3.97,
+        "max": 12.38,
+        "sample_size": 755
+      },
+      "average.dangerousOwnHalfLosses": {
+        "q1": 0.0,
+        "q2": 0.35,
+        "q3": 0.63,
+        "max": 3.46,
+        "sample_size": 755
+      },
+      "average.duelsWon": {
+        "q1": 2.86,
+        "q2": 5.42,
+        "q3": 7.12,
+        "max": 15.85,
+        "sample_size": 755
+      },
+      "average.defensiveDuelsWon": {
+        "q1": 0.14,
+        "q2": 1.01,
+        "q3": 1.6349999999999998,
+        "max": 5.9,
+        "sample_size": 755
+      },
+      "average.offensiveDuelsWon": {
+        "q1": 0.33,
+        "q2": 1.89,
+        "q3": 3.475,
+        "max": 15.07,
+        "sample_size": 755
+      },
+      "average.successfulPasses": {
+        "q1": 11.25,
+        "q2": 21.95,
+        "q3": 32.43,
+        "max": 72.39,
+        "sample_size": 755
+      },
+      "average.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.89,
+        "sample_size": 755
+      },
+      "average.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 0.15,
+        "q3": 0.555,
+        "max": 3.53,
+        "sample_size": 755
+      },
+      "average.successfulForwardPasses": {
+        "q1": 1.975,
+        "q2": 6.01,
+        "q3": 10.28,
+        "max": 29.79,
+        "sample_size": 755
+      },
+      "average.successfulBackPasses": {
+        "q1": 1.44,
+        "q2": 4.21,
+        "q3": 6.57,
+        "max": 17.61,
+        "sample_size": 755
+      },
+      "average.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.13,
+        "max": 1.13,
+        "sample_size": 755
+      },
+      "average.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 0.09,
+        "q3": 0.35,
+        "max": 1.88,
+        "sample_size": 755
+      },
+      "average.successfulVerticalPasses": {
+        "q1": 2.7,
+        "q2": 6.22,
+        "q3": 11.879999999999999,
+        "max": 35.27,
+        "sample_size": 755
+      },
+      "average.successfulLongPasses": {
+        "q1": 0.2,
+        "q2": 1.07,
+        "q3": 2.31,
+        "max": 10.45,
+        "sample_size": 755
+      },
+      "average.successfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.54,
+        "q3": 1.4,
+        "max": 10.64,
+        "sample_size": 755
+      },
+      "average.defensiveActions": {
+        "q1": 3.585,
+        "q2": 8.36,
+        "q3": 10.975000000000001,
+        "max": 26.56,
+        "sample_size": 755
+      },
+      "average.attackingActions": {
+        "q1": 0.245,
+        "q2": 2.73,
+        "q3": 5.109999999999999,
+        "max": 19.73,
+        "sample_size": 755
+      },
+      "average.freeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.47,
+        "sample_size": 755
+      },
+      "average.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.43,
+        "sample_size": 755
+      },
+      "average.successfulPenalties": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.32,
+        "sample_size": 755
+      },
+      "average.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.135,
+        "max": 6.67,
+        "sample_size": 755
+      },
+      "average.looseBallDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.64,
+        "q3": 0.98,
+        "max": 3.91,
+        "sample_size": 755
+      },
+      "average.successfulPassesToFinalThird": {
+        "q1": 0.59,
+        "q2": 1.82,
+        "q3": 3.58,
+        "max": 14.12,
+        "sample_size": 755
+      },
+      "average.xgShot": {
+        "q1": 0.0,
+        "q2": 0.04,
+        "q3": 0.16,
+        "max": 1.26,
+        "sample_size": 755
+      },
+      "average.xgAssist": {
+        "q1": 0.0,
+        "q2": 0.02,
+        "q3": 0.08,
+        "max": 0.57,
+        "sample_size": 755
+      },
+      "average.xgSave": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 3.26,
+        "sample_size": 755
+      },
+      "average.receivedPass": {
+        "q1": 9.975,
+        "q2": 19.27,
+        "q3": 27.595,
+        "max": 61.43,
+        "sample_size": 755
+      },
+      "average.touchInBox": {
+        "q1": 0.0,
+        "q2": 0.9,
+        "q3": 2.4400000000000004,
+        "max": 7.0,
+        "sample_size": 755
+      },
+      "average.progressiveRun": {
+        "q1": 0.0,
+        "q2": 0.81,
+        "q3": 1.7,
+        "max": 8.2,
+        "sample_size": 755
+      },
+      "average.offsides": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.125,
+        "max": 2.52,
+        "sample_size": 755
+      },
+      "average.clearances": {
+        "q1": 0.21,
+        "q2": 0.8,
+        "q3": 1.76,
+        "max": 6.32,
+        "sample_size": 755
+      },
+      "average.secondAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.91,
+        "sample_size": 755
+      },
+      "average.thirdAssists": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 1.27,
+        "sample_size": 755
+      },
+      "average.foulsSuffered": {
+        "q1": 0.185,
+        "q2": 0.77,
+        "q3": 1.295,
+        "max": 4.84,
+        "sample_size": 755
+      },
+      "average.progressivePasses": {
+        "q1": 1.8849999999999998,
+        "q2": 4.86,
+        "q3": 7.35,
+        "max": 23.05,
+        "sample_size": 755
+      },
+      "average.counterpressingRecoveries": {
+        "q1": 1.05,
+        "q2": 2.61,
+        "q3": 3.8899999999999997,
+        "max": 11.8,
+        "sample_size": 755
+      },
+      "average.slidingTackles": {
+        "q1": 0.0,
+        "q2": 0.07,
+        "q3": 0.28,
+        "max": 2.0,
+        "sample_size": 755
+      },
+      "average.goalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 15.45,
+        "sample_size": 755
+      },
+      "average.shotsBlocked": {
+        "q1": 0.0,
+        "q2": 0.09,
+        "q3": 0.32,
+        "max": 2.28,
+        "sample_size": 755
+      },
+      "average.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.15,
+        "q3": 0.525,
+        "max": 2.0,
+        "sample_size": 755
+      },
+      "average.successfulProgressivePasses": {
+        "q1": 1.12,
+        "q2": 3.18,
+        "q3": 5.1899999999999995,
+        "max": 19.04,
+        "sample_size": 755
+      },
+      "average.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.14,
+        "max": 2.0,
+        "sample_size": 755
+      },
+      "average.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 12.73,
+        "sample_size": 755
+      },
+      "average.dribblesAgainst": {
+        "q1": 0.14500000000000002,
+        "q2": 1.14,
+        "q3": 2.0,
+        "max": 7.5,
+        "sample_size": 755
+      },
+      "average.dribblesAgainstWon": {
+        "q1": 0.0,
+        "q2": 0.48,
+        "q3": 0.985,
+        "max": 4.0,
+        "sample_size": 755
+      },
+      "average.goalKicksShort": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 5.83,
+        "sample_size": 755
+      },
+      "average.goalKicksLong": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 13.64,
+        "sample_size": 755
+      },
+      "average.fieldAerialDuels": {
+        "q1": 0.51,
+        "q2": 1.83,
+        "q3": 3.13,
+        "max": 12.77,
+        "sample_size": 755
+      },
+      "average.fieldAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.69,
+        "q3": 1.43,
+        "max": 6.1,
+        "sample_size": 755
+      },
+      "average.gkConcededGoals": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 3.67,
+        "sample_size": 755
+      },
+      "average.gkShotsAgainst": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 10.28,
+        "sample_size": 755
+      },
+      "average.gkExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 3.74,
+        "sample_size": 755
+      },
+      "average.gkAerialDuels": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.42,
+        "sample_size": 755
+      },
+      "average.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 7.16,
+        "sample_size": 755
+      },
+      "average.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 755
+      },
+      "average.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 2.42,
+        "sample_size": 755
+      },
+      "average.newDuelsWon": {
+        "q1": 4.335,
+        "q2": 7.34,
+        "q3": 9.29,
+        "max": 18.85,
+        "sample_size": 755
+      },
+      "average.newDefensiveDuelsWon": {
+        "q1": 0.935,
+        "q2": 3.11,
+        "q3": 4.465,
+        "max": 12.0,
+        "sample_size": 755
+      },
+      "average.newOffensiveDuelsWon": {
+        "q1": 0.295,
+        "q2": 1.58,
+        "q3": 2.8200000000000003,
+        "max": 11.42,
+        "sample_size": 755
+      },
+      "average.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 0.38,
+        "q3": 1.04,
+        "max": 7.43,
+        "sample_size": 755
+      },
+      "average.lateralPasses": {
+        "q1": 4.08,
+        "q2": 8.1,
+        "q3": 13.42,
+        "max": 35.52,
+        "sample_size": 755
+      },
+      "average.successfulLateralPasses": {
+        "q1": 2.7,
+        "q2": 6.22,
+        "q3": 11.879999999999999,
+        "max": 35.27,
+        "sample_size": 755
+      },
+      "percent.duelsWon": {
+        "q1": 28.42,
+        "q2": 35.64,
+        "q3": 42.5,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.defensiveDuelsWon": {
+        "q1": 8.0,
+        "q2": 19.3,
+        "q3": 26.095,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.offensiveDuelsWon": {
+        "q1": 30.365000000000002,
+        "q2": 44.44,
+        "q3": 55.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.aerialDuelsWon": {
+        "q1": 15.04,
+        "q2": 40.0,
+        "q3": 54.260000000000005,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulPasses": {
+        "q1": 68.75,
+        "q2": 77.37,
+        "q3": 83.675,
+        "max": 95.83,
+        "sample_size": 755
+      },
+      "percent.successfulSmartPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulPassesToFinalThird": {
+        "q1": 40.0,
+        "q2": 60.0,
+        "q3": 71.05,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulCrosses": {
+        "q1": 0.0,
+        "q2": 21.74,
+        "q3": 39.21,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulDribbles": {
+        "q1": 0.0,
+        "q2": 66.67,
+        "q3": 80.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.shotsOnTarget": {
+        "q1": 0.0,
+        "q2": 22.22,
+        "q3": 42.86,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.headShotsOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.goalConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 13.765,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.directFreeKicksOnTarget": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.penaltiesConversion": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.win": {
+        "q1": 0.0,
+        "q2": 25.0,
+        "q3": 44.95,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulForwardPasses": {
+        "q1": 50.0,
+        "q2": 65.71,
+        "q3": 73.33,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulBackPasses": {
+        "q1": 80.0,
+        "q2": 92.55,
+        "q3": 96.55,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulThroughPasses": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 33.33,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulKeyPasses": {
+        "q1": 0.0,
+        "q2": 100.0,
+        "q3": 100.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulVerticalPasses": {
+        "q1": 63.435,
+        "q2": 80.0,
+        "q3": 91.77000000000001,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulLongPasses": {
+        "q1": 25.0,
+        "q2": 44.76,
+        "q3": 54.47,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulShotAssists": {
+        "q1": 0.0,
+        "q2": 40.0,
+        "q3": 63.64,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulLinkupPlays": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 36.605000000000004,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.yellowCardsPerFoul": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 15.4,
+        "max": 200.0,
+        "sample_size": 755
+      },
+      "percent.successfulProgressivePasses": {
+        "q1": 50.0,
+        "q2": 66.67,
+        "q3": 75.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulSlidingTackles": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 50.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulGoalKicks": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.dribblesAgainstWon": {
+        "q1": 0.0,
+        "q2": 38.46,
+        "q3": 52.63,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.fieldAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 34.67,
+        "q3": 50.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.gkSaves": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.gkSuccessfulExits": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 0.0,
+        "sample_size": 755
+      },
+      "percent.gkAerialDuelsWon": {
+        "q1": 0.0,
+        "q2": 0.0,
+        "q3": 0.0,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.newDuelsWon": {
+        "q1": 35.55,
+        "q2": 47.31,
+        "q3": 55.865,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.newDefensiveDuelsWon": {
+        "q1": 41.18,
+        "q2": 59.26,
+        "q3": 66.67,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.newOffensiveDuelsWon": {
+        "q1": 21.43,
+        "q2": 36.36,
+        "q3": 46.67,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.newSuccessfulDribbles": {
+        "q1": 0.0,
+        "q2": 46.34,
+        "q3": 60.739999999999995,
+        "max": 100.0,
+        "sample_size": 755
+      },
+      "percent.successfulLateralPasses": {
+        "q1": 63.435,
+        "q2": 80.0,
+        "q3": 91.77000000000001,
+        "max": 100.0,
+        "sample_size": 755
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "player_id": 702803,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:02:01.912733+00:00",
+  "fetched_at": "2026-06-30T17:20:32.593539+00:00",
   "stats": {
     "playerId": 702803,
     "competitionId": 810,
@@ -12,14 +12,14 @@
           "name": "Right Centre Midfielder",
           "code": "rcmf"
         },
-        "percent": 37
+        "percent": 49
       },
       {
         "position": {
           "name": "Defensive Midfielder",
           "code": "dmf"
         },
-        "percent": 26
+        "percent": 13
       },
       {
         "position": {

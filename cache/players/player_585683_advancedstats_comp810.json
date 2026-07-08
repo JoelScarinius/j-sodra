@@ -1,7 +1,7 @@
 {
   "player_id": 585683,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:03:29.459025+00:00",
+  "fetched_at": "2026-06-30T17:22:26.827951+00:00",
   "stats": {
     "playerId": 585683,
     "competitionId": 810,
@@ -12,7 +12,7 @@
           "name": "Right Winger",
           "code": "rw"
         },
-        "percent": 81
+        "percent": 89
       }
     ],
     "total": {

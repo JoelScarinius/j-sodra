@@ -1,7 +1,7 @@
 {
   "player_id": 517790,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:05:50.402802+00:00",
+  "fetched_at": "2026-06-30T17:25:10.960628+00:00",
   "stats": {
     "playerId": 517790,
     "competitionId": 810,
@@ -90,7 +90,7 @@
       "dangerousOwnHalfLosses": 3,
       "xgShot": 0,
       "xgAssist": 0,
-      "xgSave": 12.23,
+      "xgSave": 12.16,
       "receivedPass": 124,
       "touchInBox": 0,
       "progressiveRun": 0,
@@ -199,7 +199,7 @@
       "successfulPassesToFinalThird": 1.26,
       "xgShot": 0,
       "xgAssist": 0,
-      "xgSave": 1.03,
+      "xgSave": 1.02,
       "receivedPass": 10.42,
       "touchInBox": 0,
       "progressiveRun": 0,

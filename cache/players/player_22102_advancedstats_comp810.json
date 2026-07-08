@@ -1,7 +1,7 @@
 {
   "player_id": 22102,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:04:16.828103+00:00",
+  "fetched_at": "2026-06-30T17:23:34.931107+00:00",
   "stats": {
     "playerId": 22102,
     "competitionId": 810,
@@ -137,8 +137,8 @@
       "successfulLateralPasses": 51
     },
     "average": {
-      "passLength": 26.07,
-      "longPassLength": 36.99,
+      "passLength": 26.1,
+      "longPassLength": 37.15,
       "dribbleDistanceFromOpponentGoal": 0,
       "ballRecoveries": 4.6,
       "duels": 7.95,

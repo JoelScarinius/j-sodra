@@ -1,7 +1,7 @@
 {
   "player_id": 581087,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:03:39.170066+00:00",
+  "fetched_at": "2026-06-30T17:22:32.863416+00:00",
   "stats": {
     "playerId": 581087,
     "competitionId": 810,
@@ -105,7 +105,7 @@
       "xgShot": 0.89,
       "xgAssist": 0.75,
       "xgSave": 0,
-      "receivedPass": 67,
+      "receivedPass": 68,
       "touchInBox": 9,
       "progressiveRun": 1,
       "offsides": 1,
@@ -214,7 +214,7 @@
       "xgShot": 0.21,
       "xgAssist": 0.18,
       "xgSave": 0,
-      "receivedPass": 15.79,
+      "receivedPass": 16.02,
       "touchInBox": 2.12,
       "progressiveRun": 0.24,
       "offsides": 0.24,

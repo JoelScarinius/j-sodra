@@ -1,7 +1,7 @@
 {
   "player_id": 846197,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:00:16.388239+00:00",
+  "fetched_at": "2026-06-30T17:18:59.879224+00:00",
   "stats": {
     "playerId": 846197,
     "competitionId": 810,
@@ -56,7 +56,7 @@
       "successfulThroughPasses": 3,
       "keyPasses": 1,
       "successfulKeyPasses": 1,
-      "verticalPasses": 208,
+      "verticalPasses": 207,
       "successfulVerticalPasses": 197,
       "longPasses": 34,
       "successfulLongPasses": 22,
@@ -104,7 +104,7 @@
       "counterpressingRecoveries": 44,
       "slidingTackles": 1,
       "goalKicks": 0,
-      "dribblesAgainst": 21,
+      "dribblesAgainst": 22,
       "dribblesAgainstWon": 15,
       "goalKicksShort": 0,
       "goalKicksLong": 0,
@@ -126,11 +126,11 @@
       "newDefensiveDuelsWon": 54,
       "newOffensiveDuelsWon": 97,
       "newSuccessfulDribbles": 35,
-      "lateralPasses": 208,
+      "lateralPasses": 207,
       "successfulLateralPasses": 197
     },
     "average": {
-      "passLength": 16.78,
+      "passLength": 16.77,
       "longPassLength": 34.76,
       "dribbleDistanceFromOpponentGoal": 37.95,
       "ballRecoveries": 6.18,
@@ -165,7 +165,7 @@
       "backPasses": 17,
       "throughPasses": 0.49,
       "keyPasses": 0.07,
-      "verticalPasses": 14.43,
+      "verticalPasses": 14.36,
       "longPasses": 2.36,
       "shotAssists": 0.62,
       "shotOnTargetAssists": 0.07,
@@ -217,7 +217,7 @@
       "successfulProgressivePasses": 3.89,
       "successfulSlidingTackles": 0,
       "successfulGoalKicks": 0,
-      "dribblesAgainst": 1.46,
+      "dribblesAgainst": 1.53,
       "dribblesAgainstWon": 1.04,
       "goalKicksShort": 0,
       "goalKicksLong": 0,
@@ -234,7 +234,7 @@
       "newDefensiveDuelsWon": 3.75,
       "newOffensiveDuelsWon": 6.73,
       "newSuccessfulDribbles": 2.43,
-      "lateralPasses": 14.43,
+      "lateralPasses": 14.36,
       "successfulLateralPasses": 13.67
     },
     "percent": {
@@ -257,7 +257,7 @@
       "successfulBackPasses": 97.14,
       "successfulThroughPasses": 42.86,
       "successfulKeyPasses": 100,
-      "successfulVerticalPasses": 94.71,
+      "successfulVerticalPasses": 95.17,
       "successfulLongPasses": 64.71,
       "successfulShotAssists": 66.67,
       "successfulLinkupPlays": 0,
@@ -265,7 +265,7 @@
       "successfulProgressivePasses": 72.73,
       "successfulSlidingTackles": 0,
       "successfulGoalKicks": 0,
-      "dribblesAgainstWon": 71.43,
+      "dribblesAgainstWon": 68.18,
       "fieldAerialDuelsWon": 41.67,
       "gkSaves": 0,
       "gkSuccessfulExits": 0,
@@ -274,7 +274,7 @@
       "newDefensiveDuelsWon": 72,
       "newOffensiveDuelsWon": 41.63,
       "newSuccessfulDribbles": 53.03,
-      "successfulLateralPasses": 94.71
+      "successfulLateralPasses": 95.17
     },
     "roundId": null
   }

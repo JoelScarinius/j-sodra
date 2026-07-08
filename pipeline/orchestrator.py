@@ -15,6 +15,7 @@ from pipeline.analytics import (
     build_head_to_head_overview,
     build_matchup_card,
     build_recent_form,
+    compute_position_stat_benchmarks,
     summarize_results_from_matches,
 )
 from pipeline.common import extract_logo_url
@@ -185,7 +186,8 @@ def _detect_primary_competition_id(matches_df: pd.DataFrame):
 
 
 def _refresh_competition_player_cache(service: DataService, competition_id) -> dict:
-    """Fetch and disk-cache competition players and per-player advanced stats."""
+    """Fetch and disk-cache competition players, per-player advanced stats, and the
+    per-position stat benchmarks (max/quartiles) derived from them."""
 
     if competition_id is None:
         print("\nSkipping player cache refresh: no competition id resolved.")
@@ -196,17 +198,23 @@ def _refresh_competition_player_cache(service: DataService, competition_id) -> d
     player_ids = service.extract_player_ids(players)
     print(f"Found {len(player_ids)} players in competition {competition_id}.")
 
-    stats_cached = 0
+    stats_by_player_id = {}
     for player_id in player_ids:
         stats = service.get_player_advanced_stats(player_id, competition_id)
         if stats:
-            stats_cached += 1
-    print(f"Player advanced stats cached: {stats_cached}/{len(player_ids)}.")
+            stats_by_player_id[player_id] = stats
+    print(f"Player advanced stats cached: {len(stats_by_player_id)}/{len(player_ids)}.")
+
+    benchmarks = compute_position_stat_benchmarks(players, stats_by_player_id)
+    service.write_position_stat_benchmarks(competition_id, benchmarks)
+    benchmark_stat_counts = {position: len(stats) for position, stats in benchmarks.items()}
+    print(f"Position stat benchmarks computed: {benchmark_stat_counts}.")
 
     return {
         "competition_id": competition_id,
         "player_count": len(player_ids),
-        "stats_cached": stats_cached,
+        "stats_cached": len(stats_by_player_id),
+        "position_benchmark_stat_counts": benchmark_stat_counts,
     }
 
 

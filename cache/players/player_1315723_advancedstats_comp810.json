@@ -1,7 +1,7 @@
 {
   "player_id": 1315723,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T12:54:17.862914+00:00",
+  "fetched_at": "2026-06-30T17:12:53.375753+00:00",
   "stats": {
     "playerId": 1315723,
     "competitionId": 810,
@@ -50,8 +50,8 @@
       "successfulCrosses": 2,
       "forwardPasses": 17,
       "successfulForwardPasses": 7,
-      "backPasses": 6,
-      "successfulBackPasses": 6,
+      "backPasses": 7,
+      "successfulBackPasses": 7,
       "throughPasses": 1,
       "successfulThroughPasses": 0,
       "keyPasses": 0,
@@ -130,7 +130,7 @@
       "successfulLateralPasses": 14
     },
     "average": {
-      "passLength": 17.44,
+      "passLength": 17.77,
       "longPassLength": 35.58,
       "dribbleDistanceFromOpponentGoal": 18.73,
       "ballRecoveries": 5.45,
@@ -162,7 +162,7 @@
       "looseBallDuels": 0.91,
       "missedBalls": 0,
       "forwardPasses": 15.45,
-      "backPasses": 5.45,
+      "backPasses": 6.36,
       "throughPasses": 0.91,
       "keyPasses": 0,
       "verticalPasses": 17.27,
@@ -183,7 +183,7 @@
       "successfulSmartPasses": 0,
       "successfulCrosses": 1.82,
       "successfulForwardPasses": 6.36,
-      "successfulBackPasses": 5.45,
+      "successfulBackPasses": 6.36,
       "successfulThroughPasses": 0,
       "successfulKeyPasses": 0,
       "successfulVerticalPasses": 12.73,

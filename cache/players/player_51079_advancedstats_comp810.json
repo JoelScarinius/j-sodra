@@ -1,7 +1,7 @@
 {
   "player_id": 51079,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:04:20.308611+00:00",
+  "fetched_at": "2026-06-30T17:23:39.405939+00:00",
   "stats": {
     "playerId": 51079,
     "competitionId": 810,
@@ -88,7 +88,7 @@
       "losses": 63,
       "ownHalfLosses": 30,
       "dangerousOwnHalfLosses": 4,
-      "xgShot": 0.16,
+      "xgShot": 0.15,
       "xgAssist": 0.25,
       "xgSave": 0,
       "receivedPass": 162,

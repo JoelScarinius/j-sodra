@@ -1,0 +1,210 @@
+{
+  "generated_at": "2026-07-08T10:37:13.151310+00:00",
+  "benchmark_scope": "general",
+  "players": [
+    {
+      "player_id": 1325274,
+      "name": "L. Brahim",
+      "team_id": 6729,
+      "team_name": "Jönköpings Södra",
+      "position": "Right Centre Midfielder",
+      "position_group": "forward",
+      "games": 9,
+      "stats": [
+        {
+          "key": "average.goals",
+          "label": "Goals/90",
+          "raw": 0.39,
+          "percentile": 79.48,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.0,
+            "q3": 0.15,
+            "max": 1.49,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.xgShot",
+          "label": "xG/90",
+          "raw": 0.31,
+          "percentile": 78.41,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.04,
+            "q3": 0.16,
+            "max": 1.26,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.shots",
+          "label": "Shots/90",
+          "raw": 3.51,
+          "percentile": 88.2,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.56,
+            "q3": 1.52,
+            "max": 5.29,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.touchInBox",
+          "label": "Box touches/90",
+          "raw": 4.29,
+          "percentile": 85.14,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.9,
+            "q3": 2.4400000000000004,
+            "max": 7.0,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.keyPasses",
+          "label": "Key passes/90",
+          "raw": 0.39,
+          "percentile": 75.57,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.09,
+            "q3": 0.355,
+            "max": 1.88,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.successfulDribbles",
+          "label": "Dribbles/90",
+          "raw": 5.45,
+          "percentile": 85.96,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.54,
+            "q3": 1.4,
+            "max": 10.64,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "percent.aerialDuelsWon",
+          "label": "Aerial won %",
+          "raw": 25.0,
+          "percentile": 34.98,
+          "benchmark": {
+            "q1": 15.04,
+            "q2": 40.0,
+            "q3": 54.260000000000005,
+            "max": 100.0,
+            "sample_size": 755
+          }
+        }
+      ]
+    },
+    {
+      "player_id": 1316266,
+      "name": "P. Lilja",
+      "team_id": 6751,
+      "team_name": "IFK Värnamo",
+      "position": "Attacking Midfielder",
+      "position_group": "defender",
+      "games": 7,
+      "stats": [
+        {
+          "key": "average.goals",
+          "label": "Goals/90",
+          "raw": 0.73,
+          "percentile": 85.82,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.0,
+            "q3": 0.15,
+            "max": 1.49,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.xgShot",
+          "label": "xG/90",
+          "raw": 0.19,
+          "percentile": 75.68,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.04,
+            "q3": 0.16,
+            "max": 1.26,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.shots",
+          "label": "Shots/90",
+          "raw": 3.15,
+          "percentile": 85.81,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.56,
+            "q3": 1.52,
+            "max": 5.29,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.touchInBox",
+          "label": "Box touches/90",
+          "raw": 3.15,
+          "percentile": 78.89,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.9,
+            "q3": 2.4400000000000004,
+            "max": 7.0,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.keyPasses",
+          "label": "Key passes/90",
+          "raw": 0.0,
+          "percentile": 0.0,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.09,
+            "q3": 0.355,
+            "max": 1.88,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "average.successfulDribbles",
+          "label": "Dribbles/90",
+          "raw": 1.46,
+          "percentile": 75.16,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.54,
+            "q3": 1.4,
+            "max": 10.64,
+            "sample_size": 755
+          }
+        },
+        {
+          "key": "percent.aerialDuelsWon",
+          "label": "Aerial won %",
+          "raw": 12.5,
+          "percentile": 20.78,
+          "benchmark": {
+            "q1": 15.04,
+            "q2": 40.0,
+            "q3": 54.260000000000005,
+            "max": 100.0,
+            "sample_size": 755
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "player_id": 1068502,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T12:58:04.187713+00:00",
+  "fetched_at": "2026-06-30T17:16:23.664271+00:00",
   "stats": {
     "playerId": 1068502,
     "competitionId": 810,
@@ -99,7 +99,7 @@
       "recoveries": 20,
       "opponentHalfRecoveries": 7,
       "dangerousOpponentHalfRecoveries": 0,
-      "losses": 42,
+      "losses": 41,
       "ownHalfLosses": 17,
       "dangerousOwnHalfLosses": 4,
       "xgShot": 0,
@@ -187,7 +187,7 @@
       "opponentHalfRecoveries": 2.17,
       "dangerousOpponentHalfRecoveries": 0,
       "ballLosses": 0,
-      "losses": 13.03,
+      "losses": 12.72,
       "ownHalfLosses": 5.28,
       "dangerousOwnHalfLosses": 1.24,
       "duelsWon": 4.03,

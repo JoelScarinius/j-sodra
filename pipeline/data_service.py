@@ -552,6 +552,12 @@ class DataService:
             f"player_{int(player_id)}_advancedstats_comp{int(competition_id)}.json"
         )
 
+    def _position_stat_benchmarks_cache_file_path(self, competition_id) -> Path:
+        return (
+            self.settings.player_cache_dir
+            / f"competition_{int(competition_id)}_position_benchmarks.json"
+        )
+
     def _use_player_cache(self) -> bool:
         return (
             self.settings.enable_incremental_player_fetch
@@ -929,6 +935,21 @@ class DataService:
             )
         except Exception as exc:
             print(f"Player cache write failed for player {player_id}: {exc}")
+
+    def write_position_stat_benchmarks(self, competition_id, benchmarks: dict) -> None:
+        try:
+            self.settings.player_cache_dir.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "competition_id": int(competition_id),
+                "computed_at": datetime.now(timezone.utc).isoformat(),
+                "benchmarks": benchmarks,
+            }
+            self._position_stat_benchmarks_cache_file_path(competition_id).write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except Exception as exc:
+            print(f"Position benchmark cache write failed for competition {competition_id}: {exc}")
 
     def _fetch_competition_matches_with_cache(
         self,

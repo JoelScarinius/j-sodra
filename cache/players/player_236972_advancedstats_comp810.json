@@ -1,7 +1,7 @@
 {
   "player_id": 236972,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T13:04:39.854238+00:00",
+  "fetched_at": "2026-06-30T17:23:51.921052+00:00",
   "stats": {
     "playerId": 236972,
     "competitionId": 810,
@@ -96,7 +96,7 @@
       "ownHalfLosses": 7,
       "dangerousOwnHalfLosses": 0,
       "xgShot": 0.63,
-      "xgAssist": 0.04,
+      "xgAssist": 0.01,
       "xgSave": 0,
       "receivedPass": 44,
       "touchInBox": 20,
@@ -205,7 +205,7 @@
       "looseBallDuelsWon": 0,
       "successfulPassesToFinalThird": 0.65,
       "xgShot": 0.21,
-      "xgAssist": 0.01,
+      "xgAssist": 0,
       "xgSave": 0,
       "receivedPass": 14.35,
       "touchInBox": 6.52,

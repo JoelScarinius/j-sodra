@@ -1,7 +1,7 @@
 {
   "player_id": 1164307,
   "competition_id": 810,
-  "fetched_at": "2026-06-29T12:57:27.155295+00:00",
+  "fetched_at": "2026-06-30T17:15:43.507319+00:00",
   "stats": {
     "playerId": 1164307,
     "competitionId": 810,
@@ -13,13 +13,6 @@
           "code": "cf"
         },
         "percent": 88
-      },
-      {
-        "position": {
-          "name": "Right Wing Forward",
-          "code": "rwf"
-        },
-        "percent": 10
       }
     ],
     "total": {
