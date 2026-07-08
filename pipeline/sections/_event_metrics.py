@@ -435,9 +435,10 @@ def dropped_ball_turnovers(
         (dropped_df["pickup_x"] - dropped_df["drop_x"]) ** 2
         + (dropped_df["pickup_y"] - dropped_df["drop_y"]) ** 2
     )
+    dropped_df = add_possession_loss_context(dropped_df)
     return dropped_df.sort_values(
-        by=["possession_duration", "pickup_x", "pickup_delay"],
-        ascending=[False, False, True],
+        by=["risk_score", "possession_duration", "pickup_x", "pickup_delay"],
+        ascending=[False, False, False, True],
     ).reset_index(drop=True)
 
 
@@ -590,4 +591,207 @@ def select_player_radar(
         "metrics": metrics,
         "comparison_size": int(len(comparison)),
         "minimum_appearances": int(minimum_appearances),
+    }
+
+
+
+def pitch_zone_label(x: float, y: float) -> str:
+    """Convert 0-100 pitch coordinates into a coach-friendly zone label.
+
+    x is interpreted in the analysed team's attacking direction.
+    """
+
+    try:
+        x_value = float(x)
+        y_value = float(y)
+    except (TypeError, ValueError):
+        return "unknown zone"
+
+    if x_value < 33.3:
+        third = "defensive third"
+    elif x_value < 66.7:
+        third = "midfield"
+    else:
+        third = "attacking third"
+
+    if y_value < 33.3:
+        lane = "left"
+    elif y_value < 66.7:
+        lane = "central"
+    else:
+        lane = "right"
+
+    return f"{lane} {third}"
+
+
+def possession_loss_risk_label(row: pd.Series) -> str:
+    """Simple ordinal risk label for open-play possession losses.
+
+    The score intentionally favours opponent pickups closer to the analysed
+    team's attacking goal and fast pickups after the failed pass. It is meant
+    for readable dashboard labelling, not as a proprietary model.
+    """
+
+    pickup_x = float(row.get("pickup_x", 0.0) or 0.0)
+    delay = float(row.get("pickup_delay", 0.0) or 0.0)
+    travel = float(row.get("travel_distance", 0.0) or 0.0)
+
+    score = 0.0
+    if pickup_x >= 66.7:
+        score += 2.0
+    elif pickup_x >= 50.0:
+        score += 1.0
+    if delay <= 3.0:
+        score += 1.0
+    if travel >= 35.0:
+        score += 1.0
+
+    if score >= 3.0:
+        return "High risk"
+    if score >= 1.5:
+        return "Medium risk"
+    return "Low risk"
+
+
+def add_possession_loss_context(dropped_df: pd.DataFrame) -> pd.DataFrame:
+    """Add friendly zone/risk fields to a dropped-possession dataframe."""
+
+    if dropped_df.empty:
+        return dropped_df.copy()
+
+    frame = dropped_df.copy()
+    frame["pickup_zone"] = frame.apply(
+        lambda row: pitch_zone_label(row.get("pickup_x"), row.get("pickup_y")),
+        axis=1,
+    )
+    frame["drop_zone"] = frame.apply(
+        lambda row: pitch_zone_label(row.get("drop_x"), row.get("drop_y")),
+        axis=1,
+    )
+    frame["risk_label"] = frame.apply(possession_loss_risk_label, axis=1)
+    frame["risk_score"] = (
+        frame["pickup_x"].fillna(0).astype(float) * 0.04
+        + (8.0 - frame["pickup_delay"].fillna(8).astype(float)).clip(lower=0) * 0.50
+        + frame["travel_distance"].fillna(0).astype(float) * 0.015
+    )
+    return frame
+
+
+def possession_loss_player_summary(dropped_df: pd.DataFrame, limit: int = 10) -> list[dict]:
+    """Aggregate full possession-loss data by player for frontend tables."""
+
+    if dropped_df.empty:
+        return []
+
+    frame = add_possession_loss_context(dropped_df)
+    grouped = (
+        frame.groupby("player_name", dropna=False)
+        .agg(
+            drops=("player_name", "size"),
+            attacking_half=("pickup_in_attacking_half", "sum"),
+            average_pickup_delay=("pickup_delay", "mean"),
+            average_risk_score=("risk_score", "mean"),
+        )
+        .reset_index()
+    )
+
+    common_zone = (
+        frame.groupby(["player_name", "pickup_zone"], dropna=False)
+        .size()
+        .rename("zone_count")
+        .reset_index()
+        .sort_values(["player_name", "zone_count"], ascending=[True, False])
+        .drop_duplicates("player_name")
+        .set_index("player_name")["pickup_zone"]
+        .to_dict()
+    )
+    grouped["most_common_zone"] = grouped["player_name"].map(common_zone).fillna("unknown zone")
+    grouped["risk_label"] = grouped["average_risk_score"].apply(
+        lambda score: "High risk" if score >= 3.6 else "Medium risk" if score >= 2.4 else "Low risk"
+    )
+
+    grouped = grouped.sort_values(
+        by=["drops", "attacking_half", "average_risk_score"],
+        ascending=[False, False, False],
+    ).head(limit)
+
+    rows = []
+    for row in grouped.itertuples(index=False):
+        rows.append(
+            {
+                "player_name": str(row.player_name),
+                "drops": int(row.drops),
+                "attacking_half": int(row.attacking_half),
+                "average_pickup_delay": round(float(row.average_pickup_delay), 2),
+                "most_common_zone": str(row.most_common_zone),
+                "risk_label": str(row.risk_label),
+            }
+        )
+    return rows
+
+
+def possession_loss_zone_summary(dropped_df: pd.DataFrame, limit: int = 9) -> list[dict]:
+    if dropped_df.empty:
+        return []
+    frame = add_possession_loss_context(dropped_df)
+    grouped = (
+        frame.groupby("pickup_zone", dropna=False)
+        .agg(
+            drops=("pickup_zone", "size"),
+            average_pickup_delay=("pickup_delay", "mean"),
+            average_risk_score=("risk_score", "mean"),
+        )
+        .reset_index()
+        .sort_values(["drops", "average_risk_score"], ascending=[False, False])
+        .head(limit)
+    )
+    return [
+        {
+            "zone": str(row.pickup_zone),
+            "drops": int(row.drops),
+            "average_pickup_delay": round(float(row.average_pickup_delay), 2),
+        }
+        for row in grouped.itertuples(index=False)
+    ]
+
+
+def possession_loss_summary(dropped_df: pd.DataFrame, dangerous_limit: int = 8) -> dict:
+    """Dashboard-ready possession-loss summary from the full dataframe."""
+
+    if dropped_df.empty:
+        return {
+            "total": 0,
+            "attacking_half": 0,
+            "average_pickup_delay": 0.0,
+            "player_summary": [],
+            "zone_summary": [],
+            "most_dangerous_drops": [],
+        }
+
+    frame = add_possession_loss_context(dropped_df)
+    dangerous = frame.sort_values(
+        by=["risk_score", "pickup_in_attacking_half", "travel_distance", "pickup_delay"],
+        ascending=[False, False, False, True],
+    ).head(dangerous_limit)
+
+    return {
+        "total": int(len(frame)),
+        "attacking_half": int(frame["pickup_in_attacking_half"].sum()),
+        "average_pickup_delay": round(float(frame["pickup_delay"].mean()), 2),
+        "player_summary": possession_loss_player_summary(frame),
+        "zone_summary": possession_loss_zone_summary(frame),
+        "most_dangerous_drops": [
+            {
+                "player_name": str(row.player_name),
+                "pickup_zone": str(row.pickup_zone),
+                "drop_zone": str(row.drop_zone),
+                "pickup_delay": round(float(row.pickup_delay), 2),
+                "travel_distance": round(float(row.travel_distance), 1),
+                "risk_label": str(row.risk_label),
+                "pickup_in_attacking_half": bool(row.pickup_in_attacking_half),
+                "pickup_x": round(float(row.pickup_x), 1),
+                "pickup_y": round(float(row.pickup_y), 1),
+            }
+            for row in dangerous.itertuples(index=False)
+        ],
     }

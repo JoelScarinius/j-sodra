@@ -6,14 +6,13 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-from market.metrics import (
+from pipeline.sections._event_metrics import (
     defensive_actions,
-    dropped_ball_turnovers,
     player_metric_table,
     select_player_radar,
     shot_events,
 )
-from market.plots import plot_defensive_actions, plot_dropped_balls, plot_shot_map
+from pipeline.sections._football_plots import plot_defensive_actions, plot_shot_map
 from pipeline.contracts import SectionResult
 from pipeline.publishing import build_ref, write_json
 from pipeline.sections._labels import (
@@ -127,11 +126,6 @@ def _build_side(
     defensive_df = defensive_actions(team_events_df)
     shots_for_df = shot_events(team_events_df)
     shots_against_df = shot_events(opponent_events_df)
-    dropped_df = (
-        dropped_ball_turnovers(events_df, team_id=team_id)
-        if team_id is not None
-        else pd.DataFrame()
-    )
     player_table = player_metric_table(team_events_df)
     radar_payload = select_player_radar(player_table)
 
@@ -141,8 +135,6 @@ def _build_side(
         shots_for_df = _empty_shots_df()
     if shots_against_df.empty:
         shots_against_df = _empty_shots_df()
-    if dropped_df.empty:
-        dropped_df = _empty_dropped_df()
 
     total = int(len(defensive_df))
     action_mix = (
@@ -174,39 +166,6 @@ def _build_side(
     goals_against = (
         int(shots_against_df["goal"].sum()) if not shots_against_df.empty else 0
     )
-
-    dropped_count = int(len(dropped_df))
-    dangerous_drops = (
-        dropped_df.sort_values(
-            by=["pickup_in_attacking_half", "travel_distance", "pickup_delay"],
-            ascending=[False, False, True],
-        ).head(8)
-        if not dropped_df.empty
-        else dropped_df
-    )
-
-    drop_summary = {
-        "total": dropped_count,
-        "attacking_half": (
-            int(dropped_df["pickup_in_attacking_half"].sum())
-            if not dropped_df.empty
-            else 0
-        ),
-        "average_pickup_delay": round(
-            float(dropped_df["pickup_delay"].mean()) if not dropped_df.empty else 0.0, 2
-        ),
-        "most_dangerous_drops": [
-            {
-                "player_name": row.player_name,
-                "pickup_x": float(row.pickup_x),
-                "pickup_y": float(row.pickup_y),
-                "pickup_delay": float(row.pickup_delay),
-                "travel_distance": float(row.travel_distance),
-                "pickup_in_attacking_half": bool(row.pickup_in_attacking_half),
-            }
-            for row in dangerous_drops.itertuples(index=False)
-        ],
-    }
 
     radar_summary = None
     if radar_payload and radar_payload.get("player"):
@@ -247,10 +206,6 @@ def _build_side(
         storylines.append(
             f"The radar player is chosen as {radar_summary['selected_player']} because that player has the highest selection score among teammates with at least {radar_summary['minimum_appearances']} appearances in the comparison set of {radar_summary['comparison_size']} players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
         )
-    if dropped_count:
-        storylines.append(
-            f"Dropped possessions are published separately so the most dangerous losses can be read directly: {drop_summary['attacking_half']} end in the attacking half and the most exposed losses are listed by pickup location and travel distance."
-        )
 
     summary = {
         "total": total,
@@ -267,7 +222,6 @@ def _build_side(
         "goals_for": goals_for,
         "goals_against": goals_against,
         "action_mix": action_mix,
-        "dropped_possessions": drop_summary,
         "radar": radar_summary,
     }
 
@@ -292,7 +246,6 @@ def _build_side(
         {"label": "xG for", "value": xg_for, "format": "0.000"},
         {"label": "xG against", "value": xg_against, "format": "0.000"},
         {"label": "Goals against", "value": goals_against, "format": "count"},
-        {"label": "Dropped possessions", "value": dropped_count, "format": "count"},
     ]
 
     return {
@@ -303,29 +256,11 @@ def _build_side(
         "shots_df": shots_against_df,
         "shots_for_df": shots_for_df,
         "shots_against_df": shots_against_df,
-        "dropped_df": dropped_df,
         "player_table": player_table,
         "radar_payload": radar_payload,
         "analysis_scope": dataset.get("analysis_scope", {}),
         "analysis_match_count": len(dataset.get("analysis_selected_match_ids", [])),
     }
-
-
-def _dropped_rows_for_side(source_name: str, side: dict) -> list[dict]:
-    rows = []
-    for row in side["dropped_df"].itertuples(index=False):
-        rows.append(
-            {
-                "team_name": source_name,
-                "player_name": row.player_name,
-                "pickup_x": float(row.pickup_x),
-                "pickup_y": float(row.pickup_y),
-                "pickup_delay": float(row.pickup_delay),
-                "travel_distance": float(row.travel_distance),
-                "pickup_in_attacking_half": bool(row.pickup_in_attacking_half),
-            }
-        )
-    return rows
 
 
 def build_section(context) -> SectionResult:
@@ -362,11 +297,6 @@ def build_section(context) -> SectionResult:
     team_shot = plot_shot_map(
         team_subject, team_side["shots_against_df"], output_dir / "team_shot_map.png"
     )
-    team_dropped = plot_dropped_balls(
-        team_subject,
-        team_side["dropped_df"],
-        output_dir / "team_dropped_possessions.png",
-    )
 
     opp_def = plot_defensive_actions(
         opponent_subject,
@@ -378,42 +308,13 @@ def build_section(context) -> SectionResult:
         opponent_side["shots_against_df"],
         output_dir / "next_opponent_shot_map.png",
     )
-    opp_dropped = plot_dropped_balls(
-        opponent_subject,
-        opponent_side["dropped_df"],
-        output_dir / "next_opponent_dropped_possessions.png",
-    )
-
-    dropped_rows = []
-    dropped_rows.extend(_dropped_rows_for_side(context.team_name, team_side))
-    dropped_rows.extend(_dropped_rows_for_side(context.opponent_name, opponent_side))
-
-    dropped_path = (
-        context.settings.report_path(SECTION_NAME, "data") / "dropped_possessions.csv"
-    )
-    dropped_path.parent.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(dropped_rows).to_csv(dropped_path, index=False)
-
-    dropped_rank_rows = pd.DataFrame(dropped_rows)
-    if not dropped_rank_rows.empty:
-        dropped_rank_rows = dropped_rank_rows.sort_values(
-            by=["pickup_in_attacking_half", "travel_distance", "pickup_delay"],
-            ascending=[False, False, True],
-        )
-    dropped_summary_path = (
-        context.settings.report_path(SECTION_NAME, "data")
-        / "dropped_possessions_rankings.csv"
-    )
-    dropped_rank_rows.to_csv(dropped_summary_path, index=False)
 
     plot_refs = {}
     for name, path in {
         "team_defensive_actions": team_def,
         "team_shot_map": team_shot,
-        "team_dropped_possessions": team_dropped,
         "next_opponent_defensive_actions": opp_def,
         "next_opponent_shot_map": opp_shot,
-        "next_opponent_dropped_possessions": opp_dropped,
     }.items():
         ref = build_ref(context.settings, path)
         if name.endswith("defensive_actions"):
@@ -424,17 +325,6 @@ def build_section(context) -> SectionResult:
                     "reading_guide": [
                         "Each mark is a defensive action by the selected team.",
                         "Higher marks mean actions closer to the opponent goal.",
-                    ],
-                }
-            )
-        elif name.endswith("dropped_possessions"):
-            ref.update(
-                {
-                    "title": name.replace("_", " "),
-                    "description": "Shows where the team lost the ball and where the opponent picked it up.",
-                    "reading_guide": [
-                        "Bigger circles mean more dangerous turnovers.",
-                        "Gold circles are the worst losses and red stars show the most dangerous recovery spots.",
                     ],
                 }
             )
@@ -478,12 +368,7 @@ def build_section(context) -> SectionResult:
                 "analysis_match_count": opponent_side["analysis_match_count"],
             },
             "files": {
-                "data": {
-                    "dropped_possessions": build_ref(context.settings, dropped_path),
-                    "dropped_possessions_rankings": build_ref(
-                        context.settings, dropped_summary_path
-                    ),
-                },
+                "data": {},
                 "plots": plot_refs,
             },
         },
@@ -493,14 +378,10 @@ def build_section(context) -> SectionResult:
         name=SECTION_NAME,
         files=[
             output_path,
-            dropped_path,
-            dropped_summary_path,
             team_def,
             team_shot,
-            team_dropped,
             opp_def,
             opp_shot,
-            opp_dropped,
         ],
         index_entry={"analysis": build_ref(context.settings, output_path)},
         metadata={

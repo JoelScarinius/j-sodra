@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T23:08:25.791015+00:00",
+  "generated_at": "2026-07-07T23:54:44.931404+00:00",
   "section": "defensive",
   "title": "Defensive",
   "description": "Simple defensive view showing ball wins, dangerous turnovers, and shot danger for both teams.",
@@ -26,77 +26,6 @@
         "Recoveries": 806,
         "Interceptions": 370,
         "Clearances": 61
-      },
-      "dropped_possessions": {
-        "total": 146,
-        "attacking_half": 116,
-        "average_pickup_delay": 2.79,
-        "most_dangerous_drops": [
-          {
-            "player_name": "O. Almström",
-            "pickup_x": 92.0,
-            "pickup_y": 16.0,
-            "pickup_delay": 2.0,
-            "travel_distance": 84.38009243891595,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "A. Kiwarkis",
-            "pickup_x": 96.0,
-            "pickup_y": 16.0,
-            "pickup_delay": 1.0,
-            "travel_distance": 84.09518416651456,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "A. Kiwarkis",
-            "pickup_x": 90.0,
-            "pickup_y": 21.0,
-            "pickup_delay": 0.0,
-            "travel_distance": 79.63039620647382,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "A. Kiwarkis",
-            "pickup_x": 99.0,
-            "pickup_y": 22.0,
-            "pickup_delay": 1.0,
-            "travel_distance": 78.00640999302557,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "A. Kiwarkis",
-            "pickup_x": 96.0,
-            "pickup_y": 47.0,
-            "pickup_delay": 5.0,
-            "travel_distance": 42.5440947723653,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "A. Eriksson",
-            "pickup_x": 97.0,
-            "pickup_y": 54.0,
-            "pickup_delay": 6.0,
-            "travel_distance": 38.600518131237564,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "A. Kiwarkis",
-            "pickup_x": 62.0,
-            "pickup_y": 24.0,
-            "pickup_delay": 8.0,
-            "travel_distance": 38.58756276314948,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "F. Benatallah",
-            "pickup_x": 92.0,
-            "pickup_y": 73.0,
-            "pickup_delay": 6.0,
-            "travel_distance": 34.0147027033899,
-            "pickup_in_attacking_half": true
-          }
-        ]
       },
       "radar": {
         "selected_player": "A. Eriksson",
@@ -153,11 +82,6 @@
         "label": "Goals against",
         "value": 11,
         "format": "count"
-      },
-      {
-        "label": "Dropped possessions",
-        "value": 146,
-        "format": "count"
       }
     ],
     "storylines": [
@@ -167,8 +91,7 @@
       "Opponents produced 124 shots worth 12.65 xG against Jönköpings Södra in this sample.",
       "For context, Jönköpings Södra produced 161 own shots worth 19.27 xG in the same match sample.",
       "The shot-against sample includes 11 goals conceded.",
-      "The radar player is chosen as A. Eriksson because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 19 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested.",
-      "Dropped possessions are published separately so the most dangerous losses can be read directly: 116 end in the attacking half and the most exposed losses are listed by pickup location and travel distance."
+      "The radar player is chosen as A. Eriksson because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 19 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
     ],
     "analysis_scope": {
       "target_match_count": 12,
@@ -205,77 +128,6 @@
         "Recoveries": 802,
         "Interceptions": 398,
         "Clearances": 57
-      },
-      "dropped_possessions": {
-        "total": 191,
-        "attacking_half": 134,
-        "average_pickup_delay": 2.63,
-        "most_dangerous_drops": [
-          {
-            "player_name": "E. Onotu",
-            "pickup_x": 88.0,
-            "pickup_y": 31.0,
-            "pickup_delay": 0.0,
-            "travel_distance": 70.03570517957252,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "E. Onotu",
-            "pickup_x": 98.0,
-            "pickup_y": 31.0,
-            "pickup_delay": 1.0,
-            "travel_distance": 69.02897942168927,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "E. Onotu",
-            "pickup_x": 95.0,
-            "pickup_y": 32.0,
-            "pickup_delay": 1.0,
-            "travel_distance": 68.18357573492314,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "M. Ritari",
-            "pickup_x": 82.0,
-            "pickup_y": 48.0,
-            "pickup_delay": 6.0,
-            "travel_distance": 39.20459156782532,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "E. Onotu",
-            "pickup_x": 75.0,
-            "pickup_y": 11.0,
-            "pickup_delay": 7.0,
-            "travel_distance": 36.24913792078372,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "G. Backaliden",
-            "pickup_x": 51.0,
-            "pickup_y": 44.0,
-            "pickup_delay": 5.0,
-            "travel_distance": 30.479501308256342,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "E. Igbonekwu",
-            "pickup_x": 98.0,
-            "pickup_y": 49.0,
-            "pickup_delay": 8.0,
-            "travel_distance": 27.202941017470888,
-            "pickup_in_attacking_half": true
-          },
-          {
-            "player_name": "J. Voelkerling Persson",
-            "pickup_x": 94.0,
-            "pickup_y": 74.0,
-            "pickup_delay": 1.0,
-            "travel_distance": 26.68332812825267,
-            "pickup_in_attacking_half": true
-          }
-        ]
       },
       "radar": {
         "selected_player": "E. Onotu",
@@ -332,11 +184,6 @@
         "label": "Goals against",
         "value": 15,
         "format": "count"
-      },
-      {
-        "label": "Dropped possessions",
-        "value": 191,
-        "format": "count"
       }
     ],
     "storylines": [
@@ -346,8 +193,7 @@
       "Opponents produced 120 shots worth 13.41 xG against Rosengård in this sample.",
       "For context, Rosengård produced 183 own shots worth 18.12 xG in the same match sample.",
       "The shot-against sample includes 15 goals conceded.",
-      "The radar player is chosen as E. Onotu because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 19 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested.",
-      "Dropped possessions are published separately so the most dangerous losses can be read directly: 134 end in the attacking half and the most exposed losses are listed by pickup location and travel distance."
+      "The radar player is chosen as E. Onotu because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 19 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
     ],
     "analysis_scope": {
       "target_match_count": 12,
@@ -363,16 +209,7 @@
     "analysis_match_count": 12
   },
   "files": {
-    "data": {
-      "dropped_possessions": {
-        "path": "reports/defensive/data/dropped_possessions.csv",
-        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/data/dropped_possessions.csv"
-      },
-      "dropped_possessions_rankings": {
-        "path": "reports/defensive/data/dropped_possessions_rankings.csv",
-        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/data/dropped_possessions_rankings.csv"
-      }
-    },
+    "data": {},
     "plots": {
       "team_defensive_actions": {
         "path": "reports/defensive/plots/team_defensive_actions.png",
@@ -394,16 +231,6 @@
           "Gold circles are goals and green circles are shots on target."
         ]
       },
-      "team_dropped_possessions": {
-        "path": "reports/defensive/plots/team_dropped_possessions.png",
-        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/plots/team_dropped_possessions.png",
-        "title": "team dropped possessions",
-        "description": "Shows where the team lost the ball and where the opponent picked it up.",
-        "reading_guide": [
-          "Bigger circles mean more dangerous turnovers.",
-          "Gold circles are the worst losses and red stars show the most dangerous recovery spots."
-        ]
-      },
       "next_opponent_defensive_actions": {
         "path": "reports/defensive/plots/next_opponent_defensive_actions.png",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/plots/next_opponent_defensive_actions.png",
@@ -422,16 +249,6 @@
         "reading_guide": [
           "Bigger circles mean higher xG shots.",
           "Gold circles are goals and green circles are shots on target."
-        ]
-      },
-      "next_opponent_dropped_possessions": {
-        "path": "reports/defensive/plots/next_opponent_dropped_possessions.png",
-        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/plots/next_opponent_dropped_possessions.png",
-        "title": "next opponent dropped possessions",
-        "description": "Shows where the team lost the ball and where the opponent picked it up.",
-        "reading_guide": [
-          "Bigger circles mean more dangerous turnovers.",
-          "Gold circles are the worst losses and red stars show the most dangerous recovery spots."
         ]
       }
     }

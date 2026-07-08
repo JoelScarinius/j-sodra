@@ -5,7 +5,7 @@ from __future__ import annotations
 import pandas as pd
 from matplotlib.colors import LinearSegmentedColormap
 
-from market.metrics import prepare_event_frame
+from pipeline.sections._event_metrics import prepare_event_frame
 
 from pipeline.contracts import SectionResult
 from pipeline.publishing import build_ref, write_json

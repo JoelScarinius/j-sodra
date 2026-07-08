@@ -6,15 +6,19 @@ from dataclasses import dataclass
 
 import pandas as pd
 
-from market.metrics import (
+from pipeline.sections._event_metrics import (
+    add_possession_loss_context,
     build_pass_network,
+    dropped_ball_turnovers,
     player_metric_table,
+    possession_loss_summary,
     progressive_carries,
     progressive_passes,
     select_player_radar,
     shot_events,
 )
-from market.plots import (
+from pipeline.sections._football_plots import (
+    plot_dropped_balls,
     plot_pass_network,
     plot_player_radar,
     plot_progressive_passes,
@@ -47,7 +51,6 @@ def _latest_match_id(context, side: str) -> int | None:
         if match_ids:
             return int(match_ids[0])
     return None
-
 
 
 def _events_for_team(events_df: pd.DataFrame, team_id) -> pd.DataFrame:
@@ -90,6 +93,30 @@ def _empty_shots_df() -> pd.DataFrame:
     )
 
 
+
+def _empty_possession_losses_df() -> pd.DataFrame:
+    return pd.DataFrame(
+        columns=[
+            "matchId",
+            "player_name",
+            "drop_x",
+            "drop_y",
+            "pickup_x",
+            "pickup_y",
+            "pickup_delay",
+            "possession_duration",
+            "possession_events",
+            "opponent_event_type",
+            "pickup_in_attacking_half",
+            "travel_distance",
+            "pickup_zone",
+            "drop_zone",
+            "risk_label",
+            "risk_score",
+        ]
+    )
+
+
 def _build_side(
     context,
     team_name: str,
@@ -107,6 +134,11 @@ def _build_side(
     carries_df = progressive_carries(team_events_df)
     shots_df = shot_events(team_events_df)
     shots_against_df = shot_events(opponent_events_df)
+    possession_losses_df = (
+        dropped_ball_turnovers(events_df, team_id=team_id)
+        if team_id is not None
+        else pd.DataFrame()
+    )
     pass_network = build_pass_network(team_events_df, latest_match_id)
     player_table = player_metric_table(team_events_df)
     radar_payload = select_player_radar(player_table)
@@ -138,10 +170,16 @@ def _build_side(
     if shots_against_df.empty:
         shots_against_df = _empty_shots_df()
 
+    possession_losses_summary = possession_loss_summary(possession_losses_df)
     xg_for = round(float(shots_df["shot_xg"].sum()) if not shots_df.empty else 0.0, 3)
-    xg_against = round(float(shots_against_df["shot_xg"].sum()) if not shots_against_df.empty else 0.0, 3)
+    xg_against = round(
+        float(shots_against_df["shot_xg"].sum()) if not shots_against_df.empty else 0.0,
+        3,
+    )
     goals_for = int(shots_df["goal"].sum()) if not shots_df.empty else 0
-    goals_against = int(shots_against_df["goal"].sum()) if not shots_against_df.empty else 0
+    goals_against = (
+        int(shots_against_df["goal"].sum()) if not shots_against_df.empty else 0
+    )
 
     summary = {
         "progressive_passes": int(len(progressive_df)),
@@ -161,12 +199,14 @@ def _build_side(
         "competition_label": derive_competition_label(matches_df),
         "season_label": derive_season_label(matches_df, season_id),
         "latest_match_label": derive_latest_match_label(matches_df),
+        "possession_losses": possession_losses_summary,
     }
 
     storylines = [
         f"{team_name} produced {summary['progressive_passes']} progressive passes and {summary['progressive_carries']} progressive carries in the sampled window.",
         f"Open play generated {summary['shots_for']} shots, {summary['goals_for']} goals, and {summary['xg_for']:.2f} xG.",
         f"Opponents generated {summary['shots_against']} shots, {summary['goals_against']} goals, and {summary['xg_against']:.2f} xG against in the same sample.",
+        f"Jönköpings Södra had {possession_losses_summary['total']} risky open-play possession losses in the sample, with {possession_losses_summary['attacking_half']} opponent pickups in the attacking half.",
     ]
     strongest_link = (pass_network.get("meta", {}) or {}).get("strongest_link")
     if isinstance(strongest_link, dict):
@@ -195,8 +235,13 @@ def _build_side(
         {"label": "Shots", "value": summary["shots"], "format": "count"},
         {"label": "Goals", "value": summary["goals_for"], "format": "count"},
         {"label": "xG", "value": summary["xg_for"], "format": "0.000"},
-        {"label": "Shots against", "value": summary["shots_against"], "format": "count"},
+        {
+            "label": "Shots against",
+            "value": summary["shots_against"],
+            "format": "count",
+        },
         {"label": "xG against", "value": summary["xg_against"], "format": "0.000"},
+        {"label": "Risky possession losses", "value": possession_losses_summary["total"], "format": "count"},
     ]
 
     return {
@@ -208,6 +253,7 @@ def _build_side(
         "shots_for_df": shots_df,
         "shots_against_df": shots_against_df,
         "pass_network": pass_network,
+        "possession_losses_df": possession_losses_df,
         "radar_payload": radar_payload,
         "analysis_scope": dataset.get("analysis_scope", {}),
         "analysis_match_count": len(dataset.get("analysis_selected_match_ids", [])),
@@ -228,6 +274,11 @@ def _plot_subject(
     )
     plot_paths[f"{prefix}_pass_network"] = plot_pass_network(
         subject, payload["pass_network"], output_dir / f"{prefix}_pass_network.png"
+    )
+    plot_paths[f"{prefix}_possession_losses"] = plot_dropped_balls(
+        subject,
+        payload["possession_losses_df"],
+        output_dir / f"{prefix}_possession_losses.png",
     )
     if payload.get("radar_payload"):
         plot_paths[f"{prefix}_player_radar"] = plot_player_radar(
@@ -275,6 +326,17 @@ def _plot_refs(
                     "reading_guide": [
                         "Larger dots mean more touches.",
                         "Thicker lines mean more passes between two players.",
+                    ],
+                }
+            )
+        elif name.endswith("possession_losses"):
+            ref.update(
+                {
+                    "title": f"{subject_name} risky possession losses",
+                    "description": "Shows long open-play possessions that ended with a failed pass and quick opponent pickup.",
+                    "reading_guide": [
+                        "Heatmap zones show where opponents picked up the ball.",
+                        "Arrows connect the failed pass location to the opponent pickup location.",
                     ],
                 }
             )
@@ -339,6 +401,58 @@ def build_section(context) -> SectionResult:
         _plot_subject(opponent_subject, opponent_side, output_dir, "next_opponent")
     )
 
+    data_dir = context.settings.report_path(SECTION_NAME, "data")
+    data_dir.mkdir(parents=True, exist_ok=True)
+
+    possession_losses_path = data_dir / "possession_losses.csv"
+    possession_player_summary_path = data_dir / "possession_loss_player_summary.csv"
+    possession_zone_summary_path = data_dir / "possession_loss_zone_summary.csv"
+
+    possession_rows = []
+    for source_name, side in [
+        (context.team_name, team_side),
+        (context.opponent_name, opponent_side),
+    ]:
+        frame = side.get("possession_losses_df", pd.DataFrame()).copy()
+        if not frame.empty:
+            frame.insert(0, "team_name", source_name)
+            possession_rows.append(frame)
+
+    if possession_rows:
+        all_possession_losses_df = pd.concat(possession_rows, ignore_index=True)
+    else:
+        all_possession_losses_df = _empty_possession_losses_df()
+
+    all_possession_losses_df.to_csv(possession_losses_path, index=False)
+
+    player_summary_rows = []
+    zone_summary_rows = []
+
+    for source_name, side in [
+        (context.team_name, team_side),
+        (context.opponent_name, opponent_side),
+    ]:
+        loss_summary = side["summary"].get("possession_losses", {})
+
+        for row in loss_summary.get("player_summary", []):
+            out_row = {"team_name": source_name}
+            out_row.update(row)
+            player_summary_rows.append(out_row)
+
+        for row in loss_summary.get("zone_summary", []):
+            out_row = {"team_name": source_name}
+            out_row.update(row)
+            zone_summary_rows.append(out_row)
+
+    pd.DataFrame(player_summary_rows).to_csv(
+        possession_player_summary_path,
+        index=False,
+    )
+    pd.DataFrame(zone_summary_rows).to_csv(
+        possession_zone_summary_path,
+        index=False,
+    )
+
     output_path = write_json(
         context.settings.report_path(SECTION_NAME, "analysis.json"),
         {
@@ -366,7 +480,11 @@ def build_section(context) -> SectionResult:
                 "analysis_match_count": opponent_side["analysis_match_count"],
             },
             "files": {
-                "data": {},
+                "data": {
+                    "possession_losses": build_ref(context.settings, possession_losses_path),
+                    "possession_loss_player_summary": build_ref(context.settings, possession_player_summary_path),
+                    "possession_loss_zone_summary": build_ref(context.settings, possession_zone_summary_path),
+                },
                 "plots": _plot_refs(
                     context, plot_paths, context.team_name, context.opponent_name
                 ),
@@ -376,7 +494,13 @@ def build_section(context) -> SectionResult:
 
     return SectionResult(
         name=SECTION_NAME,
-        files=[output_path, *[path for path in plot_paths.values() if path]],
+        files=[
+            output_path,
+            possession_losses_path,
+            possession_player_summary_path,
+            possession_zone_summary_path,
+            *[path for path in plot_paths.values() if path],
+        ],
         index_entry={"analysis": build_ref(context.settings, output_path)},
         metadata={
             "team_shots": team_side["summary"]["shots"],
