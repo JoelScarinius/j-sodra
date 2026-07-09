@@ -15,9 +15,9 @@ from pipeline.analytics import (
     build_head_to_head_overview,
     build_matchup_card,
     build_recent_form,
-    compute_position_stat_benchmarks,
     summarize_results_from_matches,
 )
+from pipeline.sections.player_analysis.metrics import compute_position_stat_benchmarks
 from pipeline.common import extract_logo_url
 from pipeline.context import PipelineContext
 from pipeline.data_service import DataService

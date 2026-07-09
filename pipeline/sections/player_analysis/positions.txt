@@ -1,0 +1,35 @@
+Available player positions — competition 810 (Ettan)
+Source: advanced-stats cache files (positions[] field)
+Player count = number of players who appear in that position across any % of minutes
+
+code         name                                 players
+-----------  -----------------------------------  -------
+amf          Attacking Midfielder                      71
+cb           Centre Back                               25
+cf           Striker                                  157
+dmf          Defensive Midfielder                      46
+gk           Goalkeeper                                50
+lamf         Left Attacking Midfielder                 60
+lb           Left Back                                 74
+lb5          Left Back (5 at the back)                 18
+lcb          Left Centre Back                          70
+lcb3         Left Centre Back (3 at the back)          22
+lcmf         Left Centre Midfielder                    79
+lcmf3        Left Centre Midfielder (3 at back)        35
+ldmf         Left Defensive Midfielder                 43
+lw           Left Winger                               76
+lwb          Left Wingback                             18
+lwf          Left Wing Forward                         16
+ramf         Right Attacking Midfielder                56
+rb           Right Back                                81
+rb5          Right Back (5 at the back)                21
+rcb          Right Centre Back                         71
+rcb3         Right Centre Back (3 at the back)         27
+rcmf         Right Centre Midfielder                   75
+rcmf3        Right Centre Midfielder (3 at back)       31
+rdmf         Right Defensive Midfielder                40
+rw           Right Winger                              81
+rwb          Right Wingback                            18
+rwf          Right Wing Forward                        21
+
+Total: 27 unique positions

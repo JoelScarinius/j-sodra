@@ -1,0 +1,186 @@
+{
+  "generated_at": "2026-07-09T19:03:05.696120+00:00",
+  "benchmark_scope": "position",
+  "players": [
+    {
+      "player_id": 1322996,
+      "name": "A. Jacob",
+      "team_id": 6722,
+      "team_name": "IK Sirius",
+      "position": "Striker",
+      "position_group": "striker",
+      "games": 9,
+      "stats": [
+        {
+          "key": "average.goals",
+          "label": "Goals/90",
+          "raw": 0.5,
+          "percentile": 77.24,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.24,
+            "q3": 0.4025,
+            "max": 1.49,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.xgShot",
+          "label": "xG/90",
+          "raw": 0.4,
+          "percentile": 70.91,
+          "benchmark": {
+            "q1": 0.1575,
+            "q2": 0.28500000000000003,
+            "q3": 0.4225,
+            "max": 1.26,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.shots",
+          "label": "Shots/90",
+          "raw": 2.49,
+          "percentile": 73.67,
+          "benchmark": {
+            "q1": 1.2650000000000001,
+            "q2": 1.955,
+            "q3": 2.52,
+            "max": 4.09,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "percent.goalConversion",
+          "label": "Goal Conversion %",
+          "raw": 20.0,
+          "percentile": 70.0,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 11.11,
+            "q3": 22.22,
+            "max": 100.0,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "percent.shotsOnTarget",
+          "label": "Shots on Target %",
+          "raw": 20.0,
+          "percentile": 23.47,
+          "benchmark": {
+            "q1": 21.305,
+            "q2": 40.0,
+            "q3": 50.0,
+            "max": 100.0,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.touchInBox",
+          "label": "Box touches/90",
+          "raw": 3.98,
+          "percentile": 72.27,
+          "benchmark": {
+            "q1": 2.1275,
+            "q2": 3.165,
+            "q3": 4.08,
+            "max": 7.0,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.headShots",
+          "label": "Header shots/90",
+          "raw": 0.75,
+          "percentile": 80.59,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.28,
+            "q3": 0.5225,
+            "max": 1.54,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.aerialDuels",
+          "label": "Aerial duels/90",
+          "raw": 6.71,
+          "percentile": 80.05,
+          "benchmark": {
+            "q1": 2.2175000000000002,
+            "q2": 3.475,
+            "q3": 5.175,
+            "max": 12.77,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "percentage.aerialDuelsWon",
+          "label": "Aerial won %",
+          "raw": 0.0,
+          "percentile": 0.0,
+          "benchmark": {
+            "q1": null,
+            "q2": null,
+            "q3": null,
+            "max": null,
+            "sample_size": null
+          }
+        },
+        {
+          "key": "average.xgAssist",
+          "label": "xG Assists/90",
+          "raw": 0.01,
+          "percentile": 25.0,
+          "benchmark": {
+            "q1": 0.01,
+            "q2": 0.045,
+            "q3": 0.0825,
+            "max": 0.34,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.linkupPlays",
+          "label": "Link-up plays/90",
+          "raw": 0.5,
+          "percentile": 35.23,
+          "benchmark": {
+            "q1": 0.32,
+            "q2": 0.76,
+            "q3": 1.31,
+            "max": 7.87,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.receivedPass",
+          "label": "Received passes/90",
+          "raw": 7.46,
+          "percentile": 29.97,
+          "benchmark": {
+            "q1": 6.8825,
+            "q2": 9.785,
+            "q3": 13.3625,
+            "max": 46.33,
+            "sample_size": 112
+          }
+        },
+        {
+          "key": "average.counterpressingRecoveries",
+          "label": "Counterpressing recoveries/90",
+          "raw": 2.24,
+          "percentile": 75.0,
+          "benchmark": {
+            "q1": 1.115,
+            "q2": 1.71,
+            "q3": 2.24,
+            "max": 5.74,
+            "sample_size": 112
+          }
+        }
+      ]
+    }
+  ]
+}

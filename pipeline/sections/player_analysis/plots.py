@@ -44,7 +44,7 @@ except Exception:
     plt = None
     Rectangle = None
 
-from pipeline.analytics import bucket_player_position
+from pipeline.sections.player_analysis.metrics import bucket_player_position
 
 # Extend the shared palette with panel colours (mirrors market/plots.py)
 _PANEL = "#0b3427"
@@ -225,6 +225,7 @@ def _player_display_name(player: dict) -> str:
     name = player.get("name", "")
     code = _primary_position_code(player.get("stats") or {})
     return f"{name} ({code})" if code else name
+    
 
 
 def _build_report(
@@ -291,16 +292,21 @@ def make_player_radar_input(
     advanced_stats : the "stats" value from the player's advancedstats cache file
     team_name      : optional team name (not stored in the player profile cache)
     """
-    role = player_profile.get("role") or {}
     name = (
         player_profile.get("shortName")
         or player_profile.get("name")
         or f"Player {player_profile.get('wyId', '')}"
     )
+    positions = advanced_stats.get("positions") or []
+    primary_code = None
+    if positions:
+        primary = max(positions, key=lambda p: p.get("percent", 0))
+        primary_code = ((primary.get("position") or {}).get("code") or "").lower() or None
+
     return {
         "player_id": player_profile.get("wyId"),
         "name": name,
-        "position_code": role.get("code2"),   # "GK" / "DF" / "MD" / "FW" — used for benchmark lookup
+        "position_code": primary_code,  # e.g. "cf", "lb" — used for benchmark bucket lookup
         "team_id": player_profile.get("currentTeamId"),
         "team_name": team_name,
         "stats": advanced_stats,
@@ -318,9 +324,10 @@ def build_player_radar(
     benchmarks: dict,
     output_path: Path,
     style: dict[str, str],
-    title: str = "Player Radar",
+    title: str | None = None,
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
+    show_footer: bool = True,
 ) -> Path:
     """Render a radar for one or two players and save a PNG.
 
@@ -344,6 +351,9 @@ def build_player_radar(
         Smaller subtitle below title. Defaults to player name(s).
     footer_lines:
         Lines of text for the footer panel. A default is generated when None.
+    show_footer:
+        When False the footer panel is omitted and the radar expands to fill
+        the freed space. footer_lines is ignored.
 
     Returns
     -------
@@ -382,15 +392,19 @@ def build_player_radar(
 
     # --- Figure layout (mirrors market/plots.py) ---------------------------
     fig = plt.figure(figsize=(10, 10), facecolor=style["bg"])
-    ax = fig.add_axes([0.08, 0.14, 0.84, 0.68], polar=True)
-    footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+    if show_footer:
+        ax = fig.add_axes([0.08, 0.14, 0.84, 0.68], polar=True)
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+        footer_ax.set_facecolor(style["bg"])
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    else:
+        ax = fig.add_axes([0.08, 0.14, 0.84, 0.74], polar=True)
+        footer_ax = None
 
     ax.set_facecolor(style["bg"])
-    footer_ax.set_facecolor(style["bg"])
-    footer_ax.set_xticks([])
-    footer_ax.set_yticks([])
-    for spine in footer_ax.spines.values():
-        spine.set_visible(False)
 
     # --- Polar axis setup --------------------------------------------------
     ax.set_theta_offset(np.pi / 2)
@@ -399,6 +413,9 @@ def build_player_radar(
     ax.set_yticks([25, 50, 75, 100])
     ax.set_yticklabels(["25", "50", "75", "100"],
                        color=style["muted"], fontsize=9)
+    # Place radial labels in the middle of the first slice so they never
+    # overlap a metric label regardless of how many metrics there are.
+    ax.set_rlabel_position(180 / n)
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(stat_labels, color=style["text"], fontsize=11)
     ax.grid(color=style["line"], alpha=0.22)
@@ -423,43 +440,49 @@ def build_player_radar(
     compare_label = _player_display_name(compare) if compare else None
 
     # --- Header ------------------------------------------------------------
+    if title is None:
+        title = f"{primary_label} vs {compare_label}" if compare else primary_label
     if subtitle is None:
         if compare:
-            subtitle = f"{primary_label} vs {compare_label}"
+            t1 = primary.get("team_name") or ""
+            t2 = compare.get("team_name") or ""
+            subtitle = f"{t1} · {t2}" if t1 or t2 else ""
         else:
-            subtitle = primary_label
+            subtitle = primary.get("team_name") or ""
 
     _add_header(fig, title, subtitle, style)
 
     # --- Footer ------------------------------------------------------------
-    if footer_lines is None:
-        raw_note = "  |  ".join(
-            f"{label} {_format_stat_value(val, key)}"
-            for label, val, key in zip(stat_labels, primary_raw, stat_keys)
-        )
-        footer_lines = [
-            "What it shows: percentile ranks against the position-group benchmark (all players in the competition at the same position).",
-            "Rings mark the Q1 / Q2 / Q3 / max boundaries.  Values above the outer ring are capped at 100.",
-        ]
-        if compare:
-            compare_raw_note = "  |  ".join(
+    if show_footer:
+        if footer_lines is None:
+            raw_note = "  |  ".join(
                 f"{label} {_format_stat_value(val, key)}"
-                for label, val, key in zip(stat_labels, compare_raw, stat_keys)
+                for label, val, key in zip(stat_labels, primary_raw, stat_keys)
             )
-            footer_lines += [
-                f"Raw values ({primary_label}): {raw_note}",
-                f"Raw values ({compare_label}): {compare_raw_note}",
+            footer_lines = [
+                "What it shows: percentile ranks against the position-group benchmark (all players in the competition at the same position).",
+                "Rings mark the Q1 / Q2 / Q3 / max boundaries.  Values above the outer ring are capped at 100.",
             ]
-        else:
-            footer_lines.append(f"Raw per-90 values: {raw_note}")
+            if compare:
+                compare_raw_note = "  |  ".join(
+                    f"{label} {_format_stat_value(val, key)}"
+                    for label, val, key in zip(stat_labels, compare_raw, stat_keys)
+                )
+                footer_lines += [
+                    f"Raw values ({primary_label}): {raw_note}",
+                    f"Raw values ({compare_label}): {compare_raw_note}",
+                ]
+            else:
+                footer_lines.append(f"Raw per-90 values: {raw_note}")
 
-    _add_footer(footer_ax, footer_lines, style)
+        _add_footer(footer_ax, footer_lines, style)
 
     # --- Legend for comparison plots ---------------------------------------
     if compare:
-        fig.text(0.08, 0.128, f"● {primary_label}",
+        legend_y = 0.128 if show_footer else 0.06
+        fig.text(0.08, legend_y, f"● {primary_label}",
                  color=_HIGHLIGHT, fontsize=10, fontweight="bold", va="top")
-        fig.text(0.08 + 0.28, 0.128, f"● {compare_label}",
+        fig.text(0.08 + 0.28, legend_y, f"● {compare_label}",
                  color=style["accent_2"], fontsize=10, fontweight="bold", va="top")
 
     return _save(fig, output_path)
@@ -517,8 +540,9 @@ def build_player_position_map(
     player: dict,
     output_path: Path,
     style: dict[str, str],
-    title: str = "Position Map",
+    title: str = None,
     subtitle: str | None = None,
+    show_footer: bool = True,
 ) -> Path:
     """Render a full-pitch position-distribution map for one player.
 
@@ -537,7 +561,9 @@ def build_player_position_map(
     title:
         Bold main title (top-left).
     subtitle:
-        Smaller muted subtitle. Defaults to the player display name.
+        Smaller muted subtitle. Defaults to "Name (Team)".
+    show_footer:
+        When False the footer panel is omitted and the pitch expands downward.
     """
     try:
         from mplsoccer import Pitch
@@ -570,14 +596,17 @@ def build_player_position_map(
 
     # --- Figure layout -----------------------------------------------------
     fig = plt.figure(figsize=(14, 9), facecolor=style["bg"])
-    pitch_ax = fig.add_axes([0.05, 0.14, 0.90, 0.74])
-    footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.09])
-
-    footer_ax.set_facecolor(style["bg"])
-    footer_ax.set_xticks([])
-    footer_ax.set_yticks([])
-    for spine in footer_ax.spines.values():
-        spine.set_visible(False)
+    if show_footer:
+        pitch_ax = fig.add_axes([0.05, 0.14, 0.90, 0.74])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.09])
+        footer_ax.set_facecolor(style["bg"])
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    else:
+        pitch_ax = fig.add_axes([0.05, 0.05, 0.90, 0.83])
+        footer_ax = None
 
     # --- Pitch -------------------------------------------------------------
     pitch = Pitch(
@@ -623,7 +652,7 @@ def build_player_position_map(
         )
         pitch_ax.text(
             x, y - 6,
-            name,
+            code.upper(),
             color=style["text"],
             fontsize=7.5,
             ha="center",
@@ -638,24 +667,234 @@ def build_player_position_map(
         )
 
     # --- Header ------------------------------------------------------------
+    if title is None:
+        title = name = player.get("name", "")
     if subtitle is None:
-        subtitle = _player_display_name(player)
+        team = player.get("team_name")
+        subtitle = f"{team}" if team else name
 
     _add_header(fig, title, subtitle, style)
 
     # --- Footer ------------------------------------------------------------
-    pos_summary = "  ·  ".join(
-        f"{name} {pct:.0f}%"
-        for _, _, pct, _, name in sorted(entries, key=lambda e: -e[2])
+    if show_footer:
+        pos_summary = "  ·  ".join(
+            f"{name} {pct:.0f}%"
+            for _, _, pct, _, name in sorted(entries, key=lambda e: -e[2])
+        )
+        _add_footer(
+            footer_ax,
+            [
+                "What it shows: share of minutes played at each position in the current season.",
+                f"Circle size and colour intensity reflect time spent. Positions played: {pos_summary}",
+            ],
+            style,
+            width=130,
+        )
+
+    return _save(fig, output_path)
+
+
+# ---------------------------------------------------------------------------
+# Pizza plot
+# ---------------------------------------------------------------------------
+
+def build_player_pizza(
+    players: list[dict],
+    stat_keys: list[str],
+    stat_labels: list[str],
+    benchmarks: dict,
+    output_path: Path,
+    style: dict[str, str],
+    title: str = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+) -> Path:
+    """Render a percentile pizza chart for one or two players and save a PNG.
+
+    Parameters mirror build_player_radar() exactly. Uses mplsoccer PyPizza
+    internally; the same color palette, header, footer, and JSON report logic
+    as the radar apply here.
+
+    Parameters
+    ----------
+    players:
+        1 or 2 player dicts from make_player_radar_input().
+    stat_keys:
+        Dotted benchmark keys e.g. ["average.goals", "percent.aerialDuelsWon"].
+    stat_labels:
+        Human-readable slice labels aligned with stat_keys.
+    benchmarks:
+        The "benchmarks" value from competition_*_position_benchmarks.json.
+    output_path:
+        Destination PNG path.
+    style:
+        Colour palette from settings.plot_style.
+    title:
+        Bold main title (top-left).
+    subtitle:
+        Smaller subtitle below title. Defaults to player name(s).
+    footer_lines:
+        Lines of text for the footer panel. A default is generated when None.
+    show_footer:
+        When False the footer panel is omitted and the pizza expands upward.
+
+    Returns
+    -------
+    Path  The written output path.
+    """
+    try:
+        from mplsoccer import PyPizza
+    except Exception as exc:
+        raise RuntimeError("mplsoccer is required for pizza plots.") from exc
+
+    if plt is None:
+        raise RuntimeError("matplotlib is required for pizza plots.")
+    if not players:
+        raise ValueError("At least one player is required.")
+    if len(stat_keys) != len(stat_labels):
+        raise ValueError("stat_keys and stat_labels must have the same length.")
+    if len(players) > 2:
+        players = players[:2]
+
+    n = len(stat_keys)
+    primary = players[0]
+    compare = players[1] if len(players) == 2 else None
+    use_general = _mixed_positions(players)
+
+    primary_raw, primary_pct = _resolve_player_data(primary, stat_keys, benchmarks, use_general)
+    compare_raw, compare_pct = (
+        _resolve_player_data(compare, stat_keys, benchmarks, use_general) if compare else ([], [])
     )
-    _add_footer(
-        footer_ax,
-        [
-            "What it shows: share of minutes played at each position in the current season.",
-            f"Circle size and colour intensity reflect time spent. Positions played: {pos_summary}",
-        ],
-        style,
-        width=130,
+
+    # --- JSON report (always alongside the PNG) ----------------------------
+    all_raws = [primary_raw] + ([compare_raw] if compare else [])
+    all_pcts = [primary_pct] + ([compare_pct] if compare else [])
+    report = _build_report(players, stat_keys, stat_labels, benchmarks, all_raws, all_pcts, use_general)
+    report_path = Path(output_path).with_suffix(".json")
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+
+    bg = style["bg"]
+    line = style["line"]
+    text_col = style["text"]
+    accent = style["accent"]
+    accent_2 = style["accent_2"]
+
+    baker = PyPizza(
+        params=stat_labels,
+        background_color=bg,
+        straight_line_color=line,
+        straight_line_lw=1,
+        last_circle_color=line,
+        last_circle_lw=2.5,
+        other_circle_lw=0.7,
+        other_circle_color=line,
     )
+
+    # --- Figure layout (mirrors build_player_radar) ------------------------
+    fig = plt.figure(figsize=(10, 10), facecolor=bg)
+    if show_footer:
+        pizza_ax = fig.add_axes([0.08, 0.14, 0.84, 0.68], polar=True)
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    else:
+        pizza_ax = fig.add_axes([0.08, 0.14, 0.84, 0.74], polar=True)
+        footer_ax = None
+
+    # --- Pizza (PyPizza draws onto our axes) --------------------------------
+    pct_primary = [round(v, 1) for v in primary_pct]
+    if compare:
+        pct_compare = [round(v, 1) for v in compare_pct]
+        baker.make_pizza(
+            pct_primary,
+            compare_values=pct_compare,
+            ax=pizza_ax,
+            color_blank_space=[_PANEL] * n,
+            slice_colors=[accent] * n,
+            value_colors=[bg] * n,
+            value_bck_colors=[accent] * n,
+            compare_colors=[accent_2] * n,
+            compare_value_colors=[bg] * n,
+            compare_value_bck_colors=[accent_2] * n,
+            blank_alpha=1.0,
+            kwargs_slices=dict(edgecolor=line, zorder=2, linewidth=0.8),
+            kwargs_compare=dict(edgecolor=line, zorder=2, linewidth=0.8),
+            kwargs_params=dict(color=text_col, fontsize=10, va="center"),
+            kwargs_values=dict(color=bg, fontsize=9, fontweight="bold"),
+            kwargs_compare_values=dict(color=bg, fontsize=9, fontweight="bold"),
+        )
+    else:
+        baker.make_pizza(
+            pct_primary,
+            ax=pizza_ax,
+            color_blank_space=[_PANEL] * n,
+            slice_colors=[accent] * n,
+            value_colors=[bg] * n,
+            value_bck_colors=[accent] * n,
+            blank_alpha=1.0,
+            kwargs_slices=dict(edgecolor=line, zorder=2, linewidth=0.8),
+            kwargs_params=dict(color=text_col, fontsize=10, va="center"),
+            kwargs_values=dict(color=bg, fontsize=9, fontweight="bold"),
+        )
+
+    # Hide per-slice value number badges.
+    for t in baker.get_value_texts():
+        t.set_visible(False)
+    for t in baker.get_compare_value_texts():
+        t.set_visible(False)
+
+    # --- Header ------------------------------------------------------------
+    primary_label = _player_display_name(primary)
+    compare_label = _player_display_name(compare) if compare else None
+
+    if title is None:
+        title = f"{primary_label} vs {compare_label}" if compare else primary_label
+    if subtitle is None:
+        if compare:
+            t1 = primary.get("team_name") or ""
+            t2 = compare.get("team_name") or ""
+            subtitle = f"{t1} · {t2}" if t1 or t2 else ""
+        else:
+            subtitle = primary.get("team_name") or ""
+
+    _add_header(fig, title, subtitle, style)
+
+    # --- Footer ------------------------------------------------------------
+    if show_footer:
+        if footer_lines is None:
+            raw_note = "  |  ".join(
+                f"{label} {_format_stat_value(val, key)}"
+                for label, val, key in zip(stat_labels, primary_raw, stat_keys)
+            )
+            footer_lines = [
+                "What it shows: percentile ranks against the position-group benchmark (all players in the competition at the same position).",
+                "Rings mark the Q1 / Q2 / Q3 / max boundaries.  Values above the outer ring are capped at 100.",
+            ]
+            if compare:
+                compare_raw_note = "  |  ".join(
+                    f"{label} {_format_stat_value(val, key)}"
+                    for label, val, key in zip(stat_labels, compare_raw, stat_keys)
+                )
+                footer_lines += [
+                    f"Raw values ({primary_label}): {raw_note}",
+                    f"Raw values ({compare_label}): {compare_raw_note}",
+                ]
+            else:
+                footer_lines.append(f"Raw per-90 values: {raw_note}")
+
+        _add_footer(footer_ax, footer_lines, style)
+
+    # --- Legend for comparison plots ---------------------------------------
+    if compare:
+        legend_y = 0.128 if show_footer else 0.06
+        fig.text(0.08, legend_y, f"● {primary_label}",
+                 color=_HIGHLIGHT, fontsize=10, fontweight="bold", va="top")
+        fig.text(0.08 + 0.28, legend_y, f"● {compare_label}",
+                 color=accent_2, fontsize=10, fontweight="bold", va="top")
 
     return _save(fig, output_path)

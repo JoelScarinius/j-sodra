@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-08T10:37:13.151310+00:00",
+  "generated_at": "2026-07-09T19:03:05.792021+00:00",
   "benchmark_scope": "general",
   "players": [
     {
@@ -8,7 +8,7 @@
       "team_id": 6729,
       "team_name": "Jönköpings Södra",
       "position": "Right Centre Midfielder",
-      "position_group": "forward",
+      "position_group": "centre_midfielder",
       "games": 9,
       "stats": [
         {
@@ -110,7 +110,7 @@
       "team_id": 6751,
       "team_name": "IFK Värnamo",
       "position": "Attacking Midfielder",
-      "position_group": "defender",
+      "position_group": "attacking_midfielder",
       "games": 7,
       "stats": [
         {
