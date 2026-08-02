@@ -39,9 +39,11 @@ import numpy as np
 
 try:
     import matplotlib.pyplot as plt
+    from matplotlib.colors import LinearSegmentedColormap
     from matplotlib.patches import Rectangle
 except Exception:
     plt = None
+    LinearSegmentedColormap = None
     Rectangle = None
 
 from pipeline.sections.player_analysis.metrics import bucket_player_position
@@ -152,10 +154,10 @@ def _resolve_player_data(
 
 def _add_header(fig, title: str, subtitle: str, style: dict):
     fig.text(0.05, 0.945, title,
-             color=style["text"], fontsize=24, fontweight="bold",
+             color=style["text"], fontsize=30, fontweight="bold",
              ha="left", va="top")
-    fig.text(0.05, 0.905, subtitle,
-             color=style["muted"], fontsize=11.5,
+    fig.text(0.05, 0.893, subtitle,
+             color=style["muted"], fontsize=14,
              ha="left", va="top")
 
 
@@ -898,3 +900,741 @@ def build_player_pizza(
                  color=accent_2, fontsize=10, fontweight="bold", va="top")
 
     return _save(fig, output_path)
+
+
+# ---------------------------------------------------------------------------
+# Generic half-pitch map (template)
+# ---------------------------------------------------------------------------
+
+def build_player_pitch_map(
+    player: dict,
+    output_path: Path,
+    style: dict[str, str],
+    *,
+    scatter_layers: "list[dict] | None" = None,
+    arrow_layers: "list[dict] | None" = None,
+    stats_line: str,
+    legend_items: "list[tuple[str, str, str]]",
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+) -> Path:
+    """Render a vertical half-pitch map for one player and save a PNG.
+
+    This is the generic template. Callers prepare the data and call this
+    function; see build_player_shot_map for a worked example.
+
+    Parameters
+    ----------
+    player:
+        Player dict from make_player_radar_input().
+    output_path:
+        Destination PNG path.
+    style:
+        Colour palette from settings.plot_style.
+    scatter_layers:
+        Each entry is a dict passed straight to pitch.scatter (after popping
+        ``x`` and ``y``). Keys: ``x``, ``y``, and any pitch.scatter kwargs
+        (``s``, ``color``, ``facecolors``, ``edgecolors``, ``alpha``,
+        ``zorder``, …). Empty arrays are silently skipped.
+    arrow_layers:
+        Each entry is a dict passed straight to pitch.arrows (after popping
+        ``xstart``, ``ystart``, ``xend``, ``yend``). Any pitch.arrows kwargs
+        (``color``, ``width``, ``headwidth``, ``alpha``, ``zorder``, …).
+        Empty arrays are silently skipped.
+    stats_line:
+        Single-line summary rendered between the header and the legend,
+        e.g. "34 Shots  ·  5 Goals  ·  3.21 xG".
+    legend_items:
+        List of (marker_char, hex_color, label) tuples, one per category.
+        Positions are distributed evenly across the figure width.
+    title:
+        Bold main title. Defaults to the player's display name.
+    subtitle:
+        Muted subtitle. Defaults to the player's team name.
+    show_footer:
+        When False the footer panel is omitted and the pitch expands downward.
+    """
+    try:
+        from mplsoccer import VerticalPitch
+    except Exception as exc:
+        raise RuntimeError("mplsoccer is required for pitch map plots.") from exc
+
+    if plt is None:
+        raise RuntimeError("matplotlib is required for pitch map plots.")
+
+    bg = style["bg"]
+    line_col = style["line"]
+    muted = style["muted"]
+
+    # --- Figure layout -------------------------------------------------------
+    fig = plt.figure(figsize=(10, 11), facecolor=bg)
+    if show_footer:
+        pitch_ax = fig.add_axes([0.03, 0.13, 0.94, 0.66])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    else:
+        pitch_ax = fig.add_axes([0.03, 0.03, 0.94, 0.76])
+        footer_ax = None
+
+    # --- Pitch ---------------------------------------------------------------
+    pitch = VerticalPitch(
+        pitch_type="custom",
+        pitch_length=100,
+        pitch_width=100,
+        half=True,
+        pitch_color=bg,
+        line_color=line_col,
+        linewidth=1.5,
+        goal_type="box",
+        corner_arcs=True,
+        pad_left=-1.2,
+        pad_right=-1.2,
+        pad_top=0.3,
+        pad_bottom=1.5,
+        line_zorder=3,
+    )
+    pitch.draw(ax=pitch_ax)
+
+    # --- Scatter layers ------------------------------------------------------
+    # Mirror y (100 - y) to correct VerticalPitch's CW rotation which puts
+    # y=0 on the right instead of the left.
+    for layer in (scatter_layers or []):
+        layer = dict(layer)
+        x = layer.pop("x")
+        y = 100 - layer.pop("y")
+        if hasattr(x, "__len__") and len(x) == 0:
+            continue
+        pitch.scatter(x, y, ax=pitch_ax, **layer)
+
+    # --- Arrow layers --------------------------------------------------------
+    for layer in (arrow_layers or []):
+        layer = dict(layer)
+        xstart = layer.pop("xstart")
+        ystart = 100 - layer.pop("ystart")
+        xend = layer.pop("xend")
+        yend = 100 - layer.pop("yend")
+        if hasattr(xstart, "__len__") and len(xstart) == 0:
+            continue
+        pitch.arrows(xstart, ystart, xend, yend, ax=pitch_ax, **layer)
+
+    # --- Header --------------------------------------------------------------
+    if title is None:
+        title = _player_display_name(player)
+    if subtitle is None:
+        subtitle = player.get("team_name") or ""
+
+    _add_header(fig, title, subtitle, style)
+
+    # Force layout so mplsoccer's equal-aspect adjustment settles before we
+    # query the actual axes bounds for positioning.
+    fig.canvas.draw()
+    pos = pitch_ax.get_position()
+
+    # Subtitle sits at y=0.893 (fontsize 14, va="top"); approximate its bottom.
+    header_bottom = 0.893 - 14 / 72 / 11
+    pitch_top = pos.y1
+
+    gap = header_bottom - pitch_top
+    stats_y = header_bottom - gap / 3
+    legend_y_fig = header_bottom - 2 * gap / 3
+    legend_y_axes = (legend_y_fig - pos.y0) / pos.height
+
+    # --- Stats line ----------------------------------------------------------
+    fig.text(
+        0.5, stats_y, stats_line,
+        color=muted, fontsize=18, ha="center", va="center",
+    )
+
+    # --- Legend --------------------------------------------------------------
+    n = len(legend_items)
+    xs = [i / (n + 1) for i in range(1, n + 1)]
+    for (marker, color, label), x in zip(legend_items, xs):
+        pitch_ax.text(
+            x, legend_y_axes, f"{marker}  {label}",
+            transform=pitch_ax.transAxes,
+            color=color, fontsize=13, ha="center", va="center",
+            fontweight="bold", clip_on=False,
+        )
+
+    # --- Footer --------------------------------------------------------------
+    if show_footer and footer_ax is not None:
+        _add_footer(footer_ax, footer_lines or [], style, width=115)
+
+    return _save(fig, output_path)
+
+
+# ---------------------------------------------------------------------------
+# Shot map (wrapper around build_player_pitch_map)
+# ---------------------------------------------------------------------------
+
+def build_player_shot_map(
+    player: dict,
+    shots_df: "pd.DataFrame",
+    output_path: Path,
+    style: dict[str, str],
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+) -> Path:
+    """Render a shot map for one player. Wraps build_player_pitch_map."""
+    try:
+        import pandas as pd
+    except Exception as exc:
+        raise RuntimeError("pandas is required for shot map plots.") from exc
+
+    if shots_df is None or (hasattr(shots_df, "empty") and shots_df.empty):
+        raise ValueError(f"No shot data provided for player {player.get('name')}.")
+
+    muted = style["muted"]
+    accent_2 = style["accent_2"]
+    line_col = style["line"]
+
+    off_target = shots_df[~shots_df["on_target"] & ~shots_df["is_goal"]]
+    on_target_saved = shots_df[shots_df["on_target"] & ~shots_df["is_goal"]]
+    goals = shots_df[shots_df["is_goal"]]
+
+    def _size(df):
+        return 120 + df["xg"].clip(lower=0.01) * 2000
+
+    scatter_layers = [
+        {
+            "x": off_target["x"], "y": off_target["y"],
+            "s": _size(off_target),
+            "facecolors": "none", "edgecolors": muted,
+            "linewidth": 1.5, "alpha": 0.75, "zorder": 4,
+        },
+        {
+            "x": on_target_saved["x"], "y": on_target_saved["y"],
+            "s": _size(on_target_saved),
+            "color": accent_2, "edgecolors": line_col,
+            "linewidth": 1.0, "alpha": 0.88, "zorder": 5,
+        },
+        {
+            "x": goals["x"], "y": goals["y"],
+            "s": _size(goals),
+            "color": _HIGHLIGHT, "edgecolors": line_col,
+            "linewidth": 1.0, "alpha": 0.97, "zorder": 6,
+        },
+    ]
+
+    total = len(shots_df)
+    n_goals = int(shots_df["is_goal"].sum())
+    total_xg = shots_df["xg"].sum()
+
+    stats_line = f"{total} Shots  ·  {n_goals} Goals  ·  {total_xg:.2f} xG"
+    legend_items = [
+        ("●", _HIGHLIGHT, "Goal"),
+        ("●", accent_2,   "On target (saved)"),
+        ("○", muted,      "Off target / blocked"),
+    ]
+
+    if footer_lines is None and show_footer:
+        box_shots = int(shots_df["inside_box"].sum()) if "inside_box" in shots_df.columns else 0
+        n_on_target = int(shots_df["on_target"].sum())
+        footer_lines = [
+            "What it shows: all shots taken by this player in the current season.",
+            "Marker size = xG.  ● Goals  ● On target (saved)  ○ Off target / blocked.",
+            f"Shots: {total}  |  Goals: {n_goals}  |  xG: {total_xg:.2f}  |  Box shots: {box_shots}  |  On target: {n_on_target}",
+        ]
+
+    return build_player_pitch_map(
+        player=player,
+        output_path=output_path,
+        style=style,
+        scatter_layers=scatter_layers,
+        stats_line=stats_line,
+        legend_items=legend_items,
+        title=title,
+        subtitle=subtitle,
+        footer_lines=footer_lines,
+        show_footer=show_footer,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Assist / key-pass map (wrapper around build_player_pitch_map)
+# ---------------------------------------------------------------------------
+
+def build_player_assist_map(
+    player: dict,
+    key_passes_df: "pd.DataFrame",
+    output_path: Path,
+    style: dict[str, str],
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+) -> Path:
+    """Render a key-pass / assist map for one player. Wraps build_player_pitch_map.
+
+    Each marker is the origin of the pass (where the player was standing).
+    Assists (passes that led to a goal) are highlighted; other key passes
+    (shot assists without a goal) are shown in the secondary accent colour.
+    """
+    try:
+        import pandas as pd
+    except Exception as exc:
+        raise RuntimeError("pandas is required for assist map plots.") from exc
+
+    if key_passes_df is None or (hasattr(key_passes_df, "empty") and key_passes_df.empty):
+        raise ValueError(f"No key-pass data provided for player {player.get('name')}.")
+
+    accent_2 = style["accent_2"]
+
+    assists = key_passes_df[key_passes_df["is_assist"]]
+    key_passes = key_passes_df[~key_passes_df["is_assist"]]
+
+    arrow_layers = [
+        {
+            "xstart": key_passes["x"], "ystart": key_passes["y"],
+            "xend": key_passes["end_x"], "yend": key_passes["end_y"],
+            "color": accent_2, "width": 1.5, "headwidth": 4,
+            "headlength": 4, "alpha": 0.75, "zorder": 4,
+        },
+        {
+            "xstart": assists["x"], "ystart": assists["y"],
+            "xend": assists["end_x"], "yend": assists["end_y"],
+            "color": _HIGHLIGHT, "width": 2.0, "headwidth": 5,
+            "headlength": 5, "alpha": 0.95, "zorder": 5,
+        },
+    ]
+
+    n_assists = len(assists)
+    n_key_passes = len(key_passes)
+    stats_line = f"{n_key_passes + n_assists} Key Passes  ·  {n_assists} Assists"
+    legend_items = [
+        ("→", _HIGHLIGHT, "Assist"),
+        ("→", accent_2,   "Key pass"),
+    ]
+
+    if footer_lines is None and show_footer:
+        footer_lines = [
+            "What it shows: all key passes and assists by this player in the current season.",
+            "Arrow goes from pass origin to pass destination (where the shot was taken).",
+            f"Key passes: {n_key_passes + n_assists}  |  Assists (led to goal): {n_assists}",
+        ]
+
+    return build_player_pitch_map(
+        player=player,
+        output_path=output_path,
+        style=style,
+        arrow_layers=arrow_layers,
+        stats_line=stats_line,
+        legend_items=legend_items,
+        title=title,
+        subtitle=subtitle,
+        footer_lines=footer_lines,
+        show_footer=show_footer,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Dribble map (wrapper around build_player_pitch_map)
+# ---------------------------------------------------------------------------
+
+def build_player_dribble_map(
+    player: dict,
+    dribbles_df: "pd.DataFrame",
+    output_path: Path,
+    style: dict[str, str],
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+) -> Path:
+    """Render a dribble map for one player. Wraps build_player_pitch_map.
+
+    Each dot is one dribble attempt. Successful (kept possession) are filled
+    in the highlight colour; unsuccessful are hollow in the muted colour.
+    """
+    if dribbles_df is None or (hasattr(dribbles_df, "empty") and dribbles_df.empty):
+        raise ValueError(f"No dribble data provided for player {player.get('name')}.")
+
+    muted = style["muted"]
+
+    successful = dribbles_df[dribbles_df["successful"]]
+    unsuccessful = dribbles_df[~dribbles_df["successful"]]
+
+    arrow_layers = [
+        {
+            "xstart": unsuccessful["x"], "ystart": unsuccessful["y"],
+            "xend": unsuccessful["end_x"], "yend": unsuccessful["end_y"],
+            "color": muted, "width": 1.5, "headwidth": 4,
+            "headlength": 4, "alpha": 0.65, "zorder": 4,
+        },
+        {
+            "xstart": successful["x"], "ystart": successful["y"],
+            "xend": successful["end_x"], "yend": successful["end_y"],
+            "color": _HIGHLIGHT, "width": 2.0, "headwidth": 5,
+            "headlength": 5, "alpha": 0.90, "zorder": 5,
+        },
+    ]
+
+    n_total = len(dribbles_df)
+    n_success = len(successful)
+    pct = round(100 * n_success / n_total) if n_total else 0
+    stats_line = f"{n_success}/{n_total} Successful  ·  {pct}%"
+    legend_items = [
+        ("→", _HIGHLIGHT, "Successful"),
+        ("→", muted,      "Unsuccessful"),
+    ]
+
+    if footer_lines is None and show_footer:
+        footer_lines = [
+            "What it shows: all dribble attempts by this player in the current season.",
+            "Arrow goes from dribble start to the location of the next event.",
+            f"Attempts: {n_total}  |  Successful: {n_success}  |  Success rate: {pct}%",
+        ]
+
+    return build_player_pitch_map(
+        player=player,
+        output_path=output_path,
+        style=style,
+        arrow_layers=arrow_layers,
+        stats_line=stats_line,
+        legend_items=legend_items,
+        title=title,
+        subtitle=subtitle,
+        footer_lines=footer_lines,
+        show_footer=show_footer,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Pass heatmap (standalone — full Pitch, not VerticalPitch template)
+# ---------------------------------------------------------------------------
+
+def _add_colorbar_local(fig, mappable, rect, label: str, style: dict):
+    cax = fig.add_axes(rect)
+    cax.set_facecolor(style["bg"])
+    colorbar = fig.colorbar(mappable, cax=cax)
+    colorbar.outline.set_edgecolor(style["line"])
+    colorbar.ax.yaxis.set_tick_params(color=style["text"], labelcolor=style["text"])
+    colorbar.ax.set_ylabel(label, color=style["text"], fontsize=9.5)
+    import matplotlib.pyplot as _plt
+    _plt.setp(colorbar.ax.get_yticklabels(), color=style["text"], fontsize=8.5)
+    return colorbar
+
+
+def build_player_pass_heatmap(
+    player: dict,
+    passes_df: "pd.DataFrame",
+    output_path: Path,
+    style: dict[str, str],
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+    *,
+    _x_col: str = "x",
+    _y_col: str = "y",
+    _colorbar_label: str = "Passes per zone",
+) -> Path:
+    """Render a pass-origin heatmap for one player and save a PNG.
+
+    Uses a full horizontal pitch (not a half-pitch) to show where on the
+    field the player tends to receive and distribute the ball.
+
+    Parameters
+    ----------
+    player:
+        Player dict from make_player_radar_input().
+    passes_df:
+        DataFrame from load_player_passes() — must have x, y, accurate columns.
+    output_path:
+        Destination PNG path.
+    style:
+        Colour palette from settings.plot_style.
+    title:
+        Bold main title. Defaults to player display name.
+    subtitle:
+        Muted subtitle. Defaults to team name.
+    footer_lines:
+        Text for the footer panel. Auto-generated when None.
+    show_footer:
+        When False the footer panel is omitted.
+    """
+    try:
+        from mplsoccer import Pitch
+    except Exception as exc:
+        raise RuntimeError("mplsoccer is required for pass heatmap plots.") from exc
+
+    if plt is None:
+        raise RuntimeError("matplotlib is required for pass heatmap plots.")
+
+    if passes_df is None or (hasattr(passes_df, "empty") and passes_df.empty):
+        raise ValueError(f"No pass data provided for player {player.get('name')}.")
+
+    bg = style["bg"]
+    line_col = style["line"]
+    accent_2 = style["accent_2"]
+
+    # --- Figure layout (landscape) -------------------------------------------
+    fig = plt.figure(figsize=(13, 9), facecolor=bg)
+    if show_footer:
+        pitch_ax = fig.add_axes([0.05, 0.16, 0.85, 0.73])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    else:
+        pitch_ax = fig.add_axes([0.05, 0.05, 0.85, 0.83])
+        footer_ax = None
+
+    # --- Pitch ---------------------------------------------------------------
+    pitch = Pitch(
+        pitch_type="custom",
+        pitch_length=100,
+        pitch_width=100,
+        pitch_color=bg,
+        line_color=line_col,
+        linewidth=1.4,
+        goal_type="box",
+        corner_arcs=True,
+        line_zorder=3,
+    )
+    pitch.draw(ax=pitch_ax)
+
+    # --- Heatmap -------------------------------------------------------------
+    cmap = LinearSegmentedColormap.from_list(
+        "j_sodra_heat",
+        [bg, _PANEL, accent_2, _HIGHLIGHT],
+    )
+    # Mirror y so left flank (y≈0 in Wyscout) appears at the TOP of the pitch.
+    # mplsoccer Pitch() places y=0 at the bottom; 100-y flips this so that
+    # left flank is up, right flank is down, attacking runs left→right.
+    heat = pitch.bin_statistic(
+        passes_df[_x_col],
+        100 - passes_df[_y_col],
+        statistic="count",
+        bins=(18, 12),
+    )
+    heatmap = pitch.heatmap(heat, ax=pitch_ax, cmap=cmap, edgecolors=bg, alpha=0.96)
+    _add_colorbar_local(fig, heatmap, (0.91, 0.20, 0.018, 0.55), _colorbar_label, style)
+
+    # --- Percentage labels inside each non-empty zone ------------------------
+    import matplotlib.patheffects as _pe
+    stat = heat["statistic"]
+    cx = heat["cx"]
+    cy = heat["cy"]
+    n_total_pre = len(passes_df)
+    for r in range(stat.shape[0]):
+        for c in range(stat.shape[1]):
+            count = stat[r, c]
+            if count == 0:
+                continue
+            pct_val = count / n_total_pre * 100
+            label = "1%" if pct_val < 1 else f"{pct_val:.0f}%"
+            pitch_ax.text(
+                cx[r, c], cy[r, c], label,
+                ha="center", va="center",
+                fontsize=7.5, fontweight="bold",
+                color=style["text"], zorder=5,
+                path_effects=[_pe.withStroke(linewidth=1.5, foreground=bg)],
+            )
+
+    # --- Attacking direction label -------------------------------------------
+    pitch_ax.text(
+        0.5, -0.02, "Attacking  →",
+        transform=pitch_ax.transAxes,
+        color=style["muted"], fontsize=9, ha="center", va="top",
+        clip_on=False,
+    )
+
+    # --- Header --------------------------------------------------------------
+    if title is None:
+        title = _player_display_name(player)
+    if subtitle is None:
+        subtitle = player.get("team_name") or ""
+
+    _add_header(fig, title, subtitle, style)
+
+    # --- Footer --------------------------------------------------------------
+    n_total = len(passes_df)
+    n_accurate = int(passes_df["accurate"].sum()) if "accurate" in passes_df.columns else 0
+    acc_pct = round(100 * n_accurate / n_total) if n_total else 0
+
+    if show_footer and footer_ax is not None:
+        if footer_lines is None:
+            footer_lines = [
+                "What it shows: all passes attempted by this player in the current season, binned by origin zone.",
+                "Brighter squares indicate zones where the player passes from most frequently.",
+                f"Total passes: {n_total}  |  Accurate: {n_accurate}  |  Accuracy: {acc_pct}%",
+            ]
+        _add_footer(footer_ax, footer_lines, style, width=130)
+
+    return _save(fig, output_path)
+
+
+def build_player_action_heatmap(
+    player: dict,
+    actions_df: "pd.DataFrame",
+    output_path: Path,
+    style: dict[str, str],
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+) -> Path:
+    """Render a smooth KDE heatmap of open-play actions for one player.
+
+    Uses a full vertical pitch and kernel density estimation for a smooth
+    density surface, matching the style of commercial player heatmaps.
+
+    Parameters
+    ----------
+    player:
+        Player dict from make_player_radar_input().
+    actions_df:
+        DataFrame from load_player_open_play_actions() — x, y, event_type.
+    output_path:
+        Destination PNG path.
+    style:
+        Colour palette from settings.plot_style.
+    title:
+        Bold main title. Defaults to player display name.
+    subtitle:
+        Muted subtitle. Defaults to "Team · N Open Play Actions".
+    show_footer:
+        When False the footer panel is omitted.
+    """
+    try:
+        from mplsoccer import VerticalPitch
+    except Exception as exc:
+        raise RuntimeError("mplsoccer is required for action heatmap plots.") from exc
+
+    if plt is None:
+        raise RuntimeError("matplotlib is required for action heatmap plots.")
+
+    if actions_df is None or (hasattr(actions_df, "empty") and actions_df.empty):
+        raise ValueError(f"No action data provided for player {player.get('name')}.")
+
+    bg = style["bg"]
+    line_col = style["line"]
+
+    # --- Figure layout (portrait) --------------------------------------------
+    fig = plt.figure(figsize=(9, 13), facecolor=bg)
+    if show_footer:
+        pitch_ax = fig.add_axes([0.05, 0.13, 0.90, 0.73])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    else:
+        pitch_ax = fig.add_axes([0.05, 0.03, 0.90, 0.83])
+        footer_ax = None
+
+    # --- Pitch ---------------------------------------------------------------
+    pitch = VerticalPitch(
+        pitch_type="custom",
+        pitch_length=100,
+        pitch_width=100,
+        pitch_color=bg,
+        line_color=line_col,
+        linewidth=1.4,
+        goal_type="box",
+        corner_arcs=True,
+        line_zorder=3,
+    )
+    pitch.draw(ax=pitch_ax)
+
+    # --- KDE heatmap: bg → panel → yellow ------------------------------------
+    cmap = LinearSegmentedColormap.from_list(
+        "j_sodra_action",
+        [(0.0, bg), (0.25, _PANEL), (1.0, _HIGHLIGHT)],
+    )
+    # Mirror y so that the left flank (y≈0 in Wyscout) appears on the LEFT
+    # of the vertical display. mplsoccer's VerticalPitch rotates CW which
+    # puts y=0 on the right — flipping corrects this.
+    pitch.kdeplot(
+        actions_df["x"],
+        100 - actions_df["y"],
+        ax=pitch_ax,
+        cmap=cmap,
+        fill=True,
+        levels=100,
+        thresh=0,
+        alpha=0.88,
+        zorder=2,
+    )
+
+    # --- Attacking direction label -------------------------------------------
+    pitch_ax.text(
+        0.5, -0.01, "Attacking  ↑",
+        transform=pitch_ax.transAxes,
+        color=style["muted"], fontsize=9, ha="center", va="top",
+        clip_on=False,
+    )
+
+    # --- Header --------------------------------------------------------------
+    n_actions = len(actions_df)
+    if title is None:
+        title = _player_display_name(player)
+    if subtitle is None:
+        team = player.get("team_name") or ""
+        subtitle = f"{team}  ·  {n_actions:,} Open Play Actions"
+
+    _add_header(fig, title, subtitle, style)
+
+    # --- Footer --------------------------------------------------------------
+    if show_footer and footer_ax is not None:
+        if footer_lines is None:
+            footer_lines = [
+                "What it shows: kernel density of all open-play actions (passes, shots, duels, touches) in the current season.",
+                "Set pieces (corners, free kicks, goal kicks, throw-ins, penalties) are excluded. Brighter zones = higher activity.",
+            ]
+        _add_footer(footer_ax, footer_lines, style, width=115)
+
+    return _save(fig, output_path)
+
+
+def build_player_pass_end_heatmap(
+    player: dict,
+    passes_df: "pd.DataFrame",
+    output_path: Path,
+    style: dict[str, str],
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+) -> Path:
+    """Render a pass-destination heatmap for one player and save a PNG.
+
+    Shows where the player's passes land rather than where they originate.
+    Requires passes_df from load_player_passes() which includes end_x/end_y.
+    """
+    n_total = len(passes_df)
+    n_accurate = int(passes_df["accurate"].sum()) if "accurate" in passes_df.columns else 0
+    acc_pct = round(100 * n_accurate / n_total) if n_total else 0
+
+    if footer_lines is None and show_footer:
+        footer_lines = [
+            "What it shows: all pass destinations for this player in the current season, binned by landing zone.",
+            "Brighter squares indicate zones the player tends to find with their passes.",
+            f"Total passes: {n_total}  |  Accurate: {n_accurate}  |  Accuracy: {acc_pct}%",
+        ]
+
+    return build_player_pass_heatmap(
+        player=player,
+        passes_df=passes_df,
+        output_path=output_path,
+        style=style,
+        title=title,
+        subtitle=subtitle,
+        footer_lines=footer_lines,
+        show_footer=show_footer,
+        _x_col="end_x",
+        _y_col="end_y",
+        _colorbar_label="Pass destinations per zone",
+    )
