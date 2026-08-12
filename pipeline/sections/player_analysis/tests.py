@@ -99,6 +99,35 @@ ST_STAT_LABELS = [
     "Counterpressing recoveries/90"
 ]
 
+W_STAT_KEYS = [
+    "average.goals",
+    "average.xgShot",
+    "average.shots",
+    "percent.shotsOnTarget",
+    "average.xgAssist",
+    "average.keyPasses",
+    "average.successfulDribbles",
+    "percent.successfulDribbles",
+    "average.successfulCrosses",
+    "average.touchInBox",
+    "average.progressiveRun",
+    "average.counterpressingRecoveries",
+]
+
+W_STAT_LABELS = [
+    "Goals/90",
+    "xG/90",
+    "Shots/90",
+    "Shots on Target %",
+    "xG Assists/90",
+    "Key passes/90",
+    "Succ. dribbles/90",
+    "Dribble success %",
+    "Succ. crosses/90",
+    "Touches in box/90",
+    "Progressive runs/90",
+    "Counterpressing rec./90",
+]
 
 
 _CACHE_DIR = PROJECT_ROOT / "cache" / "players"
@@ -134,6 +163,8 @@ def main() -> int:
     p4 = make_player_radar_input(players_by_id[1316266], _load_stats(1316266), team_name="IFK Värnamo")
     p5 = make_player_radar_input(players_by_id[1316298], _load_stats(1316298), team_name="Rosengård")
     p6 = make_player_radar_input(players_by_id[1060411], _load_stats(1060411), team_name="Jönköpings Södra")
+    # --- Wingers: A. Kiwarkis (LW) and J. Shamoun (RW) ---
+    p_shamoun = make_player_radar_input(players_by_id[789558], _load_stats(789558), team_name="Jönköpings Södra")
     # --- Fullbacks: O. Almström (LB) and A. Eriksson (RB) ---
     p_lb = make_player_radar_input(players_by_id[692804], _load_stats(692804), team_name="Jönköpings Södra")
     p_rb = make_player_radar_input(players_by_id[812471], _load_stats(812471), team_name="Jönköpings Södra")
@@ -218,7 +249,7 @@ def main() -> int:
     shot_map_path = build_player_shot_map(
         player=p3,
         shots_df=shots_p3,
-        output_path=output_dir / "brahim/test_shot_map.png",
+        output_path=output_dir / "brahim/shot_map.png",
         style=settings.plot_style,
         show_footer=False,
     )
@@ -249,7 +280,7 @@ def main() -> int:
     shot_map_path = build_player_shot_map(
         player=p6,
         shots_df=shots_p6,
-        output_path=output_dir / "kiwarkis/test_shot_map.png",
+        output_path=output_dir / "kiwarkis/shot_map.png",
         style=settings.plot_style,
         show_footer=False,
     )
@@ -366,6 +397,30 @@ def main() -> int:
             style=settings.plot_style, show_footer=False,
         )
         print(f"Pass end heatmap     → {p.relative_to(PROJECT_ROOT)}")
+
+    # --- Winger: A. Kiwarkis pizza ----------------------------------------
+    w_pizza_path = build_player_pizza(
+        players=[p6],
+        stat_keys=W_STAT_KEYS,
+        stat_labels=W_STAT_LABELS,
+        benchmarks=benchmarks,
+        output_path=output_dir / "kiwarkis/winger_pizza.png",
+        style=settings.plot_style,
+        show_footer=False,
+    )
+    print(f"Winger pizza         → {w_pizza_path.relative_to(PROJECT_ROOT)}")
+
+    # --- Winger radar: Kiwarkis vs Shamoun --------------------------------
+    w_radar_path = build_player_radar(
+        players=[p6, p_shamoun],
+        stat_keys=W_STAT_KEYS,
+        stat_labels=W_STAT_LABELS,
+        benchmarks=benchmarks,
+        output_path=output_dir / "kiwarkis/winger_radar_compare.png",
+        style=settings.plot_style,
+        show_footer=False,
+    )
+    print(f"Winger radar compare → {w_radar_path.relative_to(PROJECT_ROOT)}")
 
     return 0
 

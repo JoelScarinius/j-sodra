@@ -1,0 +1,340 @@
+{
+  "generated_at": "2026-08-02T12:52:03.452745+00:00",
+  "benchmark_scope": "position",
+  "players": [
+    {
+      "player_id": 1060411,
+      "name": "A. Kiwarkis",
+      "team_id": 6849,
+      "team_name": "Jönköpings Södra",
+      "position": "Left Winger",
+      "position_group": "winger",
+      "games": 13,
+      "stats": [
+        {
+          "key": "average.goals",
+          "label": "Goals/90",
+          "raw": 0.16,
+          "percentile": 54.0,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.14,
+            "q3": 0.265,
+            "max": 1.08,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.xgShot",
+          "label": "xG/90",
+          "raw": 0.12,
+          "percentile": 44.44,
+          "benchmark": {
+            "q1": 0.05,
+            "q2": 0.14,
+            "q3": 0.2475,
+            "max": 0.69,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.shots",
+          "label": "Shots/90",
+          "raw": 1.39,
+          "percentile": 46.99,
+          "benchmark": {
+            "q1": 0.77,
+            "q2": 1.475,
+            "q3": 2.13,
+            "max": 5.29,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "percent.shotsOnTarget",
+          "label": "Shots on Target %",
+          "raw": 29.41,
+          "percentile": 37.4,
+          "benchmark": {
+            "q1": 23.345,
+            "q2": 35.57,
+            "q3": 49.3425,
+            "max": 100.0,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.xgAssist",
+          "label": "xG Assists/90",
+          "raw": 0.11,
+          "percentile": 70.0,
+          "benchmark": {
+            "q1": 0.01,
+            "q2": 0.07,
+            "q3": 0.12,
+            "max": 0.57,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.keyPasses",
+          "label": "Key passes/90",
+          "raw": 0.41,
+          "percentile": 63.19,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.29000000000000004,
+            "q3": 0.5175000000000001,
+            "max": 1.67,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.successfulDribbles",
+          "label": "Succ. dribbles/90",
+          "raw": 3.75,
+          "percentile": 74.64,
+          "benchmark": {
+            "q1": 0.755,
+            "q2": 2.1950000000000003,
+            "q3": 3.7725,
+            "max": 6.97,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "percent.successfulDribbles",
+          "label": "Dribble success %",
+          "raw": 75.41,
+          "percentile": 61.15,
+          "benchmark": {
+            "q1": 60.5975,
+            "q2": 71.715,
+            "q3": 80.0,
+            "max": 100.0,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.successfulCrosses",
+          "label": "Succ. crosses/90",
+          "raw": 1.06,
+          "percentile": 75.03,
+          "benchmark": {
+            "q1": 0.2025,
+            "q2": 0.495,
+            "q3": 1.0575,
+            "max": 3.53,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.touchInBox",
+          "label": "Touches in box/90",
+          "raw": 3.1,
+          "percentile": 58.35,
+          "benchmark": {
+            "q1": 1.81,
+            "q2": 2.755,
+            "q3": 3.7874999999999996,
+            "max": 6.41,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.progressiveRun",
+          "label": "Progressive runs/90",
+          "raw": 2.53,
+          "percentile": 60.51,
+          "benchmark": {
+            "q1": 1.03,
+            "q2": 2.115,
+            "q3": 3.1025,
+            "max": 5.73,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.counterpressingRecoveries",
+          "label": "Counterpressing rec./90",
+          "raw": 2.45,
+          "percentile": 54.79,
+          "benchmark": {
+            "q1": 1.7075,
+            "q2": 2.335,
+            "q3": 2.935,
+            "max": 6.55,
+            "sample_size": 82
+          }
+        }
+      ]
+    },
+    {
+      "player_id": 789558,
+      "name": "J. Shamoun",
+      "team_id": 6849,
+      "team_name": "Jönköpings Södra",
+      "position": "Right Winger",
+      "position_group": "winger",
+      "games": 13,
+      "stats": [
+        {
+          "key": "average.goals",
+          "label": "Goals/90",
+          "raw": 0.25,
+          "percentile": 72.0,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.14,
+            "q3": 0.265,
+            "max": 1.08,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.xgShot",
+          "label": "xG/90",
+          "raw": 0.24,
+          "percentile": 73.26,
+          "benchmark": {
+            "q1": 0.05,
+            "q2": 0.14,
+            "q3": 0.2475,
+            "max": 0.69,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.shots",
+          "label": "Shots/90",
+          "raw": 1.86,
+          "percentile": 64.69,
+          "benchmark": {
+            "q1": 0.77,
+            "q2": 1.475,
+            "q3": 2.13,
+            "max": 5.29,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "percent.shotsOnTarget",
+          "label": "Shots on Target %",
+          "raw": 40.91,
+          "percentile": 59.69,
+          "benchmark": {
+            "q1": 23.345,
+            "q2": 35.57,
+            "q3": 49.3425,
+            "max": 100.0,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.xgAssist",
+          "label": "xG Assists/90",
+          "raw": 0.12,
+          "percentile": 75.0,
+          "benchmark": {
+            "q1": 0.01,
+            "q2": 0.07,
+            "q3": 0.12,
+            "max": 0.57,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.keyPasses",
+          "label": "Key passes/90",
+          "raw": 0.51,
+          "percentile": 74.18,
+          "benchmark": {
+            "q1": 0.0,
+            "q2": 0.29000000000000004,
+            "q3": 0.5175000000000001,
+            "max": 1.67,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.successfulDribbles",
+          "label": "Succ. dribbles/90",
+          "raw": 2.54,
+          "percentile": 55.47,
+          "benchmark": {
+            "q1": 0.755,
+            "q2": 2.1950000000000003,
+            "q3": 3.7725,
+            "max": 6.97,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "percent.successfulDribbles",
+          "label": "Dribble success %",
+          "raw": 62.5,
+          "percentile": 29.28,
+          "benchmark": {
+            "q1": 60.5975,
+            "q2": 71.715,
+            "q3": 80.0,
+            "max": 100.0,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.successfulCrosses",
+          "label": "Succ. crosses/90",
+          "raw": 1.18,
+          "percentile": 76.24,
+          "benchmark": {
+            "q1": 0.2025,
+            "q2": 0.495,
+            "q3": 1.0575,
+            "max": 3.53,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.touchInBox",
+          "label": "Touches in box/90",
+          "raw": 3.46,
+          "percentile": 67.07,
+          "benchmark": {
+            "q1": 1.81,
+            "q2": 2.755,
+            "q3": 3.7874999999999996,
+            "max": 6.41,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.progressiveRun",
+          "label": "Progressive runs/90",
+          "raw": 3.13,
+          "percentile": 75.26,
+          "benchmark": {
+            "q1": 1.03,
+            "q2": 2.115,
+            "q3": 3.1025,
+            "max": 5.73,
+            "sample_size": 82
+          }
+        },
+        {
+          "key": "average.counterpressingRecoveries",
+          "label": "Counterpressing rec./90",
+          "raw": 2.87,
+          "percentile": 72.29,
+          "benchmark": {
+            "q1": 1.7075,
+            "q2": 2.335,
+            "q3": 2.935,
+            "max": 6.55,
+            "sample_size": 82
+          }
+        }
+      ]
+    }
+  ]
+}

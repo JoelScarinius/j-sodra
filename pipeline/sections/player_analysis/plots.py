@@ -393,9 +393,10 @@ def build_player_radar(
     angles.append(angles[0])   # close the polygon
 
     # --- Figure layout (mirrors market/plots.py) ---------------------------
+    # Axes are inset to leave room for wrapped stat labels outside the ring.
     fig = plt.figure(figsize=(10, 10), facecolor=style["bg"])
     if show_footer:
-        ax = fig.add_axes([0.08, 0.14, 0.84, 0.68], polar=True)
+        ax = fig.add_axes([0.14, 0.16, 0.72, 0.62], polar=True)
         footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
         footer_ax.set_facecolor(style["bg"])
         footer_ax.set_xticks([])
@@ -403,7 +404,7 @@ def build_player_radar(
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
     else:
-        ax = fig.add_axes([0.08, 0.14, 0.84, 0.74], polar=True)
+        ax = fig.add_axes([0.14, 0.16, 0.72, 0.68], polar=True)
         footer_ax = None
 
     ax.set_facecolor(style["bg"])
@@ -415,27 +416,41 @@ def build_player_radar(
     ax.set_yticks([25, 50, 75, 100])
     ax.set_yticklabels(["25", "50", "75", "100"],
                        color=style["muted"], fontsize=9)
-    # Place radial labels in the middle of the first slice so they never
-    # overlap a metric label regardless of how many metrics there are.
     ax.set_rlabel_position(180 / n)
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(stat_labels, color=style["text"], fontsize=11)
+    ax.set_xticklabels([])   # replaced by manual labels below
     ax.grid(color=style["line"], alpha=0.22)
     ax.spines["polar"].set_color(style["line"])
+
+    # --- Stat labels: wrapped and aligned to each axis ---------------------
+    # With theta_offset=pi/2 and theta_direction=-1, the visual angle of a
+    # data angle θ is: display = pi/2 - θ.  We use cos/sin of that to pick
+    # left/right/center and top/bottom/center alignment per label.
+    for angle, label in zip(angles[:-1], stat_labels):
+        display = np.pi / 2 - angle
+        cos_a, sin_a = np.cos(display), np.sin(display)
+        ha = "left" if cos_a > 0.1 else ("right" if cos_a < -0.1 else "center")
+        va = "bottom" if sin_a > 0.1 else ("top" if sin_a < -0.1 else "center")
+        ax.text(
+            angle, 112, fill(label, width=18),
+            ha=ha, va=va,
+            color=style["text"], fontsize=9,
+            clip_on=False,
+        )
 
     # --- Radar series ------------------------------------------------------
     _draw_radar_series(
         ax, angles, primary_pct,
         line_color=_HIGHLIGHT,
         fill_color=style["accent"],
-        dot_color=style["accent_2"],
+        dot_color=_HIGHLIGHT,
     )
     if compare_pct:
         _draw_radar_series(
             ax, angles, compare_pct,
             line_color=style["accent_2"],
             fill_color=style["accent_2"],
-            dot_color=_HIGHLIGHT,
+            dot_color=style["accent_2"],
         )
 
     primary_label = _player_display_name(primary)
@@ -670,10 +685,10 @@ def build_player_position_map(
 
     # --- Header ------------------------------------------------------------
     if title is None:
-        title = name = player.get("name", "")
+        title = f"{_player_display_name(player)} - Position"
     if subtitle is None:
         team = player.get("team_name")
-        subtitle = f"{team}" if team else name
+        subtitle = f"{team}" if team else _player_display_name(player)
 
     _add_header(fig, title, subtitle, style)
 
@@ -1144,6 +1159,9 @@ def build_player_shot_map(
             f"Shots: {total}  |  Goals: {n_goals}  |  xG: {total_xg:.2f}  |  Box shots: {box_shots}  |  On target: {n_on_target}",
         ]
 
+    if title is None:
+        title = f"{_player_display_name(player)} - Shots"
+
     return build_player_pitch_map(
         player=player,
         output_path=output_path,
@@ -1221,6 +1239,9 @@ def build_player_assist_map(
             f"Key passes: {n_key_passes + n_assists}  |  Assists (led to goal): {n_assists}",
         ]
 
+    if title is None:
+        title = f"{_player_display_name(player)} - Key passes"
+
     return build_player_pitch_map(
         player=player,
         output_path=output_path,
@@ -1292,6 +1313,9 @@ def build_player_dribble_map(
             "Arrow goes from dribble start to the location of the next event.",
             f"Attempts: {n_total}  |  Successful: {n_success}  |  Success rate: {pct}%",
         ]
+
+    if title is None:
+        title = f"{_player_display_name(player)} - Dribbles"
 
     return build_player_pitch_map(
         player=player,
@@ -1452,7 +1476,7 @@ def build_player_pass_heatmap(
 
     # --- Header --------------------------------------------------------------
     if title is None:
-        title = _player_display_name(player)
+        title = f"{_player_display_name(player)} - Pass start"
     if subtitle is None:
         subtitle = player.get("team_name") or ""
 
@@ -1580,7 +1604,7 @@ def build_player_action_heatmap(
     # --- Header --------------------------------------------------------------
     n_actions = len(actions_df)
     if title is None:
-        title = _player_display_name(player)
+        title = f"{_player_display_name(player)} - Heatmap"
     if subtitle is None:
         team = player.get("team_name") or ""
         subtitle = f"{team}  ·  {n_actions:,} Open Play Actions"
@@ -1614,6 +1638,9 @@ def build_player_pass_end_heatmap(
     Shows where the player's passes land rather than where they originate.
     Requires passes_df from load_player_passes() which includes end_x/end_y.
     """
+    if title is None:
+        title = f"{_player_display_name(player)} - Pass end"
+
     n_total = len(passes_df)
     n_accurate = int(passes_df["accurate"].sum()) if "accurate" in passes_df.columns else 0
     acc_pct = round(100 * n_accurate / n_total) if n_total else 0
