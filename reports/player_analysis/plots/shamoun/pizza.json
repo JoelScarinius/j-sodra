@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-12T11:00:36.437408+00:00",
+  "generated_at": "2026-08-12T11:18:24.428575+00:00",
   "benchmark_scope": "position",
   "players": [
     {
-      "player_id": 1060411,
-      "name": "A. Kiwarkis",
+      "player_id": 789558,
+      "name": "J. Shamoun",
       "team_id": 6849,
       "team_name": "Jönköpings Södra",
-      "position": "Left Winger",
+      "position": "Right Winger",
       "position_group": "winger",
       "games": 13,
       "stats": [
         {
           "key": "average.goals",
           "label": "Goals/90",
-          "raw": 0.16,
-          "percentile": 54.0,
+          "raw": 0.25,
+          "percentile": 72.0,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.14,
@@ -27,8 +27,8 @@
         {
           "key": "average.xgShot",
           "label": "xG/90",
-          "raw": 0.12,
-          "percentile": 44.44,
+          "raw": 0.24,
+          "percentile": 73.26,
           "benchmark": {
             "q1": 0.05,
             "q2": 0.14,
@@ -40,8 +40,8 @@
         {
           "key": "average.shots",
           "label": "Shots/90",
-          "raw": 1.39,
-          "percentile": 46.99,
+          "raw": 1.86,
+          "percentile": 64.69,
           "benchmark": {
             "q1": 0.77,
             "q2": 1.475,
@@ -53,8 +53,8 @@
         {
           "key": "percent.shotsOnTarget",
           "label": "Shots on Target %",
-          "raw": 29.41,
-          "percentile": 37.4,
+          "raw": 40.91,
+          "percentile": 59.69,
           "benchmark": {
             "q1": 23.345,
             "q2": 35.57,
@@ -66,8 +66,8 @@
         {
           "key": "average.xgAssist",
           "label": "xG Assists/90",
-          "raw": 0.11,
-          "percentile": 70.0,
+          "raw": 0.12,
+          "percentile": 75.0,
           "benchmark": {
             "q1": 0.01,
             "q2": 0.07,
@@ -79,8 +79,8 @@
         {
           "key": "average.keyPasses",
           "label": "Key passes/90",
-          "raw": 0.41,
-          "percentile": 63.19,
+          "raw": 0.51,
+          "percentile": 74.18,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.29000000000000004,
@@ -92,8 +92,8 @@
         {
           "key": "average.successfulDribbles",
           "label": "Succ. dribbles/90",
-          "raw": 3.75,
-          "percentile": 74.64,
+          "raw": 2.54,
+          "percentile": 55.47,
           "benchmark": {
             "q1": 0.755,
             "q2": 2.1950000000000003,
@@ -105,8 +105,8 @@
         {
           "key": "percent.successfulDribbles",
           "label": "Dribble success %",
-          "raw": 75.41,
-          "percentile": 61.15,
+          "raw": 62.5,
+          "percentile": 29.28,
           "benchmark": {
             "q1": 60.5975,
             "q2": 71.715,
@@ -118,8 +118,8 @@
         {
           "key": "average.successfulCrosses",
           "label": "Succ. crosses/90",
-          "raw": 1.06,
-          "percentile": 75.03,
+          "raw": 1.18,
+          "percentile": 76.24,
           "benchmark": {
             "q1": 0.2025,
             "q2": 0.495,
@@ -131,8 +131,8 @@
         {
           "key": "average.touchInBox",
           "label": "Touches in box/90",
-          "raw": 3.1,
-          "percentile": 58.35,
+          "raw": 3.46,
+          "percentile": 67.07,
           "benchmark": {
             "q1": 1.81,
             "q2": 2.755,
@@ -144,8 +144,8 @@
         {
           "key": "average.progressiveRun",
           "label": "Progressive runs/90",
-          "raw": 2.53,
-          "percentile": 60.51,
+          "raw": 3.13,
+          "percentile": 75.26,
           "benchmark": {
             "q1": 1.03,
             "q2": 2.115,
@@ -157,8 +157,8 @@
         {
           "key": "average.counterpressingRecoveries",
           "label": "Counterpressing rec./90",
-          "raw": 2.45,
-          "percentile": 54.79,
+          "raw": 2.87,
+          "percentile": 72.29,
           "benchmark": {
             "q1": 1.7075,
             "q2": 2.335,

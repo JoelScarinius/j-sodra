@@ -52,6 +52,35 @@ from pipeline.sections.player_analysis.metrics import bucket_player_position
 _PANEL = "#0b3427"
 _HIGHLIGHT = "#ffdc6e"
 
+# Categorical team palette for dark surface #002418.
+# First 8 are validated (OKLCH L 0.48–0.67, CVD ΔE ≥ 8 adjacent, normal-vision ≥ 15).
+# Extended to 20 hues to cover leagues with many teams; secondary encoding
+# (direct player-name labels + legend) is always present, so all-pairs CVD
+# relaxation applies for slots 9–20.
+_TEAM_PALETTE = [
+    "#3987e5",  #  1 blue
+    "#d95926",  #  2 orange
+    "#199e70",  #  3 green
+    "#c98500",  #  4 amber
+    "#d55181",  #  5 magenta
+    "#9085e9",  #  6 violet
+    "#e66767",  #  7 red
+    "#1e94ad",  #  8 teal
+    # Extended hues — evenly distributed to maximise visual separation
+    "#40bce8",  #  9 sky blue
+    "#a8c83c",  # 10 lime
+    "#e87c3c",  # 11 deep orange
+    "#3cc4a0",  # 12 mint
+    "#b840c4",  # 13 purple
+    "#e8c040",  # 14 gold
+    "#6068d4",  # 15 indigo
+    "#e04896",  # 16 rose
+    "#44ac5c",  # 17 forest green
+    "#60cce0",  # 18 light cyan
+    "#d46c2c",  # 19 sienna
+    "#8848c8",  # 20 deep violet
+]
+
 
 # ---------------------------------------------------------------------------
 # Internal: stat helpers
@@ -1665,3 +1694,173 @@ def build_player_pass_end_heatmap(
         _y_col="end_y",
         _colorbar_label="Pass destinations per zone",
     )
+
+
+# ---------------------------------------------------------------------------
+# Scatter plot — league-wide, one dot per player
+# ---------------------------------------------------------------------------
+
+def build_scatter_plot(
+    players_data: list[dict],
+    x_label: str,
+    y_label: str,
+    output_path: Path,
+    style: dict[str, str],
+    title: str | None = None,
+    subtitle: str | None = None,
+    footer_lines: list[str] | None = None,
+    show_footer: bool = True,
+    highlight_team: str | None = None,
+) -> Path:
+    """Render a league-wide scatter plot with one dot per player, coloured by team.
+
+    Each player is represented by a single coloured square marker. Labels show
+    the player's name in the text token; the square colour carries team identity.
+    An optional highlight_team gets the project's yellow accent and a larger marker.
+
+    Parameters
+    ----------
+    players_data:
+        List of dicts with keys:
+            name  — player display name
+            team  — team name (determines colour group)
+            x     — x-axis value
+            y     — y-axis value
+    x_label:
+        Human-readable x-axis label.
+    y_label:
+        Human-readable y-axis label.
+    output_path:
+        Destination PNG path.
+    style:
+        Colour palette from settings.plot_style.
+    """
+    if plt is None:
+        raise RuntimeError("matplotlib is required for scatter plots.")
+    if not players_data:
+        raise ValueError("players_data must not be empty.")
+
+    import matplotlib.patheffects as _pe
+    from itertools import cycle as _cycle
+    from matplotlib.lines import Line2D
+
+    bg       = style["bg"]
+    line_col = style["line"]
+    text_col = style["text"]
+    muted    = style["muted"]
+
+    # Assign a unique colour to each team in order of first appearance.
+    # highlight_team always gets _HIGHLIGHT. All other teams draw from
+    # _TEAM_PALETTE (20 distinct hues); if there are even more teams the
+    # palette cycles so no two adjacent teams ever share a colour.
+    teams = list(dict.fromkeys(p["team"] for p in players_data))
+    palette_no_hl = [c for c in _TEAM_PALETTE if c != _HIGHLIGHT]
+    _color_cycle = _cycle(palette_no_hl)
+    team_color: dict[str, str] = {}
+    for team in teams:
+        if team == highlight_team:
+            team_color[team] = _HIGHLIGHT
+        else:
+            team_color[team] = next(_color_cycle)
+
+    # --- Figure layout -------------------------------------------------------
+    fig = plt.figure(figsize=(15, 10), facecolor=bg)
+    # Reserve right strip for the team legend
+    if show_footer:
+        ax = fig.add_axes([0.07, 0.16, 0.72, 0.72])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    else:
+        ax = fig.add_axes([0.07, 0.08, 0.72, 0.82])
+        footer_ax = None
+
+    legend_ax = fig.add_axes([0.81, 0.20, 0.17, 0.60])
+    legend_ax.set_facecolor(bg)
+    for spine in legend_ax.spines.values():
+        spine.set_visible(False)
+    legend_ax.set_xticks([])
+    legend_ax.set_yticks([])
+
+    # --- Main axes styling ---------------------------------------------------
+    ax.set_facecolor(bg)
+    for spine in ax.spines.values():
+        spine.set_edgecolor(line_col)
+        spine.set_linewidth(0.8)
+        spine.set_alpha(0.4)
+    ax.tick_params(colors=muted, labelsize=8.5)
+    ax.set_xlabel(x_label, color=muted, fontsize=10.5, labelpad=8)
+    ax.set_ylabel(y_label, color=muted, fontsize=10.5, labelpad=8)
+    ax.grid(color=line_col, alpha=0.12, linewidth=0.6, zorder=0)
+
+    # --- Scatter markers ------------------------------------------------------
+    # highlight_team → filled circle (○), all others → square (■).
+    # highlight_team gets the project yellow + a larger marker to stand out.
+    for p in players_data:
+        col = team_color[p["team"]]
+        is_hl = p["team"] == highlight_team
+        ax.scatter(
+            p["x"], p["y"],
+            color=col,
+            s=220 if is_hl else 55,
+            marker="o" if is_hl else "s",
+            zorder=5 if is_hl else 4,
+            edgecolors=bg, linewidths=1.2 if is_hl else 0.8,
+        )
+
+    # --- Player name labels (adjustText for collision avoidance) -------------
+    # Names are in the muted text token; the square marker carries team identity.
+    texts = []
+    for p in players_data:
+        t = ax.text(
+            p["x"], p["y"], p["name"],
+            color=text_col, fontsize=7, va="center", zorder=6,
+            path_effects=[_pe.withStroke(linewidth=1.8, foreground=bg)],
+        )
+        texts.append(t)
+
+    try:
+        from adjustText import adjust_text as _adjust_text
+        _adjust_text(
+            texts,
+            x=[p["x"] for p in players_data],
+            y=[p["y"] for p in players_data],
+            ax=ax,
+            arrowprops=dict(arrowstyle="-", color=muted, lw=0.5, alpha=0.5),
+            expand=(1.2, 1.4),
+            force_text=(0.3, 0.5),
+            force_points=(0.2, 0.3),
+        )
+    except Exception:
+        pass  # fall back to raw placement if adjustText unavailable
+
+    # --- Team legend (right panel) -------------------------------------------
+    # highlight_team uses ● (circle); all others use ■ (square).
+    n_teams = len(teams)
+    step = 0.95 / max(n_teams, 1)
+    for i, team in enumerate(teams):
+        col = team_color[team]
+        y_pos = 0.97 - i * step
+        marker_char = "●" if team == highlight_team else "■"
+        legend_ax.text(0.05, y_pos, marker_char, color=col, fontsize=10,
+                       transform=legend_ax.transAxes, va="center")
+        legend_ax.text(0.25, y_pos, team, color=text_col, fontsize=8,
+                       transform=legend_ax.transAxes, va="center")
+
+    # --- Header --------------------------------------------------------------
+    if title is None:
+        title = f"{x_label} vs {y_label}"
+    _add_header(fig, title, subtitle or "", style)
+
+    # --- Footer --------------------------------------------------------------
+    if show_footer and footer_ax is not None:
+        if footer_lines is None:
+            footer_lines = [
+                "Each point represents one player. Colour and ■ swatch indicate team. Values are per 90 minutes (minimum minutes threshold applied).",
+            ]
+        _add_footer(footer_ax, footer_lines, style)
+
+    return _save(fig, output_path)

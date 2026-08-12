@@ -42,6 +42,7 @@ from pipeline.sections.player_analysis.plots import (
     build_player_position_map,
     build_player_radar,
     build_player_shot_map,
+    build_scatter_plot,
     make_player_radar_input,
 )
 from pipeline.settings import load_settings
@@ -76,7 +77,7 @@ ST_STAT_KEYS = [
     "average.touchInBox",
     "average.headShots",
     "average.aerialDuels",
-    "percentage.aerialDuelsWon",
+    "percent.aerialDuelsWon",
     "average.xgAssist",
     "average.linkupPlays",
     "average.receivedPass",
@@ -421,6 +422,112 @@ def main() -> int:
         show_footer=False,
     )
     print(f"Winger radar compare → {w_radar_path.relative_to(PROJECT_ROOT)}")
+
+    # --- Scatter plot: Touches in box vs Goals (strikers only) ------------
+    # Build player_id → (team_id, team_name) from event cache — this is the
+    # authoritative source for which team a player represented in comp 810.
+    import json as _json
+    events_dir = PROJECT_ROOT / "cache" / "events"
+    player_team_id: dict[int, int] = {}
+    team_names: dict[int, str] = {}
+    for ef in events_dir.glob("match_*.json"):
+        for evt in _json.loads(ef.read_text()).get("events", []):
+            pid = (evt.get("player") or {}).get("id")
+            team = evt.get("team") or {}
+            tid, tname = team.get("id"), team.get("name")
+            if pid and tid:
+                player_team_id[pid] = tid
+            if tid and tname:
+                team_names[tid] = tname
+
+    from pipeline.sections.player_analysis.metrics import bucket_player_position
+    scatter_players = []
+    for wy_id, pinfo in players_by_id.items():
+        # Only include players who actually played in comp 810
+        if wy_id not in player_team_id:
+            continue
+        stats_path = _CACHE_DIR / f"player_{wy_id}_advancedstats_comp{COMPETITION_ID}.json"
+        if not stats_path.exists():
+            continue
+        stats = _json.loads(stats_path.read_text())["stats"]
+        positions = stats.get("positions") or []
+        if not positions:
+            continue
+        primary = max(positions, key=lambda p: p.get("percent", 0))
+        code = ((primary.get("position") or {}).get("code") or "").lower()
+        if bucket_player_position(code) != "striker":
+            continue
+        touch_in_box = (stats.get("average") or {}).get("touchInBox")
+        goals = (stats.get("average") or {}).get("goals")
+        if touch_in_box is None or goals is None:
+            continue
+        team_id = player_team_id[wy_id]
+        team_name = team_names.get(team_id, f"Team {team_id}")
+        short_name = pinfo.get("shortName") or pinfo.get("lastName") or str(wy_id)
+        scatter_players.append({
+            "name": short_name,
+            "team": team_name,
+            "x": float(touch_in_box),
+            "y": float(goals),
+        })
+
+    scatter_path = build_scatter_plot(
+        players_data=scatter_players,
+        x_label="Touches in box / 90",
+        y_label="Goals / 90",
+        output_path=output_dir / "scatter_strikers_touch_vs_goals.png",
+        style=settings.plot_style,
+        title="Box Threat — Strikers",
+        subtitle=None,
+        show_footer=False,
+        highlight_team="Jönköpings Södra",
+    )
+    print(f"Scatter plot         → {scatter_path.relative_to(PROJECT_ROOT)}")
+
+    # --- Scatter plot: Successful dribbles vs xG+xA (wingers only) ----------
+    scatter_wingers = []
+    for wy_id, pinfo in players_by_id.items():
+        if wy_id not in player_team_id:
+            continue
+        stats_path = _CACHE_DIR / f"player_{wy_id}_advancedstats_comp{COMPETITION_ID}.json"
+        if not stats_path.exists():
+            continue
+        stats = _json.loads(stats_path.read_text())["stats"]
+        positions = stats.get("positions") or []
+        if not positions:
+            continue
+        primary = max(positions, key=lambda p: p.get("percent", 0))
+        code = ((primary.get("position") or {}).get("code") or "").lower()
+        if bucket_player_position(code) != "winger":
+            continue
+        avg = stats.get("average") or {}
+        succ_dribbles = avg.get("successfulDribbles")
+        xg = avg.get("xgShot")
+        xa = avg.get("xgAssist")
+        if succ_dribbles is None or xg is None or xa is None:
+            continue
+        team_id = player_team_id[wy_id]
+        team_name = team_names.get(team_id, f"Team {team_id}")
+        short_name = pinfo.get("shortName") or pinfo.get("lastName") or str(wy_id)
+        scatter_wingers.append({
+            "name": short_name,
+            "team": team_name,
+            "x": float(succ_dribbles),
+            "y": float(xg) + float(xa),
+        })
+
+    scatter_w_path = build_scatter_plot(
+        players_data=scatter_wingers,
+        x_label="Successful dribbles / 90",
+        y_label="xG + xA / 90",
+        output_path=output_dir / "scatter_wingers_dribbles_vs_xgxa.png",
+        style=settings.plot_style,
+        title="Dribble & Chance Creation — Wingers",
+        subtitle=None,
+        show_footer=False,
+        highlight_team="Jönköpings Södra",
+    )
+    print(f"Scatter wingers      → {scatter_w_path.relative_to(PROJECT_ROOT)}")
 
     return 0
 

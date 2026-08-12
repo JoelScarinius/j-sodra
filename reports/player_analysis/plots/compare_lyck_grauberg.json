@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-12T11:00:17.492504+00:00",
+  "generated_at": "2026-08-12T11:18:17.884870+00:00",
   "benchmark_scope": "position",
   "players": [
     {
-      "player_id": 1322996,
-      "name": "A. Jacob",
-      "team_id": 6722,
-      "team_name": "IK Sirius",
+      "player_id": 1060409,
+      "name": "L. Lyck",
+      "team_id": 6849,
+      "team_name": "Jönköpings Södra",
       "position": "Striker",
       "position_group": "striker",
-      "games": 9,
+      "games": 13,
       "stats": [
         {
           "key": "average.goals",
           "label": "Goals/90",
-          "raw": 0.5,
-          "percentile": 77.24,
+          "raw": 0.25,
+          "percentile": 51.54,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.24,
@@ -27,8 +27,8 @@
         {
           "key": "average.xgShot",
           "label": "xG/90",
-          "raw": 0.4,
-          "percentile": 70.91,
+          "raw": 0.49,
+          "percentile": 77.01,
           "benchmark": {
             "q1": 0.1575,
             "q2": 0.28500000000000003,
@@ -40,8 +40,8 @@
         {
           "key": "average.shots",
           "label": "Shots/90",
-          "raw": 2.49,
-          "percentile": 73.67,
+          "raw": 4.09,
+          "percentile": 100.0,
           "benchmark": {
             "q1": 1.2650000000000001,
             "q2": 1.955,
@@ -53,8 +53,8 @@
         {
           "key": "percent.goalConversion",
           "label": "Goal Conversion %",
-          "raw": 20.0,
-          "percentile": 70.0,
+          "raw": 6.0,
+          "percentile": 38.5,
           "benchmark": {
             "q1": 0.0,
             "q2": 11.11,
@@ -66,8 +66,8 @@
         {
           "key": "percent.shotsOnTarget",
           "label": "Shots on Target %",
-          "raw": 20.0,
-          "percentile": 23.47,
+          "raw": 26.0,
+          "percentile": 31.28,
           "benchmark": {
             "q1": 21.305,
             "q2": 40.0,
@@ -79,8 +79,8 @@
         {
           "key": "average.touchInBox",
           "label": "Box touches/90",
-          "raw": 3.98,
-          "percentile": 72.27,
+          "raw": 2.95,
+          "percentile": 44.82,
           "benchmark": {
             "q1": 2.1275,
             "q2": 3.165,
@@ -92,8 +92,8 @@
         {
           "key": "average.headShots",
           "label": "Header shots/90",
-          "raw": 0.75,
-          "percentile": 80.59,
+          "raw": 0.25,
+          "percentile": 47.32,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.28,
@@ -105,8 +105,8 @@
         {
           "key": "average.aerialDuels",
           "label": "Aerial duels/90",
-          "raw": 6.71,
-          "percentile": 80.05,
+          "raw": 2.7,
+          "percentile": 34.59,
           "benchmark": {
             "q1": 2.2175000000000002,
             "q2": 3.475,
@@ -116,23 +116,23 @@
           }
         },
         {
-          "key": "percentage.aerialDuelsWon",
+          "key": "percent.aerialDuelsWon",
           "label": "Aerial won %",
-          "raw": 0.0,
-          "percentile": 0.0,
+          "raw": 33.33,
+          "percentile": 50.0,
           "benchmark": {
-            "q1": null,
-            "q2": null,
-            "q3": null,
-            "max": null,
-            "sample_size": null
+            "q1": 22.6725,
+            "q2": 33.33,
+            "q3": 42.86,
+            "max": 100.0,
+            "sample_size": 112
           }
         },
         {
           "key": "average.xgAssist",
           "label": "xG Assists/90",
-          "raw": 0.01,
-          "percentile": 25.0,
+          "raw": 0.08,
+          "percentile": 73.33,
           "benchmark": {
             "q1": 0.01,
             "q2": 0.045,
@@ -144,8 +144,8 @@
         {
           "key": "average.linkupPlays",
           "label": "Link-up plays/90",
-          "raw": 0.5,
-          "percentile": 35.23,
+          "raw": 1.15,
+          "percentile": 67.73,
           "benchmark": {
             "q1": 0.32,
             "q2": 0.76,
@@ -157,8 +157,8 @@
         {
           "key": "average.receivedPass",
           "label": "Received passes/90",
-          "raw": 7.46,
-          "percentile": 29.97,
+          "raw": 12.12,
+          "percentile": 66.32,
           "benchmark": {
             "q1": 6.8825,
             "q2": 9.785,
@@ -170,8 +170,8 @@
         {
           "key": "average.counterpressingRecoveries",
           "label": "Counterpressing recoveries/90",
-          "raw": 2.24,
-          "percentile": 75.0,
+          "raw": 1.56,
+          "percentile": 43.7,
           "benchmark": {
             "q1": 1.115,
             "q2": 1.71,
@@ -183,10 +183,10 @@
       ]
     },
     {
-      "player_id": 1315729,
-      "name": "W.Gibson",
-      "team_id": 68159,
-      "team_name": "Östers IF",
+      "player_id": 629185,
+      "name": "K. Grauberg Lepik",
+      "team_id": 6849,
+      "team_name": "Jönköpings Södra",
       "position": "Striker",
       "position_group": "striker",
       "games": 13,
@@ -194,8 +194,8 @@
         {
           "key": "average.goals",
           "label": "Goals/90",
-          "raw": 0.49,
-          "percentile": 77.01,
+          "raw": 0.28,
+          "percentile": 56.15,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.24,
@@ -207,8 +207,8 @@
         {
           "key": "average.xgShot",
           "label": "xG/90",
-          "raw": 0.56,
-          "percentile": 79.1,
+          "raw": 0.43,
+          "percentile": 75.22,
           "benchmark": {
             "q1": 0.1575,
             "q2": 0.28500000000000003,
@@ -220,8 +220,8 @@
         {
           "key": "average.shots",
           "label": "Shots/90",
-          "raw": 2.63,
-          "percentile": 76.75,
+          "raw": 3.39,
+          "percentile": 88.85,
           "benchmark": {
             "q1": 1.2650000000000001,
             "q2": 1.955,
@@ -233,8 +233,8 @@
         {
           "key": "percent.goalConversion",
           "label": "Goal Conversion %",
-          "raw": 18.75,
-          "percentile": 67.19,
+          "raw": 8.333,
+          "percentile": 43.75,
           "benchmark": {
             "q1": 0.0,
             "q2": 11.11,
@@ -246,8 +246,8 @@
         {
           "key": "percent.shotsOnTarget",
           "label": "Shots on Target %",
-          "raw": 50.0,
-          "percentile": 75.0,
+          "raw": 33.33,
+          "percentile": 41.08,
           "benchmark": {
             "q1": 21.305,
             "q2": 40.0,
@@ -259,8 +259,8 @@
         {
           "key": "average.touchInBox",
           "label": "Box touches/90",
-          "raw": 4.11,
-          "percentile": 75.26,
+          "raw": 3.95,
+          "percentile": 71.45,
           "benchmark": {
             "q1": 2.1275,
             "q2": 3.165,
@@ -272,8 +272,8 @@
         {
           "key": "average.headShots",
           "label": "Header shots/90",
-          "raw": 0.82,
-          "percentile": 82.31,
+          "raw": 0.85,
+          "percentile": 83.05,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.28,
@@ -285,8 +285,8 @@
         {
           "key": "average.aerialDuels",
           "label": "Aerial duels/90",
-          "raw": 5.75,
-          "percentile": 76.89,
+          "raw": 12.41,
+          "percentile": 98.82,
           "benchmark": {
             "q1": 2.2175000000000002,
             "q2": 3.475,
@@ -296,23 +296,23 @@
           }
         },
         {
-          "key": "percentage.aerialDuelsWon",
+          "key": "percent.aerialDuelsWon",
           "label": "Aerial won %",
-          "raw": 0.0,
-          "percentile": 0.0,
+          "raw": 47.73,
+          "percentile": 77.13,
           "benchmark": {
-            "q1": null,
-            "q2": null,
-            "q3": null,
-            "max": null,
-            "sample_size": null
+            "q1": 22.6725,
+            "q2": 33.33,
+            "q3": 42.86,
+            "max": 100.0,
+            "sample_size": 112
           }
         },
         {
           "key": "average.xgAssist",
           "label": "xG Assists/90",
-          "raw": 0.01,
-          "percentile": 25.0,
+          "raw": 0.02,
+          "percentile": 32.14,
           "benchmark": {
             "q1": 0.01,
             "q2": 0.045,
@@ -324,8 +324,8 @@
         {
           "key": "average.linkupPlays",
           "label": "Link-up plays/90",
-          "raw": 1.31,
-          "percentile": 75.0,
+          "raw": 0.85,
+          "percentile": 54.09,
           "benchmark": {
             "q1": 0.32,
             "q2": 0.76,
@@ -337,8 +337,8 @@
         {
           "key": "average.receivedPass",
           "label": "Received passes/90",
-          "raw": 8.21,
-          "percentile": 36.43,
+          "raw": 11.85,
+          "percentile": 64.43,
           "benchmark": {
             "q1": 6.8825,
             "q2": 9.785,
@@ -350,8 +350,8 @@
         {
           "key": "average.counterpressingRecoveries",
           "label": "Counterpressing recoveries/90",
-          "raw": 1.81,
-          "percentile": 54.72,
+          "raw": 1.13,
+          "percentile": 25.63,
           "benchmark": {
             "q1": 1.115,
             "q2": 1.71,
