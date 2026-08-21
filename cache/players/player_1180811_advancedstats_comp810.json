@@ -1,7 +1,7 @@
 {
   "player_id": 1180811,
   "competition_id": 810,
-  "fetched_at": "2026-06-30T17:15:07.538848+00:00",
+  "fetched_at": "2026-08-21T11:03:01.087810+00:00",
   "stats": {
     "playerId": 1180811,
     "competitionId": 810,
@@ -9,26 +9,26 @@
     "positions": [
       {
         "position": {
-          "name": "Right Centre Back",
-          "code": "rcb"
-        },
-        "percent": 51
-      },
-      {
-        "position": {
           "name": "Right Centre Midfielder",
           "code": "rcmf"
         },
-        "percent": 48
+        "percent": 50
+      },
+      {
+        "position": {
+          "name": "Right Centre Back",
+          "code": "rcb"
+        },
+        "percent": 49
       }
     ],
     "total": {
-      "matches": 2,
+      "matches": 3,
       "matchesInStart": 0,
       "matchesSubstituted": 0,
-      "matchesComingOff": 2,
-      "minutesOnField": 35,
-      "minutesTagged": 35,
+      "matchesComingOff": 3,
+      "minutesOnField": 37,
+      "minutesTagged": 37,
       "goals": 0,
       "assists": 0,
       "shots": 0,
@@ -38,9 +38,9 @@
       "directRedCards": 0,
       "penalties": 0,
       "linkupPlays": 0,
-      "duels": 8,
+      "duels": 10,
       "duelsWon": 2,
-      "defensiveDuels": 2,
+      "defensiveDuels": 4,
       "defensiveDuelsWon": 1,
       "offensiveDuels": 3,
       "offensiveDuelsWon": 1,
@@ -70,8 +70,8 @@
       "dribbles": 0,
       "successfulDribbles": 0,
       "interceptions": 1,
-      "defensiveActions": 3,
-      "successfulDefensiveAction": 3,
+      "defensiveActions": 5,
+      "successfulDefensiveAction": 5,
       "attackingActions": 1,
       "successfulAttackingActions": 1,
       "freeKicks": 0,
@@ -129,16 +129,16 @@
       "gkAerialDuels": 0,
       "gkAerialDuelsWon": 0,
       "gkSaves": 0,
-      "newDuelsWon": 3,
-      "newDefensiveDuelsWon": 2,
+      "newDuelsWon": 5,
+      "newDefensiveDuelsWon": 4,
       "newOffensiveDuelsWon": 1,
       "newSuccessfulDribbles": 0,
       "lateralPasses": 5,
       "successfulLateralPasses": 5
     },
     "average": {
-      "passLength": 17.12,
-      "longPassLength": 5.79,
+      "passLength": 11.41,
+      "longPassLength": 3.86,
       "dribbleDistanceFromOpponentGoal": 0,
       "ballRecoveries": 0,
       "duels": 0,
@@ -245,8 +245,8 @@
       "successfulLateralPasses": 0
     },
     "percent": {
-      "duelsWon": 25,
-      "defensiveDuelsWon": 50,
+      "duelsWon": 20,
+      "defensiveDuelsWon": 25,
       "offensiveDuelsWon": 33.33,
       "aerialDuelsWon": 0,
       "successfulPasses": 0,

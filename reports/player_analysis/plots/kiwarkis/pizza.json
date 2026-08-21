@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T11:18:17.989566+00:00",
+  "generated_at": "2026-08-21T11:28:12.096374+00:00",
   "benchmark_scope": "position",
   "players": [
     {
@@ -15,156 +15,156 @@
           "key": "average.goals",
           "label": "Goals/90",
           "raw": 0.16,
-          "percentile": 54.0,
+          "percentile": 55.71,
           "benchmark": {
             "q1": 0.0,
-            "q2": 0.14,
-            "q3": 0.265,
-            "max": 1.08,
-            "sample_size": 82
+            "q2": 0.12,
+            "q3": 0.295,
+            "max": 1.13,
+            "sample_size": 87
           }
         },
         {
           "key": "average.xgShot",
           "label": "xG/90",
           "raw": 0.12,
-          "percentile": 44.44,
+          "percentile": 40.62,
           "benchmark": {
-            "q1": 0.05,
-            "q2": 0.14,
-            "q3": 0.2475,
-            "max": 0.69,
-            "sample_size": 82
+            "q1": 0.07,
+            "q2": 0.15,
+            "q3": 0.24,
+            "max": 0.73,
+            "sample_size": 87
           }
         },
         {
           "key": "average.shots",
           "label": "Shots/90",
           "raw": 1.39,
-          "percentile": 46.99,
+          "percentile": 45.56,
           "benchmark": {
-            "q1": 0.77,
-            "q2": 1.475,
-            "q3": 2.13,
-            "max": 5.29,
-            "sample_size": 82
+            "q1": 0.88,
+            "q2": 1.5,
+            "q3": 2.15,
+            "max": 4.29,
+            "sample_size": 87
           }
         },
         {
           "key": "percent.shotsOnTarget",
           "label": "Shots on Target %",
           "raw": 29.41,
-          "percentile": 37.4,
+          "percentile": 38.93,
           "benchmark": {
-            "q1": 23.345,
-            "q2": 35.57,
-            "q3": 49.3425,
+            "q1": 20.975,
+            "q2": 36.11,
+            "q3": 50.0,
             "max": 100.0,
-            "sample_size": 82
+            "sample_size": 87
           }
         },
         {
           "key": "average.xgAssist",
           "label": "xG Assists/90",
           "raw": 0.11,
-          "percentile": 70.0,
+          "percentile": 64.29,
           "benchmark": {
             "q1": 0.01,
             "q2": 0.07,
-            "q3": 0.12,
-            "max": 0.57,
-            "sample_size": 82
+            "q3": 0.14,
+            "max": 0.59,
+            "sample_size": 87
           }
         },
         {
           "key": "average.keyPasses",
           "label": "Key passes/90",
           "raw": 0.41,
-          "percentile": 63.19,
+          "percentile": 58.97,
           "benchmark": {
             "q1": 0.0,
-            "q2": 0.29000000000000004,
-            "q3": 0.5175000000000001,
+            "q2": 0.34,
+            "q3": 0.535,
             "max": 1.67,
-            "sample_size": 82
+            "sample_size": 87
           }
         },
         {
           "key": "average.successfulDribbles",
           "label": "Succ. dribbles/90",
           "raw": 3.75,
-          "percentile": 74.64,
+          "percentile": 73.72,
           "benchmark": {
-            "q1": 0.755,
-            "q2": 2.1950000000000003,
-            "q3": 3.7725,
-            "max": 6.97,
-            "sample_size": 82
+            "q1": 0.97,
+            "q2": 2.27,
+            "q3": 3.83,
+            "max": 6.98,
+            "sample_size": 87
           }
         },
         {
           "key": "percent.successfulDribbles",
           "label": "Dribble success %",
           "raw": 75.41,
-          "percentile": 61.15,
+          "percentile": 69.01,
           "benchmark": {
-            "q1": 60.5975,
-            "q2": 71.715,
-            "q3": 80.0,
+            "q1": 57.425,
+            "q2": 69.12,
+            "q3": 77.39,
             "max": 100.0,
-            "sample_size": 82
+            "sample_size": 87
           }
         },
         {
           "key": "average.successfulCrosses",
           "label": "Succ. crosses/90",
           "raw": 1.06,
-          "percentile": 75.03,
+          "percentile": 75.0,
           "benchmark": {
-            "q1": 0.2025,
-            "q2": 0.495,
-            "q3": 1.0575,
+            "q1": 0.16999999999999998,
+            "q2": 0.53,
+            "q3": 1.06,
             "max": 3.53,
-            "sample_size": 82
+            "sample_size": 87
           }
         },
         {
           "key": "average.touchInBox",
           "label": "Touches in box/90",
           "raw": 3.1,
-          "percentile": 58.35,
+          "percentile": 60.14,
           "benchmark": {
-            "q1": 1.81,
-            "q2": 2.755,
-            "q3": 3.7874999999999996,
-            "max": 6.41,
-            "sample_size": 82
+            "q1": 1.685,
+            "q2": 2.68,
+            "q3": 3.715,
+            "max": 6.39,
+            "sample_size": 87
           }
         },
         {
           "key": "average.progressiveRun",
           "label": "Progressive runs/90",
           "raw": 2.53,
-          "percentile": 60.51,
+          "percentile": 62.43,
           "benchmark": {
-            "q1": 1.03,
-            "q2": 2.115,
-            "q3": 3.1025,
+            "q1": 1.2149999999999999,
+            "q2": 2.07,
+            "q3": 2.995,
             "max": 5.73,
-            "sample_size": 82
+            "sample_size": 87
           }
         },
         {
           "key": "average.counterpressingRecoveries",
           "label": "Counterpressing rec./90",
           "raw": 2.45,
-          "percentile": 54.79,
+          "percentile": 50.0,
           "benchmark": {
-            "q1": 1.7075,
-            "q2": 2.335,
-            "q3": 2.935,
-            "max": 6.55,
-            "sample_size": 82
+            "q1": 1.745,
+            "q2": 2.45,
+            "q3": 3.0,
+            "max": 7.38,
+            "sample_size": 87
           }
         }
       ]

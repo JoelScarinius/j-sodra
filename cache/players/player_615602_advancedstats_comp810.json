@@ -1,7 +1,7 @@
 {
   "player_id": 615602,
   "competition_id": 810,
-  "fetched_at": "2026-06-30T17:21:57.696465+00:00",
+  "fetched_at": "2026-08-21T11:09:44.011071+00:00",
   "stats": {
     "playerId": 615602,
     "competitionId": 810,
@@ -107,7 +107,7 @@
       "thirdAssists": 0,
       "shotsBlocked": 0,
       "foulsSuffered": 2,
-      "progressivePasses": 20,
+      "progressivePasses": 19,
       "counterpressingRecoveries": 9,
       "slidingTackles": 0,
       "goalKicks": 0,
@@ -137,7 +137,7 @@
       "successfulLateralPasses": 16
     },
     "average": {
-      "passLength": 13.51,
+      "passLength": 13.53,
       "longPassLength": 18.55,
       "dribbleDistanceFromOpponentGoal": 20,
       "ballRecoveries": 7.86,
@@ -215,7 +215,7 @@
       "secondAssists": 0.29,
       "thirdAssists": 0,
       "foulsSuffered": 0.58,
-      "progressivePasses": 5.83,
+      "progressivePasses": 5.53,
       "counterpressingRecoveries": 2.62,
       "slidingTackles": 0,
       "goalKicks": 0,
@@ -269,7 +269,7 @@
       "successfulShotAssists": 0,
       "successfulLinkupPlays": 0,
       "yellowCardsPerFoul": 33.3,
-      "successfulProgressivePasses": 50,
+      "successfulProgressivePasses": 52.63,
       "successfulSlidingTackles": 0,
       "successfulGoalKicks": 0,
       "dribblesAgainstWon": 85.71,

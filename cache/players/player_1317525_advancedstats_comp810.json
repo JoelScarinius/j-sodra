@@ -1,7 +1,7 @@
 {
   "player_id": 1317525,
   "competition_id": 810,
-  "fetched_at": "2026-06-30T17:12:21.847965+00:00",
+  "fetched_at": "2026-08-21T10:59:11.901141+00:00",
   "stats": {
     "playerId": 1317525,
     "competitionId": 810,
@@ -90,7 +90,7 @@
       "dangerousOwnHalfLosses": 2,
       "xgShot": 0,
       "xgAssist": 0,
-      "xgSave": 8.57,
+      "xgSave": 8.25,
       "receivedPass": 78,
       "touchInBox": 0,
       "progressiveRun": 0,
@@ -101,7 +101,7 @@
       "shotsBlocked": 0,
       "foulsSuffered": 1,
       "progressivePasses": 29,
-      "counterpressingRecoveries": 3,
+      "counterpressingRecoveries": 4,
       "slidingTackles": 0,
       "goalKicks": 12,
       "dribblesAgainst": 0,
@@ -130,7 +130,7 @@
       "successfulLateralPasses": 81
     },
     "average": {
-      "passLength": 25.95,
+      "passLength": 25.97,
       "longPassLength": 47.53,
       "dribbleDistanceFromOpponentGoal": 0,
       "ballRecoveries": 5.74,
@@ -199,7 +199,7 @@
       "successfulPassesToFinalThird": 0.35,
       "xgShot": 0,
       "xgAssist": 0,
-      "xgSave": 1.49,
+      "xgSave": 1.44,
       "receivedPass": 13.58,
       "touchInBox": 0,
       "progressiveRun": 0,
@@ -209,7 +209,7 @@
       "thirdAssists": 0,
       "foulsSuffered": 0.17,
       "progressivePasses": 5.05,
-      "counterpressingRecoveries": 0.52,
+      "counterpressingRecoveries": 0.7,
       "slidingTackles": 0,
       "goalKicks": 2.09,
       "shotsBlocked": 0,

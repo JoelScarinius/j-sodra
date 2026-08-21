@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-30T17:11:45.769238+00:00",
+  "generated_at": "2026-08-21T10:57:25.946313+00:00",
   "team": {
     "id": 6786,
     "name": "Rosengård",
@@ -7,18 +7,18 @@
     "season_id": 192451
   },
   "season_id": 192451,
-  "season_match_count": 14,
+  "season_match_count": 17,
   "attempted_event_matches": 10,
   "event_matches_found": 10,
   "event_matches_missing": 0,
   "event_missing_match_ids": [],
   "results": {
-    "matches_played": 14,
-    "wins": 6,
-    "draws": 4,
+    "matches_played": 17,
+    "wins": 7,
+    "draws": 6,
     "losses": 4,
-    "points": 22,
-    "goals_for": 23,
-    "goals_against": 19
+    "points": 27,
+    "goals_for": 28,
+    "goals_against": 22
   }
 }

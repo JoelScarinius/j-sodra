@@ -181,7 +181,9 @@ def _resolve_player_data(
 # Internal: figure layout helpers (mirrors market/plots.py)
 # ---------------------------------------------------------------------------
 
-def _add_header(fig, title: str, subtitle: str, style: dict):
+def _add_header(fig, title: str, subtitle: str, style: dict, *, enabled: bool = True):
+    if not enabled:
+        return
     fig.text(0.05, 0.945, title,
              color=style["text"], fontsize=30, fontweight="bold",
              ha="left", va="top")
@@ -359,6 +361,7 @@ def build_player_radar(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a radar for one or two players and save a PNG.
 
@@ -424,7 +427,7 @@ def build_player_radar(
     # --- Figure layout (mirrors market/plots.py) ---------------------------
     # Axes are inset to leave room for wrapped stat labels outside the ring.
     fig = plt.figure(figsize=(10, 10), facecolor=style["bg"])
-    if show_footer:
+    if show_footer and show_header:
         ax = fig.add_axes([0.14, 0.16, 0.72, 0.62], polar=True)
         footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
         footer_ax.set_facecolor(style["bg"])
@@ -432,8 +435,19 @@ def build_player_radar(
         footer_ax.set_yticks([])
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
-    else:
+    elif show_footer and not show_header:
+        ax = fig.add_axes([0.14, 0.14, 0.72, 0.79], polar=True)
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+        footer_ax.set_facecolor(style["bg"])
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    elif not show_footer and show_header:
         ax = fig.add_axes([0.14, 0.16, 0.72, 0.68], polar=True)
+        footer_ax = None
+    else:  # not show_footer and not show_header
+        ax = fig.add_axes([0.14, 0.12, 0.72, 0.83], polar=True)
         footer_ax = None
 
     ax.set_facecolor(style["bg"])
@@ -496,7 +510,7 @@ def build_player_radar(
         else:
             subtitle = primary.get("team_name") or ""
 
-    _add_header(fig, title, subtitle, style)
+    _add_header(fig, title, subtitle, style, enabled=show_header)
 
     # --- Footer ------------------------------------------------------------
     if show_footer:
@@ -534,6 +548,8 @@ def build_player_radar(
     return _save(fig, output_path)
 
 
+# ---------------------------------------------------------------------------
+# ↑ build_player_radar ends here
 # ---------------------------------------------------------------------------
 # Position-map plot
 # ---------------------------------------------------------------------------
@@ -589,6 +605,7 @@ def build_player_position_map(
     title: str = None,
     subtitle: str | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a full-pitch position-distribution map for one player.
 
@@ -612,7 +629,7 @@ def build_player_position_map(
         When False the footer panel is omitted and the pitch expands downward.
     """
     try:
-        from mplsoccer import Pitch
+        from mplsoccer import VerticalPitch as _VPitch
     except Exception as exc:
         raise RuntimeError("mplsoccer is required for position map plots.") from exc
 
@@ -641,8 +658,8 @@ def build_player_position_map(
         raise ValueError(f"No mappable position codes found for player {player.get('name')}.")
 
     # --- Figure layout -----------------------------------------------------
-    fig = plt.figure(figsize=(14, 9), facecolor=style["bg"])
-    if show_footer:
+    fig = plt.figure(figsize=(10, 14), facecolor=style["bg"])
+    if show_footer and show_header:
         pitch_ax = fig.add_axes([0.05, 0.14, 0.90, 0.74])
         footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.09])
         footer_ax.set_facecolor(style["bg"])
@@ -650,12 +667,23 @@ def build_player_position_map(
         footer_ax.set_yticks([])
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
-    else:
+    elif show_footer and not show_header:
+        pitch_ax = fig.add_axes([0.05, 0.14, 0.90, 0.82])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.09])
+        footer_ax.set_facecolor(style["bg"])
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    elif not show_footer and show_header:
         pitch_ax = fig.add_axes([0.05, 0.05, 0.90, 0.83])
         footer_ax = None
+    else:  # not show_footer and not show_header
+        pitch_ax = fig.add_axes([0.05, 0.03, 0.90, 0.95])
+        footer_ax = None
 
-    # --- Pitch -------------------------------------------------------------
-    pitch = Pitch(
+    # --- Pitch (vertical — GK at bottom, attackers at top) ----------------
+    pitch = _VPitch(
         pitch_type="custom",
         pitch_length=100,
         pitch_width=100,
@@ -670,6 +698,14 @@ def build_player_position_map(
     pitch.draw(ax=pitch_ax)
 
     # --- Position circles --------------------------------------------------
+    # VerticalPitch axes layout after pitch.draw():
+    #   matplotlib x-axis (horizontal) = pitch WIDTH (lateral), with
+    #     y=0 (Wyscout right flank) mapping to the RIGHT side, so we mirror
+    #     with (100 - y) to get left flank on the left — same convention
+    #     used by build_player_action_heatmap.
+    #   matplotlib y-axis (vertical)   = pitch LENGTH (depth), 0=GK at
+    #     bottom, 100=CF at top. No inversion needed.
+    # Therefore: axes_x = 100 - y,  axes_y = x
     max_pct = max(pct for *_, pct, _, _ in entries)
 
     for x, y, pct, code, name in entries:
@@ -677,8 +713,11 @@ def build_player_position_map(
         alpha = 0.35 + 0.65 * intensity    # 0.35 at minimum, 1.0 at max
         size = 800 + 4200 * (pct / 100)   # scales from ~800 (tiny) to ~5000 (100 %)
 
+        ax_x = y         # VerticalPitch x-axis is already inverted (100 left, 0 right)
+        ax_y = x         # depth → vertical axis (GK=0=bottom, CF=100=top)
+
         pitch_ax.scatter(
-            x, y,
+            ax_x, ax_y,
             s=size,
             color=style["accent"],
             alpha=alpha,
@@ -687,22 +726,23 @@ def build_player_position_map(
             zorder=4,
         )
         pitch_ax.text(
-            x, y,
+            ax_x, ax_y,
             f"{pct:.0f}%",
             color=style["bg"],
-            fontsize=9,
+            fontsize=16,
             fontweight="bold",
             ha="center",
             va="center",
             zorder=5,
         )
+        # Code label just below the circle: decrease ax_y (toward GK end).
         pitch_ax.text(
-            x, y - 6,
+            ax_x, ax_y - 7,
             code.upper(),
             color=style["text"],
-            fontsize=7.5,
+            fontsize=16,
             ha="center",
-            va="top",
+            va="center",
             zorder=5,
             bbox={
                 "boxstyle": "round,pad=0.2",
@@ -719,7 +759,7 @@ def build_player_position_map(
         team = player.get("team_name")
         subtitle = f"{team}" if team else _player_display_name(player)
 
-    _add_header(fig, title, subtitle, style)
+    _add_header(fig, title, subtitle, style, enabled=show_header)
 
     # --- Footer ------------------------------------------------------------
     if show_footer:
@@ -755,6 +795,7 @@ def build_player_pizza(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a percentile pizza chart for one or two players and save a PNG.
 
@@ -839,17 +880,30 @@ def build_player_pizza(
     )
 
     # --- Figure layout (mirrors build_player_radar) ------------------------
-    fig = plt.figure(figsize=(10, 10), facecolor=bg)
-    if show_footer:
-        pizza_ax = fig.add_axes([0.08, 0.14, 0.84, 0.68], polar=True)
-        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+    # Larger figure gives each label slice more physical space so text
+    # doesn't overlap even with 12-13 stats.
+    fig = plt.figure(figsize=(13, 13), facecolor=bg)
+    if show_footer and show_header:
+        pizza_ax = fig.add_axes([0.10, 0.12, 0.80, 0.70], polar=True)
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
         footer_ax.set_facecolor(bg)
         footer_ax.set_xticks([])
         footer_ax.set_yticks([])
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
-    else:
-        pizza_ax = fig.add_axes([0.08, 0.14, 0.84, 0.74], polar=True)
+    elif show_footer and not show_header:
+        pizza_ax = fig.add_axes([0.10, 0.10, 0.80, 0.84], polar=True)
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    elif not show_footer and show_header:
+        pizza_ax = fig.add_axes([0.10, 0.12, 0.80, 0.76], polar=True)
+        footer_ax = None
+    else:  # not show_footer and not show_header (report mode)
+        pizza_ax = fig.add_axes([0.10, 0.06, 0.80, 0.90], polar=True)
         footer_ax = None
 
     # --- Pizza (PyPizza draws onto our axes) --------------------------------
@@ -870,9 +924,9 @@ def build_player_pizza(
             blank_alpha=1.0,
             kwargs_slices=dict(edgecolor=line, zorder=2, linewidth=0.8),
             kwargs_compare=dict(edgecolor=line, zorder=2, linewidth=0.8),
-            kwargs_params=dict(color=text_col, fontsize=10, va="center"),
-            kwargs_values=dict(color=bg, fontsize=9, fontweight="bold"),
-            kwargs_compare_values=dict(color=bg, fontsize=9, fontweight="bold"),
+            kwargs_params=dict(color=text_col, fontsize=12, va="center"),
+            kwargs_values=dict(color=bg, fontsize=10, fontweight="bold"),
+            kwargs_compare_values=dict(color=bg, fontsize=12, fontweight="bold"),
         )
     else:
         baker.make_pizza(
@@ -884,8 +938,8 @@ def build_player_pizza(
             value_bck_colors=[accent] * n,
             blank_alpha=1.0,
             kwargs_slices=dict(edgecolor=line, zorder=2, linewidth=0.8),
-            kwargs_params=dict(color=text_col, fontsize=10, va="center"),
-            kwargs_values=dict(color=bg, fontsize=9, fontweight="bold"),
+            kwargs_params=dict(color=text_col, fontsize=12, va="center"),
+            kwargs_values=dict(color=bg, fontsize=10, fontweight="bold"),
         )
 
     # Hide per-slice value number badges.
@@ -908,7 +962,7 @@ def build_player_pizza(
         else:
             subtitle = primary.get("team_name") or ""
 
-    _add_header(fig, title, subtitle, style)
+    _add_header(fig, title, subtitle, style, enabled=show_header)
 
     # --- Footer ------------------------------------------------------------
     if show_footer:
@@ -963,6 +1017,7 @@ def build_player_pitch_map(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a vertical half-pitch map for one player and save a PNG.
 
@@ -1014,7 +1069,7 @@ def build_player_pitch_map(
 
     # --- Figure layout -------------------------------------------------------
     fig = plt.figure(figsize=(10, 11), facecolor=bg)
-    if show_footer:
+    if show_footer and show_header:
         pitch_ax = fig.add_axes([0.03, 0.13, 0.94, 0.66])
         footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
         footer_ax.set_facecolor(bg)
@@ -1022,8 +1077,19 @@ def build_player_pitch_map(
         footer_ax.set_yticks([])
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
-    else:
+    elif show_footer and not show_header:
+        pitch_ax = fig.add_axes([0.03, 0.13, 0.94, 0.82])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    elif not show_footer and show_header:
         pitch_ax = fig.add_axes([0.03, 0.03, 0.94, 0.76])
+        footer_ax = None
+    else:  # not show_footer and not show_header
+        pitch_ax = fig.add_axes([0.03, 0.03, 0.94, 0.94])
         footer_ax = None
 
     # --- Pitch ---------------------------------------------------------------
@@ -1073,20 +1139,28 @@ def build_player_pitch_map(
     if subtitle is None:
         subtitle = player.get("team_name") or ""
 
-    _add_header(fig, title, subtitle, style)
+    _add_header(fig, title, subtitle, style, enabled=show_header)
 
     # Force layout so mplsoccer's equal-aspect adjustment settles before we
     # query the actual axes bounds for positioning.
     fig.canvas.draw()
     pos = pitch_ax.get_position()
 
-    # Subtitle sits at y=0.893 (fontsize 14, va="top"); approximate its bottom.
-    header_bottom = 0.893 - 14 / 72 / 11
-    pitch_top = pos.y1
+    if show_header:
+        # Subtitle sits at y=0.893 (fontsize 14, va="top"); approximate its bottom.
+        header_bottom = 0.893 - 14 / 72 / 11
+        pitch_top = pos.y1
+        gap = header_bottom - pitch_top
+        stats_y = header_bottom - gap / 3
+        legend_y_fig = header_bottom - 2 * gap / 3
+    else:
+        # No header — place stats/legend in the gap between figure top and pitch top.
+        pitch_top = pos.y1
+        fig_top = 0.98
+        gap = fig_top - pitch_top
+        stats_y = fig_top - gap / 3
+        legend_y_fig = fig_top - 2 * gap / 3
 
-    gap = header_bottom - pitch_top
-    stats_y = header_bottom - gap / 3
-    legend_y_fig = header_bottom - 2 * gap / 3
     legend_y_axes = (legend_y_fig - pos.y0) / pos.height
 
     # --- Stats line ----------------------------------------------------------
@@ -1126,6 +1200,7 @@ def build_player_shot_map(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a shot map for one player. Wraps build_player_pitch_map."""
     try:
@@ -1202,6 +1277,7 @@ def build_player_shot_map(
         subtitle=subtitle,
         footer_lines=footer_lines,
         show_footer=show_footer,
+        show_header=show_header,
     )
 
 
@@ -1218,6 +1294,7 @@ def build_player_assist_map(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a key-pass / assist map for one player. Wraps build_player_pitch_map.
 
@@ -1282,6 +1359,7 @@ def build_player_assist_map(
         subtitle=subtitle,
         footer_lines=footer_lines,
         show_footer=show_footer,
+        show_header=show_header,
     )
 
 
@@ -1298,6 +1376,7 @@ def build_player_dribble_map(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a dribble map for one player. Wraps build_player_pitch_map.
 
@@ -1357,6 +1436,7 @@ def build_player_dribble_map(
         subtitle=subtitle,
         footer_lines=footer_lines,
         show_footer=show_footer,
+        show_header=show_header,
     )
 
 
@@ -1385,6 +1465,7 @@ def build_player_pass_heatmap(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
     *,
     _x_col: str = "x",
     _y_col: str = "y",
@@ -1415,7 +1496,7 @@ def build_player_pass_heatmap(
         When False the footer panel is omitted.
     """
     try:
-        from mplsoccer import Pitch
+        from mplsoccer import VerticalPitch
     except Exception as exc:
         raise RuntimeError("mplsoccer is required for pass heatmap plots.") from exc
 
@@ -1429,22 +1510,33 @@ def build_player_pass_heatmap(
     line_col = style["line"]
     accent_2 = style["accent_2"]
 
-    # --- Figure layout (landscape) -------------------------------------------
-    fig = plt.figure(figsize=(13, 9), facecolor=bg)
-    if show_footer:
-        pitch_ax = fig.add_axes([0.05, 0.16, 0.85, 0.73])
-        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+    # --- Figure layout (portrait — matches action heatmap) -------------------
+    fig = plt.figure(figsize=(9, 13), facecolor=bg)
+    if show_footer and show_header:
+        pitch_ax = fig.add_axes([0.05, 0.13, 0.90, 0.73])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
         footer_ax.set_facecolor(bg)
         footer_ax.set_xticks([])
         footer_ax.set_yticks([])
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
-    else:
-        pitch_ax = fig.add_axes([0.05, 0.05, 0.85, 0.83])
+    elif show_footer and not show_header:
+        pitch_ax = fig.add_axes([0.05, 0.13, 0.90, 0.83])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    elif not show_footer and show_header:
+        pitch_ax = fig.add_axes([0.05, 0.03, 0.90, 0.83])
+        footer_ax = None
+    else:  # not show_footer and not show_header
+        pitch_ax = fig.add_axes([0.05, 0.02, 0.90, 0.96])
         footer_ax = None
 
-    # --- Pitch ---------------------------------------------------------------
-    pitch = Pitch(
+    # --- Pitch (vertical, matching action heatmap) ---------------------------
+    pitch = VerticalPitch(
         pitch_type="custom",
         pitch_length=100,
         pitch_width=100,
@@ -1457,49 +1549,61 @@ def build_player_pass_heatmap(
     )
     pitch.draw(ax=pitch_ax)
 
-    # --- Heatmap -------------------------------------------------------------
+    # --- Heatmap & labels — single source of truth: np.histogram2d ----------
+    # Both the coloured rectangles and the % text use the exact same bin edges
+    # so colours and numbers are guaranteed to align.
+    # VerticalPitch axes: x-axis (horizontal) = lateral (100 - Wyscout y),
+    #                     y-axis (vertical)   = depth (Wyscout x).
+    import matplotlib.patheffects as _pe
+    import numpy as _np
+
+    _N_LAT, _N_DEP = 5, 6          # 5 columns left→right, 6 rows goal→goal
+    _lat_edges = _np.linspace(0, 100, _N_LAT + 1)
+    _dep_edges = _np.linspace(0, 100, _N_DEP + 1)
+    _lat_centers = (_lat_edges[:-1] + _lat_edges[1:]) / 2
+    _dep_centers = (_dep_edges[:-1] + _dep_edges[1:]) / 2
+
+    _x_data = (100 - passes_df[_y_col]).values
+    _y_data = passes_df[_x_col].values
+    # _counts[xi, yi]: lateral bin xi × depth bin yi  →  shape (N_LAT, N_DEP)
+    _counts, _, _ = _np.histogram2d(_x_data, _y_data, bins=[_lat_edges, _dep_edges])
+    n_total_pre = int(_counts.sum())
+
+    # Colour grid: pcolormesh expects C[row, col] = C[yi, xi]  →  transpose
     cmap = LinearSegmentedColormap.from_list(
         "j_sodra_heat",
         [bg, _PANEL, accent_2, _HIGHLIGHT],
     )
-    # Mirror y so left flank (y≈0 in Wyscout) appears at the TOP of the pitch.
-    # mplsoccer Pitch() places y=0 at the bottom; 100-y flips this so that
-    # left flank is up, right flank is down, attacking runs left→right.
-    heat = pitch.bin_statistic(
-        passes_df[_x_col],
-        100 - passes_df[_y_col],
-        statistic="count",
-        bins=(18, 12),
+    pitch_ax.pcolormesh(
+        _lat_edges, _dep_edges, _counts.T,
+        cmap=cmap, alpha=0.96, zorder=2,
     )
-    heatmap = pitch.heatmap(heat, ax=pitch_ax, cmap=cmap, edgecolors=bg, alpha=0.96)
-    _add_colorbar_local(fig, heatmap, (0.91, 0.20, 0.018, 0.55), _colorbar_label, style)
+    # Cell borders that match the pitch line colour
+    for xe in _lat_edges:
+        pitch_ax.axvline(xe, color=bg, linewidth=0.8, zorder=3)
+    for ye in _dep_edges:
+        pitch_ax.axhline(ye, color=bg, linewidth=0.8, zorder=3)
 
-    # --- Percentage labels inside each non-empty zone ------------------------
-    import matplotlib.patheffects as _pe
-    stat = heat["statistic"]
-    cx = heat["cx"]
-    cy = heat["cy"]
-    n_total_pre = len(passes_df)
-    for r in range(stat.shape[0]):
-        for c in range(stat.shape[1]):
-            count = stat[r, c]
+    for xi in range(_N_LAT):
+        for yi in range(_N_DEP):
+            count = int(_counts[xi, yi])
             if count == 0:
                 continue
             pct_val = count / n_total_pre * 100
-            label = "1%" if pct_val < 1 else f"{pct_val:.0f}%"
+            label = "<1%" if pct_val < 1 else f"{pct_val:.0f}%"
             pitch_ax.text(
-                cx[r, c], cy[r, c], label,
+                _lat_centers[xi], _dep_centers[yi], label,
                 ha="center", va="center",
-                fontsize=7.5, fontweight="bold",
+                fontsize=16, fontweight="bold",
                 color=style["text"], zorder=5,
-                path_effects=[_pe.withStroke(linewidth=1.5, foreground=bg)],
+                path_effects=[_pe.withStroke(linewidth=2.0, foreground=bg)],
             )
 
     # --- Attacking direction label -------------------------------------------
     pitch_ax.text(
-        0.5, -0.02, "Attacking  →",
+        0.5, -0.06, "Attacking  ↑",
         transform=pitch_ax.transAxes,
-        color=style["muted"], fontsize=9, ha="center", va="top",
+        color=style["muted"], fontsize=15, ha="center", va="top",
         clip_on=False,
     )
 
@@ -1509,7 +1613,7 @@ def build_player_pass_heatmap(
     if subtitle is None:
         subtitle = player.get("team_name") or ""
 
-    _add_header(fig, title, subtitle, style)
+    _add_header(fig, title, subtitle, style, enabled=show_header)
 
     # --- Footer --------------------------------------------------------------
     n_total = len(passes_df)
@@ -1537,6 +1641,7 @@ def build_player_action_heatmap(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a smooth KDE heatmap of open-play actions for one player.
 
@@ -1576,7 +1681,7 @@ def build_player_action_heatmap(
 
     # --- Figure layout (portrait) --------------------------------------------
     fig = plt.figure(figsize=(9, 13), facecolor=bg)
-    if show_footer:
+    if show_footer and show_header:
         pitch_ax = fig.add_axes([0.05, 0.13, 0.90, 0.73])
         footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
         footer_ax.set_facecolor(bg)
@@ -1584,8 +1689,19 @@ def build_player_action_heatmap(
         footer_ax.set_yticks([])
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
-    else:
+    elif show_footer and not show_header:
+        pitch_ax = fig.add_axes([0.05, 0.13, 0.90, 0.83])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.08])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    elif not show_footer and show_header:
         pitch_ax = fig.add_axes([0.05, 0.03, 0.90, 0.83])
+        footer_ax = None
+    else:  # not show_footer and not show_header
+        pitch_ax = fig.add_axes([0.05, 0.02, 0.90, 0.96])
         footer_ax = None
 
     # --- Pitch ---------------------------------------------------------------
@@ -1624,9 +1740,9 @@ def build_player_action_heatmap(
 
     # --- Attacking direction label -------------------------------------------
     pitch_ax.text(
-        0.5, -0.01, "Attacking  ↑",
+        0.5, -0.06, "Attacking  ↑",
         transform=pitch_ax.transAxes,
-        color=style["muted"], fontsize=9, ha="center", va="top",
+        color=style["muted"], fontsize=15, ha="center", va="top",
         clip_on=False,
     )
 
@@ -1638,7 +1754,7 @@ def build_player_action_heatmap(
         team = player.get("team_name") or ""
         subtitle = f"{team}  ·  {n_actions:,} Open Play Actions"
 
-    _add_header(fig, title, subtitle, style)
+    _add_header(fig, title, subtitle, style, enabled=show_header)
 
     # --- Footer --------------------------------------------------------------
     if show_footer and footer_ax is not None:
@@ -1661,6 +1777,7 @@ def build_player_pass_end_heatmap(
     subtitle: str | None = None,
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
+    show_header: bool = True,
 ) -> Path:
     """Render a pass-destination heatmap for one player and save a PNG.
 
@@ -1690,6 +1807,7 @@ def build_player_pass_end_heatmap(
         subtitle=subtitle,
         footer_lines=footer_lines,
         show_footer=show_footer,
+        show_header=show_header,
         _x_col="end_x",
         _y_col="end_y",
         _colorbar_label="Pass destinations per zone",
@@ -1711,6 +1829,7 @@ def build_scatter_plot(
     footer_lines: list[str] | None = None,
     show_footer: bool = True,
     highlight_team: str | None = None,
+    show_header: bool = True,
 ) -> Path:
     """Render a league-wide scatter plot with one dot per player, coloured by team.
 
@@ -1766,7 +1885,7 @@ def build_scatter_plot(
     # --- Figure layout -------------------------------------------------------
     fig = plt.figure(figsize=(15, 10), facecolor=bg)
     # Reserve right strip for the team legend
-    if show_footer:
+    if show_footer and show_header:
         ax = fig.add_axes([0.07, 0.16, 0.72, 0.72])
         footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
         footer_ax.set_facecolor(bg)
@@ -1774,8 +1893,19 @@ def build_scatter_plot(
         footer_ax.set_yticks([])
         for spine in footer_ax.spines.values():
             spine.set_visible(False)
-    else:
+    elif show_footer and not show_header:
+        ax = fig.add_axes([0.07, 0.16, 0.72, 0.80])
+        footer_ax = fig.add_axes([0.05, 0.03, 0.90, 0.10])
+        footer_ax.set_facecolor(bg)
+        footer_ax.set_xticks([])
+        footer_ax.set_yticks([])
+        for spine in footer_ax.spines.values():
+            spine.set_visible(False)
+    elif not show_footer and show_header:
         ax = fig.add_axes([0.07, 0.08, 0.72, 0.82])
+        footer_ax = None
+    else:  # not show_footer and not show_header
+        ax = fig.add_axes([0.07, 0.06, 0.72, 0.92])
         footer_ax = None
 
     legend_ax = fig.add_axes([0.81, 0.20, 0.17, 0.60])
@@ -1797,7 +1927,7 @@ def build_scatter_plot(
     ax.grid(color=line_col, alpha=0.12, linewidth=0.6, zorder=0)
 
     # --- Scatter markers ------------------------------------------------------
-    # highlight_team → filled circle (○), all others → square (■).
+    # highlight_team → star (★), all others → square (■).
     # highlight_team gets the project yellow + a larger marker to stand out.
     for p in players_data:
         col = team_color[p["team"]]
@@ -1805,8 +1935,8 @@ def build_scatter_plot(
         ax.scatter(
             p["x"], p["y"],
             color=col,
-            s=220 if is_hl else 55,
-            marker="o" if is_hl else "s",
+            s=380 if is_hl else 55,
+            marker="*" if is_hl else "o",
             zorder=5 if is_hl else 4,
             edgecolors=bg, linewidths=1.2 if is_hl else 0.8,
         )
@@ -1844,7 +1974,7 @@ def build_scatter_plot(
     for i, team in enumerate(teams):
         col = team_color[team]
         y_pos = 0.97 - i * step
-        marker_char = "●" if team == highlight_team else "■"
+        marker_char = "★" if team == highlight_team else "●"
         legend_ax.text(0.05, y_pos, marker_char, color=col, fontsize=10,
                        transform=legend_ax.transAxes, va="center")
         legend_ax.text(0.25, y_pos, team, color=text_col, fontsize=8,
@@ -1853,7 +1983,7 @@ def build_scatter_plot(
     # --- Header --------------------------------------------------------------
     if title is None:
         title = f"{x_label} vs {y_label}"
-    _add_header(fig, title, subtitle or "", style)
+    _add_header(fig, title, "", style, enabled=show_header)
 
     # --- Footer --------------------------------------------------------------
     if show_footer and footer_ax is not None:
@@ -1864,3 +1994,573 @@ def build_scatter_plot(
         _add_footer(footer_ax, footer_lines, style)
 
     return _save(fig, output_path)
+
+
+# ---------------------------------------------------------------------------
+# Player report — self-contained HTML with all plots embedded
+# ---------------------------------------------------------------------------
+
+import base64 as _base64
+import tempfile as _tempfile
+import urllib.request as _urllib_request
+
+
+def _png_to_b64(path: Path) -> str:
+    return _base64.b64encode(path.read_bytes()).decode()
+
+
+def _fetch_image_b64(url: str, timeout: int = 5) -> str | None:
+    """Fetch an image URL and return a data URI, or None on failure."""
+    try:
+        req = _urllib_request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with _urllib_request.urlopen(req, timeout=timeout) as resp:
+            data = resp.read()
+        mime = "image/png" if url.lower().endswith(".png") else "image/jpeg"
+        return f"data:{mime};base64,{_base64.b64encode(data).decode()}"
+    except Exception:
+        return None
+
+
+def _initials_svg(name: str) -> str:
+    """SVG circle with player initials — used when no real photo is available."""
+    parts = name.strip().split()
+    initials = "".join(p[0].upper() for p in parts[:2]) if parts else "?"
+    svg = (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="110" height="110">'
+        '<circle cx="55" cy="55" r="55" fill="#0b3427"/>'
+        f'<text x="55" y="55" dominant-baseline="central" text-anchor="middle" '
+        f'fill="#ffdc6e" font-size="36" font-family="system-ui,sans-serif" '
+        f'font-weight="800">{initials}</text>'
+        "</svg>"
+    )
+    return f"data:image/svg+xml;base64,{_base64.b64encode(svg.encode()).decode()}"
+
+
+def _report_html(
+    player_name: str,
+    team: str,
+    position: str,
+    nationality: str,
+    photo_src: str,
+    plots: dict,
+    *,
+    shirt_number: int | None = None,
+    height: int | None = None,
+    foot: str | None = None,
+    date_of_birth: str | None = None,
+    team_logo_src: str | None = None,
+    positions_data: list[dict] | None = None,   # list of {code, name, percent, minutes}
+) -> str:
+    """Assemble the full HTML string for the player report."""
+
+    def _card(key: str, label: str = "", extra_class: str = "") -> str:
+        b64 = plots.get(key)
+        inner = (
+            f'<img src="data:image/png;base64,{b64}" alt="{label}">'
+            if b64 else
+            f'<div class="missing">{label or key} — no data</div>'
+        )
+        lbl = f'<p class="card-label">{label}</p>' if label else ""
+        cls = f"card {extra_class}".strip() if extra_class else "card"
+        return f'<div class="{cls}">{lbl}{inner}</div>'
+
+    # Positions breakdown card (pure HTML, no image)
+    def _positions_card() -> str:
+        rows_data = sorted(positions_data or [], key=lambda p: -p["percent"])
+        if not rows_data:
+            return ""
+        rows_html = ""
+        for row in rows_data:
+            code    = (row.get("code") or "").upper()
+            name    = row.get("name") or code
+            pct     = row.get("percent") or 0
+            mins    = row.get("minutes")
+            bar_w   = max(4, int(pct))
+            mins_td = f'<td>{int(mins):,} min</td>' if mins is not None else "<td>—</td>"
+            rows_html += (
+                f"<tr>"
+                f'<td style="text-align:left;font-weight:700">{code}</td>'
+                f"{mins_td}"
+                f"<td>{pct:.0f}%</td>"
+                f"</tr>"
+            )
+        table = (
+            '<table class="pos-table">'
+            "<thead><tr><th>Position</th><th>Minutes</th><th>%</th></tr></thead>"
+            f"<tbody>{rows_html}</tbody>"
+            "</table>"
+        )
+        return f'<div class="card" style="margin-top:16px"><p class="card-label">Time by Position</p>{table}</div>'
+
+    scatter_html = (
+        '<section class="section"><h2 class="section-title">League Context</h2>'
+        f'<div class="grid-1">{_card("scatter")}</div></section>'
+        if plots.get("scatter") else ""
+    )
+
+    # Compute age from date_of_birth
+    age_str = ""
+    if date_of_birth:
+        try:
+            from datetime import date
+            dob = date.fromisoformat(date_of_birth)
+            today = date.today()
+            age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+            age_str = f"{age} yrs"
+        except Exception:
+            pass
+
+    # Build header chips — only render chips that have data
+    def _chip(icon: str, value: str | None) -> str:
+        if not value:
+            return ""
+        return f'<span class="chip">{icon} <strong>{value}</strong></span>'
+
+    height_str = f"{height} cm" if height else None
+    foot_str   = f"{foot} foot" if foot else None
+
+    chips = "".join([
+        _chip("⚽", position),
+        _chip("📏", height_str),
+        _chip("🦶", foot_str),
+        _chip("🌍", nationality),
+        _chip("🎂", age_str or None),
+    ])
+
+    # Team logo — shown on the right of the header
+    team_logo_html = (
+        f'<img class="team-logo" src="{team_logo_src}" alt="{team}">'
+        if team_logo_src
+        else f'<span class="team-name-fallback">{team}</span>'
+    )
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{player_name} — Player Report</title>
+<style>
+  *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+  :root {{
+    --bg:     #002418;
+    --panel:  #0b3427;
+    --panel2: #0f3d2e;
+    --text:   #ffffff;
+    --muted:  #7a9e8e;
+    --accent: #ffdc6e;
+    --border: rgba(255,255,255,0.07);
+    --r:      12px;
+  }}
+  body {{
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    padding: 28px 32px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }}
+  /* Header */
+  .header {{
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 24px 32px;
+    margin-bottom: 22px;
+  }}
+  .header-left {{ display: flex; align-items: center; gap: 28px; flex: 1; min-width: 0; }}
+  .photo-wrap {{
+    position: relative;
+    flex-shrink: 0;
+    width: 110px;
+    height: 110px;
+  }}
+  .photo {{
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid var(--accent);
+    background: var(--panel2);
+    display: block;
+  }}
+  .shirt-badge {{
+    position: absolute;
+    bottom: 2px; right: 2px;
+    background: var(--accent);
+    color: #002418;
+    font-size: 0.72rem;
+    font-weight: 800;
+    border-radius: 99px;
+    padding: 1px 6px;
+    line-height: 1.6;
+    white-space: nowrap;
+  }}
+  .player-name {{
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }}
+  .player-meta {{
+    margin-top: 10px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+  }}
+  .chip {{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 10px;
+  }}
+  .chip strong {{ color: var(--text); font-weight: 600; }}
+  .team-logo {{
+    width: 100px; height: 100px;
+    object-fit: contain;
+    flex-shrink: 0;
+    opacity: 0.92;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  }}
+  .team-name-fallback {{
+    font-size: 1rem; font-weight: 700; color: var(--muted);
+  }}
+  /* Section */
+  .section {{ margin-bottom: 20px; }}
+  .section-title {{
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }}
+  /* Cards */
+  .card {{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }}
+  .card img {{ width: 100%; display: block; }}
+  .card-label {{
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--text);
+    padding: 14px 16px 6px;
+    text-align: center;
+  }}
+  .missing {{
+    display: flex; align-items: center; justify-content: center;
+    height: 120px;
+    color: var(--muted); font-size: 0.85rem;
+  }}
+  /* Position breakdown table */
+  .pos-table {{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }}
+  .pos-table th {{
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-align: left;
+    padding: 8px 14px 6px;
+    border-bottom: 1px solid var(--border);
+  }}
+  .pos-table th:not(:first-child) {{ text-align: right; }}
+  .pos-table td {{
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }}
+  .pos-table td:not(:first-child) {{ text-align: right; color: var(--muted); }}
+  .pos-table td:last-child {{ color: var(--accent); font-weight: 700; }}
+  .pos-table tr:last-child td {{ border-bottom: none; }}
+  .pos-bar-cell {{ position: relative; }}
+  .pos-bar {{
+    display: inline-block;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 3px;
+    opacity: 0.55;
+    vertical-align: middle;
+    margin-right: 6px;
+  }}
+  /* Grids */
+  .grid-1  {{ display: grid; grid-template-columns: 1fr; gap: 16px; }}
+  .grid-2  {{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }}
+  .grid-3  {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; align-items: start; }}
+  .span-2  {{ grid-column: span 2; }}
+  @media (max-width: 860px) {{
+    .grid-2,.grid-3 {{ grid-template-columns: 1fr; }}
+    .span-2         {{ grid-column: span 1; }}
+  }}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="photo-wrap">
+      <img class="photo" src="{photo_src}" alt="{player_name}">
+      {f'<span class="shirt-badge">#{shirt_number}</span>' if shirt_number else ''}
+    </div>
+    <div>
+      <div class="player-name">{player_name}</div>
+      <div class="player-meta">{chips}</div>
+    </div>
+  </div>
+  {team_logo_html}
+</header>
+
+<section class="section">
+  <h2 class="section-title">Profile &amp; Position</h2>
+  <div class="grid-3">
+    {_card("pizza", extra_class="span-2")}
+    <div>
+      {_card("position_map")}
+      {_positions_card()}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">On-Ball Actions</h2>
+  <div class="grid-3">
+    {_card("shot_map",    "Shots")}
+    {_card("assist_map",  "Key Passes &amp; Assists")}
+    {_card("dribble_map", "Dribbles")}
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">Movement &amp; Distribution</h2>
+  <div class="grid-3">
+    {_card("action_heatmap", "Action Heatmap")}
+    {_card("pass_start",     "Pass Origin")}
+    {_card("pass_end",       "Pass Destination")}
+  </div>
+</section>
+
+{scatter_html}
+
+</body>
+</html>"""
+
+
+def build_player_report(
+    player: dict,
+    player_profile: dict,
+    stat_keys: list[str],
+    stat_labels: list[str],
+    benchmarks: dict,
+    events_dir: Path,
+    output_path: Path,
+    style: dict[str, str],
+    *,
+    scatter_players: list[dict] | None = None,
+    scatter_x_label: str = "x",
+    scatter_y_label: str = "y",
+    scatter_title: str | None = None,
+    scatter_subtitle: str | None = None,
+    highlight_team: str | None = None,
+    sofascore_profile: dict | None = None,
+) -> Path:
+    """Build a self-contained HTML player report and save it to output_path.
+
+    Generates all individual plots internally (pizza, position map, shot map,
+    assist map, dribble map, action heatmap, pass start/end heatmaps) in a
+    temporary directory, encodes them as base64, and assembles a single dark-
+    themed HTML file that requires no external assets.
+
+    An optional scatter section provides league-wide context.
+
+    Parameters
+    ----------
+    player:
+        Player dict from make_player_radar_input().
+    player_profile:
+        Raw player record from competition_*_players.json.
+    stat_keys / stat_labels:
+        Stat profile for the pizza chart.
+    benchmarks:
+        From competition_*_position_benchmarks.json.
+    events_dir:
+        Directory containing match_*.json event cache files.
+    output_path:
+        Destination .html path.
+    scatter_players:
+        Pre-built list of {name, team, x, y} dicts for the league scatter.
+        Omit to skip the scatter section.
+    highlight_team:
+        Team to highlight in the scatter (defaults to player's team).
+    """
+    from pipeline.sections.player_analysis.metrics import (
+        bucket_player_position,
+        load_player_dribbles,
+        load_player_key_passes,
+        load_player_open_play_actions,
+        load_player_passes,
+        load_player_shots,
+    )
+
+    if plt is None:
+        raise RuntimeError("matplotlib is required to build player reports.")
+
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    events_dir = Path(events_dir)
+
+    wy_id    = player["player_id"]
+    name     = player.get("name", f"Player {wy_id}")
+    team     = player.get("team_name") or ""
+    pos_code = player.get("position_code") or ""
+    pos_label = (
+        (bucket_player_position(pos_code) or pos_code or "—")
+        .replace("_", " ").title()
+    )
+    nationality = (
+        (player_profile.get("passportArea") or player_profile.get("birthArea") or {})
+        .get("name") or "—"
+    )
+
+    # Player photo — prefer SofaScore photo, fall back to Wyscout, then initials SVG
+    ss = sofascore_profile or {}
+    photo_src = ss.get("photo_b64") or None
+    if not photo_src:
+        raw_url  = player_profile.get("imageDataURL") or player_profile.get("imagePath") or ""
+        use_real = raw_url and "ndplayer" not in raw_url
+        photo_src = (_fetch_image_b64(raw_url) if use_real else None) or _initials_svg(name)
+
+    # SofaScore-enriched profile fields
+    ss_nationality = ss.get("nationality")
+    shirt_number   = ss.get("shirt_number")
+    height         = ss.get("height")
+    foot           = ss.get("foot")
+    date_of_birth  = ss.get("date_of_birth")
+    nationality    = ss_nationality or nationality
+    team_logo_src  = ss.get("team_logo_b64") or None
+
+    # Load event data
+    shots_df      = load_player_shots(wy_id, events_dir)
+    passes_df     = load_player_passes(wy_id, events_dir)
+    key_passes_df = load_player_key_passes(wy_id, events_dir)
+    dribbles_df   = load_player_dribbles(wy_id, events_dir)
+    actions_df    = load_player_open_play_actions(wy_id, events_dir)
+
+    plots: dict[str, str | None] = {}
+
+    with _tempfile.TemporaryDirectory() as _tmp:
+        tmp = Path(_tmp)
+
+        def _run(key: str, fn, **kwargs) -> None:
+            try:
+                p = fn(**kwargs, output_path=tmp / f"{key}.png",
+                        style=style, show_footer=False, show_header=False)
+                plots[key] = _png_to_b64(p)
+            except Exception as exc:
+                print(f"  [report] {key} skipped — {exc}")
+                plots[key] = None
+
+        _run("pizza", build_player_pizza,
+             players=[player], stat_keys=stat_keys,
+             stat_labels=stat_labels, benchmarks=benchmarks)
+
+        _run("position_map", build_player_position_map, player=player)
+
+        if not shots_df.empty:
+            _run("shot_map", build_player_shot_map,
+                 player=player, shots_df=shots_df)
+        else:
+            plots["shot_map"] = None
+
+        if not key_passes_df.empty:
+            _run("assist_map", build_player_assist_map,
+                 player=player, key_passes_df=key_passes_df)
+        else:
+            plots["assist_map"] = None
+
+        if not dribbles_df.empty:
+            _run("dribble_map", build_player_dribble_map,
+                 player=player, dribbles_df=dribbles_df)
+        else:
+            plots["dribble_map"] = None
+
+        if not actions_df.empty:
+            _run("action_heatmap", build_player_action_heatmap,
+                 player=player, actions_df=actions_df)
+        else:
+            plots["action_heatmap"] = None
+
+        if not passes_df.empty:
+            _run("pass_start", build_player_pass_heatmap,
+                 player=player, passes_df=passes_df)
+            _run("pass_end", build_player_pass_end_heatmap,
+                 player=player, passes_df=passes_df)
+        else:
+            plots["pass_start"] = plots["pass_end"] = None
+
+        if scatter_players:
+            try:
+                p = build_scatter_plot(
+                    players_data=scatter_players,
+                    x_label=scatter_x_label,
+                    y_label=scatter_y_label,
+                    output_path=tmp / "scatter.png",
+                    style=style,
+                    title=scatter_title,
+                    subtitle=scatter_subtitle,
+                    show_footer=False,
+                    highlight_team=highlight_team or team,
+                )
+                plots["scatter"] = _png_to_b64(p)
+            except Exception as exc:
+                print(f"  [report] scatter skipped — {exc}")
+                plots["scatter"] = None
+        else:
+            plots["scatter"] = None
+
+    # Build positions breakdown list for the sidebar card
+    _raw_positions = (player.get("stats") or {}).get("positions") or []
+    _total_mins    = ((player.get("stats") or {}).get("total") or {}).get("minutesOnField")
+    positions_data: list[dict] = []
+    for _pe in _raw_positions:
+        _pos  = _pe.get("position") or {}
+        _code = (_pos.get("code") or "").lower()
+        _name = _pos.get("name") or _code.upper()
+        _pct  = float(_pe.get("percent") or 0)
+        _mins = round(_total_mins * _pct / 100) if _total_mins else None
+        if _pct > 0:
+            positions_data.append({"code": _code, "name": _name, "percent": _pct, "minutes": _mins})
+
+    html = _report_html(
+        player_name=name,
+        team=team,
+        position=pos_label,
+        nationality=nationality,
+        photo_src=photo_src,
+        plots=plots,
+        shirt_number=shirt_number,
+        height=height,
+        foot=foot,
+        date_of_birth=date_of_birth,
+        team_logo_src=team_logo_src,
+        positions_data=positions_data,
+    )
+    output_path.write_text(html, encoding="utf-8")
+    return output_path

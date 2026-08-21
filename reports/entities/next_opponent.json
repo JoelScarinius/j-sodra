@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-06-30T17:11:45.769238+00:00",
+  "generated_at": "2026-08-21T10:57:25.946313+00:00",
   "id": 6786,
   "name": "Rosengård",
   "logo_url": "https://cdn5.wyscout.com/photos/team/public/g4032_120x120.png",
   "season_id": 192451,
   "source": "fixtures",
-  "match_id": 5819297,
-  "match_dateutc": "2026-08-02T14:00:00+00:00",
+  "match_id": 5819343,
+  "match_dateutc": "2026-08-22T14:00:00+00:00",
   "status": "Fixture",
-  "label": "Rosengård - Jönköpings Södra, 0-0",
-  "target_side": "away"
+  "label": "Jönköpings Södra - Rosengård, 0-0",
+  "target_side": "home"
 }

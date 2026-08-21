@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T11:18:17.884870+00:00",
+  "generated_at": "2026-08-21T11:28:11.995318+00:00",
   "benchmark_scope": "position",
   "players": [
     {
@@ -9,175 +9,175 @@
       "team_name": "Jönköpings Södra",
       "position": "Striker",
       "position_group": "striker",
-      "games": 13,
+      "games": 16,
       "stats": [
         {
           "key": "average.goals",
           "label": "Goals/90",
-          "raw": 0.25,
-          "percentile": 51.54,
+          "raw": 0.2,
+          "percentile": 45.83,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.24,
-            "q3": 0.4025,
-            "max": 1.49,
-            "sample_size": 112
+            "q3": 0.39,
+            "max": 1.18,
+            "sample_size": 119
           }
         },
         {
           "key": "average.xgShot",
           "label": "xG/90",
-          "raw": 0.49,
-          "percentile": 77.01,
+          "raw": 0.41,
+          "percentile": 73.33,
           "benchmark": {
-            "q1": 0.1575,
-            "q2": 0.28500000000000003,
-            "q3": 0.4225,
-            "max": 1.26,
-            "sample_size": 112
+            "q1": 0.16,
+            "q2": 0.27,
+            "q3": 0.42,
+            "max": 0.79,
+            "sample_size": 119
           }
         },
         {
           "key": "average.shots",
           "label": "Shots/90",
-          "raw": 4.09,
-          "percentile": 100.0,
+          "raw": 3.54,
+          "percentile": 96.74,
           "benchmark": {
-            "q1": 1.2650000000000001,
-            "q2": 1.955,
-            "q3": 2.52,
-            "max": 4.09,
-            "sample_size": 112
+            "q1": 1.3250000000000002,
+            "q2": 1.83,
+            "q3": 2.54,
+            "max": 3.69,
+            "sample_size": 119
           }
         },
         {
           "key": "percent.goalConversion",
           "label": "Goal Conversion %",
-          "raw": 6.0,
-          "percentile": 38.5,
+          "raw": 5.66,
+          "percentile": 38.44,
           "benchmark": {
             "q1": 0.0,
-            "q2": 11.11,
-            "q3": 22.22,
+            "q2": 10.53,
+            "q3": 20.0,
             "max": 100.0,
-            "sample_size": 112
+            "sample_size": 119
           }
         },
         {
           "key": "percent.shotsOnTarget",
           "label": "Shots on Target %",
-          "raw": 26.0,
-          "percentile": 31.28,
+          "raw": 26.42,
+          "percentile": 34.7,
           "benchmark": {
-            "q1": 21.305,
-            "q2": 40.0,
+            "q1": 20.0,
+            "q2": 36.54,
             "q3": 50.0,
             "max": 100.0,
-            "sample_size": 112
+            "sample_size": 119
           }
         },
         {
           "key": "average.touchInBox",
           "label": "Box touches/90",
-          "raw": 2.95,
-          "percentile": 44.82,
+          "raw": 2.74,
+          "percentile": 39.95,
           "benchmark": {
-            "q1": 2.1275,
-            "q2": 3.165,
-            "q3": 4.08,
-            "max": 7.0,
-            "sample_size": 112
+            "q1": 2.175,
+            "q2": 3.12,
+            "q3": 3.955,
+            "max": 6.91,
+            "sample_size": 119
           }
         },
         {
           "key": "average.headShots",
           "label": "Header shots/90",
-          "raw": 0.25,
-          "percentile": 47.32,
+          "raw": 0.2,
+          "percentile": 42.86,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.28,
-            "q3": 0.5225,
-            "max": 1.54,
-            "sample_size": 112
+            "q3": 0.58,
+            "max": 1.29,
+            "sample_size": 119
           }
         },
         {
           "key": "average.aerialDuels",
           "label": "Aerial duels/90",
-          "raw": 2.7,
-          "percentile": 34.59,
+          "raw": 2.47,
+          "percentile": 33.89,
           "benchmark": {
-            "q1": 2.2175000000000002,
-            "q2": 3.475,
-            "q3": 5.175,
-            "max": 12.77,
-            "sample_size": 112
+            "q1": 1.9899999999999998,
+            "q2": 3.34,
+            "q3": 5.34,
+            "max": 12.33,
+            "sample_size": 119
           }
         },
         {
           "key": "percent.aerialDuelsWon",
           "label": "Aerial won %",
-          "raw": 33.33,
-          "percentile": 50.0,
+          "raw": 29.73,
+          "percentile": 39.2,
           "benchmark": {
-            "q1": 22.6725,
+            "q1": 25.0,
             "q2": 33.33,
-            "q3": 42.86,
+            "q3": 42.980000000000004,
             "max": 100.0,
-            "sample_size": 112
+            "sample_size": 119
           }
         },
         {
           "key": "average.xgAssist",
           "label": "xG Assists/90",
-          "raw": 0.08,
-          "percentile": 73.33,
+          "raw": 0.07,
+          "percentile": 58.33,
           "benchmark": {
-            "q1": 0.01,
-            "q2": 0.045,
-            "q3": 0.0825,
-            "max": 0.34,
-            "sample_size": 112
+            "q1": 0.02,
+            "q2": 0.05,
+            "q3": 0.11,
+            "max": 0.49,
+            "sample_size": 119
           }
         },
         {
           "key": "average.linkupPlays",
           "label": "Link-up plays/90",
-          "raw": 1.15,
-          "percentile": 67.73,
+          "raw": 1.2,
+          "percentile": 68.47,
           "benchmark": {
-            "q1": 0.32,
-            "q2": 0.76,
-            "q3": 1.31,
-            "max": 7.87,
-            "sample_size": 112
+            "q1": 0.385,
+            "q2": 0.79,
+            "q3": 1.3450000000000002,
+            "max": 6.67,
+            "sample_size": 119
           }
         },
         {
           "key": "average.receivedPass",
           "label": "Received passes/90",
-          "raw": 12.12,
-          "percentile": 66.32,
+          "raw": 11.01,
+          "percentile": 59.08,
           "benchmark": {
-            "q1": 6.8825,
-            "q2": 9.785,
-            "q3": 13.3625,
-            "max": 46.33,
-            "sample_size": 112
+            "q1": 7.41,
+            "q2": 9.55,
+            "q3": 13.57,
+            "max": 46.44,
+            "sample_size": 119
           }
         },
         {
           "key": "average.counterpressingRecoveries",
           "label": "Counterpressing recoveries/90",
-          "raw": 1.56,
-          "percentile": 43.7,
+          "raw": 1.53,
+          "percentile": 42.92,
           "benchmark": {
-            "q1": 1.115,
-            "q2": 1.71,
-            "q3": 2.24,
+            "q1": 1.1,
+            "q2": 1.7,
+            "q3": 2.26,
             "max": 5.74,
-            "sample_size": 112
+            "sample_size": 119
           }
         }
       ]
@@ -185,179 +185,179 @@
     {
       "player_id": 629185,
       "name": "K. Grauberg Lepik",
-      "team_id": 6849,
+      "team_id": 6962,
       "team_name": "Jönköpings Södra",
       "position": "Striker",
       "position_group": "striker",
-      "games": 13,
+      "games": 16,
       "stats": [
         {
           "key": "average.goals",
           "label": "Goals/90",
-          "raw": 0.28,
-          "percentile": 56.15,
+          "raw": 0.3,
+          "percentile": 60.0,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.24,
-            "q3": 0.4025,
-            "max": 1.49,
-            "sample_size": 112
+            "q3": 0.39,
+            "max": 1.18,
+            "sample_size": 119
           }
         },
         {
           "key": "average.xgShot",
           "label": "xG/90",
-          "raw": 0.43,
-          "percentile": 75.22,
+          "raw": 0.44,
+          "percentile": 76.35,
           "benchmark": {
-            "q1": 0.1575,
-            "q2": 0.28500000000000003,
-            "q3": 0.4225,
-            "max": 1.26,
-            "sample_size": 112
+            "q1": 0.16,
+            "q2": 0.27,
+            "q3": 0.42,
+            "max": 0.79,
+            "sample_size": 119
           }
         },
         {
           "key": "average.shots",
           "label": "Shots/90",
-          "raw": 3.39,
-          "percentile": 88.85,
+          "raw": 3.13,
+          "percentile": 87.83,
           "benchmark": {
-            "q1": 1.2650000000000001,
-            "q2": 1.955,
-            "q3": 2.52,
-            "max": 4.09,
-            "sample_size": 112
+            "q1": 1.3250000000000002,
+            "q2": 1.83,
+            "q3": 2.54,
+            "max": 3.69,
+            "sample_size": 119
           }
         },
         {
           "key": "percent.goalConversion",
           "label": "Goal Conversion %",
-          "raw": 8.333,
-          "percentile": 43.75,
+          "raw": 9.524,
+          "percentile": 47.61,
           "benchmark": {
             "q1": 0.0,
-            "q2": 11.11,
-            "q3": 22.22,
+            "q2": 10.53,
+            "q3": 20.0,
             "max": 100.0,
-            "sample_size": 112
+            "sample_size": 119
           }
         },
         {
           "key": "percent.shotsOnTarget",
           "label": "Shots on Target %",
-          "raw": 33.33,
-          "percentile": 41.08,
+          "raw": 23.81,
+          "percentile": 30.76,
           "benchmark": {
-            "q1": 21.305,
-            "q2": 40.0,
+            "q1": 20.0,
+            "q2": 36.54,
             "q3": 50.0,
             "max": 100.0,
-            "sample_size": 112
+            "sample_size": 119
           }
         },
         {
           "key": "average.touchInBox",
           "label": "Box touches/90",
-          "raw": 3.95,
-          "percentile": 71.45,
+          "raw": 3.43,
+          "percentile": 59.28,
           "benchmark": {
-            "q1": 2.1275,
-            "q2": 3.165,
-            "q3": 4.08,
-            "max": 7.0,
-            "sample_size": 112
+            "q1": 2.175,
+            "q2": 3.12,
+            "q3": 3.955,
+            "max": 6.91,
+            "sample_size": 119
           }
         },
         {
           "key": "average.headShots",
           "label": "Header shots/90",
-          "raw": 0.85,
-          "percentile": 83.05,
+          "raw": 1.19,
+          "percentile": 96.48,
           "benchmark": {
             "q1": 0.0,
             "q2": 0.28,
-            "q3": 0.5225,
-            "max": 1.54,
-            "sample_size": 112
+            "q3": 0.58,
+            "max": 1.29,
+            "sample_size": 119
           }
         },
         {
           "key": "average.aerialDuels",
           "label": "Aerial duels/90",
-          "raw": 12.41,
-          "percentile": 98.82,
+          "raw": 9.55,
+          "percentile": 90.06,
           "benchmark": {
-            "q1": 2.2175000000000002,
-            "q2": 3.475,
-            "q3": 5.175,
-            "max": 12.77,
-            "sample_size": 112
+            "q1": 1.9899999999999998,
+            "q2": 3.34,
+            "q3": 5.34,
+            "max": 12.33,
+            "sample_size": 119
           }
         },
         {
           "key": "percent.aerialDuelsWon",
           "label": "Aerial won %",
-          "raw": 47.73,
-          "percentile": 77.13,
+          "raw": 45.31,
+          "percentile": 76.02,
           "benchmark": {
-            "q1": 22.6725,
+            "q1": 25.0,
             "q2": 33.33,
-            "q3": 42.86,
+            "q3": 42.980000000000004,
             "max": 100.0,
-            "sample_size": 112
+            "sample_size": 119
           }
         },
         {
           "key": "average.xgAssist",
           "label": "xG Assists/90",
-          "raw": 0.02,
-          "percentile": 32.14,
+          "raw": 0.01,
+          "percentile": 12.5,
           "benchmark": {
-            "q1": 0.01,
-            "q2": 0.045,
-            "q3": 0.0825,
-            "max": 0.34,
-            "sample_size": 112
+            "q1": 0.02,
+            "q2": 0.05,
+            "q3": 0.11,
+            "max": 0.49,
+            "sample_size": 119
           }
         },
         {
           "key": "average.linkupPlays",
           "label": "Link-up plays/90",
-          "raw": 0.85,
-          "percentile": 54.09,
+          "raw": 1.04,
+          "percentile": 61.26,
           "benchmark": {
-            "q1": 0.32,
-            "q2": 0.76,
-            "q3": 1.31,
-            "max": 7.87,
-            "sample_size": 112
+            "q1": 0.385,
+            "q2": 0.79,
+            "q3": 1.3450000000000002,
+            "max": 6.67,
+            "sample_size": 119
           }
         },
         {
           "key": "average.receivedPass",
           "label": "Received passes/90",
-          "raw": 11.85,
-          "percentile": 64.43,
+          "raw": 8.36,
+          "percentile": 36.1,
           "benchmark": {
-            "q1": 6.8825,
-            "q2": 9.785,
-            "q3": 13.3625,
-            "max": 46.33,
-            "sample_size": 112
+            "q1": 7.41,
+            "q2": 9.55,
+            "q3": 13.57,
+            "max": 46.44,
+            "sample_size": 119
           }
         },
         {
           "key": "average.counterpressingRecoveries",
           "label": "Counterpressing recoveries/90",
-          "raw": 1.13,
-          "percentile": 25.63,
+          "raw": 1.19,
+          "percentile": 28.75,
           "benchmark": {
-            "q1": 1.115,
-            "q2": 1.71,
-            "q3": 2.24,
+            "q1": 1.1,
+            "q2": 1.7,
+            "q3": 2.26,
             "max": 5.74,
-            "sample_size": 112
+            "sample_size": 119
           }
         }
       ]

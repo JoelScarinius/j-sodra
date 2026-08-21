@@ -1,13 +1,112 @@
 {
   "competition_id": 810,
-  "fetched_at": "2026-06-30T17:12:02.166528+00:00",
+  "fetched_at": "2026-08-21T10:58:44.065236+00:00",
   "players": [
     {
-      "wyId": 1339461,
-      "shortName": "W. Lund",
-      "firstName": "Wiggo",
+      "wyId": 1351454,
+      "shortName": "E. Karlsson",
+      "firstName": "Eddie",
       "middleName": "",
-      "lastName": "Lund",
+      "lastName": "Karlsson",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2004-07-27",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 6962,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1351407,
+      "shortName": "H. Näslund",
+      "firstName": "Hannes",
+      "middleName": "",
+      "lastName": "Näslund",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2002-08-17",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 6765,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1347705,
+      "shortName": "M. Kaspersson",
+      "firstName": "Mathias",
+      "middleName": "",
+      "lastName": "Kaspersson",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-08-22",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 7018,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1347698,
+      "shortName": "B. Hasselqvist",
+      "firstName": "Benjamin",
+      "middleName": "",
+      "lastName": "Hasselqvist",
       "height": 0,
       "weight": 0,
       "birthDate": null,
@@ -27,6 +126,105 @@
         "name": "",
         "code2": "",
         "code3": ""
+      },
+      "foot": null,
+      "currentTeamId": 6742,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1340305,
+      "shortName": "S. Asterman Fridman",
+      "firstName": "Sixten",
+      "middleName": "",
+      "lastName": "Asterman Fridman",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-08-18",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 6751,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1340302,
+      "shortName": "H. Dzamdzic",
+      "firstName": "Halis",
+      "middleName": "",
+      "lastName": "Dzamdzic ",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2009-01-11",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 6751,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1339461,
+      "shortName": "W. Lund",
+      "firstName": "Wiggo",
+      "middleName": "",
+      "lastName": "Lund",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-10-09",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
       },
       "foot": null,
       "currentTeamId": 6729,
@@ -360,6 +558,39 @@
       },
       "foot": null,
       "currentTeamId": 6722,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1328702,
+      "shortName": "W. Lundgren",
+      "firstName": "William Alethawi",
+      "middleName": "",
+      "lastName": "Lundgren",
+      "height": 0,
+      "weight": 0,
+      "birthDate": null,
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 77751,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -1496,6 +1727,39 @@
       "height": 0,
       "weight": 0,
       "birthDate": "2003-03-22",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 6925,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1315754,
+      "shortName": "F. Hashani",
+      "firstName": "Flamur",
+      "middleName": "",
+      "lastName": "Hashani",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "1998-10-11",
       "birthArea": {
         "id": 752,
         "alpha2code": "SE",
@@ -2775,6 +3039,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 1315215,
+      "shortName": "K. Myrttinen",
+      "firstName": "Kevin Ädel",
+      "middleName": "",
+      "lastName": "Myrttinen",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-02-25",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 6744,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 1312965,
       "shortName": "V. Jansson",
       "firstName": "Vincent",
@@ -3032,7 +3329,7 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 7014,
+      "currentTeamId": 7085,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -3066,6 +3363,39 @@
       },
       "foot": null,
       "currentTeamId": 62498,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1269081,
+      "shortName": "L. Steen",
+      "firstName": "Ludvig",
+      "middleName": "",
+      "lastName": "Steen",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-08-17",
+      "birthArea": {
+        "id": 578,
+        "alpha2code": "NO",
+        "alpha3code": "NOR",
+        "name": "Norway"
+      },
+      "passportArea": {
+        "id": 578,
+        "alpha2code": "NO",
+        "alpha3code": "NOR",
+        "name": "Norway"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": null,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -3132,6 +3462,39 @@
       },
       "foot": null,
       "currentTeamId": 6722,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1259494,
+      "shortName": "J. Charléz Sjöberg",
+      "firstName": "Johannes",
+      "middleName": "",
+      "lastName": "Charléz Sjöberg",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2010-01-01",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": null,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -3890,7 +4253,7 @@
         "code3": "FWD"
       },
       "foot": null,
-      "currentTeamId": 7014,
+      "currentTeamId": 7085,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -4353,6 +4716,39 @@
       },
       "foot": null,
       "currentTeamId": 62515,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1200921,
+      "shortName": "E. Kolasinac",
+      "firstName": "Emin",
+      "middleName": "",
+      "lastName": "Kolasinac",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-10-26",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 30602,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -4887,6 +5283,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 1191227,
+      "shortName": "H. Aroko",
+      "firstName": "Humphrey",
+      "middleName": "",
+      "lastName": "Aroko",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2006-01-01",
+      "birthArea": {
+        "id": 404,
+        "alpha2code": "KE",
+        "alpha3code": "KEN",
+        "name": "Kenya"
+      },
+      "passportArea": {
+        "id": 404,
+        "alpha2code": "KE",
+        "alpha3code": "KEN",
+        "name": "Kenya"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": null,
+      "currentNationalTeamId": 18406,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 1191040,
       "shortName": "J. Bülow",
       "firstName": "Jonathan",
@@ -5151,6 +5580,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 1187261,
+      "shortName": "V. Tigerholm",
+      "firstName": "Vincent Alsing ",
+      "middleName": "",
+      "lastName": "Tigerholm ",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-12-30",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 34269,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 1186174,
       "shortName": "O. Kronvall",
       "firstName": "Oskar ",
@@ -5184,6 +5646,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 1186024,
+      "shortName": "R. Andersson",
+      "firstName": "Romeo",
+      "middleName": "",
+      "lastName": "Andersson",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2011-04-02",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 60055,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 1185948,
       "shortName": "I. Eklund",
       "firstName": "Isak",
@@ -5210,7 +5705,7 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 24771,
+      "currentTeamId": 80220,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -5244,6 +5739,39 @@
       },
       "foot": null,
       "currentTeamId": 6785,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1185889,
+      "shortName": "K. Särbring",
+      "firstName": "Karl",
+      "middleName": "",
+      "lastName": "Särbring",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-04-02",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 24771,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -5844,6 +6372,72 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 1182819,
+      "shortName": "M. Mandic",
+      "firstName": "Milo",
+      "middleName": "",
+      "lastName": "Mandic",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2009-07-25",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 77751,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1182760,
+      "shortName": "L. Bjorninger",
+      "firstName": "Liam",
+      "middleName": "",
+      "lastName": "Bjorninger",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2005-03-03",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": 7014,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 1182747,
       "shortName": "W. Rubin",
       "firstName": "William",
@@ -6101,7 +6695,7 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 7018,
+      "currentTeamId": 24424,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -6167,7 +6761,7 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 6742,
+      "currentTeamId": 6925,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -6596,7 +7190,40 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 66337,
+      "currentTeamId": 7086,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1180926,
+      "shortName": "M. Lalic",
+      "firstName": "Milan",
+      "middleName": "",
+      "lastName": "Lalic",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-02-24",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 7061,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -6629,7 +7256,7 @@
         "code3": "FWD"
       },
       "foot": "right",
-      "currentTeamId": 6731,
+      "currentTeamId": 6766,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -6696,7 +7323,7 @@
       },
       "foot": null,
       "currentTeamId": 7070,
-      "currentNationalTeamId": 7049,
+      "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
@@ -6933,11 +7560,44 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
-      "wyId": 1180742,
-      "shortName": "E. Fasth",
-      "firstName": "Emil ",
+      "wyId": 1180758,
+      "shortName": "T. Björk Ahlbom",
+      "firstName": "Ture ",
       "middleName": "",
-      "lastName": "Fasth",
+      "lastName": "Björk Ahlbom",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-04-22",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": 7070,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1180742,
+      "shortName": "E. Olof Fasth",
+      "firstName": "Emil Carl",
+      "middleName": "",
+      "lastName": "Olof Fasth",
       "height": 0,
       "weight": 0,
       "birthDate": "2008-05-05",
@@ -7091,7 +7751,73 @@
         "code3": "FWD"
       },
       "foot": null,
-      "currentTeamId": 7066,
+      "currentTeamId": 6781,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1180709,
+      "shortName": "A. Saeed",
+      "firstName": "Ahmed ",
+      "middleName": "",
+      "lastName": "Saeed",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-04-22",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": 69639,
+      "currentNationalTeamId": 31758,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1180692,
+      "shortName": "R. Svernfors",
+      "firstName": "Robin",
+      "middleName": "",
+      "lastName": "Svernfors",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-08-29",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 34269,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -7158,6 +7884,39 @@
       },
       "foot": null,
       "currentTeamId": 6932,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1180674,
+      "shortName": "N. Heinrici",
+      "firstName": "Nils",
+      "middleName": "",
+      "lastName": "Heinrici",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-07-01",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 34269,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -7388,7 +8147,7 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 7018,
+      "currentTeamId": 6849,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -7619,7 +8378,7 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 6734,
+      "currentTeamId": 7018,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -7656,7 +8415,7 @@
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
-      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-693077_100x130.png"
     },
     {
       "wyId": 1180571,
@@ -7851,6 +8610,39 @@
       },
       "foot": null,
       "currentTeamId": 6792,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1170770,
+      "shortName": "L. Caspari Bark",
+      "firstName": "Leonardo",
+      "middleName": "",
+      "lastName": "Caspari Bark",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2006-12-25",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 6727,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -8217,7 +9009,7 @@
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
-      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-659186_100x130.png"
     },
     {
       "wyId": 1145124,
@@ -8312,7 +9104,7 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 7061,
+      "currentTeamId": 6790,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -8416,6 +9208,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1111900,
+      "shortName": "R. Banda",
+      "firstName": "Robert",
+      "middleName": "",
+      "lastName": "Banda",
+      "height": 175,
+      "weight": 74,
+      "birthDate": "2008-05-26",
+      "birthArea": {
+        "id": 894,
+        "alpha2code": "ZM",
+        "alpha3code": "ZMB",
+        "name": "Zambia"
+      },
+      "passportArea": {
+        "id": 894,
+        "alpha2code": "ZM",
+        "alpha3code": "ZMB",
+        "name": "Zambia"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "right",
+      "currentTeamId": 65084,
+      "currentNationalTeamId": 17654,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-624414_100x130.png"
     },
     {
       "wyId": 1104357,
@@ -8577,6 +9402,39 @@
       },
       "foot": null,
       "currentTeamId": 58969,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1086141,
+      "shortName": "C. Ljung Hofvendahl",
+      "firstName": "Casper Gabriel",
+      "middleName": "",
+      "lastName": "Ljung Hofvendahl",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2005-12-23",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 7055,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -9038,7 +9896,7 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 6731,
+      "currentTeamId": 6751,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -9467,7 +10325,7 @@
         "code3": "DEF"
       },
       "foot": "left",
-      "currentTeamId": 6932,
+      "currentTeamId": 6742,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -9963,6 +10821,72 @@
       },
       "foot": null,
       "currentTeamId": 6785,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1060357,
+      "shortName": "M. Oluwayemi",
+      "firstName": "Michael ",
+      "middleName": "",
+      "lastName": "Aduragbemi Oluwayemi",
+      "height": 177,
+      "weight": 67,
+      "birthDate": "2005-10-05",
+      "birthArea": {
+        "id": 566,
+        "alpha2code": "NG",
+        "alpha3code": "NGA",
+        "name": "Nigeria"
+      },
+      "passportArea": {
+        "id": 566,
+        "alpha2code": "NG",
+        "alpha3code": "NGA",
+        "name": "Nigeria"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": "right",
+      "currentTeamId": 34269,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 1060337,
+      "shortName": "E. Navassardian",
+      "firstName": "Edgar ",
+      "middleName": "",
+      "lastName": "Navassardian",
+      "height": 188,
+      "weight": 0,
+      "birthDate": "2004-06-16",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": 34269,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -10662,6 +11586,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 1010058,
+      "shortName": "B. Eide",
+      "firstName": "Bernard",
+      "middleName": "",
+      "lastName": "Eide",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-09-23",
+      "birthArea": {
+        "id": 578,
+        "alpha2code": "NO",
+        "alpha3code": "NOR",
+        "name": "Norway"
+      },
+      "passportArea": {
+        "id": 578,
+        "alpha2code": "NO",
+        "alpha3code": "NOR",
+        "name": "Norway"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 78937,
+      "currentNationalTeamId": 28603,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 1006135,
       "shortName": "F. Akdemir",
       "firstName": "Filip",
@@ -11055,7 +12012,7 @@
       "currentNationalTeamId": 31758,
       "gender": "male",
       "status": "active",
-      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-475964_100x130.png"
     },
     {
       "wyId": 953044,
@@ -11151,6 +12108,39 @@
       },
       "foot": null,
       "currentTeamId": 6744,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 946321,
+      "shortName": "L. Nyman",
+      "firstName": "Ludvig",
+      "middleName": "",
+      "lastName": "Nyman",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-06-26",
+      "birthArea": {
+        "id": 246,
+        "alpha2code": "FI",
+        "alpha3code": "FIN",
+        "name": "Finland"
+      },
+      "passportArea": {
+        "id": 246,
+        "alpha2code": "FI",
+        "alpha3code": "FIN",
+        "name": "Finland"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 58969,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -11481,6 +12471,39 @@
       },
       "foot": null,
       "currentTeamId": 6925,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 939485,
+      "shortName": "H. Rödin",
+      "firstName": "Hugo",
+      "middleName": "",
+      "lastName": "Rödin",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2005-12-24",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 7018,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -11883,6 +12906,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 936031,
+      "shortName": "S. Zulum",
+      "firstName": "Semin ",
+      "middleName": "",
+      "lastName": "Zulum",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-08-26",
+      "birthArea": {
+        "id": 276,
+        "alpha2code": "DE",
+        "alpha3code": "DEU",
+        "name": "Germany"
+      },
+      "passportArea": {
+        "id": 276,
+        "alpha2code": "DE",
+        "alpha3code": "DEU",
+        "name": "Germany"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 6744,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 934352,
       "shortName": "N. Vainio",
       "firstName": "Nicholas",
@@ -11909,7 +12965,7 @@
         "code3": "FWD"
       },
       "foot": null,
-      "currentTeamId": 7061,
+      "currentTeamId": 6790,
       "currentNationalTeamId": 27919,
       "gender": "male",
       "status": "active",
@@ -11982,6 +13038,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 933464,
+      "shortName": "K. Sulaiman",
+      "firstName": "Kawa",
+      "middleName": "",
+      "lastName": "Mazen Sulaiman",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-01-15",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": 6765,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 933462,
       "shortName": "J. Persson",
       "firstName": "Joakim",
@@ -12010,6 +13099,39 @@
       "foot": null,
       "currentTeamId": 7014,
       "currentNationalTeamId": 7051,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 930505,
+      "shortName": "J. Sibeene",
+      "firstName": "James Nene",
+      "middleName": "",
+      "lastName": "Sibeene",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-04-25",
+      "birthArea": {
+        "id": 894,
+        "alpha2code": "ZM",
+        "alpha3code": "ZMB",
+        "name": "Zambia"
+      },
+      "passportArea": {
+        "id": 894,
+        "alpha2code": "ZM",
+        "alpha3code": "ZMB",
+        "name": "Zambia"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": null,
+      "currentNationalTeamId": 17654,
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
@@ -12239,7 +13361,7 @@
         "code3": "FWD"
       },
       "foot": "right",
-      "currentTeamId": 6777,
+      "currentTeamId": 6764,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -12338,7 +13460,7 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 6925,
+      "currentTeamId": 6708,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -12708,6 +13830,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 919328,
+      "shortName": "A. Sipić",
+      "firstName": "Adem",
+      "middleName": "",
+      "lastName": "Sipić",
+      "height": 185,
+      "weight": 82,
+      "birthDate": "2006-04-05",
+      "birthArea": {
+        "id": 840,
+        "alpha2code": "US",
+        "alpha3code": "USA",
+        "name": "United States"
+      },
+      "passportArea": {
+        "id": 70,
+        "alpha2code": "BA",
+        "alpha3code": "BIH",
+        "name": "Bosnia-Herzegovina"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "right",
+      "currentTeamId": 6744,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 915216,
       "shortName": "S. Gustafsson",
       "firstName": "Sixten",
@@ -13064,7 +14219,7 @@
         "code3": "MID"
       },
       "foot": "right",
-      "currentTeamId": 66337,
+      "currentTeamId": 6742,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -13302,6 +14457,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 893436,
+      "shortName": "S. Wändin",
+      "firstName": "Sebastian",
+      "middleName": "",
+      "lastName": "Wändin",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2005-09-06",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 6722,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 893433,
       "shortName": "L. Kleist",
       "firstName": "Leonard",
@@ -13329,6 +14517,39 @@
       },
       "foot": null,
       "currentTeamId": 58969,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 893414,
+      "shortName": "B. Buisson",
+      "firstName": "Benjamin",
+      "middleName": "",
+      "lastName": "Buisson",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2005-01-29",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": 34269,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -13460,7 +14681,7 @@
         "code3": "FWD"
       },
       "foot": null,
-      "currentTeamId": 6715,
+      "currentTeamId": 28672,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -13527,6 +14748,72 @@
       },
       "foot": null,
       "currentTeamId": 6781,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 872129,
+      "shortName": "N. Birgoth",
+      "firstName": "Noel",
+      "middleName": "",
+      "lastName": "Birgoth",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-03-02",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 6781,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 872099,
+      "shortName": "T. Kocys",
+      "firstName": "Toomas",
+      "middleName": "",
+      "lastName": "Kocys",
+      "height": 0,
+      "weight": 0,
+      "birthDate": null,
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 66337,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -13691,7 +14978,7 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 7061,
+      "currentTeamId": 6734,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -13724,7 +15011,7 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 58969,
+      "currentTeamId": 78937,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -13861,6 +15148,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 844079,
+      "shortName": "G. Felicia",
+      "firstName": "Gio-Renys",
+      "middleName": "",
+      "lastName": "Felicia",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2004-02-02",
+      "birthArea": {
+        "id": 531,
+        "alpha2code": "CW",
+        "alpha3code": "CUW",
+        "name": "Curaçao"
+      },
+      "passportArea": {
+        "id": 528,
+        "alpha2code": "NL",
+        "alpha3code": "NLD",
+        "name": "Netherlands"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "left",
+      "currentTeamId": null,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-356742_100x130.png"
     },
     {
       "wyId": 835051,
@@ -14061,6 +15381,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-344947_100x130.png"
     },
     {
+      "wyId": 831844,
+      "shortName": "Q. Hoeve",
+      "firstName": "Quincy",
+      "middleName": "",
+      "lastName": "Hoeve",
+      "height": 190,
+      "weight": 0,
+      "birthDate": "2003-04-03",
+      "birthArea": {
+        "id": 535,
+        "alpha2code": "BQ",
+        "alpha3code": "BES",
+        "name": "Bonaire, Sint Eustatius and Saba"
+      },
+      "passportArea": {
+        "id": 528,
+        "alpha2code": "NL",
+        "alpha3code": "NLD",
+        "name": "Netherlands"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "right",
+      "currentTeamId": 6765,
+      "currentNationalTeamId": 25192,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 828102,
       "shortName": "A. Gashi",
       "firstName": "Albin",
@@ -14153,7 +15506,7 @@
         "code3": "FWD"
       },
       "foot": null,
-      "currentTeamId": 34269,
+      "currentTeamId": 7108,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -14384,7 +15737,7 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 34269,
+      "currentTeamId": 28355,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -14549,7 +15902,7 @@
         "code3": "FWD"
       },
       "foot": "right",
-      "currentTeamId": 69639,
+      "currentTeamId": 7510,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -14682,6 +16035,39 @@
       },
       "foot": null,
       "currentTeamId": 6932,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 811852,
+      "shortName": "J. Getachew",
+      "firstName": "Josef",
+      "middleName": "",
+      "lastName": "Getachew",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "1999-12-20",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 6785,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -15275,7 +16661,7 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 6781,
+      "currentTeamId": 7066,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -15513,6 +16899,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-293413_100x130.png"
     },
     {
+      "wyId": 780718,
+      "shortName": "G. Elezaj",
+      "firstName": "Gent",
+      "middleName": "",
+      "lastName": "Elezaj",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2005-04-11",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 68159,
+      "currentNationalTeamId": 8734,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 780710,
       "shortName": "N. Gebrezgi",
       "firstName": "Nobel",
@@ -15671,7 +17090,7 @@
         "code3": "GKP"
       },
       "foot": "right",
-      "currentTeamId": 66337,
+      "currentTeamId": 6720,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -15741,7 +17160,7 @@
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
-      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-292036_100x130.png"
     },
     {
       "wyId": 778346,
@@ -15836,7 +17255,7 @@
         "code3": "DEF"
       },
       "foot": "left",
-      "currentTeamId": 6731,
+      "currentTeamId": 6751,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -15975,6 +17394,105 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 769672,
+      "shortName": "C. Selfven",
+      "firstName": "Carl",
+      "middleName": "",
+      "lastName": "Selfven",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-03-03",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 65084,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 769644,
+      "shortName": "W. Malmgren",
+      "firstName": "Wilhelm",
+      "middleName": "",
+      "lastName": "Malmgren",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-03-01",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": 6715,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 769632,
+      "shortName": "B. Magnusson",
+      "firstName": "Ben",
+      "middleName": "",
+      "lastName": "Magnusson",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-07-25",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": "right",
+      "currentTeamId": 65084,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 769618,
       "shortName": "N. Lundén",
       "firstName": "Natanael",
@@ -16069,6 +17587,39 @@
       "foot": null,
       "currentTeamId": 6786,
       "currentNationalTeamId": 8733,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 769533,
+      "shortName": "L. Larsen",
+      "firstName": "Linus",
+      "middleName": "",
+      "lastName": "Larsen",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-03-21",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": null,
+      "currentTeamId": 71745,
+      "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
@@ -16298,7 +17849,40 @@
         "code3": "DEF"
       },
       "foot": null,
-      "currentTeamId": 7014,
+      "currentTeamId": 7476,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 765372,
+      "shortName": "F. Schmidt Petersen",
+      "firstName": "Frederik Lesley",
+      "middleName": "",
+      "lastName": "Schmidt Petersen",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-11-13",
+      "birthArea": {
+        "id": 208,
+        "alpha2code": "DK",
+        "alpha3code": "DNK",
+        "name": "Denmark"
+      },
+      "passportArea": {
+        "id": 208,
+        "alpha2code": "DK",
+        "alpha3code": "DNK",
+        "name": "Denmark"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 6786,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -16536,6 +18120,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-262487_100x130.png"
     },
     {
+      "wyId": 748626,
+      "shortName": "G. Ankamafio",
+      "firstName": "Graham Nil",
+      "middleName": "",
+      "lastName": "Ankamah Ankamafio",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2007-09-10",
+      "birthArea": {
+        "id": 208,
+        "alpha2code": "DK",
+        "alpha3code": "DNK",
+        "name": "Denmark"
+      },
+      "passportArea": {
+        "id": 208,
+        "alpha2code": "DK",
+        "alpha3code": "DNK",
+        "name": "Denmark"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": "right",
+      "currentTeamId": 6786,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 746010,
       "shortName": "S. Rydz",
       "firstName": "Samuel Dawid",
@@ -16666,6 +18283,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-252863_100x130.png"
+    },
+    {
+      "wyId": 740115,
+      "shortName": "M. Falhgren Hällström",
+      "firstName": "Marcus",
+      "middleName": "",
+      "lastName": "Falhgren Hällström",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "1998-07-18",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": null,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
       "wyId": 739879,
@@ -17123,7 +18773,7 @@
         "code3": "FWD"
       },
       "foot": "right",
-      "currentTeamId": 6785,
+      "currentTeamId": 6792,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -17420,7 +19070,7 @@
         "code3": "GKP"
       },
       "foot": null,
-      "currentTeamId": 34269,
+      "currentTeamId": 6932,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -17625,6 +19275,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-198471_100x130.png"
     },
     {
+      "wyId": 685609,
+      "shortName": "A. Mayland",
+      "firstName": "Anton",
+      "middleName": "",
+      "lastName": "Mayland",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2006-10-26",
+      "birthArea": {
+        "id": 208,
+        "alpha2code": "DK",
+        "alpha3code": "DNK",
+        "name": "Denmark"
+      },
+      "passportArea": {
+        "id": 208,
+        "alpha2code": "DK",
+        "alpha3code": "DNK",
+        "name": "Denmark"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": "right",
+      "currentTeamId": null,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 685560,
       "shortName": "S. Rehman",
       "firstName": "Saifur",
@@ -17689,6 +19372,72 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 685137,
+      "shortName": "C. Chika Chidi",
+      "firstName": "Chisomnazu",
+      "middleName": "",
+      "lastName": "Chika Chidi",
+      "height": 187,
+      "weight": 81,
+      "birthDate": "2000-08-24",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "right",
+      "currentTeamId": 6777,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 681235,
+      "shortName": "R. Sillamaa",
+      "firstName": "Ramol",
+      "middleName": "",
+      "lastName": "Sillamaa",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2004-10-17",
+      "birthArea": {
+        "id": 233,
+        "alpha2code": "EE",
+        "alpha3code": "EST",
+        "name": "Estonia"
+      },
+      "passportArea": {
+        "id": 233,
+        "alpha2code": "EE",
+        "alpha3code": "EST",
+        "name": "Estonia"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "right",
+      "currentTeamId": 6849,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-194005_100x130.png"
     },
     {
       "wyId": 680746,
@@ -18219,6 +19968,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-167274_100x130.png"
     },
     {
+      "wyId": 652911,
+      "shortName": "W. Westerlund",
+      "firstName": "William",
+      "middleName": "",
+      "lastName": "Westerlund ",
+      "height": 180,
+      "weight": 68,
+      "birthDate": "2004-08-03",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": "left",
+      "currentTeamId": 7055,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
       "wyId": 642713,
       "shortName": "K. Osayi",
       "firstName": "Kingdom",
@@ -18740,7 +20522,7 @@
         "code3": "FWD"
       },
       "foot": "right",
-      "currentTeamId": 6849,
+      "currentTeamId": 6962,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -19235,7 +21017,7 @@
         "code3": "DEF"
       },
       "foot": "right",
-      "currentTeamId": 68159,
+      "currentTeamId": 6710,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -19268,7 +21050,7 @@
         "code3": "FWD"
       },
       "foot": null,
-      "currentTeamId": 24438,
+      "currentTeamId": 7055,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -19671,6 +21453,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 615595,
+      "shortName": "V. Blumenthal",
+      "firstName": "Viktor",
+      "middleName": "",
+      "lastName": "Blumenthal",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2005-10-16",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": null,
+      "currentTeamId": null,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-130100_100x130.png"
+    },
+    {
       "wyId": 615594,
       "shortName": "O. Käck",
       "firstName": "Oskar",
@@ -20028,6 +21843,39 @@
       },
       "foot": null,
       "currentTeamId": 6751,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 612019,
+      "shortName": "W. Nilsson",
+      "firstName": "William",
+      "middleName": "",
+      "lastName": "Nilsson",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2002-02-19",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": null,
+      "currentTeamId": 7055,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
@@ -20395,6 +22243,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-117842_100x130.png"
+    },
+    {
+      "wyId": 602226,
+      "shortName": "K. Dickson",
+      "firstName": "Kim",
+      "middleName": "",
+      "lastName": "Dickson",
+      "height": 182,
+      "weight": 56,
+      "birthDate": "2001-11-19",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 1002,
+        "alpha2code": "SC",
+        "alpha3code": "XSC",
+        "name": "Scotland"
+      },
+      "role": {
+        "name": "Midfielder",
+        "code2": "MD",
+        "code3": "MID"
+      },
+      "foot": "right",
+      "currentTeamId": 71745,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-116745_100x130.png"
     },
     {
       "wyId": 602192,
@@ -21024,6 +22905,39 @@
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
+      "wyId": 578865,
+      "shortName": "K. Asare",
+      "firstName": "Kofi",
+      "middleName": "",
+      "lastName": "Fosuhene Asare",
+      "height": 171,
+      "weight": 68,
+      "birthDate": "2002-05-31",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 288,
+        "alpha2code": "GH",
+        "alpha3code": "GHA",
+        "name": "Ghana"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "right",
+      "currentTeamId": 6715,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-93417_100x130.png"
+    },
+    {
       "wyId": 578861,
       "shortName": "H. Claesson",
       "firstName": "Hugo",
@@ -21088,6 +23002,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-93411_100x130.png"
+    },
+    {
+      "wyId": 578853,
+      "shortName": "N. Bergmark",
+      "firstName": "Niclas",
+      "middleName": "",
+      "lastName": "Bergmark",
+      "height": 191,
+      "weight": 77,
+      "birthDate": "2002-01-07",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Defender",
+        "code2": "DF",
+        "code3": "DEF"
+      },
+      "foot": "right",
+      "currentTeamId": null,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g-93405_100x130.png"
     },
     {
       "wyId": 577859,
@@ -23492,8 +25439,8 @@
         "code3": "MID"
       },
       "foot": null,
-      "currentTeamId": 65084,
-      "currentNationalTeamId": 7049,
+      "currentTeamId": 7066,
+      "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
@@ -23530,6 +25477,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g305839_100x130.png"
+    },
+    {
+      "wyId": 271199,
+      "shortName": "P. Kocadag",
+      "firstName": "Petrus",
+      "middleName": "",
+      "lastName": "Kocadag",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "1996-06-29",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": "right",
+      "currentTeamId": null,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g305916_100x130.png"
     },
     {
       "wyId": 278257,
@@ -23794,6 +25774,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g346701_100x130.png"
+    },
+    {
+      "wyId": 339156,
+      "shortName": "D. Bengtsson",
+      "firstName": "Daniel",
+      "middleName": "",
+      "lastName": "Bengtsson",
+      "height": 0,
+      "weight": 0,
+      "birthDate": "2008-03-01",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Forward",
+        "code2": "FW",
+        "code3": "FWD"
+      },
+      "foot": null,
+      "currentTeamId": 6932,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
     },
     {
       "wyId": 338849,
@@ -24952,10 +26965,10 @@
     },
     {
       "wyId": 446055,
-      "shortName": "A. Nilsson",
+      "shortName": "A. Cederfelt",
       "firstName": "Alexander",
       "middleName": "",
-      "lastName": "Nilsson",
+      "lastName": "Cederfelt",
       "height": 190,
       "weight": 90,
       "birthDate": "1997-08-22",
@@ -25015,6 +27028,39 @@
       "gender": "male",
       "status": "active",
       "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/ndplayer_100x130.png"
+    },
+    {
+      "wyId": 453663,
+      "shortName": "A. Ibrahimovic",
+      "firstName": "Armin",
+      "middleName": "",
+      "lastName": "Ibrahimovic",
+      "height": 187,
+      "weight": 85,
+      "birthDate": "1998-01-14",
+      "birthArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "passportArea": {
+        "id": 752,
+        "alpha2code": "SE",
+        "alpha3code": "SWE",
+        "name": "Sweden"
+      },
+      "role": {
+        "name": "Goalkeeper",
+        "code2": "GK",
+        "code3": "GKP"
+      },
+      "foot": "right",
+      "currentTeamId": 6777,
+      "currentNationalTeamId": null,
+      "gender": "male",
+      "status": "active",
+      "imageDataURL": "https://cdn5.wyscout.com/photos/players/public/g456866_100x130.png"
     },
     {
       "wyId": 472365,
@@ -25241,7 +27287,7 @@
         "code3": "FWD"
       },
       "foot": "right",
-      "currentTeamId": 6849,
+      "currentTeamId": 66337,
       "currentNationalTeamId": null,
       "gender": "male",
       "status": "active",

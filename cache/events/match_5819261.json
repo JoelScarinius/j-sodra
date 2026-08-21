@@ -1,6 +1,6 @@
 {
   "match_id": 5819261,
-  "fetched_at": "2026-06-29T12:32:20.162415+00:00",
+  "fetched_at": "2026-08-21T10:58:18.196168+00:00",
   "has_events": true,
   "events": [
     {
@@ -887,7 +887,7 @@
         "goalkeeperActionId": 3080292415,
         "goalkeeper": {
           "id": 446055,
-          "name": "A. Nilsson"
+          "name": "A. Cederfelt"
         }
       },
       "groundDuel": null,
@@ -957,7 +957,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -12971,7 +12971,7 @@
         "length": 12,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -13046,7 +13046,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -13125,7 +13125,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -18876,7 +18876,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -18966,7 +18966,7 @@
         "length": 16,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -19037,7 +19037,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -22691,7 +22691,7 @@
         "goalkeeperActionId": 3080292547,
         "goalkeeper": {
           "id": 446055,
-          "name": "A. Nilsson"
+          "name": "A. Cederfelt"
         }
       },
       "groundDuel": null,
@@ -22759,7 +22759,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -27172,7 +27172,7 @@
         "length": 25,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -27241,7 +27241,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -27738,7 +27738,7 @@
         "goalkeeperActionId": 3080292588,
         "goalkeeper": {
           "id": 446055,
-          "name": "A. Nilsson"
+          "name": "A. Cederfelt"
         }
       },
       "groundDuel": null,
@@ -27807,7 +27807,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -28547,7 +28547,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -28919,7 +28919,7 @@
         "length": 15,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -28987,7 +28987,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -30143,7 +30143,7 @@
         "length": 31,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -30221,7 +30221,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -31527,7 +31527,7 @@
         "goalkeeperActionId": 3080292616,
         "goalkeeper": {
           "id": 446055,
-          "name": "A. Nilsson"
+          "name": "A. Cederfelt"
         }
       },
       "groundDuel": null,
@@ -31595,7 +31595,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -34660,7 +34660,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -46537,7 +46537,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -50325,7 +50325,7 @@
         "length": 40,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -50397,7 +50397,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -50579,7 +50579,7 @@
         "length": 29,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -50656,7 +50656,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -56575,7 +56575,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -57933,7 +57933,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -60461,7 +60461,7 @@
         "length": 32,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -60528,7 +60528,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -60602,7 +60602,7 @@
       "aerialDuel": {
         "opponent": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK",
           "height": 190
         },
@@ -60668,7 +60668,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -69279,7 +69279,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -71129,7 +71129,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -82339,7 +82339,7 @@
         "goalkeeperActionId": 3080293148,
         "goalkeeper": {
           "id": 446055,
-          "name": "A. Nilsson"
+          "name": "A. Cederfelt"
         }
       },
       "groundDuel": null,
@@ -82409,7 +82409,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -97067,7 +97067,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -97140,7 +97140,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -99087,7 +99087,7 @@
         "goalkeeperActionId": 3080293329,
         "goalkeeper": {
           "id": 446055,
-          "name": "A. Nilsson"
+          "name": "A. Cederfelt"
         }
       },
       "groundDuel": null,
@@ -99156,7 +99156,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": null,
@@ -100273,7 +100273,7 @@
         "length": 56,
         "recipient": {
           "id": 446055,
-          "name": "A. Nilsson",
+          "name": "A. Cederfelt",
           "position": "GK"
         },
         "endLocation": {
@@ -100343,7 +100343,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -101669,7 +101669,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {
@@ -115530,7 +115530,7 @@
       },
       "player": {
         "id": 446055,
-        "name": "A. Nilsson",
+        "name": "A. Cederfelt",
         "position": "GK"
       },
       "pass": {

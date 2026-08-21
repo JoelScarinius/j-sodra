@@ -44,7 +44,9 @@ from pipeline.sections.player_analysis.plots import (
     build_player_pizza,
     build_player_position_map,
     build_player_radar,
+    build_player_report,
     build_player_shot_map,
+    build_scatter_plot,
     make_player_radar_input,
 )
 from pipeline.settings import load_settings
@@ -339,6 +341,151 @@ def main() -> int:
         show_footer=False,
     )
     print(f"  radar_compare        → {p.relative_to(PROJECT_ROOT)}")
+
+    # =========================================================================
+    # PLAYER REPORT: Linus Lyck
+    # =========================================================================
+    print("\n── Linus Lyck — full player report ─────────────────────────────")
+
+    # Build striker scatter data for league context
+    import json as _json
+    _cache = PROJECT_ROOT / "cache" / "players"
+    _events = PROJECT_ROOT / "cache" / "events"
+
+    player_team_id: dict[int, int] = {}
+    team_names: dict[int, str] = {}
+    for ef in _events.glob("match_*.json"):
+        for evt in _json.loads(ef.read_text()).get("events", []):
+            pid  = (evt.get("player") or {}).get("id")
+            team = evt.get("team") or {}
+            tid, tname = team.get("id"), team.get("name")
+            if pid and tid:
+                player_team_id[pid] = tid
+            if tid and tname:
+                team_names[tid] = tname
+
+    players_file = json.loads(
+        (_cache / f"competition_{COMPETITION_ID}_players.json").read_text()
+    )["players"]
+    players_by_id = {p["wyId"]: p for p in players_file}
+
+    from pipeline.sections.player_analysis.metrics import bucket_player_position
+
+    scatter_strikers = []
+    for wy_id, pinfo in players_by_id.items():
+        if wy_id not in player_team_id:
+            continue
+        sp = _cache / f"player_{wy_id}_advancedstats_comp{COMPETITION_ID}.json"
+        if not sp.exists():
+            continue
+        s = _json.loads(sp.read_text())["stats"]
+        positions = s.get("positions") or []
+        if not positions:
+            continue
+        primary = max(positions, key=lambda p: p.get("percent", 0))
+        code = ((primary.get("position") or {}).get("code") or "").lower()
+        if bucket_player_position(code) != "striker":
+            continue
+        avg = s.get("average") or {}
+        touch = avg.get("touchInBox")
+        goals = avg.get("goals")
+        if touch is None or goals is None:
+            continue
+        tid = player_team_id[wy_id]
+        scatter_strikers.append({
+            "name":  pinfo.get("shortName") or pinfo.get("lastName") or str(wy_id),
+            "team":  team_names.get(tid, f"Team {tid}"),
+            "x":     float(touch),
+            "y":     float(goals),
+        })
+
+    from pipeline.sofascore import fetch_player as _fetch_ss
+    lyck_profile = _load_player(1060409)
+    print("  Fetching SofaScore data for Linus Lyck…")
+    lyck_ss = _fetch_ss(wyscout_id=1060409, name="Linus Lyck")
+    print(f"  SofaScore: shirt={lyck_ss.get('shirt_number')}, "
+          f"height={lyck_ss.get('height')}, foot={lyck_ss.get('foot')}, "
+          f"photo={'✓' if lyck_ss.get('photo_b64') else '✗'}")
+
+    report_path = build_player_report(
+        player=lyck,
+        player_profile=lyck_profile,
+        stat_keys=ST_STAT_KEYS,
+        stat_labels=ST_STAT_LABELS,
+        benchmarks=benchmarks,
+        events_dir=_events,
+        output_path=output_dir / "lyck" / "report.html",
+        style=settings.plot_style,
+        scatter_players=scatter_strikers,
+        scatter_x_label="Touches in box / 90",
+        scatter_y_label="Goals / 90",
+        scatter_title="Box Threat — Strikers",
+        scatter_subtitle="Ettan · Touches in box vs Goals per 90",
+        highlight_team=TEAM_NAME,
+        sofascore_profile=lyck_ss,
+    )
+    print(f"  report               → {report_path.relative_to(PROJECT_ROOT)}")
+
+    # =========================================================================
+    # PLAYER REPORT: Anmar Kiwarkis
+    # =========================================================================
+    print("\n── Anmar Kiwarkis — full player report ──────────────────────────")
+
+    # Build winger scatter data for league context
+    scatter_wingers = []
+    for wy_id, pinfo in players_by_id.items():
+        if wy_id not in player_team_id:
+            continue
+        sp = _cache / f"player_{wy_id}_advancedstats_comp{COMPETITION_ID}.json"
+        if not sp.exists():
+            continue
+        s = _json.loads(sp.read_text())["stats"]
+        positions = s.get("positions") or []
+        if not positions:
+            continue
+        primary = max(positions, key=lambda p: p.get("percent", 0))
+        code = ((primary.get("position") or {}).get("code") or "").lower()
+        if bucket_player_position(code) != "winger":
+            continue
+        avg = s.get("average") or {}
+        dribbles = avg.get("successfulDribbles")
+        xg_shot  = avg.get("xgShot") or 0.0
+        xg_assist = avg.get("xgAssist") or 0.0
+        if dribbles is None:
+            continue
+        tid = player_team_id[wy_id]
+        scatter_wingers.append({
+            "name":  pinfo.get("shortName") or pinfo.get("lastName") or str(wy_id),
+            "team":  team_names.get(tid, f"Team {tid}"),
+            "x":     float(dribbles),
+            "y":     float(xg_shot) + float(xg_assist),
+        })
+
+    kiwarkis_profile = _load_player(1060411)
+    print("  Fetching SofaScore data for Anmar Kiwarkis…")
+    kiwarkis_ss = _fetch_ss(wyscout_id=1060411, name="Anmar Kiwarkis")
+    print(f"  SofaScore: shirt={kiwarkis_ss.get('shirt_number')}, "
+          f"height={kiwarkis_ss.get('height')}, foot={kiwarkis_ss.get('foot')}, "
+          f"photo={'✓' if kiwarkis_ss.get('photo_b64') else '✗'}")
+
+    report_path = build_player_report(
+        player=kiwarkis,
+        player_profile=kiwarkis_profile,
+        stat_keys=W_STAT_KEYS,
+        stat_labels=W_STAT_LABELS,
+        benchmarks=benchmarks,
+        events_dir=_events,
+        output_path=output_dir / "kiwarkis" / "report.html",
+        style=settings.plot_style,
+        scatter_players=scatter_wingers,
+        scatter_x_label="Successful dribbles / 90",
+        scatter_y_label="xG + xA / 90",
+        scatter_title="Carry & Chance Creation — Wingers",
+        scatter_subtitle="Ettan · Dribbles vs xG+xA per 90",
+        highlight_team=TEAM_NAME,
+        sofascore_profile=kiwarkis_ss,
+    )
+    print(f"  report               → {report_path.relative_to(PROJECT_ROOT)}")
 
     print("\nDone.")
     return 0
