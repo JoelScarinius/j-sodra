@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-21T12:36:54.848616+00:00",
   "section": "defensive",
   "title": "Defensive",
   "description": "Simple defensive view showing ball wins, dangerous turnovers, and shot danger for both teams.",
@@ -8,74 +8,74 @@
     "id": 6849,
     "name": "Jönköpings Södra",
     "summary": {
-      "total": 2276,
-      "high_regain_share_pct": 27.15,
-      "own_third_share_pct": 47.06,
-      "average_height": 40.63,
-      "shot_count": 124,
-      "shots_for": 161,
-      "shots_against": 124,
-      "xg": 19.273,
-      "xg_for": 19.273,
-      "xg_against": 12.648,
+      "total": 2280,
+      "high_regain_share_pct": 25.31,
+      "own_third_share_pct": 48.64,
+      "average_height": 39.74,
+      "shot_count": 117,
+      "shots_for": 147,
+      "shots_against": 117,
+      "xg": 18.166,
+      "xg_for": 18.166,
+      "xg_against": 10.739,
       "goals": 11,
-      "goals_for": 16,
+      "goals_for": 15,
       "goals_against": 11,
       "action_mix": {
-        "Duels": 1039,
-        "Recoveries": 806,
-        "Interceptions": 370,
+        "Duels": 1040,
+        "Recoveries": 783,
+        "Interceptions": 396,
         "Clearances": 61
       },
       "radar": {
         "selected_player": "A. Eriksson",
         "selection_rule": "Highest selection_score among players with enough appearances, unless a specific player name is requested.",
-        "comparison_size": 19,
+        "comparison_size": 20,
         "minimum_appearances": 3,
         "raw_values": {
-          "Prog. passes": 5.875,
-          "Prog. carries": 1.625,
-          "Shot assists": 0.875,
-          "Box touches": 5.125,
-          "xG": 0.04787375,
-          "Def. actions": 23.5
+          "Prog. passes": 5.555555555555555,
+          "Prog. carries": 1.3333333333333333,
+          "Shot assists": 0.6666666666666666,
+          "Box touches": 4.777777777777778,
+          "xG": 0.11589444444444445,
+          "Def. actions": 24.333333333333332
         }
       }
     },
     "metrics": [
       {
         "label": "Defensive actions",
-        "value": 2276,
+        "value": 2280,
         "format": "count"
       },
       {
         "label": "High regains",
-        "value": 27.2,
+        "value": 25.3,
         "format": "percent"
       },
       {
         "label": "Own-third share",
-        "value": 47.1,
+        "value": 48.6,
         "format": "percent"
       },
       {
         "label": "Average height",
-        "value": 40.6,
+        "value": 39.7,
         "format": "number"
       },
       {
         "label": "Shots against",
-        "value": 124,
+        "value": 117,
         "format": "count"
       },
       {
         "label": "xG for",
-        "value": 19.273,
+        "value": 18.166,
         "format": "0.000"
       },
       {
         "label": "xG against",
-        "value": 12.648,
+        "value": 10.739,
         "format": "0.000"
       },
       {
@@ -85,18 +85,18 @@
       }
     ],
     "storylines": [
-      "Jönköpings Södra records 2276 defensive actions in the sampled window.",
-      "The average defensive action starts at pitch height 40.6, with 27% of actions occurring high up the pitch.",
-      "Most defensive volume comes from duels actions (1039 events).",
-      "Opponents produced 124 shots worth 12.65 xG against Jönköpings Södra in this sample.",
-      "For context, Jönköpings Södra produced 161 own shots worth 19.27 xG in the same match sample.",
+      "Jönköpings Södra records 2280 defensive actions in the sampled window.",
+      "The average defensive action starts at pitch height 39.7, with 25% of actions occurring high up the pitch.",
+      "Most defensive volume comes from duels actions (1040 events).",
+      "Opponents produced 117 shots worth 10.74 xG against Jönköpings Södra in this sample.",
+      "For context, Jönköpings Södra produced 147 own shots worth 18.17 xG in the same match sample.",
       "The shot-against sample includes 11 goals conceded.",
-      "The radar player is chosen as A. Eriksson because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 19 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
+      "The radar player is chosen as A. Eriksson because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 20 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
     ],
     "analysis_scope": {
       "target_match_count": 12,
       "current_season_id": 192451,
-      "current_season_played_matches_available": 14,
+      "current_season_played_matches_available": 48,
       "current_season_matches_used": 12,
       "previous_season_id": null,
       "previous_season_matches_used": 0,
@@ -110,95 +110,95 @@
     "id": 6786,
     "name": "Rosengård",
     "summary": {
-      "total": 2204,
-      "high_regain_share_pct": 29.22,
-      "own_third_share_pct": 41.2,
-      "average_height": 42.42,
-      "shot_count": 120,
-      "shots_for": 183,
-      "shots_against": 120,
-      "xg": 18.125,
-      "xg_for": 18.125,
-      "xg_against": 13.406,
-      "goals": 15,
-      "goals_for": 18,
-      "goals_against": 15,
+      "total": 2201,
+      "high_regain_share_pct": 31.21,
+      "own_third_share_pct": 40.03,
+      "average_height": 43.62,
+      "shot_count": 106,
+      "shots_for": 187,
+      "shots_against": 106,
+      "xg": 20.572,
+      "xg_for": 20.572,
+      "xg_against": 11.87,
+      "goals": 14,
+      "goals_for": 20,
+      "goals_against": 14,
       "action_mix": {
-        "Duels": 947,
-        "Recoveries": 802,
-        "Interceptions": 398,
-        "Clearances": 57
+        "Duels": 965,
+        "Recoveries": 797,
+        "Interceptions": 377,
+        "Clearances": 62
       },
       "radar": {
-        "selected_player": "E. Onotu",
+        "selected_player": "R. Bonde",
         "selection_rule": "Highest selection_score among players with enough appearances, unless a specific player name is requested.",
-        "comparison_size": 19,
+        "comparison_size": 21,
         "minimum_appearances": 3,
         "raw_values": {
-          "Prog. passes": 2.5833333333333335,
-          "Prog. carries": 6.75,
-          "Shot assists": 0.5833333333333334,
-          "Box touches": 10.666666666666666,
-          "xG": 0.19676898333333334,
-          "Def. actions": 13.916666666666666
+          "Prog. passes": 5.125,
+          "Prog. carries": 5.875,
+          "Shot assists": 0.625,
+          "Box touches": 3.375,
+          "xG": 0.00630875,
+          "Def. actions": 18.375
         }
       }
     },
     "metrics": [
       {
         "label": "Defensive actions",
-        "value": 2204,
+        "value": 2201,
         "format": "count"
       },
       {
         "label": "High regains",
-        "value": 29.2,
+        "value": 31.2,
         "format": "percent"
       },
       {
         "label": "Own-third share",
-        "value": 41.2,
+        "value": 40.0,
         "format": "percent"
       },
       {
         "label": "Average height",
-        "value": 42.4,
+        "value": 43.6,
         "format": "number"
       },
       {
         "label": "Shots against",
-        "value": 120,
+        "value": 106,
         "format": "count"
       },
       {
         "label": "xG for",
-        "value": 18.125,
+        "value": 20.572,
         "format": "0.000"
       },
       {
         "label": "xG against",
-        "value": 13.406,
+        "value": 11.87,
         "format": "0.000"
       },
       {
         "label": "Goals against",
-        "value": 15,
+        "value": 14,
         "format": "count"
       }
     ],
     "storylines": [
-      "Rosengård records 2204 defensive actions in the sampled window.",
-      "The average defensive action starts at pitch height 42.4, with 29% of actions occurring high up the pitch.",
-      "Most defensive volume comes from duels actions (947 events).",
-      "Opponents produced 120 shots worth 13.41 xG against Rosengård in this sample.",
-      "For context, Rosengård produced 183 own shots worth 18.12 xG in the same match sample.",
-      "The shot-against sample includes 15 goals conceded.",
-      "The radar player is chosen as E. Onotu because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 19 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
+      "Rosengård records 2201 defensive actions in the sampled window.",
+      "The average defensive action starts at pitch height 43.6, with 31% of actions occurring high up the pitch.",
+      "Most defensive volume comes from duels actions (965 events).",
+      "Opponents produced 106 shots worth 11.87 xG against Rosengård in this sample.",
+      "For context, Rosengård produced 187 own shots worth 20.57 xG in the same match sample.",
+      "The shot-against sample includes 14 goals conceded.",
+      "The radar player is chosen as R. Bonde because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 21 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
     ],
     "analysis_scope": {
       "target_match_count": 12,
       "current_season_id": 192451,
-      "current_season_played_matches_available": 14,
+      "current_season_played_matches_available": 48,
       "current_season_matches_used": 12,
       "previous_season_id": null,
       "previous_season_matches_used": 0,

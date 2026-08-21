@@ -12,6 +12,16 @@ from typing import Any
 
 import pandas as pd
 
+FINAL_MATCH_STATUSES = frozenset(
+    {
+        "played",
+        "complete",
+        "completed",
+        "finished",
+        "match ended",
+    }
+)
+
 
 def normalize_text(value: Any) -> str:
     if value is None:
@@ -19,6 +29,11 @@ def normalize_text(value: Any) -> str:
     text = str(value)
     text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
     return text.lower().strip()
+
+
+def normalize_status(value: Any) -> str:
+    """Return a normalized source status without guessing its meaning."""
+    return " ".join(str(value or "").strip().lower().split())
 
 
 def extract_list(payload: Any, key: str) -> list:
@@ -48,12 +63,17 @@ def extract_matches(payload: Any) -> list:
 def match_id(record: Any) -> int | None:
     if not isinstance(record, dict):
         return None
-    value = record.get("matchId") or record.get("wyId") or record.get("id")
+    value = None
+    for key in ("matchId", "wyId", "id"):
+        candidate = record.get(key)
+        if candidate is not None:
+            value = candidate
+            break
     if value is None:
         return None
     try:
         return int(value)
-    except Exception:
+    except (TypeError, ValueError):
         return None
 
 
@@ -68,10 +88,28 @@ def safe_bool(series) -> pd.Series:
     return lowered.isin(["true", "1", "yes", "y", "on"])
 
 
-def safe_numeric(series) -> pd.Series:
+def numeric_or_nan(series) -> pd.Series:
+    """Convert to numeric while preserving missing or invalid values as NaN."""
     if series is None:
         return pd.Series(dtype=float)
-    return pd.to_numeric(series, errors="coerce").fillna(0.0)
+    return pd.to_numeric(series, errors="coerce")
+
+
+def numeric_or_zero(series) -> pd.Series:
+    """Convert to numeric and replace missing values with zero.
+
+    Use only when the metric contract explicitly defines missing as zero.
+    """
+    return numeric_or_nan(series).fillna(0.0)
+
+
+def safe_numeric(series) -> pd.Series:
+    """Backward-compatible zero-filling numeric conversion.
+
+    New event-derived metrics such as xG, xT, coordinates and expected points
+    should use numeric_or_nan so missing values remain distinguishable from zero.
+    """
+    return numeric_or_zero(series)
 
 
 def to_iso(value: Any):
@@ -92,7 +130,7 @@ def jsonable(value: Any):
     try:
         if pd.isna(value):
             return None
-    except Exception:
+    except (TypeError, ValueError):
         pass
     if isinstance(value, (pd.Timestamp, datetime)):
         return to_iso(value)
@@ -115,7 +153,7 @@ def parse_iso_datetime(value: Any) -> datetime | None:
         if parsed.tzinfo is None:
             parsed = parsed.replace(tzinfo=timezone.utc)
         return parsed.astimezone(timezone.utc)
-    except Exception:
+    except (TypeError, ValueError):
         return None
 
 
@@ -128,33 +166,48 @@ def match_sort_column(matches_df: pd.DataFrame) -> str | None:
 
 
 def played_status_mask(matches_df: pd.DataFrame) -> pd.Series:
+    """Return True only for explicitly recognized final-match statuses.
+
+    Missing and unknown statuses remain False. This intentionally fails closed:
+    scheduled, postponed, cancelled, or unfamiliar statuses must never be
+    silently treated as played matches.
+    """
     if matches_df.empty:
-        return pd.Series(dtype=bool)
+        return pd.Series(False, index=matches_df.index, dtype=bool)
     if "status" not in matches_df.columns:
-        return pd.Series(True, index=matches_df.index)
-    normalized = matches_df["status"].fillna("").astype(str).str.lower()
-    markers = ("played", "complete", "completed", "finished")
-    mask = normalized.apply(lambda value: any(marker in value for marker in markers))
-    if not mask.any():
-        return pd.Series(True, index=matches_df.index)
-    return mask
+        return pd.Series(False, index=matches_df.index, dtype=bool)
+    normalized = matches_df["status"].map(normalize_status)
+    return normalized.isin(FINAL_MATCH_STATUSES)
+
+
+def unknown_match_statuses(matches_df: pd.DataFrame) -> list[str]:
+    """Return non-empty statuses that are not recognized as final.
+
+    This is useful for integrity checks and logging. It does not classify an
+    unknown status as played.
+    """
+    if matches_df.empty or "status" not in matches_df.columns:
+        return []
+    normalized = matches_df["status"].map(normalize_status)
+    values = {
+        value
+        for value in normalized.tolist()
+        if value and value not in FINAL_MATCH_STATUSES
+    }
+    return sorted(values)
 
 
 def team_event_mask(events_df: pd.DataFrame, team_id, team_name: str) -> pd.Series:
     if events_df.empty:
-        return pd.Series(dtype=bool)
-
-    mask = pd.Series(False, index=events_df.index)
-
+        return pd.Series(False, index=events_df.index, dtype=bool)
+    mask = pd.Series(False, index=events_df.index, dtype=bool)
     if "team.id" in events_df.columns and team_id is not None:
         team_ids = pd.to_numeric(events_df["team.id"], errors="coerce")
         mask = mask | team_ids.eq(float(team_id))
-
     if "team.name" in events_df.columns and team_name:
         team_norm = normalize_text(team_name)
-        name_match = events_df["team.name"].fillna("").astype(str).apply(normalize_text)
+        name_match = events_df["team.name"].fillna("").astype(str).map(normalize_text)
         mask = mask | name_match.eq(team_norm)
-
     return mask
 
 

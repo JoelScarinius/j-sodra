@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-21T12:36:54.848616+00:00",
   "section": "throw_ins",
   "title": "Throw-ins",
   "description": "Simple throw-in view showing where the ball lands and how often the move becomes a shot or goal.",
@@ -8,76 +8,27 @@
     "id": 6849,
     "name": "Jönköpings Södra",
     "summary": {
-      "total": 562,
-      "created_shots": 22,
-      "goals": 2,
-      "xg": 1.502,
-      "xg_for": 1.502,
-      "retention_pct": 96.09,
-      "attacking_third_share_pct": 36.65,
-      "defensive_third_share_pct": 27.22,
-      "competition_label": "League campaign",
-      "season_label": "2026",
-      "latest_match_label": "Ariana - Jönköpings Södra, 1-0"
-    },
-    "metrics": [
-      {
-        "label": "Throw-ins",
-        "value": 562,
-        "format": "count"
-      },
-      {
-        "label": "Created shots",
-        "value": 22,
-        "format": "count"
-      },
-      {
-        "label": "Goals",
-        "value": 2,
-        "format": "count"
-      },
-      {
-        "label": "xG",
-        "value": 1.502,
-        "format": "0.000"
-      },
-      {
-        "label": "Retention",
-        "value": 96.1,
-        "format": "percent"
-      }
-    ],
-    "storylines": [
-      "Jönköpings Södra took 37% of throw-ins from the attacking third and 27% from the defensive third.",
-      "Throw-ins generated 22 shots and 2 goals in the sampled window.",
-      "Most throw-ins were retained or recycled safely, with 96% not immediately ending in a shot."
-    ]
-  },
-  "next_opponent": {
-    "id": 6786,
-    "name": "Rosengård",
-    "summary": {
-      "total": 597,
-      "created_shots": 17,
+      "total": 586,
+      "created_shots": 19,
       "goals": 0,
-      "xg": 0.484,
-      "xg_for": 0.484,
-      "retention_pct": 97.15,
-      "attacking_third_share_pct": 34.34,
-      "defensive_third_share_pct": 28.31,
+      "xg": 1.039,
+      "xg_for": 1.039,
+      "retention_pct": 96.76,
+      "attacking_third_share_pct": 35.84,
+      "defensive_third_share_pct": 27.13,
       "competition_label": "League campaign",
       "season_label": "2026",
-      "latest_match_label": "Åtvidaberg - Rosengård, 3-3"
+      "latest_match_label": "Laholms FK - Jönköpings Södra, 0-0"
     },
     "metrics": [
       {
         "label": "Throw-ins",
-        "value": 597,
+        "value": 586,
         "format": "count"
       },
       {
         "label": "Created shots",
-        "value": 17,
+        "value": 19,
         "format": "count"
       },
       {
@@ -87,19 +38,68 @@
       },
       {
         "label": "xG",
-        "value": 0.484,
+        "value": 1.039,
         "format": "0.000"
       },
       {
         "label": "Retention",
-        "value": 97.2,
+        "value": 96.8,
         "format": "percent"
       }
     ],
     "storylines": [
-      "Rosengård took 34% of throw-ins from the attacking third and 28% from the defensive third.",
-      "Throw-ins generated 17 shots and 0 goals in the sampled window.",
+      "Jönköpings Södra took 36% of throw-ins from the attacking third and 27% from the defensive third.",
+      "Throw-ins generated 19 shots and 0 goals in the sampled window.",
       "Most throw-ins were retained or recycled safely, with 97% not immediately ending in a shot."
+    ]
+  },
+  "next_opponent": {
+    "id": 6786,
+    "name": "Rosengård",
+    "summary": {
+      "total": 604,
+      "created_shots": 13,
+      "goals": 0,
+      "xg": 0.39,
+      "xg_for": 0.39,
+      "retention_pct": 97.85,
+      "attacking_third_share_pct": 34.6,
+      "defensive_third_share_pct": 29.8,
+      "competition_label": "League campaign",
+      "season_label": "2026",
+      "latest_match_label": "Rosengård - Utsikten, 1-1"
+    },
+    "metrics": [
+      {
+        "label": "Throw-ins",
+        "value": 604,
+        "format": "count"
+      },
+      {
+        "label": "Created shots",
+        "value": 13,
+        "format": "count"
+      },
+      {
+        "label": "Goals",
+        "value": 0,
+        "format": "count"
+      },
+      {
+        "label": "xG",
+        "value": 0.39,
+        "format": "0.000"
+      },
+      {
+        "label": "Retention",
+        "value": 97.8,
+        "format": "percent"
+      }
+    ],
+    "storylines": [
+      "Rosengård took 35% of throw-ins from the attacking third and 30% from the defensive third.",
+      "Throw-ins generated 13 shots and 0 goals in the sampled window.",
+      "Most throw-ins were retained or recycled safely, with 98% not immediately ending in a shot."
     ]
   },
   "files": {

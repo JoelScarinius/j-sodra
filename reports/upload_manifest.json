@@ -1,350 +1,356 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-21T12:36:54.848616+00:00",
   "files": [
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/entities/team.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/entities/team.json",
       "relative_path": "reports/entities/team.json",
       "object_key": "reports/entities/team.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/entities/team.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/entities/next_opponent.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/entities/next_opponent.json",
       "relative_path": "reports/entities/next_opponent.json",
       "object_key": "reports/entities/next_opponent.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/entities/next_opponent.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/matchup/current.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/matchup/current.json",
       "relative_path": "reports/matchup/current.json",
       "object_key": "reports/matchup/current.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/matchup/current.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/overview/team.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/overview/team.json",
       "relative_path": "reports/overview/team.json",
       "object_key": "reports/overview/team.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/overview/team.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/overview/next_opponent.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/overview/next_opponent.json",
       "relative_path": "reports/overview/next_opponent.json",
       "object_key": "reports/overview/next_opponent.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/overview/next_opponent.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/fixtures/upcoming.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/fixtures/upcoming.json",
       "relative_path": "reports/fixtures/upcoming.json",
       "object_key": "reports/fixtures/upcoming.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/fixtures/upcoming.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/forms/recent_form.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/forms/recent_form.json",
       "relative_path": "reports/forms/recent_form.json",
       "object_key": "reports/forms/recent_form.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/forms/recent_form.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/head_to_head/overview.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/head_to_head/overview.json",
       "relative_path": "reports/head_to_head/overview.json",
       "object_key": "reports/head_to_head/overview.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/head_to_head/overview.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/analysis.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/head_to_head/plots/goal_diff_recent.png",
+      "relative_path": "reports/head_to_head/plots/goal_diff_recent.png",
+      "object_key": "reports/head_to_head/plots/goal_diff_recent.png",
+      "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/head_to_head/plots/goal_diff_recent.png"
+    },
+    {
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/analysis.json",
       "relative_path": "reports/corners/analysis.json",
       "object_key": "reports/corners/analysis.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/analysis.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/data/team_offensive.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/data/team_offensive.csv",
       "relative_path": "reports/corners/data/team_offensive.csv",
       "object_key": "reports/corners/data/team_offensive.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/data/team_offensive.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/data/team_defensive.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/data/team_defensive.csv",
       "relative_path": "reports/corners/data/team_defensive.csv",
       "object_key": "reports/corners/data/team_defensive.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/data/team_defensive.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/data/next_opponent_offensive.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/data/next_opponent_offensive.csv",
       "relative_path": "reports/corners/data/next_opponent_offensive.csv",
       "object_key": "reports/corners/data/next_opponent_offensive.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/data/next_opponent_offensive.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/data/next_opponent_defensive.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/data/next_opponent_defensive.csv",
       "relative_path": "reports/corners/data/next_opponent_defensive.csv",
       "object_key": "reports/corners/data/next_opponent_defensive.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/data/next_opponent_defensive.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/team_offensive_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/team_offensive_map.png",
       "relative_path": "reports/corners/plots/team_offensive_map.png",
       "object_key": "reports/corners/plots/team_offensive_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/team_offensive_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/team_defensive_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/team_defensive_map.png",
       "relative_path": "reports/corners/plots/team_defensive_map.png",
       "object_key": "reports/corners/plots/team_defensive_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/team_defensive_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/team_target_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/team_target_map.png",
       "relative_path": "reports/corners/plots/team_target_map.png",
       "object_key": "reports/corners/plots/team_target_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/team_target_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/team_danger_end_heatmap.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/team_danger_end_heatmap.png",
       "relative_path": "reports/corners/plots/team_danger_end_heatmap.png",
       "object_key": "reports/corners/plots/team_danger_end_heatmap.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/team_danger_end_heatmap.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/team_taker_impact.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/team_taker_impact.png",
       "relative_path": "reports/corners/plots/team_taker_impact.png",
       "object_key": "reports/corners/plots/team_taker_impact.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/team_taker_impact.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/team_xg_method_comparison.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/team_xg_method_comparison.png",
       "relative_path": "reports/corners/plots/team_xg_method_comparison.png",
       "object_key": "reports/corners/plots/team_xg_method_comparison.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/team_xg_method_comparison.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/team_shooter_impact.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/team_shooter_impact.png",
       "relative_path": "reports/corners/plots/team_shooter_impact.png",
       "object_key": "reports/corners/plots/team_shooter_impact.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/team_shooter_impact.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/next_opponent_offensive_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/next_opponent_offensive_map.png",
       "relative_path": "reports/corners/plots/next_opponent_offensive_map.png",
       "object_key": "reports/corners/plots/next_opponent_offensive_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_offensive_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/next_opponent_defensive_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/next_opponent_defensive_map.png",
       "relative_path": "reports/corners/plots/next_opponent_defensive_map.png",
       "object_key": "reports/corners/plots/next_opponent_defensive_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_defensive_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/next_opponent_target_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/next_opponent_target_map.png",
       "relative_path": "reports/corners/plots/next_opponent_target_map.png",
       "object_key": "reports/corners/plots/next_opponent_target_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_target_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/next_opponent_danger_end_heatmap.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/next_opponent_danger_end_heatmap.png",
       "relative_path": "reports/corners/plots/next_opponent_danger_end_heatmap.png",
       "object_key": "reports/corners/plots/next_opponent_danger_end_heatmap.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_danger_end_heatmap.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/next_opponent_taker_impact.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/next_opponent_taker_impact.png",
       "relative_path": "reports/corners/plots/next_opponent_taker_impact.png",
       "object_key": "reports/corners/plots/next_opponent_taker_impact.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_taker_impact.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/next_opponent_xg_method_comparison.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/next_opponent_xg_method_comparison.png",
       "relative_path": "reports/corners/plots/next_opponent_xg_method_comparison.png",
       "object_key": "reports/corners/plots/next_opponent_xg_method_comparison.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_xg_method_comparison.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/corners/plots/next_opponent_shooter_impact.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/corners/plots/next_opponent_shooter_impact.png",
       "relative_path": "reports/corners/plots/next_opponent_shooter_impact.png",
       "object_key": "reports/corners/plots/next_opponent_shooter_impact.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/corners/plots/next_opponent_shooter_impact.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/analysis.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/analysis.json",
       "relative_path": "reports/open_play/analysis.json",
       "object_key": "reports/open_play/analysis.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/analysis.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/data/possession_losses.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/data/possession_losses.csv",
       "relative_path": "reports/open_play/data/possession_losses.csv",
       "object_key": "reports/open_play/data/possession_losses.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/data/possession_losses.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/data/possession_loss_player_summary.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/data/possession_loss_player_summary.csv",
       "relative_path": "reports/open_play/data/possession_loss_player_summary.csv",
       "object_key": "reports/open_play/data/possession_loss_player_summary.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/data/possession_loss_player_summary.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/data/possession_loss_zone_summary.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/data/possession_loss_zone_summary.csv",
       "relative_path": "reports/open_play/data/possession_loss_zone_summary.csv",
       "object_key": "reports/open_play/data/possession_loss_zone_summary.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/data/possession_loss_zone_summary.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/team_progressive_passes.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/team_progressive_passes.png",
       "relative_path": "reports/open_play/plots/team_progressive_passes.png",
       "object_key": "reports/open_play/plots/team_progressive_passes.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_progressive_passes.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/team_shot_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/team_shot_map.png",
       "relative_path": "reports/open_play/plots/team_shot_map.png",
       "object_key": "reports/open_play/plots/team_shot_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_shot_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/team_pass_network.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/team_pass_network.png",
       "relative_path": "reports/open_play/plots/team_pass_network.png",
       "object_key": "reports/open_play/plots/team_pass_network.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_pass_network.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/team_possession_losses.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/team_possession_losses.png",
       "relative_path": "reports/open_play/plots/team_possession_losses.png",
       "object_key": "reports/open_play/plots/team_possession_losses.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_possession_losses.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/team_player_radar.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/team_player_radar.png",
       "relative_path": "reports/open_play/plots/team_player_radar.png",
       "object_key": "reports/open_play/plots/team_player_radar.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/team_player_radar.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/next_opponent_progressive_passes.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/next_opponent_progressive_passes.png",
       "relative_path": "reports/open_play/plots/next_opponent_progressive_passes.png",
       "object_key": "reports/open_play/plots/next_opponent_progressive_passes.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_progressive_passes.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/next_opponent_shot_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/next_opponent_shot_map.png",
       "relative_path": "reports/open_play/plots/next_opponent_shot_map.png",
       "object_key": "reports/open_play/plots/next_opponent_shot_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_shot_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/next_opponent_pass_network.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/next_opponent_pass_network.png",
       "relative_path": "reports/open_play/plots/next_opponent_pass_network.png",
       "object_key": "reports/open_play/plots/next_opponent_pass_network.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_pass_network.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/next_opponent_possession_losses.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/next_opponent_possession_losses.png",
       "relative_path": "reports/open_play/plots/next_opponent_possession_losses.png",
       "object_key": "reports/open_play/plots/next_opponent_possession_losses.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_possession_losses.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/open_play/plots/next_opponent_player_radar.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/open_play/plots/next_opponent_player_radar.png",
       "relative_path": "reports/open_play/plots/next_opponent_player_radar.png",
       "object_key": "reports/open_play/plots/next_opponent_player_radar.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_player_radar.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/free_kicks/analysis.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/free_kicks/analysis.json",
       "relative_path": "reports/free_kicks/analysis.json",
       "object_key": "reports/free_kicks/analysis.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/free_kicks/analysis.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/free_kicks/plots/team_free_kicks.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/free_kicks/plots/team_free_kicks.png",
       "relative_path": "reports/free_kicks/plots/team_free_kicks.png",
       "object_key": "reports/free_kicks/plots/team_free_kicks.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/free_kicks/plots/team_free_kicks.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/free_kicks/plots/team_free_kicks_landing.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/free_kicks/plots/team_free_kicks_landing.png",
       "relative_path": "reports/free_kicks/plots/team_free_kicks_landing.png",
       "object_key": "reports/free_kicks/plots/team_free_kicks_landing.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/free_kicks/plots/team_free_kicks_landing.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/free_kicks/plots/next_opponent_free_kicks.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/free_kicks/plots/next_opponent_free_kicks.png",
       "relative_path": "reports/free_kicks/plots/next_opponent_free_kicks.png",
       "object_key": "reports/free_kicks/plots/next_opponent_free_kicks.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/free_kicks/plots/next_opponent_free_kicks.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/free_kicks/plots/next_opponent_free_kicks_landing.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/free_kicks/plots/next_opponent_free_kicks_landing.png",
       "relative_path": "reports/free_kicks/plots/next_opponent_free_kicks_landing.png",
       "object_key": "reports/free_kicks/plots/next_opponent_free_kicks_landing.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/free_kicks/plots/next_opponent_free_kicks_landing.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/throw_ins/analysis.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/throw_ins/analysis.json",
       "relative_path": "reports/throw_ins/analysis.json",
       "object_key": "reports/throw_ins/analysis.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/analysis.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/throw_ins/plots/team_attacking_third.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/throw_ins/plots/team_attacking_third.png",
       "relative_path": "reports/throw_ins/plots/team_attacking_third.png",
       "object_key": "reports/throw_ins/plots/team_attacking_third.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/team_attacking_third.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/throw_ins/plots/team_defensive_third.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/throw_ins/plots/team_defensive_third.png",
       "relative_path": "reports/throw_ins/plots/team_defensive_third.png",
       "object_key": "reports/throw_ins/plots/team_defensive_third.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/team_defensive_third.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/throw_ins/plots/next_opponent_attacking_third.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/throw_ins/plots/next_opponent_attacking_third.png",
       "relative_path": "reports/throw_ins/plots/next_opponent_attacking_third.png",
       "object_key": "reports/throw_ins/plots/next_opponent_attacking_third.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/next_opponent_attacking_third.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/throw_ins/plots/next_opponent_defensive_third.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/throw_ins/plots/next_opponent_defensive_third.png",
       "relative_path": "reports/throw_ins/plots/next_opponent_defensive_third.png",
       "object_key": "reports/throw_ins/plots/next_opponent_defensive_third.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/throw_ins/plots/next_opponent_defensive_third.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/defensive/analysis.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/defensive/analysis.json",
       "relative_path": "reports/defensive/analysis.json",
       "object_key": "reports/defensive/analysis.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/analysis.json"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/defensive/plots/team_defensive_actions.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/defensive/plots/team_defensive_actions.png",
       "relative_path": "reports/defensive/plots/team_defensive_actions.png",
       "object_key": "reports/defensive/plots/team_defensive_actions.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/plots/team_defensive_actions.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/defensive/plots/team_shot_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/defensive/plots/team_shot_map.png",
       "relative_path": "reports/defensive/plots/team_shot_map.png",
       "object_key": "reports/defensive/plots/team_shot_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/plots/team_shot_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/defensive/plots/next_opponent_defensive_actions.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/defensive/plots/next_opponent_defensive_actions.png",
       "relative_path": "reports/defensive/plots/next_opponent_defensive_actions.png",
       "object_key": "reports/defensive/plots/next_opponent_defensive_actions.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/plots/next_opponent_defensive_actions.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/defensive/plots/next_opponent_shot_map.png",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/defensive/plots/next_opponent_shot_map.png",
       "relative_path": "reports/defensive/plots/next_opponent_shot_map.png",
       "object_key": "reports/defensive/plots/next_opponent_shot_map.png",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/defensive/plots/next_opponent_shot_map.png"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/exports/competitions/division1_matches.csv",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/exports/competitions/division1_matches.csv",
       "relative_path": "reports/exports/competitions/division1_matches.csv",
       "object_key": "reports/exports/competitions/division1_matches.csv",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/exports/competitions/division1_matches.csv"
     },
     {
-      "local_path": "/home/joel/Projects/j-sodra/reports/index.json",
+      "local_path": "/Users/scajoe/Projects/j-sodra/reports/index.json",
       "relative_path": "reports/index.json",
       "object_key": "reports/index.json",
       "public_url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/index.json"

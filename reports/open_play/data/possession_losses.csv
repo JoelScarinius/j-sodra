@@ -1,13 +1,12 @@
 team_name,matchId,player_name,drop_x,drop_y,pickup_x,pickup_y,pickup_delay,possession_duration,possession_events,opponent_event_type,pickup_in_attacking_half,travel_distance,pickup_zone,drop_zone,risk_label,risk_score
 Jönköpings Södra,5819279,A. Kiwarkis,100.0,100.0,90.0,21.0,0.0,14.1693095,9,interception,True,79.63039620647382,left attacking third,right attacking third,High risk,8.794455943097107
 Jönköpings Södra,5819169,A. Kiwarkis,100.0,100.0,99.0,22.0,1.0,13.001374,10,interception,True,78.00640999302557,left attacking third,right attacking third,High risk,8.630096149895383
-Jönköpings Södra,5819121,A. Kiwarkis,100.0,100.0,96.0,16.0,1.0,26.9771555,15,interception,True,84.09518416651456,left attacking third,right attacking third,High risk,8.601427762497718
+Jönköpings Södra,5819327,J. Drott,100.0,100.0,84.0,19.0,0.0,24.7923425,13,interception,True,82.56512580987206,left attacking third,right attacking third,High risk,8.598476887148081
 Jönköpings Södra,5819169,O. Almström,100.0,100.0,92.0,16.0,2.0,21.9369145,11,interception,True,84.38009243891595,left attacking third,right attacking third,High risk,7.945701386583739
 Jönköpings Södra,5819169,J. Shamoun,100.0,100.0,94.0,81.0,1.0,10.507303,8,interception,True,19.924858845171276,right attacking third,right attacking third,High risk,7.558872882677569
 Jönköpings Södra,5819228,J. Shamoun,96.0,74.0,99.0,72.0,1.0,25.1551075,14,interception,True,3.605551275463989,right attacking third,right attacking third,High risk,7.51408326913196
 Jönköpings Södra,5819246,A. Bark,100.0,100.0,92.0,82.0,1.0,34.7051165,14,interception,True,19.697715603592208,right attacking third,right attacking third,High risk,7.475465734053882
 Jönköpings Södra,5819179,J. Shamoun,100.0,64.0,94.0,53.0,1.0,9.5391525,8,interception,True,12.529964086141668,central attacking third,central attacking third,High risk,7.447949461292125
-Jönköpings Södra,5819103,J. Shamoun,100.0,100.0,92.0,85.0,1.0,19.3070065,11,interception,True,17.0,right attacking third,right attacking third,High risk,7.435
 Jönköpings Södra,5819202,F. Benatallah,96.0,82.0,97.0,79.0,1.0,9.760276,6,interception,True,3.1622776601683795,right attacking third,right attacking third,High risk,7.427434164902525
 Jönköpings Södra,5819202,J. Shamoun,95.0,74.0,96.0,69.0,1.0,8.0178795,8,interception,True,5.0990195135927845,right attacking third,right attacking third,High risk,7.416485292703892
 Jönköpings Södra,5819228,D. Kozica,78.0,89.0,80.0,81.0,0.0,37.017709,11,interception,True,8.246211251235321,right attacking third,right attacking third,High risk,7.32369316876853
@@ -19,7 +18,7 @@ Jönköpings Södra,5819179,A. Eriksson,88.0,70.0,88.0,66.0,1.0,38.178875,16,int
 Jönköpings Södra,5819216,J. Drott,89.0,39.0,89.0,39.0,1.0,69.2540145,16,interception,True,0.0,central attacking third,central attacking third,High risk,7.0600000000000005
 Jönköpings Södra,5819246,L. Lyck,89.0,35.0,89.0,35.0,1.0,24.0460435,17,interception,True,0.0,central attacking third,central attacking third,High risk,7.0600000000000005
 Jönköpings Södra,5819228,A. Kiwarkis,88.0,55.0,88.0,55.0,1.0,62.920645,29,clearance,True,0.0,central attacking third,central attacking third,High risk,7.02
-Jönköpings Södra,5819103,A. Eriksson,87.0,51.0,87.0,51.0,1.0,36.4480915,14,pass,True,0.0,central attacking third,central attacking third,High risk,6.98
+Jönköpings Södra,5819327,C. Hellström,98.0,52.0,98.0,52.0,2.0,15.2384365,9,goalkeeper_exit,True,0.0,central attacking third,central attacking third,High risk,6.92
 Jönköpings Södra,5819260,D. Kozica,95.0,24.0,94.0,32.0,2.0,9.909359,7,interception,True,8.06225774829855,left attacking third,left attacking third,High risk,6.880933866224478
 Jönköpings Södra,5819169,L. Eek,96.0,51.0,96.0,51.0,2.0,26.3816555,10,goalkeeper_exit,True,0.0,central attacking third,central attacking third,High risk,6.84
 Jönköpings Södra,5819169,D. Kozica,64.0,0.0,68.0,5.0,0.0,11.0769365,7,interception,True,6.4031242374328485,left attacking third,left midfield,High risk,6.8160468635614935
@@ -28,8 +27,8 @@ Jönköpings Södra,5819279,D. Kozica,95.0,32.0,95.0,32.0,2.0,17.1154395,9,inter
 Jönköpings Södra,5819279,A. Bark,82.0,49.0,82.0,49.0,1.0,9.6234255,5,interception,True,0.0,central attacking third,central attacking third,High risk,6.78
 Jönköpings Södra,5819246,D. Kozica,80.0,12.0,88.0,27.0,2.0,11.4762985,4,pass,True,17.0,left attacking third,left attacking third,High risk,6.7749999999999995
 Jönköpings Södra,5819154,S. Crona,81.0,31.0,81.0,31.0,1.0,21.967863,7,pass,True,0.0,left attacking third,left attacking third,High risk,6.74
+Jönköpings Södra,5819327,R. Sillamaa,42.0,70.0,60.0,81.0,0.0,12.909994,7,touch,True,21.095023109728988,right midfield,right midfield,Medium risk,6.716425346645935
 Jönköpings Södra,5819246,A. Eriksson,92.0,32.0,92.0,32.0,2.0,27.420498,16,clearance,True,0.0,left attacking third,left attacking third,High risk,6.68
-Jönköpings Södra,5819121,K. Grauberg Lepik,75.0,41.0,73.0,57.0,1.0,10.788452,6,duel,True,16.1245154965971,central attacking third,central attacking third,High risk,6.661867732448957
 Jönköpings Södra,5819154,D. Kozica,79.0,76.0,79.0,76.0,1.0,33.9251575,20,interception,True,0.0,right attacking third,right attacking third,High risk,6.66
 Jönköpings Södra,5819246,A. Kiwarkis,79.0,29.0,79.0,29.0,1.0,15.72927,12,interception,True,0.0,left attacking third,left attacking third,High risk,6.66
 Jönköpings Södra,5819169,A. Karlsson,78.0,89.0,78.0,89.0,1.0,29.862653,11,duel,True,0.0,right attacking third,right attacking third,High risk,6.62
@@ -38,64 +37,62 @@ Jönköpings Södra,5819216,A. Kiwarkis,89.0,58.0,89.0,58.0,2.0,72.550106,25,pas
 Jönköpings Södra,5819246,J. Shamoun,89.0,36.0,89.0,36.0,2.0,35.7671245,19,interception,True,0.0,central attacking third,central attacking third,High risk,6.5600000000000005
 Jönköpings Södra,5819246,L. Eek,76.0,28.0,76.0,28.0,1.0,19.097082,9,interception,True,0.0,left attacking third,left attacking third,High risk,6.54
 Jönköpings Södra,5819216,A. Kiwarkis,88.0,63.0,88.0,63.0,2.0,66.719221,36,interception,True,0.0,central attacking third,central attacking third,High risk,6.52
-Jönköpings Södra,5819121,A. Bark,87.0,42.0,87.0,42.0,2.0,20.1398585,21,duel,True,0.0,central attacking third,central attacking third,High risk,6.48
 Jönköpings Södra,5819216,J. Drott,92.0,30.0,97.0,32.0,3.0,16.6269715,9,pass,True,5.385164807134504,left attacking third,left attacking third,High risk,6.460777472107018
 Jönköpings Södra,5819179,A. Kiwarkis,86.0,27.0,86.0,27.0,2.0,22.73389,8,pass,True,0.0,left attacking third,left attacking third,High risk,6.4399999999999995
 Jönköpings Södra,5819154,L. Eek,73.0,15.0,73.0,15.0,1.0,64.243743,23,interception,True,0.0,left attacking third,left attacking third,High risk,6.42
 Jönköpings Södra,5819246,A. Eriksson,85.0,54.0,85.0,54.0,2.0,19.5524615,13,duel,True,0.0,central attacking third,central attacking third,High risk,6.4
 Jönköpings Södra,5819179,A. Kiwarkis,72.0,20.0,72.0,20.0,1.0,28.2476405,10,pass,True,0.0,left attacking third,left attacking third,High risk,6.38
-Jönköpings Södra,5819103,A. Eriksson,71.0,82.0,71.0,82.0,1.0,11.22837,9,interception,True,0.0,right attacking third,right attacking third,High risk,6.34
-Jönköpings Södra,5819103,A. Kiwarkis,36.0,16.0,52.0,11.0,0.0,13.6109275,6,pass,True,16.76305461424021,left midfield,left midfield,Medium risk,6.331445819213603
 Jönköpings Södra,5819246,K. Grauberg Lepik,70.0,49.0,70.0,49.0,1.0,14.8391305,12,acceleration,True,0.0,central attacking third,central attacking third,High risk,6.300000000000001
 Jönköpings Södra,5819169,J. Drott,81.0,25.0,81.0,25.0,2.0,24.714836,8,pass,True,0.0,left attacking third,left attacking third,High risk,6.24
 Jönköpings Södra,5819154,A. Kiwarkis,68.0,21.0,68.0,21.0,1.0,32.974857,18,duel,True,0.0,left attacking third,left attacking third,High risk,6.220000000000001
 Jönköpings Södra,5819154,O. Almström,68.0,13.0,68.0,13.0,1.0,11.0865575,7,interception,True,0.0,left attacking third,left attacking third,High risk,6.220000000000001
 Jönköpings Södra,5819202,A. Eriksson,68.0,81.0,68.0,81.0,1.0,9.0622135,4,interception,True,0.0,right attacking third,right attacking third,High risk,6.220000000000001
-Jönköpings Södra,5819133,S. Crona,80.0,15.0,80.0,15.0,2.0,33.3909155,11,interception,True,0.0,left attacking third,left attacking third,High risk,6.2
 Jönköpings Södra,5819279,C. Hellström,79.0,69.0,79.0,69.0,2.0,12.5442285,6,interception,True,0.0,right attacking third,right attacking third,High risk,6.16
 Jönköpings Södra,5819202,S. Crona,78.0,23.0,78.0,23.0,2.0,42.210849,22,pass,True,0.0,left attacking third,left attacking third,High risk,6.12
 Jönköpings Södra,5819246,L. Lyck,78.0,67.0,78.0,67.0,2.0,39.0504885,14,interception,True,0.0,right attacking third,right attacking third,High risk,6.12
 Jönköpings Södra,5819246,J. Drott,78.0,25.0,78.0,25.0,2.0,13.2461705,9,interception,True,0.0,left attacking third,left attacking third,High risk,6.12
 Jönköpings Södra,5819169,A. Kiwarkis,78.0,28.0,78.0,28.0,2.0,8.4355015,6,interception,True,0.0,left attacking third,left attacking third,High risk,6.12
 Jönköpings Södra,5819279,L. Eek,100.0,100.0,84.0,94.0,3.0,11.6680325,6,pass,True,17.08800749063506,right attacking third,right attacking third,High risk,6.116320112359525
+Jönköpings Södra,5819327,L. Eek,90.0,47.0,90.0,47.0,3.0,39.574151,11,interception,True,0.0,central attacking third,central attacking third,High risk,6.1
 Jönköpings Södra,5819216,H. Lyck,76.0,92.0,76.0,92.0,2.0,47.6872665,17,duel,True,0.0,right attacking third,right attacking third,High risk,6.04
 Jönköpings Södra,5819246,A. Eriksson,63.0,39.0,63.0,39.0,1.0,9.118426,8,pass,True,0.0,central midfield,central midfield,Medium risk,6.02
 Jönköpings Södra,5819228,L. Eek,87.0,34.0,87.0,34.0,3.0,31.803807,12,interception,True,0.0,central attacking third,central attacking third,High risk,5.98
-Jönköpings Södra,5819103,J. Shamoun,87.0,54.0,87.0,54.0,3.0,13.949913,5,pass,True,0.0,central attacking third,central attacking third,High risk,5.98
 Jönköpings Södra,5819279,A. Kiwarkis,79.0,8.0,96.0,47.0,5.0,42.4664185,23,shot_against,True,42.5440947723653,central attacking third,left attacking third,High risk,5.9781614215854795
 Jönköpings Södra,5819202,A. Bark,74.0,87.0,74.0,87.0,2.0,19.7411795,13,interception,True,0.0,right attacking third,right attacking third,High risk,5.96
 Jönköpings Södra,5819260,K. Galabri,86.0,37.0,86.0,37.0,3.0,25.805867,8,touch,True,0.0,central attacking third,central attacking third,High risk,5.9399999999999995
+Jönköpings Södra,5819297,L. Lyck,61.0,84.0,61.0,84.0,1.0,18.8861695,13,duel,True,0.0,right midfield,right midfield,Medium risk,5.9399999999999995
 Jönköpings Södra,5819279,H. Lyck,73.0,57.0,73.0,57.0,2.0,23.4568295,6,pass,True,0.0,central attacking third,central attacking third,High risk,5.92
 Jönköpings Södra,5819279,C. Farnerud,59.0,89.0,59.0,89.0,1.0,32.311071,14,interception,True,0.0,right midfield,right midfield,Medium risk,5.859999999999999
-Jönköpings Södra,5819103,A. Eriksson,70.0,88.0,70.0,88.0,2.0,27.5819255,15,pass,True,0.0,right attacking third,right attacking third,High risk,5.800000000000001
+Jönköpings Södra,5819297,H. Lyck,69.0,93.0,69.0,93.0,2.0,18.7910755,9,interception,True,0.0,right attacking third,right attacking third,High risk,5.76
+Jönköpings Södra,5819297,J. Drott,69.0,34.0,69.0,34.0,2.0,15.966381,12,pass,True,0.0,central attacking third,central attacking third,High risk,5.76
 Jönköpings Södra,5819260,A. Bark,94.0,92.0,94.0,92.0,4.0,10.648609,7,duel,True,0.0,right attacking third,right attacking third,Medium risk,5.76
+Jönköpings Södra,5819297,A. Karlsson,56.0,48.0,56.0,48.0,1.0,46.996542,23,touch,True,0.0,central midfield,central midfield,Medium risk,5.74
 Jönköpings Södra,5819179,A. Kiwarkis,81.0,21.0,81.0,21.0,3.0,10.520705,7,interception,True,0.0,left attacking third,left attacking third,High risk,5.74
 Jönköpings Södra,5819279,J. Shamoun,56.0,91.0,56.0,91.0,1.0,10.3928275,5,interception,True,0.0,right midfield,right midfield,Medium risk,5.74
 Jönköpings Södra,5819246,J. Drott,68.0,31.0,68.0,31.0,2.0,22.667972,8,interception,True,0.0,left attacking third,left attacking third,High risk,5.720000000000001
-Jönköpings Södra,5819103,J. Drott,55.0,15.0,55.0,15.0,1.0,10.9729415,8,interception,True,0.0,left midfield,left midfield,Medium risk,5.7
 Jönköpings Södra,5819246,D. Kozica,75.0,76.0,60.0,88.0,2.0,24.874852,12,duel,True,19.209372712298546,right midfield,right attacking third,Medium risk,5.688140590684479
-Jönköpings Södra,5819103,A. Bark,69.0,77.0,76.0,76.0,3.0,18.6798455,13,pass,True,7.0710678118654755,right attacking third,right attacking third,High risk,5.646066017177982
 Jönköpings Södra,5819202,J. Shamoun,53.0,73.0,53.0,73.0,1.0,77.2064205,44,interception,True,0.0,right midfield,right midfield,Medium risk,5.62
 Jönköpings Södra,5819154,A. Karlsson,81.0,72.0,74.0,65.0,3.0,13.1756245,10,duel,True,9.899494936611665,central attacking third,right attacking third,High risk,5.608492424049175
 Jönköpings Södra,5819246,A. Eriksson,90.0,27.0,90.0,27.0,4.0,14.95796,7,pass,True,0.0,left attacking third,left attacking third,Medium risk,5.6
-Jönköpings Södra,5819103,D. Kozica,70.0,87.0,60.0,79.0,2.0,14.199128,6,pass,True,12.806248474865697,right midfield,right attacking third,Medium risk,5.592093727122986
 Jönköpings Södra,5819154,D. Kozica,63.0,94.0,63.0,94.0,2.0,11.531704,8,duel,True,0.0,right midfield,right midfield,Medium risk,5.52
-Jönköpings Södra,5819103,J. Drott,75.0,37.0,75.0,37.0,3.0,8.7362075,7,pass,True,0.0,central attacking third,central attacking third,High risk,5.5
 Jönköpings Södra,5819169,A. Karlsson,62.0,81.0,62.0,81.0,2.0,9.3193605,9,pass,True,0.0,right midfield,right midfield,Medium risk,5.48
+Jönköpings Södra,5819297,J. Drott,74.0,89.0,74.0,89.0,3.0,12.6409355,7,clearance,True,0.0,right attacking third,right attacking third,High risk,5.46
+Jönköpings Södra,5819314,J. Drott,74.0,55.0,74.0,55.0,3.0,8.161101,7,pass,True,0.0,central attacking third,central attacking third,High risk,5.46
 Jönköpings Södra,5819260,A. Eriksson,74.0,85.0,97.0,54.0,6.0,14.90295,6,shot_against,True,38.600518131237564,central attacking third,right attacking third,High risk,5.4590077719685635
-Jönköpings Södra,5819133,H. Lyck,61.0,95.0,61.0,95.0,2.0,22.2863565,5,pass,True,0.0,right midfield,right midfield,Medium risk,5.4399999999999995
 Jönköpings Södra,5819202,J. Shamoun,98.0,63.0,98.0,63.0,5.0,45.0109835,20,interception,True,0.0,central attacking third,central attacking third,Medium risk,5.42
-Jönköpings Södra,5819133,K. Galabri,98.0,71.0,98.0,71.0,5.0,18.1656005,7,touch,True,0.0,right attacking third,right attacking third,Medium risk,5.42
+Jönköpings Södra,5819314,K. Galabri,48.0,91.0,48.0,91.0,1.0,12.086422,11,interception,False,0.0,right midfield,right midfield,Low risk,5.42
 Jönköpings Södra,5819260,E. Boulos,57.0,88.0,54.0,95.0,2.0,14.905598,10,touch,True,7.615773105863909,right midfield,right midfield,Medium risk,5.274236596587959
 Jönköpings Södra,5819179,A. Kiwarkis,56.0,13.0,56.0,13.0,2.0,29.128945,15,duel,True,0.0,left midfield,left midfield,Medium risk,5.24
+Jönköpings Södra,5819297,H. Lyck,68.0,21.0,68.0,21.0,3.0,19.8553725,7,touch,True,0.0,left attacking third,left attacking third,High risk,5.220000000000001
 Jönköpings Södra,5819202,A. Kiwarkis,90.0,32.0,90.0,25.0,5.0,10.686809,11,duel,True,7.0,left attacking third,left attacking third,Medium risk,5.205
-Jönköpings Södra,5819121,F. Benatallah,93.0,39.0,92.0,73.0,6.0,33.827074,16,pass,True,34.0147027033899,right attacking third,central attacking third,Medium risk,5.190220540550849
 Jönköpings Södra,5819246,A. Bark,67.0,75.0,67.0,75.0,3.0,17.3976305,7,interception,True,0.0,right attacking third,right attacking third,High risk,5.18
+Jönköpings Södra,5819327,L. Eek,79.0,10.0,79.0,10.0,4.0,48.7173585,19,duel,True,0.0,left attacking third,left attacking third,Medium risk,5.16
 Jönköpings Södra,5819216,D. Kozica,54.0,22.0,54.0,22.0,2.0,27.093433,5,pass,True,0.0,left midfield,left midfield,Medium risk,5.16
+Jönköpings Södra,5819297,A. Eriksson,66.0,62.0,66.0,62.0,3.0,24.918151,10,pass,True,0.0,central midfield,central midfield,Medium risk,5.140000000000001
 Jönköpings Södra,5819169,J. Shamoun,66.0,67.0,66.0,67.0,3.0,8.4972255,4,pass,True,0.0,right midfield,right midfield,Medium risk,5.140000000000001
 Jönköpings Södra,5819260,D. Kozica,90.0,35.0,90.0,35.0,5.0,28.6730285,13,pass,True,0.0,central attacking third,central attacking third,Medium risk,5.1
 Jönköpings Södra,5819228,L. Lyck,26.0,17.0,26.0,17.0,0.0,9.6137805,5,interception,False,0.0,left defensive third,left defensive third,Low risk,5.04
-Jönköpings Södra,5819133,D. Kozica,93.0,27.0,89.0,57.0,6.0,13.1284175,7,interception,True,30.265491900843113,central attacking third,left attacking third,Medium risk,5.013982378512647
+Jönköpings Södra,5819297,C. Farnerud,63.0,26.0,63.0,26.0,3.0,51.045659,22,interception,True,0.0,left midfield,left midfield,Medium risk,5.02
 Jönköpings Södra,5819169,A. Karlsson,56.0,79.0,69.0,87.0,4.0,8.9288295,6,pass,True,15.264337522473747,right attacking third,right midfield,Medium risk,4.988965062837106
 Jönköpings Södra,5819228,A. Bark,87.0,35.0,87.0,35.0,5.0,13.5242825,10,pass,True,0.0,central attacking third,central attacking third,Medium risk,4.98
 Jönköpings Södra,5819179,F. Benatallah,65.0,17.0,60.0,17.0,3.0,13.8876935,12,duel,True,5.0,left midfield,left midfield,Medium risk,4.9750000000000005
@@ -103,138 +100,139 @@ Jönköpings Södra,5819260,D. Kozica,36.0,79.0,36.0,79.0,1.0,8.7163435,5,pass,F
 Jönköpings Södra,5819202,A. Eriksson,47.0,43.0,47.0,43.0,2.0,75.5083255,47,pass,False,0.0,central midfield,central midfield,Low risk,4.88
 Jönköpings Södra,5819202,J. Shamoun,47.0,81.0,47.0,81.0,2.0,38.0832425,10,interception,False,0.0,right midfield,right midfield,Low risk,4.88
 Jönköpings Södra,5819169,H. Lyck,34.0,84.0,34.0,84.0,1.0,14.115224,4,touch,False,0.0,right midfield,right midfield,Low risk,4.86
+Jönköpings Södra,5819314,J. Drott,46.0,87.0,46.0,87.0,2.0,8.575583,8,interception,False,0.0,right midfield,right midfield,Low risk,4.84
 Jönköpings Södra,5819154,A. Bark,21.0,90.0,21.0,90.0,0.0,8.221669,6,pass,False,0.0,right defensive third,right defensive third,Low risk,4.84
+Jönköpings Södra,5819314,R. Sillamaa,44.0,90.0,44.0,90.0,2.0,31.204022,7,interception,False,0.0,right midfield,right midfield,Low risk,4.76
+Jönköpings Södra,5819297,A. Eriksson,44.0,78.0,44.0,78.0,2.0,9.6954325,8,pass,False,0.0,right midfield,right midfield,Low risk,4.76
+Jönköpings Södra,5819314,A. Eriksson,30.0,91.0,30.0,91.0,1.0,12.2918225,5,interception,False,0.0,right defensive third,right defensive third,Low risk,4.7
 Jönköpings Södra,5819216,A. Karlsson,42.0,71.0,42.0,71.0,2.0,30.718249,15,interception,False,0.0,right midfield,right midfield,Low risk,4.68
 Jönköpings Södra,5819216,A. Kiwarkis,53.0,72.0,53.0,72.0,3.0,37.1744415,15,interception,True,0.0,right midfield,right midfield,Medium risk,4.62
 Jönköpings Södra,5819246,K. Grauberg Lepik,62.0,38.0,62.0,30.0,4.0,56.042249,22,pass,True,8.0,left midfield,central midfield,Low risk,4.6000000000000005
 Jönköpings Södra,5819260,A. Eriksson,40.0,37.0,40.0,37.0,2.0,46.269507,16,touch,False,0.0,central midfield,central midfield,Low risk,4.6
+Jönköpings Södra,5819297,A. Eriksson,38.0,17.0,38.0,17.0,2.0,20.6062275,10,interception,False,0.0,left midfield,left midfield,Low risk,4.52
 Jönköpings Södra,5819246,J. Shamoun,75.0,19.0,75.0,19.0,5.0,23.7861095,13,pass,True,0.0,left attacking third,left attacking third,Medium risk,4.5
 Jönköpings Södra,5819202,A. Eriksson,47.0,11.0,47.0,11.0,3.0,21.667868,4,pass,False,0.0,left midfield,left midfield,Low risk,4.38
-Jönköpings Södra,5819103,O. Almström,21.0,6.0,21.0,6.0,1.0,33.5983075,6,interception,False,0.0,left defensive third,left defensive third,Low risk,4.34
+Jönköpings Södra,5819314,K. Galabri,34.0,65.0,36.0,91.0,3.0,33.3208905,15,pass,False,26.076809620810597,right midfield,central midfield,Low risk,4.331152144312159
 Jönköpings Södra,5819260,D. Kozica,33.0,39.0,33.0,39.0,2.0,27.8167295,13,pass,False,0.0,central defensive third,central defensive third,Low risk,4.32
 Jönköpings Södra,5819228,S. Crona,58.0,7.0,58.0,7.0,4.0,24.656027,11,duel,True,0.0,left midfield,left midfield,Low risk,4.32
 Jönköpings Södra,5819216,D. Kozica,33.0,97.0,33.0,97.0,2.0,17.5384665,8,pass,False,0.0,right defensive third,right defensive third,Low risk,4.32
-Jönköpings Södra,5819103,D. Kozica,33.0,21.0,33.0,21.0,2.0,13.4287565,10,pass,False,0.0,left defensive third,left defensive third,Low risk,4.32
 Jönköpings Södra,5819202,J. Shamoun,94.0,84.0,94.0,84.0,7.0,11.980063,6,pass,True,0.0,right attacking third,right attacking third,Medium risk,4.26
 Jönköpings Södra,5819260,A. Bark,93.0,75.0,93.0,75.0,7.0,12.063333,7,touch,True,0.0,right attacking third,right attacking third,Medium risk,4.220000000000001
-Jönköpings Södra,5819103,A. Eriksson,79.0,38.0,79.0,38.0,6.0,11.164868,9,pass,True,0.0,central attacking third,central attacking third,Medium risk,4.16
-Jönköpings Södra,5819121,H. Lyck,41.0,81.0,41.0,81.0,3.0,30.287899,10,pass,False,0.0,right midfield,right midfield,Low risk,4.140000000000001
+Jönköpings Södra,5819314,K. Galabri,17.0,94.0,17.0,94.0,1.0,30.165332,13,interception,False,0.0,right defensive third,right defensive third,Low risk,4.18
 Jönköpings Södra,5819216,A. Kiwarkis,41.0,74.0,41.0,74.0,3.0,8.7630765,4,pass,False,0.0,right midfield,right midfield,Low risk,4.140000000000001
 Jönköpings Södra,5819246,J. Drott,15.0,62.0,15.0,62.0,1.0,12.5672165,8,pass,False,0.0,central defensive third,central defensive third,Low risk,4.1
-Jönköpings Södra,5819121,D. Kozica,34.0,56.0,56.0,60.0,5.0,28.4350545,21,duel,True,22.360679774997898,central midfield,central midfield,Low risk,4.0754101966249685
+Jönköpings Södra,5819314,C. Hellström,45.0,13.0,59.0,12.0,5.0,55.920747,11,pass,True,14.035668847618199,left midfield,left midfield,Low risk,4.070535032714273
 Jönköpings Södra,5819279,S. Crona,39.0,19.0,39.0,19.0,3.0,77.915225,17,duel,False,0.0,left midfield,left midfield,Low risk,4.0600000000000005
 Jönköpings Södra,5819260,A. Bark,88.0,87.0,88.0,87.0,7.0,21.002383,12,touch,True,0.0,right attacking third,right attacking third,Medium risk,4.02
-Jönköpings Södra,5819121,F. Benatallah,66.0,17.0,57.0,5.0,5.0,22.2874355,11,duel,True,15.0,left midfield,left midfield,Low risk,4.005
+Jönköpings Södra,5819297,A. Karlsson,88.0,76.0,88.0,76.0,7.0,18.6383815,5,pass,True,0.0,right attacking third,right attacking third,Medium risk,4.02
+Jönköpings Södra,5819327,A. Khoshaba,37.0,66.0,37.0,66.0,3.0,8.126041,6,pass,False,0.0,central midfield,central midfield,Low risk,3.98
 Jönköpings Södra,5819216,A. Eriksson,34.0,23.0,34.0,23.0,3.0,17.8280025,8,duel,False,0.0,left midfield,left midfield,Low risk,3.8600000000000003
-Jönköpings Södra,5819121,A. Bark,75.0,13.0,80.0,11.0,7.0,9.5918415,4,pass,True,5.385164807134504,left attacking third,left attacking third,Medium risk,3.7807774721070175
+Jönköpings Södra,5819314,J. Drott,90.0,33.0,93.0,26.0,8.0,43.490814,21,pass,True,7.615773105863909,left attacking third,left attacking third,Medium risk,3.834236596587959
 Jönköpings Södra,5819279,L. Eek,94.0,47.0,94.0,47.0,8.0,40.635875,13,pass,True,0.0,central attacking third,central attacking third,Medium risk,3.7600000000000002
+Jönköpings Södra,5819297,A. Karlsson,68.0,79.0,68.0,79.0,6.0,29.1907565,11,pass,True,0.0,right attacking third,right attacking third,Medium risk,3.72
 Jönköpings Södra,5819169,O. Almström,92.0,55.0,92.0,55.0,8.0,13.363444,5,pass,True,0.0,central attacking third,central attacking third,Medium risk,3.68
 Jönköpings Södra,5819260,D. Kozica,53.0,77.0,79.0,65.0,8.0,30.071026,18,duel,True,28.635642126552707,central attacking third,right midfield,Medium risk,3.5895346318982906
 Jönköpings Södra,5819154,L. Eek,24.0,37.0,24.0,37.0,3.0,29.3261075,14,duel,False,0.0,central defensive third,central defensive third,Low risk,3.46
 Jönköpings Södra,5819228,A. Eriksson,11.0,61.0,11.0,61.0,2.0,26.2798245,11,shot,False,0.0,central defensive third,central defensive third,Low risk,3.44
 Jönköpings Södra,5819202,A. Karlsson,46.0,11.0,55.0,14.0,6.0,10.576517,9,duel,True,9.486832980505138,left midfield,left midfield,Low risk,3.3423024947075772
-Jönköpings Södra,5819121,A. Eriksson,28.0,36.0,28.0,36.0,4.0,8.158589,4,pass,False,0.0,central defensive third,central defensive third,Low risk,3.12
+Jönköpings Södra,5819297,H. Lyck,44.0,54.0,56.0,24.0,7.0,27.1607925,6,duel,True,32.31098884280702,left midfield,central midfield,Low risk,3.2246648326421057
 Jönköpings Södra,5819260,A. Kiwarkis,95.0,44.0,62.0,24.0,8.0,11.366563,9,duel,True,38.58756276314948,left midfield,central attacking third,Medium risk,3.058813441447242
 Jönköpings Södra,5819216,A. Eriksson,29.0,94.0,33.0,82.0,5.0,35.918971,13,pass,False,12.649110640673518,right defensive third,right defensive third,Low risk,3.009736659610103
 Jönköpings Södra,5819202,A. Eriksson,75.0,65.0,51.0,64.0,7.0,34.280956,15,pass,True,24.020824298928627,central midfield,central attacking third,Low risk,2.9003123644839293
 Jönköpings Södra,5819169,L. Eek,31.0,41.0,31.0,41.0,5.0,11.8095005,6,duel,False,0.0,central defensive third,central defensive third,Low risk,2.74
-Jönköpings Södra,5819121,S. Crona,68.0,15.0,26.0,20.0,6.0,26.2651495,13,duel,False,42.2965719651132,left defensive third,left attacking third,Low risk,2.674448579476698
+Jönköpings Södra,5819327,L. Eek,74.0,12.0,39.0,19.0,7.0,15.9902295,8,duel,False,35.6931365951495,left midfield,left attacking third,Low risk,2.5953970489272424
 Jönköpings Södra,5819228,C. Hellström,41.0,9.0,33.0,6.0,6.0,35.4778805,19,duel,False,8.54400374531753,left defensive third,left midfield,Low risk,2.448160056179763
+Jönköpings Södra,5819297,A. Karlsson,14.0,8.0,18.0,59.0,7.0,24.5483655,12,touch,False,51.15662224971465,central defensive third,left defensive third,Low risk,1.9873493337457198
 Jönköpings Södra,5819169,H. Lyck,39.0,66.0,43.0,80.0,8.0,10.2281905,5,duel,False,14.560219778561036,right midfield,central midfield,Low risk,1.9384032966784155
-Jönköpings Södra,5819103,A. Eriksson,42.0,88.0,37.0,61.0,8.0,11.517639,10,pass,False,27.459060435491963,central midfield,right midfield,Low risk,1.8918859065323794
 Jönköpings Södra,5819179,H. Lyck,34.0,34.0,25.0,10.0,7.0,10.3162395,10,duel,False,25.632011235952593,left defensive third,central midfield,Low risk,1.884480168539289
-Jönköpings Södra,5819103,O. Almström,68.0,0.0,30.0,17.0,8.0,11.6174595,6,duel,False,41.6293165929973,left defensive third,left attacking third,Low risk,1.8244397488949593
-Jönköpings Södra,5819103,K. Galabri,28.0,22.0,21.0,18.0,7.0,8.921359,9,infraction,False,8.06225774829855,left defensive third,left defensive third,Low risk,1.4609338662244782
-Rosengård,5819100,E. Onotu,100.0,100.0,88.0,31.0,0.0,9.719405,6,interception,True,70.03570517957252,left attacking third,right attacking third,High risk,8.570535577693587
-Rosengård,5819137,E. Onotu,100.0,100.0,98.0,31.0,1.0,11.0099765,6,interception,True,69.02897942168927,left attacking third,right attacking third,High risk,8.455434691325339
-Rosengård,5819137,E. Onotu,100.0,100.0,95.0,32.0,1.0,27.2202035,14,interception,True,68.18357573492314,left attacking third,right attacking third,High risk,8.322753636023847
 Rosengård,5819280,J. Voelkerling Persson,89.0,41.0,92.0,20.0,0.0,26.8877815,14,duel,True,21.213203435596427,left attacking third,central attacking third,High risk,7.998198051533946
 Rosengård,5819261,J. Voelkerling Persson,96.0,57.0,96.0,57.0,0.0,14.423711,9,interception,True,0.0,central attacking third,central attacking third,High risk,7.84
 Rosengård,5819261,M. Andersson,100.0,100.0,87.0,83.0,0.0,14.886489,10,interception,True,21.400934559032695,right attacking third,right attacking third,High risk,7.801014018385491
-Rosengård,5819118,A. Löfqvist,95.0,45.0,95.0,45.0,0.0,10.318586,6,interception,True,0.0,central attacking third,central attacking third,High risk,7.800000000000001
-Rosengård,5819118,E. Onotu,93.0,47.0,93.0,47.0,0.0,32.1668975,13,interception,True,0.0,central attacking third,central attacking third,High risk,7.720000000000001
 Rosengård,5819231,J. Voelkerling Persson,100.0,100.0,94.0,74.0,1.0,13.81817,9,interception,True,26.68332812825267,right attacking third,right attacking third,High risk,7.66024992192379
+Rosengård,5819309,J. Lynard,100.0,66.0,96.0,52.0,1.0,26.1119475,13,interception,True,14.560219778561036,central attacking third,central attacking third,High risk,7.558403296678415
 Rosengård,5819217,B. Llana,84.0,49.0,96.0,50.0,1.0,8.315107,4,interception,True,12.041594578792296,central attacking third,central attacking third,High risk,7.520623918681884
 Rosengård,5819231,M. Ritari,86.0,50.0,86.0,50.0,0.0,13.516328,7,interception,True,0.0,central attacking third,central attacking third,High risk,7.4399999999999995
 Rosengård,5819280,M. Andersson,86.0,64.0,86.0,64.0,0.0,11.713872,9,interception,True,0.0,central attacking third,central attacking third,High risk,7.4399999999999995
-Rosengård,5819118,E. Onotu,97.0,43.0,97.0,43.0,1.0,22.783052,11,interception,True,0.0,central attacking third,central attacking third,High risk,7.38
+Rosengård,5819309,J. Voelkerling Persson,100.0,100.0,98.0,71.0,2.0,14.3928975,5,pass,True,29.068883707497267,right attacking third,right attacking third,High risk,7.356033255612459
 Rosengård,5819197,J. Voelkerling Persson,89.0,70.0,94.0,72.0,1.0,10.4086565,8,interception,True,5.385164807134504,right attacking third,right attacking third,High risk,7.340777472107018
 Rosengård,5819186,E. Onotu,96.0,49.0,96.0,49.0,1.0,58.148689,34,shot_against,True,0.0,central attacking third,central attacking third,High risk,7.34
 Rosengård,5819250,M. Andersson,96.0,54.0,96.0,54.0,1.0,9.15291,6,interception,True,0.0,central attacking third,central attacking third,High risk,7.34
 Rosengård,5819250,E. Onotu,87.0,25.0,92.0,29.0,1.0,26.102512,11,interception,True,6.4031242374328485,left attacking third,left attacking third,High risk,7.2760468635614926
 Rosengård,5819280,M. Andersson,93.0,52.0,93.0,52.0,1.0,59.306202,29,clearance,True,0.0,central attacking third,central attacking third,High risk,7.220000000000001
+Rosengård,5819309,A. Malaj,92.0,68.0,92.0,68.0,1.0,14.8593945,11,interception,True,0.0,right attacking third,right attacking third,High risk,7.18
 Rosengård,5819197,R. Bonde,90.0,44.0,90.0,44.0,1.0,46.952273,22,interception,True,0.0,central attacking third,central attacking third,High risk,7.1
+Rosengård,5819309,L. Carlius,88.0,45.0,97.0,48.0,2.0,10.90306,5,touch,True,9.486832980505138,central attacking third,central attacking third,High risk,7.022302494707577
 Rosengård,5819197,L. Carlius,88.0,54.0,88.0,54.0,1.0,14.1860695,8,interception,True,0.0,central attacking third,central attacking third,High risk,7.02
-Rosengård,5819100,E. Onotu,87.0,16.0,87.0,16.0,1.0,25.8718045,10,interception,True,0.0,left attacking third,left attacking third,High risk,6.98
-Rosengård,5819137,A. Malaj,87.0,49.0,87.0,49.0,1.0,24.715692,12,interception,True,0.0,central attacking third,central attacking third,High risk,6.98
 Rosengård,5819280,M. Andersson,87.0,85.0,87.0,85.0,1.0,14.334512,7,interception,True,0.0,right attacking third,right attacking third,High risk,6.98
 Rosengård,5819217,J. Voelkerling Persson,87.0,50.0,87.0,50.0,1.0,10.899346,7,interception,True,0.0,central attacking third,central attacking third,High risk,6.98
-Rosengård,5819100,E. Onotu,86.0,59.0,86.0,59.0,1.0,71.82834,33,interception,True,0.0,central attacking third,central attacking third,High risk,6.9399999999999995
-Rosengård,5819118,R. Bonde,93.0,10.0,95.0,18.0,2.0,33.865346,20,touch,True,8.246211251235321,left attacking third,left attacking third,High risk,6.923693168768531
-Rosengård,5819118,M. Ritari,73.0,85.0,73.0,85.0,0.0,76.8976915,6,interception,True,0.0,right attacking third,right attacking third,High risk,6.92
-Rosengård,5819137,E. Onotu,84.0,8.0,84.0,8.0,1.0,21.2671565,13,interception,True,0.0,left attacking third,left attacking third,High risk,6.859999999999999
 Rosengård,5819150,E. Onotu,96.0,56.0,96.0,56.0,2.0,21.85156,9,goalkeeper_exit,True,0.0,central attacking third,central attacking third,High risk,6.84
 Rosengård,5819280,J. Lynard,96.0,51.0,96.0,51.0,2.0,17.27217,8,goalkeeper_exit,True,0.0,central attacking third,central attacking third,High risk,6.84
 Rosengård,5819197,J. Voelkerling Persson,97.0,48.0,92.0,43.0,2.0,27.6793195,11,interception,True,7.0710678118654755,central attacking third,central attacking third,High risk,6.786066017177982
 Rosengård,5819197,L. Carlius,94.0,51.0,94.0,51.0,2.0,47.367407,30,interception,True,0.0,central attacking third,central attacking third,High risk,6.76
+Rosengård,5819297,R. Bonde,94.0,31.0,94.0,31.0,2.0,13.975044,7,duel,True,0.0,left attacking third,left attacking third,High risk,6.76
 Rosengård,5819164,J. Voelkerling Persson,86.0,60.0,87.0,77.0,2.0,82.1618165,33,pass,True,17.029386365926403,right attacking third,central attacking third,High risk,6.735440795488897
 Rosengård,5819217,R. Bonde,79.0,14.0,79.0,14.0,1.0,17.510138,7,interception,True,0.0,left attacking third,left attacking third,High risk,6.66
-Rosengård,5819100,E. Igbonekwu,91.0,42.0,91.0,42.0,2.0,39.508591,10,interception,True,0.0,central attacking third,central attacking third,High risk,6.640000000000001
 Rosengård,5819217,J. Voelkerling Persson,91.0,46.0,91.0,46.0,2.0,20.882426,9,duel,True,0.0,central attacking third,central attacking third,High risk,6.640000000000001
-Rosengård,5819118,J. Lynard,66.0,86.0,66.0,86.0,0.0,10.559234,6,interception,True,0.0,right midfield,right midfield,Medium risk,6.640000000000001
 Rosengård,5819150,M. Andersson,78.0,92.0,78.0,92.0,1.0,19.507196,13,interception,True,0.0,right attacking third,right attacking third,High risk,6.62
+Rosengård,5819328,J. Voelkerling Persson,86.0,24.0,94.0,46.0,3.0,21.2593835,9,touch,True,23.40939982143925,central attacking third,left attacking third,High risk,6.611140997321589
 Rosengård,5819164,O. Hakansson,64.0,43.0,57.0,63.0,0.0,25.202346,10,interception,True,21.18962010041709,central midfield,central midfield,Medium risk,6.597844301506257
 Rosengård,5819280,J. Lynard,77.0,76.0,77.0,76.0,1.0,46.9581225,13,interception,True,0.0,right attacking third,right attacking third,High risk,6.58
 Rosengård,5819261,L. Carlius,77.0,90.0,77.0,90.0,1.0,15.8183095,9,interception,True,0.0,right attacking third,right attacking third,High risk,6.58
-Rosengård,5819118,R. Bonde,77.0,48.0,77.0,48.0,1.0,9.985314,9,interception,True,0.0,central attacking third,central attacking third,High risk,6.58
-Rosengård,5819118,J. Lynard,76.0,87.0,76.0,87.0,1.0,13.896774,8,interception,True,0.0,right attacking third,right attacking third,High risk,6.54
 Rosengård,5819231,M. Andersson,63.0,92.0,63.0,92.0,0.0,28.5414305,15,interception,True,0.0,right midfield,right midfield,Medium risk,6.52
 Rosengård,5819197,J. Lynard,75.0,61.0,75.0,61.0,1.0,45.7097745,19,interception,True,0.0,central attacking third,central attacking third,High risk,6.5
 Rosengård,5819186,K. Larsson,75.0,88.0,75.0,88.0,1.0,11.687092,5,touch,True,0.0,right attacking third,right attacking third,High risk,6.5
-Rosengård,5819137,E. Onotu,87.0,48.0,87.0,48.0,2.0,18.232291,11,clearance,True,0.0,central attacking third,central attacking third,High risk,6.48
-Rosengård,5819137,O. Hakansson,76.0,78.0,73.0,78.0,1.0,36.682009,12,pass,True,3.0,right attacking third,right attacking third,High risk,6.465
+Rosengård,5819309,R. Bonde,87.0,40.0,87.0,40.0,2.0,38.4477655,18,pass,True,0.0,central attacking third,central attacking third,High risk,6.48
+Rosengård,5819309,R. Bonde,87.0,56.0,87.0,56.0,2.0,21.818179,10,pass,True,0.0,central attacking third,central attacking third,High risk,6.48
 Rosengård,5819150,I. Ljajic,74.0,12.0,74.0,12.0,1.0,17.89978,8,interception,True,0.0,left attacking third,left attacking third,High risk,6.46
 Rosengård,5819261,L. Carlius,74.0,56.0,74.0,56.0,1.0,9.4536735,4,pass,True,0.0,central attacking third,central attacking third,High risk,6.46
-Rosengård,5819118,K. Larsson,73.0,51.0,73.0,51.0,1.0,14.6413225,8,interception,True,0.0,central attacking third,central attacking third,High risk,6.42
 Rosengård,5819250,O. Hakansson,72.0,69.0,72.0,69.0,1.0,21.8331225,8,interception,True,0.0,right attacking third,right attacking third,High risk,6.38
-Rosengård,5819118,K. Larsson,72.0,69.0,72.0,69.0,1.0,15.098176,6,interception,True,0.0,right attacking third,right attacking third,High risk,6.38
+Rosengård,5819297,E. Persson,72.0,75.0,72.0,75.0,1.0,20.6062275,10,interception,True,0.0,right attacking third,right attacking third,High risk,6.38
 Rosengård,5819250,O. Hakansson,72.0,81.0,72.0,81.0,1.0,13.864886,11,interception,True,0.0,right attacking third,right attacking third,High risk,6.38
 Rosengård,5819250,M. Andersson,96.0,66.0,96.0,66.0,3.0,46.416616,18,interception,True,0.0,central attacking third,central attacking third,High risk,6.34
-Rosengård,5819118,A. Malaj,71.0,81.0,71.0,81.0,1.0,21.0931675,7,interception,True,0.0,right attacking third,right attacking third,High risk,6.34
 Rosengård,5819150,M. Andersson,71.0,92.0,71.0,92.0,1.0,19.4436565,7,interception,True,0.0,right attacking third,right attacking third,High risk,6.34
+Rosengård,5819297,F. Schmidt Petersen,71.0,15.0,71.0,15.0,1.0,9.6954325,8,pass,True,0.0,left attacking third,left attacking third,High risk,6.34
 Rosengård,5819150,M. Ritari,70.0,33.0,70.0,33.0,1.0,29.745017,13,interception,True,0.0,left attacking third,left attacking third,High risk,6.300000000000001
 Rosengård,5819261,A. Malaj,82.0,85.0,82.0,85.0,2.0,36.346428,13,duel,True,0.0,right attacking third,right attacking third,High risk,6.28
 Rosengård,5819217,G. Backaliden,81.0,21.0,81.0,21.0,2.0,25.133257,9,clearance,True,0.0,left attacking third,left attacking third,High risk,6.24
 Rosengård,5819250,J. Voelkerling Persson,68.0,71.0,68.0,71.0,1.0,53.1043305,20,interception,True,0.0,right attacking third,right attacking third,High risk,6.220000000000001
 Rosengård,5819150,O. Hakansson,80.0,78.0,80.0,78.0,2.0,13.0016225,6,clearance,True,0.0,right attacking third,right attacking third,High risk,6.2
-Rosengård,5819118,E. Persson,67.0,31.0,67.0,31.0,1.0,54.0846325,18,interception,True,0.0,left attacking third,left attacking third,High risk,6.18
+Rosengård,5819328,J. Lynard,71.0,82.0,75.0,70.0,2.0,9.3951455,4,pass,True,12.649110640673518,right attacking third,right attacking third,High risk,6.189736659610102
+Rosengård,5819309,H. Aroko,84.0,6.0,96.0,23.0,4.0,38.8279245,16,touch,True,20.808652046684813,left attacking third,left attacking third,Medium risk,6.152129780700272
 Rosengård,5819217,R. Bonde,82.0,8.0,85.0,24.0,3.0,38.0721855,19,clearance,True,16.278820596099706,left attacking third,left attacking third,High risk,6.144182308941496
-Rosengård,5819137,W. Lindberg,66.0,96.0,66.0,96.0,1.0,36.462889,19,interception,True,0.0,right midfield,right midfield,Medium risk,6.140000000000001
 Rosengård,5819150,M. Ritari,78.0,16.0,78.0,16.0,2.0,9.03407,4,pass,True,0.0,left attacking third,left attacking third,High risk,6.12
+Rosengård,5819297,G. Ankamafio,78.0,70.0,78.0,70.0,2.0,9.030026,9,interception,True,0.0,right attacking third,right attacking third,High risk,6.12
 Rosengård,5819217,R. Bonde,90.0,28.0,90.0,28.0,3.0,46.169855,22,pass,True,0.0,left attacking third,left attacking third,High risk,6.1
 Rosengård,5819231,L. Carlius,86.0,63.0,87.0,70.0,3.0,15.926639,10,interception,True,7.0710678118654755,right attacking third,central attacking third,High risk,6.086066017177982
 Rosengård,5819150,B. Llana,77.0,9.0,77.0,9.0,2.0,25.334104,12,interception,True,0.0,left attacking third,left attacking third,High risk,6.08
 Rosengård,5819261,E. Igbonekwu,64.0,69.0,64.0,69.0,1.0,34.6817745,17,pass,True,0.0,right midfield,right midfield,Medium risk,6.0600000000000005
 Rosengård,5819186,M. Ritari,76.0,38.0,76.0,38.0,2.0,24.4739575,9,pass,True,0.0,central attacking third,central attacking third,High risk,6.04
-Rosengård,5819100,A. Malaj,62.0,75.0,62.0,75.0,1.0,11.2523605,6,interception,True,0.0,right midfield,right midfield,Medium risk,5.98
+Rosengård,5819328,H. Aroko,75.0,23.0,75.0,23.0,2.0,35.4742265,16,pass,True,0.0,left attacking third,left attacking third,High risk,6.0
+Rosengård,5819297,K. Larsson,74.0,62.0,74.0,62.0,2.0,23.3528665,6,pass,True,0.0,central attacking third,central attacking third,High risk,5.96
 Rosengård,5819217,K. Larsson,86.0,46.0,86.0,46.0,3.0,14.4200665,6,interception,True,0.0,central attacking third,central attacking third,High risk,5.9399999999999995
-Rosengård,5819137,G. Backaliden,60.0,73.0,60.0,73.0,1.0,19.9341455,6,touch,True,0.0,right midfield,right midfield,Medium risk,5.9
 Rosengård,5819186,L. Carlius,82.0,40.0,93.0,42.0,4.0,21.5424335,13,shot_against,True,11.180339887498949,central attacking third,central attacking third,Medium risk,5.887705098312485
+Rosengård,5819328,F. Schmidt Petersen,72.0,58.0,72.0,58.0,2.0,35.7458025,14,pass,True,0.0,central attacking third,central attacking third,High risk,5.88
 Rosengård,5819186,K. Larsson,72.0,71.0,72.0,71.0,2.0,14.608351,5,pass,True,0.0,right attacking third,right attacking third,High risk,5.88
+Rosengård,5819328,J. Voelkerling Persson,75.0,78.0,66.0,66.0,2.0,17.0972345,13,pass,True,15.0,central midfield,right attacking third,Medium risk,5.865
 Rosengård,5819250,J. Lynard,71.0,88.0,71.0,88.0,2.0,21.955876,5,clearance,True,0.0,right attacking third,right attacking third,High risk,5.84
 Rosengård,5819164,E. Igbonekwu,71.0,39.0,71.0,39.0,2.0,12.7265325,7,pass,True,0.0,central attacking third,central attacking third,High risk,5.84
+Rosengård,5819297,M. Andersson,62.0,80.0,68.0,84.0,2.0,14.093444,8,duel,True,7.211102550927978,right attacking third,right midfield,High risk,5.82816653826392
 Rosengård,5819217,J. Voelkerling Persson,70.0,48.0,70.0,48.0,2.0,10.577364,5,interception,True,0.0,central attacking third,central attacking third,High risk,5.800000000000001
 Rosengård,5819164,J. Lynard,57.0,30.0,57.0,30.0,1.0,20.7057145,8,interception,True,0.0,left midfield,left midfield,Medium risk,5.78
 Rosengård,5819217,M. Andersson,69.0,83.0,69.0,83.0,2.0,48.453149,20,interception,True,0.0,right attacking third,right attacking third,High risk,5.76
-Rosengård,5819100,M. Ritari,68.0,9.0,68.0,9.0,2.0,33.1907905,14,interception,True,0.0,left attacking third,left attacking third,High risk,5.720000000000001
+Rosengård,5819309,K. Larsson,81.0,67.0,81.0,67.0,3.0,26.544199,12,pass,True,0.0,right attacking third,right attacking third,High risk,5.74
+Rosengård,5819328,H. Aroko,72.0,40.0,94.0,57.0,5.0,34.3791685,18,pass,True,27.80287754891569,central attacking third,central attacking third,Medium risk,5.677043163233735
 Rosengård,5819250,M. Andersson,79.0,49.0,79.0,49.0,3.0,13.892639,10,interception,True,0.0,central attacking third,central attacking third,High risk,5.66
 Rosengård,5819217,K. Larsson,90.0,45.0,90.0,45.0,4.0,36.809433,12,interception,True,0.0,central attacking third,central attacking third,Medium risk,5.6
 Rosengård,5819197,W. Lindberg,90.0,47.0,90.0,47.0,4.0,12.6679715,7,pass,True,0.0,central attacking third,central attacking third,Medium risk,5.6
+Rosengård,5819297,O. Hakansson,77.0,21.0,77.0,21.0,3.0,91.489585,34,duel,True,0.0,left attacking third,left attacking third,High risk,5.58
 Rosengård,5819250,J. Voelkerling Persson,63.0,62.0,63.0,62.0,2.0,11.85316,5,pass,True,0.0,central midfield,central midfield,Medium risk,5.52
 Rosengård,5819250,B. Llana,75.0,29.0,75.0,29.0,3.0,8.743461,4,pass,True,0.0,left attacking third,left attacking third,High risk,5.5
 Rosengård,5819261,E. Igbonekwu,74.0,93.0,74.0,93.0,3.0,13.79606,8,interception,True,0.0,right attacking third,right attacking third,High risk,5.46
 Rosengård,5819197,E. Onotu,74.0,27.0,74.0,27.0,3.0,11.3172095,5,interception,True,0.0,left attacking third,left attacking third,High risk,5.46
+Rosengård,5819309,K. Larsson,61.0,47.0,61.0,47.0,2.0,16.034433,13,pass,True,0.0,central midfield,central midfield,Medium risk,5.4399999999999995
+Rosengård,5819328,F. Schmidt Petersen,60.0,27.0,60.0,27.0,2.0,51.7289285,17,pass,True,0.0,left midfield,left midfield,Medium risk,5.4
 Rosengård,5819186,B. Llana,85.0,14.0,85.0,14.0,4.0,30.7270305,17,pass,True,0.0,left attacking third,left attacking third,Medium risk,5.4
+Rosengård,5819297,M. Andersson,90.0,51.0,82.0,51.0,4.0,24.5483655,12,pass,True,8.0,central attacking third,central attacking third,Medium risk,5.4
 Rosengård,5819164,B. Llana,36.0,22.0,34.0,23.0,0.0,91.0280205,46,touch,False,2.23606797749979,left midfield,left midfield,Low risk,5.393541019662497
 Rosengård,5819164,O. Hakansson,78.0,76.0,68.0,73.0,3.0,13.7766605,9,pass,True,10.44030650891055,right attacking third,right attacking third,High risk,5.3766045976336585
 Rosengård,5819197,M. Andersson,70.0,58.0,70.0,58.0,3.0,64.1692745,24,interception,True,0.0,central attacking third,central attacking third,High risk,5.300000000000001
@@ -243,96 +241,89 @@ Rosengård,5819250,L. Carlius,69.0,32.0,69.0,32.0,3.0,8.698231,4,interception,Tr
 Rosengård,5819217,M. Andersson,56.0,67.0,56.0,67.0,2.0,8.897318,6,pass,True,0.0,right midfield,right midfield,Medium risk,5.24
 Rosengård,5819217,M. Andersson,30.0,94.0,30.0,94.0,0.0,45.0682385,23,interception,False,0.0,right defensive third,right defensive third,Low risk,5.2
 Rosengård,5819186,M. Ritari,42.0,28.0,42.0,28.0,1.0,43.280537,17,interception,False,0.0,left midfield,left midfield,Low risk,5.18
-Rosengård,5819137,R. Bonde,86.0,46.0,75.0,49.0,4.0,24.741214,16,interception,True,11.40175425099138,central attacking third,central attacking third,Medium risk,5.17102631376487
 Rosengård,5819150,I. Ljajic,29.0,16.0,29.0,16.0,0.0,13.392302,10,interception,False,0.0,left defensive third,left defensive third,Low risk,5.16
+Rosengård,5819309,F. Schmidt Petersen,78.0,48.0,78.0,48.0,4.0,23.4500045,8,interception,True,0.0,central attacking third,central attacking third,Medium risk,5.12
 Rosengård,5819280,O. Hakansson,27.0,44.0,27.0,44.0,0.0,34.503216,16,interception,False,0.0,central defensive third,central defensive third,Low risk,5.08
 Rosengård,5819164,M. Andersson,52.0,61.0,52.0,61.0,2.0,22.258948,7,pass,True,0.0,central midfield,central midfield,Medium risk,5.08
 Rosengård,5819250,J. Lynard,77.0,79.0,77.0,79.0,4.0,14.1024485,6,pass,True,0.0,right attacking third,right attacking third,Medium risk,5.08
-Rosengård,5819137,J. Lynard,39.0,85.0,39.0,85.0,1.0,10.7013235,8,pass,False,0.0,right midfield,right midfield,Low risk,5.0600000000000005
-Rosengård,5819137,A. Nilsson,64.0,88.0,64.0,88.0,3.0,9.410087,5,pass,True,0.0,right midfield,right midfield,Medium risk,5.0600000000000005
 Rosengård,5819217,A. Malaj,76.0,13.0,76.0,13.0,4.0,13.18762,5,pass,True,0.0,left attacking third,left attacking third,Medium risk,5.04
+Rosengård,5819309,J. Lynard,67.0,80.0,37.0,62.0,2.0,11.8663535,9,duel,False,34.9857113690718,central midfield,right attacking third,Low risk,5.004785670536077
 Rosengård,5819261,E. Igbonekwu,37.0,85.0,37.0,85.0,1.0,11.4906605,9,interception,False,0.0,right midfield,right midfield,Low risk,4.98
-Rosengård,5819118,J. Lynard,37.0,91.0,37.0,91.0,1.0,10.7675775,6,interception,False,0.0,right midfield,right midfield,Low risk,4.98
 Rosengård,5819231,E. Igbonekwu,61.0,72.0,61.0,72.0,3.0,57.713877,24,touch,True,0.0,right midfield,right midfield,Medium risk,4.9399999999999995
-Rosengård,5819100,K. Larsson,48.0,20.0,48.0,20.0,2.0,22.2057625,15,touch,False,0.0,left midfield,left midfield,Low risk,4.92
-Rosengård,5819100,K. Larsson,73.0,74.0,73.0,74.0,4.0,10.7648995,4,clearance,True,0.0,right attacking third,right attacking third,Medium risk,4.92
-Rosengård,5819118,M. Ritari,48.0,54.0,48.0,54.0,2.0,8.813437,8,interception,False,0.0,central midfield,central midfield,Low risk,4.92
 Rosengård,5819217,R. Bonde,60.0,24.0,60.0,24.0,3.0,15.6319455,7,pass,True,0.0,left midfield,left midfield,Medium risk,4.9
-Rosengård,5819100,M. Ritari,35.0,31.0,35.0,31.0,1.0,9.8749055,7,interception,False,0.0,left midfield,left midfield,Low risk,4.9
 Rosengård,5819231,W. Lindberg,47.0,81.0,47.0,81.0,2.0,17.73565,9,interception,False,0.0,right midfield,right midfield,Low risk,4.88
+Rosengård,5819297,J. Lynard,47.0,81.0,47.0,81.0,2.0,14.836645,5,interception,False,0.0,right midfield,right midfield,Low risk,4.88
 Rosengård,5819217,M. Ritari,78.0,9.0,82.0,48.0,6.0,14.5750975,10,interception,True,39.20459156782532,central attacking third,left attacking third,High risk,4.86806887351738
-Rosengård,5819100,R. Bonde,34.0,14.0,34.0,14.0,1.0,21.438089,12,interception,False,0.0,left midfield,left midfield,Low risk,4.86
 Rosengård,5819217,E. Persson,71.0,49.0,71.0,49.0,4.0,14.5540405,8,pass,True,0.0,central attacking third,central attacking third,Medium risk,4.84
 Rosengård,5819164,E. Igbonekwu,91.0,67.0,93.0,60.0,6.0,34.61073,16,interception,True,7.280109889280518,central attacking third,right attacking third,Medium risk,4.829201648339208
 Rosengård,5819164,J. Lynard,33.0,13.0,33.0,13.0,1.0,18.8871345,8,interception,False,0.0,left defensive third,left defensive third,Low risk,4.82
 Rosengård,5819186,E. Persson,70.0,42.0,70.0,42.0,4.0,8.9936585,5,pass,True,0.0,central attacking third,central attacking third,Medium risk,4.800000000000001
-Rosengård,5819118,K. Larsson,20.0,74.0,20.0,74.0,0.0,15.08275,9,interception,False,0.0,right defensive third,right defensive third,Low risk,4.8
-Rosengård,5819118,E. Onotu,45.0,20.0,45.0,20.0,2.0,14.223454,12,duel,False,0.0,left midfield,left midfield,Low risk,4.8
 Rosengård,5819217,E. Onotu,93.0,49.0,76.0,51.0,5.0,25.262679,10,interception,True,17.11724276862369,central attacking third,central attacking third,Medium risk,4.7967586415293555
 Rosengård,5819150,I. Ljajic,32.0,32.0,32.0,32.0,1.0,21.4566305,10,pass,False,0.0,left defensive third,left defensive third,Low risk,4.78
-Rosengård,5819118,A. Malaj,85.0,38.0,91.0,32.0,6.0,10.923155,7,duel,True,8.48528137423857,left attacking third,central attacking third,Medium risk,4.767279220613579
 Rosengård,5819231,A. Malaj,69.0,18.0,69.0,18.0,4.0,10.7751655,4,clearance,True,0.0,left attacking third,left attacking third,Medium risk,4.76
+Rosengård,5819309,R. Bonde,95.0,39.0,84.0,15.0,6.0,15.5371255,10,pass,True,26.40075756488817,left attacking third,central attacking third,Medium risk,4.756011363473322
 Rosengård,5819150,E. Persson,31.0,53.0,31.0,53.0,1.0,10.472511,5,interception,False,0.0,central defensive third,central defensive third,Low risk,4.74
-Rosengård,5819118,A. Löfqvist,93.0,69.0,87.0,85.0,6.0,26.600162,14,pass,True,17.08800749063506,right attacking third,right attacking third,Medium risk,4.736320112359526
 Rosengård,5819217,J. Voelkerling Persson,43.0,22.0,43.0,22.0,2.0,55.5574345,21,interception,False,0.0,left midfield,left midfield,Low risk,4.72
 Rosengård,5819261,E. Onotu,43.0,39.0,43.0,39.0,2.0,26.4691385,15,pass,False,0.0,central midfield,central midfield,Low risk,4.72
 Rosengård,5819197,K. Larsson,43.0,74.0,43.0,74.0,2.0,13.4918745,8,pass,False,0.0,right midfield,right midfield,Low risk,4.72
 Rosengård,5819231,R. Bonde,42.0,11.0,42.0,11.0,2.0,34.1368865,14,pass,False,0.0,left midfield,left midfield,Low risk,4.68
+Rosengård,5819309,A. Cederfelt,10.0,32.0,24.0,34.0,1.0,12.6497775,7,pass,False,14.142135623730951,central defensive third,left defensive third,Low risk,4.672132034355964
 Rosengård,5819261,B. Llana,29.0,68.0,29.0,68.0,1.0,8.9137415,8,duel,False,0.0,right defensive third,right defensive third,Low risk,4.66
 Rosengård,5819217,J. Voelkerling Persson,91.0,50.0,91.0,50.0,6.0,32.834472,11,touch,True,0.0,central attacking third,central attacking third,Medium risk,4.640000000000001
 Rosengård,5819150,I. Ljajic,41.0,33.0,41.0,33.0,2.0,12.057568,6,interception,False,0.0,left midfield,left midfield,Low risk,4.640000000000001
+Rosengård,5819309,M. Andersson,41.0,60.0,41.0,60.0,2.0,8.4718845,9,pass,False,0.0,central midfield,central midfield,Low risk,4.640000000000001
 Rosengård,5819261,M. Andersson,78.0,73.0,78.0,73.0,5.0,57.7410725,30,pass,True,0.0,right attacking third,right attacking third,Medium risk,4.62
 Rosengård,5819261,A. Malaj,78.0,60.0,78.0,60.0,5.0,8.0586545,4,pass,True,0.0,central attacking third,central attacking third,Medium risk,4.62
+Rosengård,5819328,K. Larsson,64.0,89.0,64.0,89.0,4.0,32.5888315,10,pass,True,0.0,right midfield,right midfield,Low risk,4.5600000000000005
+Rosengård,5819297,A. Cederfelt,39.0,83.0,39.0,83.0,2.0,15.966381,12,pass,False,0.0,right midfield,right midfield,Low risk,4.5600000000000005
 Rosengård,5819186,J. Lynard,63.0,83.0,63.0,83.0,4.0,49.7839955,21,pass,True,0.0,right midfield,right midfield,Low risk,4.52
+Rosengård,5819297,M. Andersson,87.0,50.0,87.0,50.0,6.0,46.996542,23,pass,True,0.0,central attacking third,central attacking third,Medium risk,4.48
 Rosengård,5819150,B. Llana,36.0,13.0,36.0,13.0,2.0,14.562024,7,interception,False,0.0,left midfield,left midfield,Low risk,4.4399999999999995
-Rosengård,5819137,A. Nilsson,61.0,37.0,61.0,37.0,4.0,12.71777,6,pass,True,0.0,central midfield,central midfield,Low risk,4.4399999999999995
 Rosengård,5819197,O. Hakansson,73.0,18.0,73.0,18.0,5.0,19.646427,6,pass,True,0.0,left attacking third,left attacking third,Medium risk,4.42
 Rosengård,5819231,A. Malaj,36.0,67.0,31.0,57.0,2.0,9.7918515,6,touch,False,11.180339887498949,central defensive third,right midfield,Low risk,4.407705098312484
 Rosengård,5819186,B. Llana,60.0,34.0,60.0,34.0,4.0,11.174543,5,duel,True,0.0,central midfield,central midfield,Low risk,4.4
-Rosengård,5819118,M. Ritari,63.0,31.0,66.0,15.0,5.0,10.239869,9,duel,True,16.278820596099706,left midfield,left midfield,Low risk,4.384182308941496
 Rosengård,5819250,K. Larsson,34.0,46.0,34.0,46.0,2.0,22.487165,16,interception,False,0.0,central midfield,central midfield,Low risk,4.36
 Rosengård,5819186,B. Llana,9.0,16.0,9.0,16.0,0.0,8.281239,5,interception,False,0.0,left defensive third,left defensive third,Low risk,4.36
 Rosengård,5819197,E. Igbonekwu,76.0,33.0,98.0,49.0,8.0,23.5096735,14,shot_against,True,27.202941017470888,central attacking third,left attacking third,Medium risk,4.328044115262063
 Rosengård,5819231,E. Onotu,90.0,39.0,87.0,16.0,7.0,26.057008,14,clearance,True,23.194827009486403,left attacking third,central attacking third,Medium risk,4.327922405142296
 Rosengård,5819217,K. Larsson,45.0,46.0,45.0,46.0,3.0,46.6924325,16,pass,False,0.0,central midfield,central midfield,Low risk,4.3
+Rosengård,5819297,J. Lynard,70.0,62.0,67.0,68.0,5.0,17.9462235,13,duel,True,6.708203932499369,right attacking third,central attacking third,Medium risk,4.28062305898749
 Rosengård,5819186,E. Persson,44.0,74.0,44.0,74.0,3.0,21.657925,10,pass,False,0.0,right midfield,right midfield,Low risk,4.26
 Rosengård,5819250,R. Bonde,18.0,8.0,18.0,8.0,1.0,72.012256,29,interception,False,0.0,left defensive third,left defensive third,Low risk,4.22
 Rosengård,5819197,E. Persson,55.0,28.0,55.0,28.0,4.0,34.5170035,15,pass,True,0.0,left midfield,left midfield,Low risk,4.2
 Rosengård,5819250,O. Hakansson,30.0,48.0,30.0,48.0,2.0,10.1995765,4,pass,False,0.0,central defensive third,central defensive third,Low risk,4.2
 Rosengård,5819280,J. Lynard,92.0,73.0,92.0,73.0,7.0,30.629385,10,interception,True,0.0,right attacking third,right attacking third,Medium risk,4.18
+Rosengård,5819309,G. Ankamafio,6.0,4.0,13.0,12.0,1.0,11.964546,4,duel,False,10.63014581273465,left defensive third,left defensive third,Low risk,4.1794521871910195
 Rosengård,5819280,E. Onotu,4.0,5.0,4.0,5.0,0.0,13.6038135,7,interception,False,0.0,left defensive third,left defensive third,Low risk,4.16
 Rosengård,5819231,A. Malaj,28.0,88.0,28.0,88.0,2.0,38.74106,16,interception,False,0.0,right defensive third,right defensive third,Low risk,4.12
 Rosengård,5819217,M. Andersson,90.0,47.0,90.0,47.0,7.0,16.176507,10,pass,True,0.0,central attacking third,central attacking third,Medium risk,4.1
-Rosengård,5819137,A. Malaj,59.0,58.0,62.0,65.0,5.0,12.038509,12,duel,True,7.615773105863909,central midfield,central midfield,Low risk,4.094236596587959
 Rosengård,5819261,E. Onotu,90.0,44.0,75.0,11.0,7.0,28.7197855,13,pass,True,36.24913792078372,left attacking third,central attacking third,High risk,4.0437370688117555
 Rosengård,5819217,E. Onotu,26.0,45.0,26.0,45.0,2.0,43.6179225,16,shot,False,0.0,central defensive third,central defensive third,Low risk,4.04
 Rosengård,5819150,G. Backaliden,71.0,67.0,51.0,44.0,5.0,48.658427,20,pass,True,30.479501308256342,central midfield,right attacking third,Low risk,3.9971925196238454
 Rosengård,5819250,A. Nilsson,69.0,41.0,80.0,52.0,7.0,14.850597,6,duel,True,15.556349186104045,central attacking third,central attacking third,Medium risk,3.9333452377915608
 Rosengård,5819250,A. Nilsson,48.0,64.0,48.0,64.0,4.0,43.836003,18,interception,False,0.0,central midfield,central midfield,Low risk,3.92
 Rosengård,5819186,J. Lynard,38.0,91.0,42.0,77.0,4.0,20.1095865,18,duel,False,14.560219778561036,right midfield,right midfield,Low risk,3.8984032966784152
-Rosengård,5819137,A. Nilsson,47.0,47.0,47.0,47.0,4.0,67.69115,36,pass,False,0.0,central midfield,central midfield,Low risk,3.88
 Rosengård,5819217,M. Andersson,32.0,35.0,32.0,35.0,3.0,24.174504,13,pass,False,0.0,central defensive third,central defensive third,Low risk,3.7800000000000002
-Rosengård,5819100,O. Hakansson,32.0,91.0,32.0,91.0,3.0,8.0728915,5,interception,False,0.0,right defensive third,right defensive third,Low risk,3.7800000000000002
 Rosengård,5819261,A. Malaj,35.0,45.0,25.0,60.0,3.0,9.578026,9,duel,False,18.027756377319946,central defensive third,central midfield,Low risk,3.770416345659799
 Rosengård,5819186,K. Larsson,69.0,26.0,69.0,26.0,6.0,37.890575,21,pass,True,0.0,left attacking third,left attacking third,Medium risk,3.7600000000000002
 Rosengård,5819231,R. Bonde,44.0,22.0,44.0,22.0,4.0,12.871378,7,pass,False,0.0,left midfield,left midfield,Low risk,3.76
-Rosengård,5819137,R. Bonde,44.0,31.0,44.0,31.0,4.0,10.2983765,5,pass,False,0.0,left midfield,left midfield,Low risk,3.76
 Rosengård,5819164,O. Hakansson,31.0,56.0,31.0,56.0,3.0,9.247511,6,pass,False,0.0,central defensive third,central defensive third,Low risk,3.74
 Rosengård,5819231,R. Bonde,4.0,17.0,4.0,17.0,1.0,16.1753295,10,interception,False,0.0,left defensive third,left defensive third,Low risk,3.66
 Rosengård,5819261,J. Lynard,96.0,55.0,87.0,52.0,8.0,28.794121,14,interception,True,9.486832980505138,central attacking third,central attacking third,Medium risk,3.622302494707577
 Rosengård,5819164,M. Ritari,82.0,18.0,83.0,37.0,8.0,29.7147985,18,pass,True,19.026297590440446,central attacking third,left attacking third,Medium risk,3.605394463856607
 Rosengård,5819250,B. Llana,26.0,47.0,26.0,47.0,3.0,10.9113835,7,duel,False,0.0,central defensive third,central defensive third,Low risk,3.54
-Rosengård,5819100,J. Lynard,30.0,50.0,30.0,50.0,4.0,19.471295,10,interception,False,0.0,central defensive third,central defensive third,Low risk,3.2
+Rosengård,5819328,J. Lynard,74.0,67.0,74.0,67.0,7.0,47.2456335,27,pass,True,0.0,right attacking third,right attacking third,Medium risk,3.46
+Rosengård,5819297,J. Lynard,85.0,87.0,85.0,87.0,8.0,27.3489585,13,pass,True,0.0,right attacking third,right attacking third,Medium risk,3.4
+Rosengård,5819309,E. Igbonekwu,21.0,6.0,21.0,6.0,3.0,11.2117835,7,pass,False,0.0,left defensive third,left defensive third,Low risk,3.34
 Rosengård,5819280,M. Ritari,28.0,81.0,28.0,81.0,4.0,69.7745045,28,pass,False,0.0,right defensive third,right defensive third,Low risk,3.12
 Rosengård,5819164,W. Lindberg,61.0,98.0,72.0,95.0,8.0,10.452355,6,duel,True,11.40175425099138,right attacking third,right midfield,Medium risk,3.0510263137648708
-Rosengård,5819118,A. Malaj,77.0,17.0,72.0,7.0,8.0,18.018896,13,duel,True,11.180339887498949,left attacking third,left attacking third,Medium risk,3.047705098312484
 Rosengård,5819231,A. Nilsson,75.0,83.0,72.0,93.0,8.0,25.371708,7,duel,True,10.44030650891055,right attacking third,right attacking third,Medium risk,3.036604597633658
 Rosengård,5819280,M. Ritari,59.0,19.0,44.0,11.0,6.0,42.156204,16,duel,False,17.0,left midfield,left midfield,Low risk,3.0149999999999997
 Rosengård,5819217,G. Backaliden,8.0,45.0,8.0,45.0,3.0,19.695941,12,pass,False,0.0,central defensive third,central defensive third,Low risk,2.82
 Rosengård,5819164,J. Lynard,35.0,21.0,59.0,19.0,8.0,37.1237025,17,pass,True,24.08318915758459,left midfield,left midfield,Low risk,2.7212478373637685
 Rosengård,5819217,E. Igbonekwu,29.0,91.0,22.0,87.0,5.0,9.297012,6,pass,False,8.06225774829855,right defensive third,right defensive third,Low risk,2.500933866224478
+Rosengård,5819297,E. Persson,44.0,76.0,45.0,82.0,7.0,27.1607925,6,pass,False,6.082762530298219,right midfield,right midfield,Low risk,2.391241437954473
 Rosengård,5819217,M. Andersson,46.0,75.0,44.0,93.0,8.0,38.855553,24,duel,False,18.110770276274835,right midfield,right midfield,Low risk,2.0316615541441223
 Rosengård,5819150,A. Dumbuya,34.0,61.0,43.0,44.0,8.0,47.996092,22,duel,False,19.235384061671343,central midfield,central midfield,Low risk,2.00853076092507
 Rosengård,5819250,J. Lynard,35.0,86.0,36.0,54.0,8.0,17.403261,12,pass,False,32.01562118716424,central midfield,right midfield,Low risk,1.9202343178074637
-Rosengård,5819100,K. Larsson,47.0,55.0,29.0,93.0,8.0,12.212367,6,duel,False,42.04759208325728,right defensive third,central midfield,Low risk,1.790713881248859
 Rosengård,5819186,O. Hakansson,40.0,67.0,27.0,68.0,7.0,18.693272,12,pass,False,13.038404810405298,right defensive third,right midfield,Low risk,1.7755760721560796
