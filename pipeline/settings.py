@@ -99,7 +99,7 @@ def load_settings(force_refresh: bool = False) -> Settings:
     output_dir = Path(os.getenv("OUTPUT_DIR", ".")).resolve()
     reports_dir = output_dir / os.getenv("REPORTS_DIR", "reports")
 
-    max_event_matches = _env_int("MAX_EVENT_MATCHES", 12)
+    max_event_matches = _env_int("MAX_EVENT_MATCHES", 100)
     analysis_event_match_target = _env_int("ANALYSIS_EVENT_MATCH_TARGET", max_event_matches)
     env_force_refresh = _env_bool("FORCE_REFRESH_FROM_API", "0")
 
@@ -112,12 +112,12 @@ def load_settings(force_refresh: bool = False) -> Settings:
         http_timeout_seconds=_env_int("HTTP_TIMEOUT_SECONDS", 30),
         team_query=os.getenv("TEAM_QUERY", "Jonkopings"),
         target_team_keyword=os.getenv("TARGET_TEAM_KEYWORD", "jonkopings sodra"),
-        recent_match_limit=_env_int("RECENT_MATCH_LIMIT", 30),
+        recent_match_limit=_env_int("RECENT_MATCH_LIMIT", 100),
         max_event_matches=max_event_matches,
-        next_opponent_event_matches=_env_int("NEXT_OPPONENT_EVENT_MATCHES", 10),
+        next_opponent_event_matches=_env_int("NEXT_OPPONENT_EVENT_MATCHES", 100),
         recent_form_matches=_env_int("RECENT_FORM_MATCHES", 5),
         upcoming_fixture_limit=_env_int("UPCOMING_FIXTURE_LIMIT", 5),
-        max_h2h_matches=_env_int("MAX_H2H_MATCHES", 8),
+        max_h2h_matches=_env_int("MAX_H2H_MATCHES", 5),
         analysis_event_match_target=analysis_event_match_target,
         max_previous_season_matches=_env_int("MAX_PREVIOUS_SEASON_MATCHES", analysis_event_match_target),
         enable_previous_season_complement=_env_bool("ENABLE_PREVIOUS_SEASON_COMPLEMENT", "0"),
