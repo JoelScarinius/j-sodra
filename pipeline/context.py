@@ -56,6 +56,13 @@ class PipelineContext:
     @property
     def active_season_id(self):
         return self.team.get("season_id")
+    @property
+    def report_scope_key(self) -> str:
+        return self.settings.report_scope_key
+
+    @property
+    def requested_season_id(self):
+        return self.settings.report_season_id
 
     @property
     def opponent_season_id(self):

@@ -1,21 +1,34 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "section": "head_to_head",
   "overview": {
-    "found": false,
+    "found": true,
     "team_id": 6849,
     "team_name": "Jönköpings Södra",
-    "opponent_id": 6786,
-    "opponent_name": "Rosengård",
+    "opponent_id": 6742,
+    "opponent_name": "Ängelholm",
     "summary": {
-      "matches_played": 0,
-      "wins": 0,
+      "matches_played": 1,
+      "wins": 1,
       "draws": 0,
       "losses": 0,
-      "goals_for": 0,
+      "goals_for": 3,
       "goals_against": 0
     },
-    "meetings": [],
+    "meetings": [
+      {
+        "match_id": 5819202,
+        "dateutc": "2026-05-24T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Jönköpings Södra - Ängelholm, 3-0",
+        "result": "W",
+        "score": "3-0",
+        "goals_for": 3,
+        "goals_against": 0
+      }
+    ],
     "scope": {
       "mode": "current_season",
       "requested_current_season_id": 192451,
@@ -24,10 +37,24 @@
     }
   },
   "last_meeting": {
-    "found": false,
-    "note": "No previous meeting found. Using recent-form context."
+    "found": true,
+    "match_id": 5819202,
+    "dateutc": "2026-05-24T14:00:00+00:00",
+    "season_id": 192451,
+    "competition_id": 810,
+    "status": "Played",
+    "label": "Jönköpings Södra - Ängelholm, 3-0",
+    "result": "W",
+    "score": "3-0",
+    "goals_for": 3,
+    "goals_against": 0
   },
   "files": {
-    "plots": {}
+    "plots": {
+      "goal_diff_recent": {
+        "path": "reports/head_to_head/plots/goal_diff_recent.png",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/head_to_head/plots/goal_diff_recent.png"
+      }
+    }
   }
 }

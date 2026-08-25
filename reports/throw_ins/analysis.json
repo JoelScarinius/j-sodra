@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "section": "throw_ins",
   "title": "Throw-ins",
   "description": "Simple throw-in view showing where the ball lands and how often the move becomes a shot or goal.",
@@ -8,76 +8,76 @@
     "id": 6849,
     "name": "Jönköpings Södra",
     "summary": {
-      "total": 562,
-      "created_shots": 22,
-      "goals": 2,
-      "xg": 1.502,
-      "xg_for": 1.502,
-      "retention_pct": 96.09,
-      "attacking_third_share_pct": 36.65,
-      "defensive_third_share_pct": 27.22,
+      "total": 850,
+      "created_shots": 30,
+      "goals": 3,
+      "xg": 2.307,
+      "xg_for": 2.307,
+      "retention_pct": 96.47,
+      "attacking_third_share_pct": 35.65,
+      "defensive_third_share_pct": 26.94,
       "competition_label": "League campaign",
       "season_label": "2026",
-      "latest_match_label": "Ariana - Jönköpings Södra, 1-0"
+      "latest_match_label": "Jönköpings Södra - Rosengård, 0-0"
     },
     "metrics": [
       {
         "label": "Throw-ins",
-        "value": 562,
+        "value": 850,
         "format": "count"
       },
       {
         "label": "Created shots",
-        "value": 22,
+        "value": 30,
         "format": "count"
       },
       {
         "label": "Goals",
-        "value": 2,
+        "value": 3,
         "format": "count"
       },
       {
         "label": "xG",
-        "value": 1.502,
+        "value": 2.307,
         "format": "0.000"
       },
       {
         "label": "Retention",
-        "value": 96.1,
+        "value": 96.5,
         "format": "percent"
       }
     ],
     "storylines": [
-      "Jönköpings Södra took 37% of throw-ins from the attacking third and 27% from the defensive third.",
-      "Throw-ins generated 22 shots and 2 goals in the sampled window.",
+      "Jönköpings Södra took 36% of throw-ins from the attacking third and 27% from the defensive third.",
+      "Throw-ins generated 30 shots and 3 goals in the sampled window.",
       "Most throw-ins were retained or recycled safely, with 96% not immediately ending in a shot."
     ]
   },
   "next_opponent": {
-    "id": 6786,
-    "name": "Rosengård",
+    "id": 6742,
+    "name": "Ängelholm",
     "summary": {
-      "total": 597,
-      "created_shots": 17,
+      "total": 949,
+      "created_shots": 20,
       "goals": 0,
-      "xg": 0.484,
-      "xg_for": 0.484,
-      "retention_pct": 97.15,
-      "attacking_third_share_pct": 34.34,
-      "defensive_third_share_pct": 28.31,
+      "xg": 0.885,
+      "xg_for": 0.885,
+      "retention_pct": 97.89,
+      "attacking_third_share_pct": 32.77,
+      "defensive_third_share_pct": 29.08,
       "competition_label": "League campaign",
       "season_label": "2026",
-      "latest_match_label": "Åtvidaberg - Rosengård, 3-3"
+      "latest_match_label": "Åtvidaberg - Ängelholm, 4-1"
     },
     "metrics": [
       {
         "label": "Throw-ins",
-        "value": 597,
+        "value": 949,
         "format": "count"
       },
       {
         "label": "Created shots",
-        "value": 17,
+        "value": 20,
         "format": "count"
       },
       {
@@ -87,19 +87,19 @@
       },
       {
         "label": "xG",
-        "value": 0.484,
+        "value": 0.885,
         "format": "0.000"
       },
       {
         "label": "Retention",
-        "value": 97.2,
+        "value": 97.9,
         "format": "percent"
       }
     ],
     "storylines": [
-      "Rosengård took 34% of throw-ins from the attacking third and 28% from the defensive third.",
-      "Throw-ins generated 17 shots and 0 goals in the sampled window.",
-      "Most throw-ins were retained or recycled safely, with 97% not immediately ending in a shot."
+      "Ängelholm took 33% of throw-ins from the attacking third and 29% from the defensive third.",
+      "Throw-ins generated 20 shots and 0 goals in the sampled window.",
+      "Most throw-ins were retained or recycled safely, with 98% not immediately ending in a shot."
     ]
   },
   "files": {

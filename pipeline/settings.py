@@ -65,8 +65,11 @@ class Settings:
     enable_previous_season_complement: bool
     h2h_fallback_to_previous_season: bool
     filter_to_active_season: bool
+    report_season_id: int | None
+    report_scope_key: str
 
     output_dir: Path
+    reports_root_dir: Path
     reports_dir: Path
 
     upload_to_supabase_storage: bool
@@ -97,7 +100,11 @@ class Settings:
 
 def load_settings(force_refresh: bool = False) -> Settings:
     output_dir = Path(os.getenv("OUTPUT_DIR", ".")).resolve()
-    reports_dir = output_dir / os.getenv("REPORTS_DIR", "reports")
+    reports_root_dir = output_dir / os.getenv("REPORTS_DIR", "reports")
+    raw_report_season_id = os.getenv("REPORT_SEASON_ID", "").strip()
+    report_season_id = int(raw_report_season_id) if raw_report_season_id else None
+    report_scope_key = raw_report_season_id or "current"
+    reports_dir = reports_root_dir / "seasons" / report_scope_key
 
     max_event_matches = _env_int("MAX_EVENT_MATCHES", 100)
     analysis_event_match_target = _env_int("ANALYSIS_EVENT_MATCH_TARGET", max_event_matches)
@@ -123,7 +130,10 @@ def load_settings(force_refresh: bool = False) -> Settings:
         enable_previous_season_complement=_env_bool("ENABLE_PREVIOUS_SEASON_COMPLEMENT", "0"),
         h2h_fallback_to_previous_season=_env_bool("H2H_FALLBACK_TO_PREVIOUS_SEASON", "1"),
         filter_to_active_season=_env_bool("FILTER_TO_ACTIVE_SEASON", "1"),
+        report_season_id=report_season_id,
+        report_scope_key=report_scope_key,
         output_dir=output_dir,
+        reports_root_dir=reports_root_dir,
         reports_dir=reports_dir,
         upload_to_supabase_storage=_env_bool("UPLOAD_TO_SUPABASE_STORAGE", "0"),
         supabase_s3_endpoint=os.getenv(

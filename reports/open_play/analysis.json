@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "section": "open_play",
   "title": "Open Play",
   "description": "Simple view of forward passing, shots, pass connections, and top player profiles for both teams.",
@@ -8,28 +8,44 @@
     "id": 6849,
     "name": "Jönköpings Södra",
     "summary": {
-      "progressive_passes": 449,
-      "progressive_carries": 334,
-      "shots": 161,
-      "shots_for": 161,
-      "shots_against": 124,
-      "goals": 16,
-      "goals_for": 16,
-      "goals_against": 11,
-      "xg": 19.273,
-      "xg_for": 19.273,
-      "xg_against": 12.648,
+      "progressive_passes": 607,
+      "progressive_carries": 422,
+      "shots": 197,
+      "shots_for": 197,
+      "shots_against": 166,
+      "goals": 21,
+      "goals_for": 21,
+      "goals_against": 17,
+      "xg": 23.122,
+      "xg_for": 23.122,
+      "xg_against": 17.165,
       "xp": null,
-      "box_shots": 111,
-      "on_target": 53,
+      "box_shots": 133,
+      "on_target": 66,
       "competition_label": "League campaign",
       "season_label": "2026",
-      "latest_match_label": "Ariana - Jönköpings Södra, 1-0",
+      "latest_match_label": "Jönköpings Södra - Rosengård, 0-0",
       "possession_losses": {
-        "total": 146,
-        "attacking_half": 116,
-        "average_pickup_delay": 2.79,
+        "total": 196,
+        "attacking_half": 151,
+        "average_pickup_delay": 2.87,
         "player_summary": [
+          {
+            "player_name": "A. Eriksson",
+            "drops": 30,
+            "attacking_half": 18,
+            "average_pickup_delay": 2.9,
+            "most_common_zone": "central attacking third",
+            "risk_label": "High risk"
+          },
+          {
+            "player_name": "D. Kozica",
+            "drops": 23,
+            "attacking_half": 18,
+            "average_pickup_delay": 2.57,
+            "most_common_zone": "central attacking third",
+            "risk_label": "High risk"
+          },
           {
             "player_name": "A. Kiwarkis",
             "drops": 21,
@@ -39,74 +55,58 @@
             "risk_label": "High risk"
           },
           {
-            "player_name": "A. Eriksson",
-            "drops": 21,
-            "attacking_half": 13,
-            "average_pickup_delay": 3.1,
-            "most_common_zone": "central attacking third",
-            "risk_label": "High risk"
-          },
-          {
-            "player_name": "D. Kozica",
-            "drops": 19,
-            "attacking_half": 15,
-            "average_pickup_delay": 2.47,
-            "most_common_zone": "central attacking third",
-            "risk_label": "High risk"
-          },
-          {
             "player_name": "J. Shamoun",
-            "drops": 15,
-            "attacking_half": 14,
-            "average_pickup_delay": 2.33,
+            "drops": 16,
+            "attacking_half": 15,
+            "average_pickup_delay": 2.25,
             "most_common_zone": "central attacking third",
-            "risk_label": "High risk"
-          },
-          {
-            "player_name": "A. Bark",
-            "drops": 12,
-            "attacking_half": 11,
-            "average_pickup_delay": 3.5,
-            "most_common_zone": "right attacking third",
             "risk_label": "High risk"
           },
           {
             "player_name": "J. Drott",
-            "drops": 8,
-            "attacking_half": 7,
-            "average_pickup_delay": 1.88,
+            "drops": 16,
+            "attacking_half": 13,
+            "average_pickup_delay": 2.44,
             "most_common_zone": "left attacking third",
             "risk_label": "High risk"
           },
           {
+            "player_name": "A. Bark",
+            "drops": 14,
+            "attacking_half": 13,
+            "average_pickup_delay": 3.57,
+            "most_common_zone": "right attacking third",
+            "risk_label": "High risk"
+          },
+          {
             "player_name": "L. Eek",
-            "drops": 8,
-            "attacking_half": 6,
-            "average_pickup_delay": 3.25,
+            "drops": 12,
+            "attacking_half": 9,
+            "average_pickup_delay": 3.58,
             "most_common_zone": "central attacking third",
             "risk_label": "High risk"
           },
           {
             "player_name": "H. Lyck",
-            "drops": 7,
-            "attacking_half": 3,
-            "average_pickup_delay": 3.57,
+            "drops": 11,
+            "attacking_half": 7,
+            "average_pickup_delay": 4.0,
             "most_common_zone": "right midfield",
             "risk_label": "High risk"
           },
           {
             "player_name": "A. Karlsson",
-            "drops": 6,
-            "attacking_half": 5,
-            "average_pickup_delay": 3.0,
+            "drops": 10,
+            "attacking_half": 8,
+            "average_pickup_delay": 3.9,
             "most_common_zone": "right attacking third",
             "risk_label": "High risk"
           },
           {
             "player_name": "O. Almström",
-            "drops": 6,
-            "attacking_half": 4,
-            "average_pickup_delay": 3.5,
+            "drops": 9,
+            "attacking_half": 6,
+            "average_pickup_delay": 3.44,
             "most_common_zone": "central attacking third",
             "risk_label": "High risk"
           }
@@ -114,28 +114,33 @@
         "zone_summary": [
           {
             "zone": "central attacking third",
-            "drops": 36,
-            "average_pickup_delay": 2.94
-          },
-          {
-            "zone": "left attacking third",
-            "drops": 29,
-            "average_pickup_delay": 2.07
+            "drops": 44,
+            "average_pickup_delay": 2.77
           },
           {
             "zone": "right attacking third",
-            "drops": 27,
-            "average_pickup_delay": 2.59
+            "drops": 35,
+            "average_pickup_delay": 3.09
+          },
+          {
+            "zone": "left attacking third",
+            "drops": 34,
+            "average_pickup_delay": 2.24
           },
           {
             "zone": "right midfield",
-            "drops": 18,
-            "average_pickup_delay": 2.28
+            "drops": 31,
+            "average_pickup_delay": 2.1
           },
           {
             "zone": "left midfield",
-            "drops": 13,
-            "average_pickup_delay": 3.38
+            "drops": 21,
+            "average_pickup_delay": 4.05
+          },
+          {
+            "zone": "central midfield",
+            "drops": 11,
+            "average_pickup_delay": 3.36
           },
           {
             "zone": "left defensive third",
@@ -143,19 +148,14 @@
             "average_pickup_delay": 4.62
           },
           {
-            "zone": "central midfield",
-            "drops": 6,
-            "average_pickup_delay": 4.17
-          },
-          {
             "zone": "central defensive third",
-            "drops": 6,
-            "average_pickup_delay": 2.83
+            "drops": 7,
+            "average_pickup_delay": 3.43
           },
           {
             "zone": "right defensive third",
-            "drops": 3,
-            "average_pickup_delay": 2.33
+            "drops": 5,
+            "average_pickup_delay": 1.8
           }
         ],
         "most_dangerous_drops": [
@@ -193,6 +193,17 @@
             "pickup_y": 16.0
           },
           {
+            "player_name": "J. Drott",
+            "pickup_zone": "left attacking third",
+            "drop_zone": "right attacking third",
+            "pickup_delay": 0.0,
+            "travel_distance": 82.6,
+            "risk_label": "High risk",
+            "pickup_in_attacking_half": true,
+            "pickup_x": 84.0,
+            "pickup_y": 19.0
+          },
+          {
             "player_name": "O. Almström",
             "pickup_zone": "left attacking third",
             "drop_zone": "right attacking third",
@@ -202,6 +213,17 @@
             "pickup_in_attacking_half": true,
             "pickup_x": 92.0,
             "pickup_y": 16.0
+          },
+          {
+            "player_name": "D. Kozica",
+            "pickup_zone": "central attacking third",
+            "drop_zone": "left attacking third",
+            "pickup_delay": 1.0,
+            "travel_distance": 21.8,
+            "risk_label": "High risk",
+            "pickup_in_attacking_half": true,
+            "pickup_x": 96.0,
+            "pickup_y": 46.0
           },
           {
             "player_name": "J. Shamoun",
@@ -224,28 +246,6 @@
             "pickup_in_attacking_half": true,
             "pickup_x": 99.0,
             "pickup_y": 72.0
-          },
-          {
-            "player_name": "A. Bark",
-            "pickup_zone": "right attacking third",
-            "drop_zone": "right attacking third",
-            "pickup_delay": 1.0,
-            "travel_distance": 19.7,
-            "risk_label": "High risk",
-            "pickup_in_attacking_half": true,
-            "pickup_x": 92.0,
-            "pickup_y": 82.0
-          },
-          {
-            "player_name": "J. Shamoun",
-            "pickup_zone": "central attacking third",
-            "drop_zone": "central attacking third",
-            "pickup_delay": 1.0,
-            "travel_distance": 12.5,
-            "risk_label": "High risk",
-            "pickup_in_attacking_half": true,
-            "pickup_x": 94.0,
-            "pickup_y": 53.0
           }
         ]
       }
@@ -253,309 +253,309 @@
     "metrics": [
       {
         "label": "Progressive passes",
-        "value": 449,
+        "value": 607,
         "format": "count"
       },
       {
         "label": "Progressive carries",
-        "value": 334,
+        "value": 422,
         "format": "count"
       },
       {
         "label": "Shots",
-        "value": 161,
+        "value": 197,
         "format": "count"
       },
       {
         "label": "Goals",
-        "value": 16,
+        "value": 21,
         "format": "count"
       },
       {
         "label": "xG",
-        "value": 19.273,
+        "value": 23.122,
         "format": "0.000"
       },
       {
         "label": "Shots against",
-        "value": 124,
+        "value": 166,
         "format": "count"
       },
       {
         "label": "xG against",
-        "value": 12.648,
+        "value": 17.165,
         "format": "0.000"
       },
       {
         "label": "Risky possession losses",
-        "value": 146,
+        "value": 196,
         "format": "count"
       }
     ],
     "storylines": [
-      "Jönköpings Södra produced 449 progressive passes and 334 progressive carries in the sampled window.",
-      "Open play generated 161 shots, 16 goals, and 19.27 xG.",
-      "Opponents generated 124 shots, 11 goals, and 12.65 xG against in the same sample.",
-      "Jönköpings Södra had 146 risky open-play possession losses in the sample, with 116 opponent pickups in the attacking half.",
-      "The clearest passing relationship is H. Lyck to S. Crona with 19 completed passes.",
+      "Jönköpings Södra produced 607 progressive passes and 422 progressive carries in the sampled window.",
+      "Open play generated 197 shots, 21 goals, and 23.12 xG.",
+      "Opponents generated 166 shots, 17 goals, and 17.16 xG against in the same sample.",
+      "Jönköpings Södra had 196 risky open-play possession losses in the sample, with 151 opponent pickups in the attacking half.",
+      "The clearest passing relationship is L. Eek to S. Crona with 18 completed passes.",
       "The radar plot highlights A. Eriksson as the strongest all-round open-play profile in this sample.",
       "The published report includes the selected analysis match count and season scope so the frontend can keep the match slider in sync with the exposed data window."
     ],
     "analysis_scope": {
-      "target_match_count": 12,
+      "target_match_count": 100,
       "current_season_id": 192451,
-      "current_season_played_matches_available": 14,
-      "current_season_matches_used": 12,
+      "current_season_played_matches_available": 18,
+      "current_season_matches_used": 18,
       "previous_season_id": null,
       "previous_season_matches_used": 0,
-      "analysis_matches_used": 12,
+      "analysis_matches_used": 18,
       "is_complemented_with_previous_season": false,
       "scope_label": "current_season_only"
     },
-    "analysis_match_count": 12
+    "analysis_match_count": 18
   },
   "next_opponent": {
-    "id": 6786,
-    "name": "Rosengård",
+    "id": 6742,
+    "name": "Ängelholm",
     "summary": {
-      "progressive_passes": 563,
-      "progressive_carries": 354,
-      "shots": 183,
-      "shots_for": 183,
-      "shots_against": 120,
-      "goals": 18,
-      "goals_for": 18,
-      "goals_against": 15,
-      "xg": 18.125,
-      "xg_for": 18.125,
-      "xg_against": 13.406,
+      "progressive_passes": 752,
+      "progressive_carries": 378,
+      "shots": 207,
+      "shots_for": 207,
+      "shots_against": 195,
+      "goals": 24,
+      "goals_for": 24,
+      "goals_against": 25,
+      "xg": 20.999,
+      "xg_for": 20.999,
+      "xg_against": 24.608,
       "xp": null,
-      "box_shots": 102,
-      "on_target": 62,
+      "box_shots": 114,
+      "on_target": 73,
       "competition_label": "League campaign",
       "season_label": "2026",
-      "latest_match_label": "Åtvidaberg - Rosengård, 3-3",
+      "latest_match_label": "Åtvidaberg - Ängelholm, 4-1",
       "possession_losses": {
-        "total": 191,
-        "attacking_half": 134,
-        "average_pickup_delay": 2.63,
+        "total": 260,
+        "attacking_half": 193,
+        "average_pickup_delay": 2.9,
         "player_summary": [
           {
-            "player_name": "E. Onotu",
-            "drops": 20,
-            "attacking_half": 16,
-            "average_pickup_delay": 2.0,
-            "most_common_zone": "left attacking third",
-            "risk_label": "High risk"
-          },
-          {
-            "player_name": "M. Andersson",
-            "drops": 19,
-            "attacking_half": 16,
-            "average_pickup_delay": 2.26,
+            "player_name": "O. Stojanović Fredin",
+            "drops": 30,
+            "attacking_half": 21,
+            "average_pickup_delay": 3.3,
             "most_common_zone": "central attacking third",
             "risk_label": "High risk"
           },
           {
-            "player_name": "J. Lynard",
-            "drops": 18,
-            "attacking_half": 12,
-            "average_pickup_delay": 3.22,
-            "most_common_zone": "right attacking third",
+            "player_name": "M. Ahmadi",
+            "drops": 30,
+            "attacking_half": 17,
+            "average_pickup_delay": 4.73,
+            "most_common_zone": "right midfield",
             "risk_label": "High risk"
           },
           {
-            "player_name": "M. Ritari",
-            "drops": 14,
-            "attacking_half": 9,
-            "average_pickup_delay": 2.86,
+            "player_name": "V. Carlsson",
+            "drops": 29,
+            "attacking_half": 27,
+            "average_pickup_delay": 2.45,
             "most_common_zone": "central attacking third",
             "risk_label": "High risk"
           },
           {
-            "player_name": "R. Bonde",
-            "drops": 14,
-            "attacking_half": 8,
-            "average_pickup_delay": 2.21,
+            "player_name": "D. Bergman",
+            "drops": 27,
+            "attacking_half": 22,
+            "average_pickup_delay": 2.63,
+            "most_common_zone": "central attacking third",
+            "risk_label": "High risk"
+          },
+          {
+            "player_name": "A. Nilsson",
+            "drops": 23,
+            "attacking_half": 21,
+            "average_pickup_delay": 2.22,
+            "most_common_zone": "central attacking third",
+            "risk_label": "High risk"
+          },
+          {
+            "player_name": "E. Vedholm",
+            "drops": 23,
+            "attacking_half": 13,
+            "average_pickup_delay": 1.83,
             "most_common_zone": "left midfield",
             "risk_label": "High risk"
           },
           {
-            "player_name": "K. Larsson",
-            "drops": 14,
-            "attacking_half": 8,
-            "average_pickup_delay": 2.79,
-            "most_common_zone": "right attacking third",
+            "player_name": "B. Tannus",
+            "drops": 22,
+            "attacking_half": 15,
+            "average_pickup_delay": 3.09,
+            "most_common_zone": "left attacking third",
             "risk_label": "High risk"
           },
           {
-            "player_name": "J. Voelkerling Persson",
-            "drops": 13,
-            "attacking_half": 12,
-            "average_pickup_delay": 1.69,
+            "player_name": "M. Tågsjö",
+            "drops": 21,
+            "attacking_half": 15,
+            "average_pickup_delay": 2.43,
             "most_common_zone": "central attacking third",
             "risk_label": "High risk"
           },
           {
-            "player_name": "A. Malaj",
-            "drops": 13,
-            "attacking_half": 10,
-            "average_pickup_delay": 3.38,
-            "most_common_zone": "left attacking third",
-            "risk_label": "High risk"
-          },
-          {
-            "player_name": "O. Hakansson",
-            "drops": 13,
-            "attacking_half": 7,
-            "average_pickup_delay": 2.23,
-            "most_common_zone": "right attacking third",
-            "risk_label": "High risk"
-          },
-          {
-            "player_name": "B. Llana",
+            "player_name": "R. Streifert",
             "drops": 10,
+            "attacking_half": 8,
+            "average_pickup_delay": 4.6,
+            "most_common_zone": "left midfield",
+            "risk_label": "High risk"
+          },
+          {
+            "player_name": "J. Svensson",
+            "drops": 9,
             "attacking_half": 5,
-            "average_pickup_delay": 2.0,
-            "most_common_zone": "left attacking third",
+            "average_pickup_delay": 3.67,
+            "most_common_zone": "right attacking third",
             "risk_label": "High risk"
           }
         ],
         "zone_summary": [
           {
             "zone": "central attacking third",
-            "drops": 49,
-            "average_pickup_delay": 2.78
-          },
-          {
-            "zone": "right attacking third",
-            "drops": 33,
-            "average_pickup_delay": 2.36
+            "drops": 63,
+            "average_pickup_delay": 2.7
           },
           {
             "zone": "left attacking third",
-            "drops": 30,
-            "average_pickup_delay": 2.83
+            "drops": 42,
+            "average_pickup_delay": 2.52
+          },
+          {
+            "zone": "right attacking third",
+            "drops": 42,
+            "average_pickup_delay": 3.36
           },
           {
             "zone": "right midfield",
-            "drops": 19,
-            "average_pickup_delay": 2.05
+            "drops": 31,
+            "average_pickup_delay": 3.16
           },
           {
             "zone": "left midfield",
-            "drops": 18,
-            "average_pickup_delay": 2.78
+            "drops": 26,
+            "average_pickup_delay": 2.62
           },
           {
             "zone": "central midfield",
-            "drops": 15,
-            "average_pickup_delay": 3.67
-          },
-          {
-            "zone": "central defensive third",
-            "drops": 11,
-            "average_pickup_delay": 2.36
-          },
-          {
-            "zone": "right defensive third",
-            "drops": 9,
-            "average_pickup_delay": 3.33
+            "drops": 23,
+            "average_pickup_delay": 2.65
           },
           {
             "zone": "left defensive third",
-            "drops": 7,
-            "average_pickup_delay": 0.57
+            "drops": 12,
+            "average_pickup_delay": 3.08
+          },
+          {
+            "zone": "right defensive third",
+            "drops": 12,
+            "average_pickup_delay": 4.0
+          },
+          {
+            "zone": "central defensive third",
+            "drops": 9,
+            "average_pickup_delay": 2.78
           }
         ],
         "most_dangerous_drops": [
           {
-            "player_name": "E. Onotu",
+            "player_name": "E. Vedholm",
             "pickup_zone": "left attacking third",
             "drop_zone": "right attacking third",
             "pickup_delay": 0.0,
-            "travel_distance": 70.0,
+            "travel_distance": 84.2,
             "risk_label": "High risk",
             "pickup_in_attacking_half": true,
-            "pickup_x": 88.0,
-            "pickup_y": 31.0
+            "pickup_x": 94.0,
+            "pickup_y": 16.0
           },
           {
-            "player_name": "E. Onotu",
+            "player_name": "A. Nilsson",
+            "pickup_zone": "left attacking third",
+            "drop_zone": "right attacking third",
+            "pickup_delay": 0.0,
+            "travel_distance": 70.6,
+            "risk_label": "High risk",
+            "pickup_in_attacking_half": true,
+            "pickup_x": 91.0,
+            "pickup_y": 30.0
+          },
+          {
+            "player_name": "E. Vedholm",
+            "pickup_zone": "left attacking third",
+            "drop_zone": "right attacking third",
+            "pickup_delay": 0.0,
+            "travel_distance": 87.3,
+            "risk_label": "High risk",
+            "pickup_in_attacking_half": true,
+            "pickup_x": 80.0,
+            "pickup_y": 15.0
+          },
+          {
+            "player_name": "A. Nilsson",
             "pickup_zone": "left attacking third",
             "drop_zone": "right attacking third",
             "pickup_delay": 1.0,
-            "travel_distance": 69.0,
+            "travel_distance": 75.1,
             "risk_label": "High risk",
             "pickup_in_attacking_half": true,
-            "pickup_x": 98.0,
-            "pickup_y": 31.0
+            "pickup_x": 97.0,
+            "pickup_y": 25.0
           },
           {
-            "player_name": "E. Onotu",
+            "player_name": "B. Hasselqvist",
             "pickup_zone": "left attacking third",
             "drop_zone": "right attacking third",
             "pickup_delay": 1.0,
-            "travel_distance": 68.2,
+            "travel_distance": 71.3,
             "risk_label": "High risk",
             "pickup_in_attacking_half": true,
-            "pickup_x": 95.0,
-            "pickup_y": 32.0
+            "pickup_x": 94.0,
+            "pickup_y": 29.0
           },
           {
-            "player_name": "J. Voelkerling Persson",
-            "pickup_zone": "left attacking third",
-            "drop_zone": "central attacking third",
-            "pickup_delay": 0.0,
-            "travel_distance": 21.2,
-            "risk_label": "High risk",
-            "pickup_in_attacking_half": true,
-            "pickup_x": 92.0,
-            "pickup_y": 20.0
-          },
-          {
-            "player_name": "J. Voelkerling Persson",
-            "pickup_zone": "central attacking third",
-            "drop_zone": "central attacking third",
-            "pickup_delay": 0.0,
-            "travel_distance": 0.0,
-            "risk_label": "High risk",
-            "pickup_in_attacking_half": true,
-            "pickup_x": 96.0,
-            "pickup_y": 57.0
-          },
-          {
-            "player_name": "M. Andersson",
+            "player_name": "A. Nilsson",
             "pickup_zone": "right attacking third",
             "drop_zone": "right attacking third",
             "pickup_delay": 0.0,
-            "travel_distance": 21.4,
+            "travel_distance": 30.0,
             "risk_label": "High risk",
             "pickup_in_attacking_half": true,
-            "pickup_x": 87.0,
-            "pickup_y": 83.0
+            "pickup_x": 91.0,
+            "pickup_y": 70.0
           },
           {
-            "player_name": "A. Löfqvist",
+            "player_name": "V. Carlsson",
             "pickup_zone": "central attacking third",
-            "drop_zone": "central attacking third",
-            "pickup_delay": 0.0,
-            "travel_distance": 0.0,
+            "drop_zone": "right attacking third",
+            "pickup_delay": 1.0,
+            "travel_distance": 40.8,
             "risk_label": "High risk",
             "pickup_in_attacking_half": true,
-            "pickup_x": 95.0,
-            "pickup_y": 45.0
+            "pickup_x": 96.0,
+            "pickup_y": 51.0
           },
           {
-            "player_name": "E. Onotu",
+            "player_name": "M. Ahlqvist",
             "pickup_zone": "central attacking third",
-            "drop_zone": "central attacking third",
-            "pickup_delay": 0.0,
-            "travel_distance": 0.0,
+            "drop_zone": "right attacking third",
+            "pickup_delay": 2.0,
+            "travel_distance": 65.1,
             "risk_label": "High risk",
             "pickup_in_attacking_half": true,
-            "pickup_x": 93.0,
-            "pickup_y": 47.0
+            "pickup_x": 97.0,
+            "pickup_y": 35.0
           }
         ]
       }
@@ -563,66 +563,66 @@
     "metrics": [
       {
         "label": "Progressive passes",
-        "value": 563,
+        "value": 752,
         "format": "count"
       },
       {
         "label": "Progressive carries",
-        "value": 354,
+        "value": 378,
         "format": "count"
       },
       {
         "label": "Shots",
-        "value": 183,
+        "value": 207,
         "format": "count"
       },
       {
         "label": "Goals",
-        "value": 18,
+        "value": 24,
         "format": "count"
       },
       {
         "label": "xG",
-        "value": 18.125,
+        "value": 20.999,
         "format": "0.000"
       },
       {
         "label": "Shots against",
-        "value": 120,
+        "value": 195,
         "format": "count"
       },
       {
         "label": "xG against",
-        "value": 13.406,
+        "value": 24.608,
         "format": "0.000"
       },
       {
         "label": "Risky possession losses",
-        "value": 191,
+        "value": 260,
         "format": "count"
       }
     ],
     "storylines": [
-      "Rosengård produced 563 progressive passes and 354 progressive carries in the sampled window.",
-      "Open play generated 183 shots, 18 goals, and 18.12 xG.",
-      "Opponents generated 120 shots, 15 goals, and 13.41 xG against in the same sample.",
-      "Jönköpings Södra had 191 risky open-play possession losses in the sample, with 134 opponent pickups in the attacking half.",
-      "The clearest passing relationship is G. Backaliden to R. Bonde with 26 completed passes.",
-      "The radar plot highlights E. Onotu as the strongest all-round open-play profile in this sample.",
+      "Ängelholm produced 752 progressive passes and 378 progressive carries in the sampled window.",
+      "Open play generated 207 shots, 24 goals, and 21.00 xG.",
+      "Opponents generated 195 shots, 25 goals, and 24.61 xG against in the same sample.",
+      "Jönköpings Södra had 260 risky open-play possession losses in the sample, with 193 opponent pickups in the attacking half.",
+      "The clearest passing relationship is D. Alfonsi to E. Vedholm with 14 completed passes.",
+      "The radar plot highlights M. Ahmadi as the strongest all-round open-play profile in this sample.",
       "The published report includes the selected analysis match count and season scope so the frontend can keep the match slider in sync with the exposed data window."
     ],
     "analysis_scope": {
-      "target_match_count": 12,
+      "target_match_count": 100,
       "current_season_id": 192451,
-      "current_season_played_matches_available": 14,
-      "current_season_matches_used": 12,
+      "current_season_played_matches_available": 18,
+      "current_season_matches_used": 18,
       "previous_season_id": null,
       "previous_season_matches_used": 0,
-      "analysis_matches_used": 12,
+      "analysis_matches_used": 18,
       "is_complemented_with_previous_season": false,
       "scope_label": "current_season_only"
     },
-    "analysis_match_count": 12
+    "analysis_match_count": 18
   },
   "files": {
     "data": {
@@ -693,7 +693,7 @@
       "next_opponent_progressive_passes": {
         "path": "reports/open_play/plots/next_opponent_progressive_passes.png",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_progressive_passes.png",
-        "title": "Rosengård progressive pass map",
+        "title": "Ängelholm progressive pass map",
         "description": "Shows the team's forward passes that moved the ball a clear step closer to goal.",
         "reading_guide": [
           "Gold arrows show the biggest forward moves.",
@@ -703,7 +703,7 @@
       "next_opponent_shot_map": {
         "path": "reports/open_play/plots/next_opponent_shot_map.png",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_shot_map.png",
-        "title": "Rosengård shot map",
+        "title": "Ängelholm shot map",
         "description": "Shows where the team took shots and how dangerous each shot was.",
         "reading_guide": [
           "Bigger circles mean better chances.",
@@ -713,7 +713,7 @@
       "next_opponent_pass_network": {
         "path": "reports/open_play/plots/next_opponent_pass_network.png",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_pass_network.png",
-        "title": "Rosengård pass network",
+        "title": "Ängelholm pass network",
         "description": "Shows which players passed to each other most often in the latest match.",
         "reading_guide": [
           "Larger dots mean more touches.",
@@ -723,7 +723,7 @@
       "next_opponent_possession_losses": {
         "path": "reports/open_play/plots/next_opponent_possession_losses.png",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_possession_losses.png",
-        "title": "Rosengård risky possession losses",
+        "title": "Ängelholm risky possession losses",
         "description": "Shows long open-play possessions that ended with a failed pass and quick opponent pickup.",
         "reading_guide": [
           "Heatmap zones show where opponents picked up the ball.",
@@ -733,7 +733,7 @@
       "next_opponent_player_radar": {
         "path": "reports/open_play/plots/next_opponent_player_radar.png",
         "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/open_play/plots/next_opponent_player_radar.png",
-        "title": "Rosengård player radar",
+        "title": "Ängelholm player radar",
         "description": "Shows one player's all-round profile compared with similar teammates.",
         "reading_guide": [
           "Each spoke is one simple stat.",

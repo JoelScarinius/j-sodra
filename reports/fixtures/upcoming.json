@@ -1,46 +1,6 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "team": [
-    {
-      "match_id": 5819297,
-      "dateutc": "2026-08-02T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6786,
-      "opponent_name": "Rosengård",
-      "target_side": "away",
-      "label": "Rosengård - Jönköpings Södra, 0-0"
-    },
-    {
-      "match_id": 5819314,
-      "dateutc": "2026-08-09T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 7014,
-      "opponent_name": "Olympic",
-      "target_side": "home",
-      "label": "Jönköpings Södra - Olympic, 0-0"
-    },
-    {
-      "match_id": 5819327,
-      "dateutc": "2026-08-15T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6925,
-      "opponent_name": "Laholms FK",
-      "target_side": "away",
-      "label": "Laholms FK - Jönköpings Södra, 0-0"
-    },
-    {
-      "match_id": 5819343,
-      "dateutc": "2026-08-22T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6786,
-      "opponent_name": "Rosengård",
-      "target_side": "home",
-      "label": "Jönköpings Södra - Rosengård, 0-0"
-    },
     {
       "match_id": 5819356,
       "dateutc": "2026-08-29T11:00:00+00:00",
@@ -50,58 +10,98 @@
       "opponent_name": "Ängelholm",
       "target_side": "away",
       "label": "Ängelholm - Jönköpings Södra, 0-0"
+    },
+    {
+      "match_id": 5819378,
+      "dateutc": "2026-09-06T14:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 7018,
+      "opponent_name": "Tvååker",
+      "target_side": "home",
+      "label": "Jönköpings Södra - Tvååker, 0-0"
+    },
+    {
+      "match_id": 5819394,
+      "dateutc": "2026-09-13T14:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 6751,
+      "opponent_name": "Kristianstad",
+      "target_side": "away",
+      "label": "Kristianstad - Jönköpings Södra, 0-0"
+    },
+    {
+      "match_id": 5819404,
+      "dateutc": "2026-09-16T17:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 6729,
+      "opponent_name": "Åtvidaberg",
+      "target_side": "home",
+      "label": "Jönköpings Södra - Åtvidaberg, 0-0"
+    },
+    {
+      "match_id": 5819426,
+      "dateutc": "2026-09-21T17:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 6792,
+      "opponent_name": "Skövde AIK",
+      "target_side": "home",
+      "label": "Jönköpings Södra - Skövde AIK, 0-0"
     }
   ],
   "next_opponent": [
     {
-      "match_id": 5819297,
-      "dateutc": "2026-08-02T14:00:00+00:00",
+      "match_id": 5819356,
+      "dateutc": "2026-08-29T11:00:00+00:00",
       "status": "Fixture",
       "season_id": 192451,
       "opponent_id": 6849,
       "opponent_name": "Jönköpings Södra",
       "target_side": "home",
-      "label": "Rosengård - Jönköpings Södra, 0-0"
+      "label": "Ängelholm - Jönköpings Södra, 0-0"
     },
     {
-      "match_id": 5819309,
-      "dateutc": "2026-08-08T11:00:00+00:00",
+      "match_id": 5819373,
+      "dateutc": "2026-09-05T11:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 7014,
+      "opponent_name": "Olympic",
+      "target_side": "away",
+      "label": "Olympic - Ängelholm, 0-0"
+    },
+    {
+      "match_id": 5819391,
+      "dateutc": "2026-09-12T14:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 6792,
+      "opponent_name": "Skövde AIK",
+      "target_side": "home",
+      "label": "Ängelholm - Skövde AIK, 0-0"
+    },
+    {
+      "match_id": 5819405,
+      "dateutc": "2026-09-16T17:00:00+00:00",
+      "status": "Fixture",
+      "season_id": 192451,
+      "opponent_id": 6785,
+      "opponent_name": "Lund",
+      "target_side": "away",
+      "label": "Lund - Ängelholm, 0-0"
+    },
+    {
+      "match_id": 5819421,
+      "dateutc": "2026-09-20T17:00:00+00:00",
       "status": "Fixture",
       "season_id": 192451,
       "opponent_id": 7055,
       "opponent_name": "Eskilsminne",
-      "target_side": "away",
-      "label": "Eskilsminne - Rosengård, 0-0"
-    },
-    {
-      "match_id": 5819328,
-      "dateutc": "2026-08-15T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6932,
-      "opponent_name": "Utsikten",
       "target_side": "home",
-      "label": "Rosengård - Utsikten, 0-0"
-    },
-    {
-      "match_id": 5819343,
-      "dateutc": "2026-08-22T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6849,
-      "opponent_name": "Jönköpings Södra",
-      "target_side": "away",
-      "label": "Jönköpings Södra - Rosengård, 0-0"
-    },
-    {
-      "match_id": 5819359,
-      "dateutc": "2026-08-29T14:00:00+00:00",
-      "status": "Fixture",
-      "season_id": 192451,
-      "opponent_id": 6777,
-      "opponent_name": "Trollhättan",
-      "target_side": "home",
-      "label": "Rosengård - Trollhättan, 0-0"
+      "label": "Ängelholm - Eskilsminne, 0-0"
     }
   ]
 }

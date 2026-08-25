@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "section": "free_kicks",
   "title": "Free Kicks",
   "description": "Attacking and defensive free-kick landing zones, shot creation, and goal outcomes.",
@@ -8,25 +8,83 @@
     "id": 6849,
     "name": "Jönköpings Södra",
     "summary": {
-      "total": 375,
-      "created_shots": 23,
-      "goals": 3,
-      "xg": 1.949,
-      "xg_for": 1.949,
-      "retention_pct": 93.87,
-      "attacking_third_share_pct": 15.73,
-      "defensive_third_share_pct": 44.27,
+      "total": 540,
+      "created_shots": 34,
+      "goals": 4,
+      "xg": 2.423,
+      "xg_for": 2.423,
+      "retention_pct": 93.7,
+      "attacking_third_share_pct": 16.3,
+      "defensive_third_share_pct": 42.41,
       "competition_label": "League campaign",
       "season_label": "2026",
-      "latest_match_label": "Ariana - Jönköpings Södra, 1-0",
-      "shots_against": 16,
-      "goals_against": 0,
-      "xg_against": 1.799
+      "latest_match_label": "Jönköpings Södra - Rosengård, 0-0",
+      "shots_against": 23,
+      "goals_against": 5,
+      "xg_against": 2.655
     },
     "metrics": [
       {
         "label": "Free kicks",
-        "value": 375,
+        "value": 540,
+        "format": "count"
+      },
+      {
+        "label": "Created shots",
+        "value": 34,
+        "format": "count"
+      },
+      {
+        "label": "Goals",
+        "value": 4,
+        "format": "count"
+      },
+      {
+        "label": "xG",
+        "value": 2.423,
+        "format": "0.000"
+      },
+      {
+        "label": "Retention",
+        "value": 93.7,
+        "format": "percent"
+      },
+      {
+        "label": "xG against",
+        "value": 2.655,
+        "format": "0.000"
+      }
+    ],
+    "storylines": [
+      "Jönköpings Södra took 16% of free kicks from the attacking third and 42% from the defensive third.",
+      "Free kicks generated 34 shots and 4 goals in the sampled window.",
+      "Free-kick sequences created 2.42 total xG, or 0.00 xG per free kick in the sample.",
+      "The team conceded 23 shots and 5 goals from opponent free kicks, worth 2.65 xG against."
+    ]
+  },
+  "next_opponent": {
+    "id": 6742,
+    "name": "Ängelholm",
+    "summary": {
+      "total": 469,
+      "created_shots": 23,
+      "goals": 5,
+      "xg": 2.655,
+      "xg_for": 2.655,
+      "retention_pct": 95.1,
+      "attacking_third_share_pct": 16.84,
+      "defensive_third_share_pct": 40.3,
+      "competition_label": "League campaign",
+      "season_label": "2026",
+      "latest_match_label": "Åtvidaberg - Ängelholm, 4-1",
+      "shots_against": 34,
+      "goals_against": 4,
+      "xg_against": 2.423
+    },
+    "metrics": [
+      {
+        "label": "Free kicks",
+        "value": 469,
         "format": "count"
       },
       {
@@ -36,88 +94,30 @@
       },
       {
         "label": "Goals",
-        "value": 3,
+        "value": 5,
         "format": "count"
       },
       {
         "label": "xG",
-        "value": 1.949,
+        "value": 2.655,
         "format": "0.000"
       },
       {
         "label": "Retention",
-        "value": 93.9,
+        "value": 95.1,
         "format": "percent"
       },
       {
         "label": "xG against",
-        "value": 1.799,
+        "value": 2.423,
         "format": "0.000"
       }
     ],
     "storylines": [
-      "Jönköpings Södra took 16% of free kicks from the attacking third and 44% from the defensive third.",
-      "Free kicks generated 23 shots and 3 goals in the sampled window.",
-      "Free-kick sequences created 1.95 total xG, or 0.01 xG per free kick in the sample.",
-      "The team conceded 16 shots and 0 goals from opponent free kicks, worth 1.80 xG against."
-    ]
-  },
-  "next_opponent": {
-    "id": 6786,
-    "name": "Rosengård",
-    "summary": {
-      "total": 347,
-      "created_shots": 16,
-      "goals": 0,
-      "xg": 1.799,
-      "xg_for": 1.799,
-      "retention_pct": 95.39,
-      "attacking_third_share_pct": 16.14,
-      "defensive_third_share_pct": 40.35,
-      "competition_label": "League campaign",
-      "season_label": "2026",
-      "latest_match_label": "Åtvidaberg - Rosengård, 3-3",
-      "shots_against": 23,
-      "goals_against": 3,
-      "xg_against": 1.949
-    },
-    "metrics": [
-      {
-        "label": "Free kicks",
-        "value": 347,
-        "format": "count"
-      },
-      {
-        "label": "Created shots",
-        "value": 16,
-        "format": "count"
-      },
-      {
-        "label": "Goals",
-        "value": 0,
-        "format": "count"
-      },
-      {
-        "label": "xG",
-        "value": 1.799,
-        "format": "0.000"
-      },
-      {
-        "label": "Retention",
-        "value": 95.4,
-        "format": "percent"
-      },
-      {
-        "label": "xG against",
-        "value": 1.949,
-        "format": "0.000"
-      }
-    ],
-    "storylines": [
-      "Rosengård took 16% of free kicks from the attacking third and 40% from the defensive third.",
-      "Free kicks generated 16 shots and 0 goals in the sampled window.",
-      "Free-kick sequences created 1.80 total xG, or 0.01 xG per free kick in the sample.",
-      "The opponent conceded 23 shots and 3 goals from team free kicks, worth 1.95 xG against."
+      "Ängelholm took 17% of free kicks from the attacking third and 40% from the defensive third.",
+      "Free kicks generated 23 shots and 5 goals in the sampled window.",
+      "Free-kick sequences created 2.65 total xG, or 0.01 xG per free kick in the sample.",
+      "The opponent conceded 34 shots and 4 goals from team free kicks, worth 2.42 xG against."
     ]
   },
   "files": {

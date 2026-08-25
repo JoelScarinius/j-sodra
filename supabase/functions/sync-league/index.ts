@@ -8,17 +8,23 @@ const corsHeaders = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
-const FINAL_STATUSES = new Set([
+// THE shared completed-status set. Identical to public.completed_match_statuses()
+// in SQL and to COMPLETED_MATCH_STATUSES in the Python pipeline. Any other
+// non-empty status is unknown and fails closed (not treated as played).
+const COMPLETED_MATCH_STATUSES = new Set([
   "played",
   "complete",
   "completed",
   "finished",
   "match ended",
 ]);
+const FINAL_STATUSES = COMPLETED_MATCH_STATUSES;
 
 const KNOWN_LEAGUE_NAMES: Record<number, string> = {
   810: "Ettan",
 };
+
+const CALCULATION_VERSION = "sync-league@2026.06-transactional";
 
 let wyscoutRequestDelayMs = 0;
 let wyscoutMaxRetries = 3;
@@ -38,7 +44,11 @@ function serializeError(error: unknown): string {
 }
 
 function isRateLimitMessage(message: string) {
-  return /too many requests|rate.?limit|429/i.test(message);
+  return /too many requests|rate.?limit|\b429\b/i.test(message);
+}
+
+function isProviderNoStatsMessage(message: string) {
+  return /no statistical data available|no stats available|statistical data unavailable/i.test(message);
 }
 
 function jsonResponse(status: number, payload: Record<string, unknown>) {
@@ -50,6 +60,9 @@ function jsonResponse(status: number, payload: Record<string, unknown>) {
 
 function normalizeStatus(value: unknown) {
   return String(value ?? "scheduled").trim().toLowerCase();
+}
+function normalizeSearchText(value: unknown) {
+  return String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
 }
 
 function isFinalStatus(value: unknown) {
@@ -296,6 +309,7 @@ function expectedPointsFromXg(_xgFor: number | null, _xgAgainst: number | null) 
 
 function summarizeEvents(events: any[], providerTeamId: number | null) {
   let shots = 0;
+  let shotsWithXg = 0;
   let shotsOnTarget = 0;
   let corners = 0;
   let xg = 0;
@@ -305,37 +319,21 @@ function summarizeEvents(events: any[], providerTeamId: number | null) {
 
   for (const event of events) {
     if (toNumber(event?.team?.id) !== providerTeamId) continue;
-
     eventCount += 1;
     if (event?.shot) {
       shots += 1;
-      xg += Number(event?.shot?.xg ?? 0);
+      const shotXg = toNumber(event?.shot?.xg);
+      if (shotXg !== null) { shotsWithXg += 1; xg += shotXg; }
       const secondary = Array.isArray(event?.type?.secondary) ? event.type.secondary : [];
-      if (event?.shot?.isGoal || event?.shot?.onTarget || secondary.includes("goal") || secondary.includes("on_target")) {
-        shotsOnTarget += 1;
-      }
+      if (event?.shot?.isGoal || event?.shot?.onTarget || secondary.includes("goal") || secondary.includes("on_target")) shotsOnTarget += 1;
     }
-
     const secondary = Array.isArray(event?.type?.secondary) ? event.type.secondary : [];
-    if (event?.type?.primary === "corner" || secondary.includes("corner")) {
-      corners += 1;
-    }
-
+    if (event?.type?.primary === "corner" || secondary.includes("corner")) corners += 1;
     const xtValue = toNumber(event?.xt ?? event?.xT ?? event?.pass?.xT ?? event?.carry?.xT ?? event?.possession?.attack?.xT);
-    if (xtValue !== null) {
-      xt += xtValue;
-      hasXt = true;
-    }
+    if (xtValue !== null) { xt += xtValue; hasXt = true; }
   }
-
-  return {
-    shots,
-    shotsOnTarget,
-    corners,
-    xg,
-    xt: hasXt ? xt : null,
-    eventCount,
-  };
+  const hasCompleteXg = shots === shotsWithXg;
+  return { shots, shotsWithXg, shotsOnTarget, corners, xg: hasCompleteXg ? xg : null, hasCompleteXg, xt: hasXt ? xt : null, eventCount };
 }
 
 function buildTeamStatRows(
@@ -366,26 +364,22 @@ function buildTeamStatRows(
   const matchStatus = normalizeStatus(matchRow.status);
   const finalMatch = isFinalStatus(matchStatus);
 
-  const homeHasComputedMetrics = !preserveExistingMetrics && homeStats.eventCount > 0;
-  const awayHasComputedMetrics = !preserveExistingMetrics && awayStats.eventCount > 0;
+  // Coverage is a property of the match, not of one team's event count.
+  // A team that legitimately recorded zero events in a covered match must not
+  // fall back to stale values, and a match with no events must not produce 0.
+  const matchHasEvents = events.length > 0;
+  const homeHasComputedMetrics = !preserveExistingMetrics && matchHasEvents;
+  const awayHasComputedMetrics = !preserveExistingMetrics && matchHasEvents;
+  const metric = (preserved: any, computed: any) => preserveExistingMetrics ? preserved ?? null : matchHasEvents ? computed : null;
 
-  const homeXgFor = homeHasComputedMetrics ? homeStats.xg : existingHomeStat?.xg_for ?? null;
-  const homeXgAgainst = awayHasComputedMetrics
-    ? awayStats.xg
-    : existingHomeStat?.xg_against ?? existingAwayStat?.xg_for ?? null;
-  const awayXgFor = awayHasComputedMetrics ? awayStats.xg : existingAwayStat?.xg_for ?? null;
-  const awayXgAgainst = homeHasComputedMetrics
-    ? homeStats.xg
-    : existingAwayStat?.xg_against ?? existingHomeStat?.xg_for ?? null;
-
-  const homeXtFor = homeHasComputedMetrics ? homeStats.xt : existingHomeStat?.xt_for ?? null;
-  const homeXtAgainst = awayHasComputedMetrics
-    ? awayStats.xt
-    : existingHomeStat?.xt_against ?? existingAwayStat?.xt_for ?? null;
-  const awayXtFor = awayHasComputedMetrics ? awayStats.xt : existingAwayStat?.xt_for ?? null;
-  const awayXtAgainst = homeHasComputedMetrics
-    ? homeStats.xt
-    : existingAwayStat?.xt_against ?? existingHomeStat?.xt_for ?? null;
+  const homeXgFor = metric(existingHomeStat?.xg_for, homeStats.xg);
+  const homeXgAgainst = metric(existingHomeStat?.xg_against ?? existingAwayStat?.xg_for, awayStats.xg);
+  const awayXgFor = metric(existingAwayStat?.xg_for, awayStats.xg);
+  const awayXgAgainst = metric(existingAwayStat?.xg_against ?? existingHomeStat?.xg_for, homeStats.xg);
+  const homeXtFor = metric(existingHomeStat?.xt_for, homeStats.xt);
+  const homeXtAgainst = metric(existingHomeStat?.xt_against ?? existingAwayStat?.xt_for, awayStats.xt);
+  const awayXtFor = metric(existingAwayStat?.xt_for, awayStats.xt);
+  const awayXtAgainst = metric(existingAwayStat?.xt_against ?? existingHomeStat?.xt_for, homeStats.xt);
 
   const homeResult = finalMatch
     ? homeScore > awayScore
@@ -422,14 +416,16 @@ function buildTeamStatRows(
       points: homePoints,
       xg_for: homeXgFor,
       xg_against: homeXgAgainst,
-      xp: existingHomeStat?.xp ?? expectedPointsFromXg(homeXgFor, homeXgAgainst),
+      xp: homeXgFor === null || homeXgAgainst === null
+        ? (preserveExistingMetrics ? existingHomeStat?.xp ?? null : null)
+        : expectedPointsFromXg(homeXgFor, homeXgAgainst),
       xt_for: homeXtFor,
       xt_against: homeXtAgainst,
-      shots: homeHasComputedMetrics ? homeStats.shots : toNumber(existingHomeStat?.shots) ?? 0,
-      shots_on_target: homeHasComputedMetrics ? homeStats.shotsOnTarget : toNumber(existingHomeStat?.shots_on_target) ?? 0,
-      corners: homeHasComputedMetrics ? homeStats.corners : toNumber(existingHomeStat?.corners) ?? 0,
+      shots: preserveExistingMetrics ? toNumber(existingHomeStat?.shots) : matchHasEvents ? homeStats.shots : null,
+      shots_on_target: preserveExistingMetrics ? toNumber(existingHomeStat?.shots_on_target) : matchHasEvents ? homeStats.shotsOnTarget : null,
+      corners: preserveExistingMetrics ? toNumber(existingHomeStat?.corners) : matchHasEvents ? homeStats.corners : null,
       clean_sheet: finalMatch && awayScore === 0,
-      event_count: homeHasComputedMetrics ? homeStats.eventCount : toNumber(existingHomeStat?.event_count) ?? 0,
+      event_count: preserveExistingMetrics ? toNumber(existingHomeStat?.event_count) : matchHasEvents ? homeStats.eventCount : null,
       source_updated_at: new Date().toISOString(),
       payload: { source: "sync-league", detail },
     },
@@ -449,35 +445,98 @@ function buildTeamStatRows(
       points: awayPoints,
       xg_for: awayXgFor,
       xg_against: awayXgAgainst,
-      xp: existingAwayStat?.xp ?? expectedPointsFromXg(awayXgFor, awayXgAgainst),
+      xp: awayXgFor === null || awayXgAgainst === null
+        ? (preserveExistingMetrics ? existingAwayStat?.xp ?? null : null)
+        : expectedPointsFromXg(awayXgFor, awayXgAgainst),
       xt_for: awayXtFor,
       xt_against: awayXtAgainst,
-      shots: awayHasComputedMetrics ? awayStats.shots : toNumber(existingAwayStat?.shots) ?? 0,
-      shots_on_target: awayHasComputedMetrics ? awayStats.shotsOnTarget : toNumber(existingAwayStat?.shots_on_target) ?? 0,
-      corners: awayHasComputedMetrics ? awayStats.corners : toNumber(existingAwayStat?.corners) ?? 0,
+      shots: preserveExistingMetrics ? toNumber(existingAwayStat?.shots) : matchHasEvents ? awayStats.shots : null,
+      shots_on_target: preserveExistingMetrics ? toNumber(existingAwayStat?.shots_on_target) : matchHasEvents ? awayStats.shotsOnTarget : null,
+      corners: preserveExistingMetrics ? toNumber(existingAwayStat?.corners) : matchHasEvents ? awayStats.corners : null,
       clean_sheet: finalMatch && homeScore === 0,
-      event_count: awayHasComputedMetrics ? awayStats.eventCount : toNumber(existingAwayStat?.event_count) ?? 0,
+      event_count: preserveExistingMetrics ? toNumber(existingAwayStat?.event_count) : matchHasEvents ? awayStats.eventCount : null,
       source_updated_at: new Date().toISOString(),
       payload: { source: "sync-league", detail },
     },
   ];
 }
 
+// Event types that legitimately carry no team (match-level markers).
+// Mirrors public.event_types_allowing_null_team() in SQL.
+const EVENT_TYPES_ALLOWING_NULL_TEAM = new Set([
+  "game_interruption",
+  "match_start",
+  "match_end",
+  "half_start",
+  "half_end",
+]);
+
+/**
+ * Normalize provider events into rows for public.events.
+ *
+ * Two distinct teamless cases are separated:
+ *  - `teamless`: the raw payload carried NO provider team id at all. Allowed
+ *    only for match-level event types; anything else is rejected.
+ *  - `unmapped`: the raw payload DID carry a provider team id, but that id has
+ *    no local team row. This is ALWAYS a rejection — never silently nulled —
+ *    because a null would be indistinguishable from a legitimate teamless event.
+ */
 function buildEventRows(matchRow: any, events: any[], providerToLocalTeamId: Map<number, number>) {
-  return events.map((event, index) => {
+  const rows: any[] = [];
+  const rejected: Array<{ index: number; reason: string; provider_team_id: number | null }> = [];
+  let unmappedProviderTeamCount = 0;
+  let teamlessCount = 0;
+
+  events.forEach((event, index) => {
     const secondary = Array.isArray(event?.type?.secondary) ? event.type.secondary : [];
     const teamProviderId = toNumber(event?.team?.id);
     const opponentProviderId = toNumber(event?.opponentTeam?.id);
-    return {
+    const eventType = pickString(event?.type?.primary);
+
+    let teamId: number | null = null;
+    if (teamProviderId) {
+      teamId = providerToLocalTeamId.get(teamProviderId) ?? null;
+      if (teamId === null) {
+        unmappedProviderTeamCount += 1;
+        rejected.push({ index, reason: "unmapped_provider_team", provider_team_id: teamProviderId });
+        return;
+      }
+    } else {
+      teamlessCount += 1;
+      if (!EVENT_TYPES_ALLOWING_NULL_TEAM.has(String(eventType ?? ""))) {
+        rejected.push({ index, reason: "teamless_event_requiring_team", provider_team_id: null });
+        return;
+      }
+    }
+
+    let opponentTeamId: number | null = null;
+    if (opponentProviderId) {
+      opponentTeamId = providerToLocalTeamId.get(opponentProviderId) ?? null;
+      if (opponentTeamId === null) {
+        unmappedProviderTeamCount += 1;
+        rejected.push({ index, reason: "unmapped_provider_opponent_team", provider_team_id: opponentProviderId });
+        return;
+      }
+    } else if (teamId !== null) {
+      opponentTeamId = teamId === matchRow.home_team_id ? matchRow.away_team_id : matchRow.home_team_id;
+    }
+
+    const providerEventId = event?.id === null || event?.id === undefined ? "" : String(event.id).trim();
+    if (!providerEventId) {
+      rejected.push({ index, reason: "missing_provider_event_id", provider_team_id: teamProviderId ?? null });
+      return;
+    }
+
+    rows.push({
       provider: "wyscout",
-      provider_event_id: String(event?.id ?? `${matchRow.provider_match_id}:${index}`),
+      provider_event_id: providerEventId,
       match_id: matchRow.id,
       season_id: matchRow.season_id,
       league_id: matchRow.league_id,
-      team_id: teamProviderId ? providerToLocalTeamId.get(teamProviderId) ?? null : null,
-      opponent_team_id: opponentProviderId ? providerToLocalTeamId.get(opponentProviderId) ?? null : null,
+      team_id: teamId,
+      opponent_team_id: opponentTeamId,
       provider_player_id: toNumber(event?.player?.id),
-      event_type: pickString(event?.type?.primary),
+      event_type: eventType,
       event_sub_type: secondary[0] ?? null,
       period: pickString(event?.matchPeriod),
       minute: toNumber(event?.minute),
@@ -492,6 +551,60 @@ function buildEventRows(matchRow: any, events: any[], providerToLocalTeamId: Map
       is_goal: Boolean(event?.shot?.isGoal || secondary.includes("goal")),
       source_updated_at: new Date().toISOString(),
       payload: event,
+    });
+  });
+
+  return { rows, rejected, unmappedProviderTeamCount, teamlessCount };
+}
+
+/**
+ * Coverage flags. Precise definitions, identical to what 05_completeness_audit
+ * asserts:
+ *
+ *  has_event_data      — at least one normalized event row exists for the match.
+ *  has_shot_data       — same as has_event_data: shots are only derivable from a
+ *                        full event feed, so with coverage zero shots is a real 0.
+ *  has_xg_for_data     — the match has event coverage AND every shot event by
+ *                        THIS team carries a non-null xG. A covered team with
+ *                        zero shots is covered, with a measured 0.0.
+ *  has_xg_against_data — the same test applied to the OPPONENT's shot events.
+ *  has_xp_data         — has_xg_for_data AND has_xg_against_data. xP needs both
+ *                        directions, so one-sided xG never produces xP.
+ *
+ * Anything not covered is written as null, never as 0.
+ */
+function withCoverageFlags(statRows: any[], eventRows: any[]) {
+  const covered = eventRows.length > 0;
+
+  const shotXgComplete = (teamId: number | null | undefined) => {
+    if (!covered || teamId === null || teamId === undefined) return false;
+    return eventRows
+      .filter((e) => e.is_shot && e.team_id === teamId)
+      .every((e) => e.xg !== null && e.xg !== undefined);
+  };
+
+  return statRows.map((row) => {
+    const hasXgFor = shotXgComplete(row.team_id);
+    const hasXgAgainst = shotXgComplete(row.opponent_team_id);
+    const hasXp = hasXgFor && hasXgAgainst;
+
+    return {
+      ...row,
+      has_event_data: covered,
+      has_shot_data: covered,
+      has_corner_data: covered,
+      has_xg_for_data: hasXgFor,
+      has_xg_against_data: hasXgAgainst,
+      has_xp_data: hasXp,
+      has_xt_data: covered && row.xt_for !== null && row.xt_for !== undefined,
+      xg_for: hasXgFor ? row.xg_for ?? 0 : null,
+      xg_against: hasXgAgainst ? row.xg_against ?? 0 : null,
+      xp: hasXp ? row.xp ?? null : null,
+      shots: covered ? row.shots ?? 0 : null,
+      shots_on_target: covered ? row.shots_on_target ?? 0 : null,
+      corners: covered ? row.corners ?? 0 : null,
+      event_count: covered ? row.event_count ?? eventRows.length : null,
+      calculation_version: CALCULATION_VERSION,
     };
   });
 }
@@ -646,15 +759,25 @@ serve(async (req: Request) => {
   const requestedSeasonIds = Array.isArray(body?.provider_season_ids)
     ? body.provider_season_ids.map((value: unknown) => toNumber(value)).filter(Boolean)
     : [];
+  const mode = String(body?.mode ?? "incremental").trim().toLowerCase();
+  if (mode === "full" && requestedSeasonIds.length === 0) {
+    return jsonResponse(400, { error: "provider_season_ids is required in full mode" });
+  }
   const includeEvents = body?.include_events !== false;
   const detailConcurrency = Math.max(1, Math.min(12, Number(body?.detail_concurrency ?? 8)));
   const eventConcurrency = Math.max(1, Math.min(8, Number(body?.event_concurrency ?? 4)));
   const hydrateRecentHours = Math.max(0, Number(body?.hydrate_recent_hours ?? 168));
   const forceRehydrateEvents = Boolean(body?.force_rehydrate_events);
   const maxMatches = Math.max(0, Number(body?.max_matches ?? 0));
+  // Operational batch size. max_matches scopes the season listing for tests;
+  // event_batch_size bounds provider event payloads held by one worker.
+  const eventBatchSize = Math.max(1, Math.min(10, Number(body?.event_batch_size ?? 2)));
   const teamNameKeywords = Array.isArray(body?.team_name_keywords)
-    ? body.team_name_keywords.map((value: unknown) => String(value ?? "").trim().toLowerCase()).filter(Boolean)
+    ? body.team_name_keywords.map((value: unknown) => normalizeSearchText(value)).filter(Boolean)
     : [];
+  const teamGroupAnchor = normalizeSearchText(
+    body?.team_group_anchor ?? Deno.env.get("SYNC_TEAM_GROUP_ANCHOR") ?? "",
+  );
   wyscoutRequestDelayMs = Math.max(0, Number(body?.request_delay_ms ?? 0));
   wyscoutMaxRetries = Math.max(0, Math.min(8, Number(body?.wyscout_max_retries ?? 3)));
   const startedAt = new Date().toISOString();
@@ -663,13 +786,22 @@ serve(async (req: Request) => {
 
   let runId = null;
   try {
+    // Recover expired leases and abandoned run rows before candidate selection.
+    // This makes a new invocation resumable after a worker termination.
+    const { error: releaseBeforeRunError } = await supabase.rpc("release_stale_event_claims");
+    if (releaseBeforeRunError) throw releaseBeforeRunError;
+    const { error: settleRunsError } = await supabase.rpc("settle_stale_sync_runs", {
+      p_stale_after: "20 minutes",
+    });
+    if (settleRunsError) throw settleRunsError;
+
     const { data: insertedRun, error: runError } = await supabase
       .from("sync_runs")
       .insert({
         provider: "wyscout",
         provider_league_id: providerLeagueId,
         provider_season_ids: requestedSeasonIds,
-        run_kind: includeEvents ? "incremental_with_events" : "incremental",
+        run_kind: mode === "full" ? "full" : includeEvents ? "incremental_with_events" : "incremental",
         requested_by: "sync-league edge function",
         status: "running",
         started_at: startedAt,
@@ -680,6 +812,8 @@ serve(async (req: Request) => {
 
     if (runError) throw runError;
     runId = insertedRun?.id ?? null;
+    if (!runId) throw new Error("sync_runs insert returned no run id");
+    const runIdText = String(runId);
 
     let competitionDetail = null;
     try {
@@ -697,13 +831,46 @@ serve(async (req: Request) => {
       ? summaries.filter((record) => requestedSeasonIds.includes(record.providerSeasonId))
       : summaries;
 
+    let teamGroupTeamCount: number | null = null;
+    if (teamGroupAnchor) {
+      const adjacency = new Map<string, Set<string>>();
+      for (const record of selectedSummaries) {
+        const home = normalizeSearchText(record.homeName);
+        const away = normalizeSearchText(record.awayName);
+        if (!home || !away) continue;
+        if (!adjacency.has(home)) adjacency.set(home, new Set());
+        if (!adjacency.has(away)) adjacency.set(away, new Set());
+        adjacency.get(home)!.add(away);
+        adjacency.get(away)!.add(home);
+      }
+      const anchorTeam = [...adjacency.keys()].find((name) =>
+        name.includes(teamGroupAnchor) || teamGroupAnchor.includes(name)
+      );
+      if (!anchorTeam) throw new Error(`team_group_anchor did not match a team: ${teamGroupAnchor}`);
+      const groupTeams = new Set<string>([anchorTeam]);
+      const queue = [anchorTeam];
+      while (queue.length) {
+        const current = queue.shift()!;
+        for (const opponent of adjacency.get(current) ?? []) {
+          if (groupTeams.has(opponent)) continue;
+          groupTeams.add(opponent);
+          queue.push(opponent);
+        }
+      }
+      teamGroupTeamCount = groupTeams.size;
+      selectedSummaries = selectedSummaries.filter((record) =>
+        groupTeams.has(normalizeSearchText(record.homeName))
+        && groupTeams.has(normalizeSearchText(record.awayName))
+      );
+    }
+
     if (teamNameKeywords.length) {
       selectedSummaries = selectedSummaries.filter((record) => {
         const haystack = [record.label, record.homeName, record.awayName]
           .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-        return teamNameKeywords.some((keyword) => haystack.includes(keyword));
+          .join(" ");
+        const normalizedHaystack = normalizeSearchText(haystack);
+        return teamNameKeywords.some((keyword) => normalizedHaystack.includes(keyword));
       });
     }
 
@@ -821,14 +988,32 @@ serve(async (req: Request) => {
     }
 
     const nowMs = Date.now();
-    const hydrationCandidates = selectedSummaries.filter((summary) => {
+
+    // Retry clock. `events_next_retry_at` is the single authority for "may this
+    // match be attempted again". A null clock means no retry is scheduled; any
+    // status (including 'unavailable') becomes eligible again as soon as its
+    // scheduled time has passed. 'unavailable' therefore never means
+    // "never retry again" — it only means "not retried before the clock".
+    const retryDue = (existing: any) => {
+      const at = existing?.events_next_retry_at;
+      if (!at) return false;
+      const ms = Date.parse(at);
+      return Number.isFinite(ms) && ms <= nowMs;
+    };
+
+    const leaseHeld = (existing: any) =>
+      Boolean(existing?.events_claim_expires_at)
+      && Date.parse(existing.events_claim_expires_at) > nowMs
+      && String(existing?.events_last_attempt_status ?? "") === "in_progress";
+
+    // Does the match row / aggregates need a detail (summary) refresh?
+    const needsDetailRefresh = (summary: any) => {
       const existing = existingMatchMap.get(summary.providerMatchId);
-      if (includeEvents && forceRehydrateEvents && isFinalStatus(summary.status ?? existing?.status)) return true;
       if (!existing) return true;
       if (!existing.home_team_id || !existing.away_team_id) return true;
-      if (isFinalStatus(summary.status ?? existing.status) && (statsPerMatch.get(Number(existing.id)) ?? 0) < 2) {
-        return true;
-      }
+
+      const isFinal = isFinalStatus(summary.status ?? existing.status);
+      if (isFinal && (statsPerMatch.get(Number(existing.id)) ?? 0) < 2) return true;
       if (summary.status !== normalizeStatus(existing.status)) return true;
       if ((summary.homeScore ?? null) !== (existing.home_score ?? null)) return true;
       if ((summary.awayScore ?? null) !== (existing.away_score ?? null)) return true;
@@ -836,9 +1021,59 @@ serve(async (req: Request) => {
       const kickoffMs = Date.parse(summary.kickoffAt);
       if (!Number.isFinite(kickoffMs)) return false;
       return Math.abs(nowMs - kickoffMs) <= hydrateRecentHours * 60 * 60 * 1000;
-    });
+    };
 
-    const hydratedDetails = await mapWithConcurrency(hydrationCandidates, detailConcurrency, async (summary) => {
+    // Does the match need an event (re)ingestion attempt?
+    const needsEventRefresh = (summary: any) => {
+      if (!includeEvents) return false;
+      const existing = existingMatchMap.get(summary.providerMatchId);
+      const isFinal = isFinalStatus(summary.status ?? existing?.status);
+      if (!isFinal) return false;
+      if (forceRehydrateEvents) return true;
+      if (!existing) return true;
+      if (leaseHeld(existing)) return false;
+
+      const dataStatus = String(existing.events_data_status ?? "pending");
+      const attemptStatus = String(existing.events_last_attempt_status ?? "never_attempted");
+
+      // Never attempted rows should be ingested immediately.
+      if (attemptStatus === "never_attempted") return true;
+
+      // Retry scheduling is authoritative after the first attempt.
+      if (dataStatus === "pending") return retryDue(existing);
+
+      const countsDisagree = dataStatus === "reconciled" && (
+        existing.events_stored_count === null || existing.events_source_payload_count === null ||
+        Number(existing.events_stored_count) !== Number(existing.events_source_payload_count)
+      );
+      if (countsDisagree) return true;
+      // provider_empty, unavailable, and failed refreshes over retained reconciled data
+      // are retried only when their explicit retry clock is due.
+      return retryDue(existing);
+    };
+
+    const allEventCandidates = selectedSummaries
+      .filter(needsEventRefresh)
+      .sort((left, right) => {
+        const leftMs = Date.parse(left.kickoffAt ?? "");
+        const rightMs = Date.parse(right.kickoffAt ?? "");
+        const safeLeft = Number.isFinite(leftMs) ? leftMs : Number.POSITIVE_INFINITY;
+        const safeRight = Number.isFinite(rightMs) ? rightMs : Number.POSITIVE_INFINITY;
+        return safeLeft - safeRight
+          || Number(left.providerMatchId) - Number(right.providerMatchId);
+      });
+    const eventCandidates = allEventCandidates.slice(0, eventBatchSize);
+    const eventCandidateIds = new Set(eventCandidates.map((row) => row.providerMatchId));
+    // Bound detail hydration too. A completed match receives detail hydration
+    // only when it is in this event batch. Unplayed fixtures may still receive
+    // cheap detail refreshes, but completed unresolved matches wait their turn.
+    const detailCandidates = selectedSummaries.filter((summary) =>
+      eventCandidateIds.has(summary.providerMatchId)
+      || (!isFinalStatus(summary.status) && needsDetailRefresh(summary))
+    );
+    // Kept for backwards-compatible telemetry field names.
+
+    const hydratedDetails = await mapWithConcurrency(detailCandidates, detailConcurrency, async (summary) => {
       const detail = await wyscoutFetch(`/matches/${summary.providerMatchId}`, { useSides: 1 });
       return { providerMatchId: summary.providerMatchId, detail };
     });
@@ -886,7 +1121,14 @@ serve(async (req: Request) => {
     const seasonTeamRows: any[] = [];
     const matchRows: any[] = [];
 
-    for (const summary of selectedSummaries) {
+    // The database requires two distinct participant ids. Only summaries with
+    // fetched detail, or already-valid existing rows, may be persisted.
+    const matchShellSummaries = selectedSummaries.filter((summary) =>
+      detailMap.has(summary.providerMatchId)
+      || existingMatchMap.has(summary.providerMatchId)
+    );
+
+    for (const summary of matchShellSummaries) {
       const existing = existingMatchMap.get(summary.providerMatchId);
       const detail = detailMap.get(summary.providerMatchId) ?? null;
       const sides = detail ? extractTeamIdsFromMatchDetail(detail) : null;
@@ -896,12 +1138,30 @@ serve(async (req: Request) => {
       const awayLocalTeamId = sides?.awayProviderTeamId
         ? providerToLocalTeamId.get(sides.awayProviderTeamId) ?? existing?.away_team_id ?? null
         : existing?.away_team_id ?? null;
-
-      if (homeLocalTeamId) {
-        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: homeLocalTeamId, is_active: true, metadata: {} });
+      // Match shells may be upserted before this match enters the detail batch.
+      // Never persist a half-resolved participant pair because matches_check
+      // requires both team ids together (and distinct), or neither.
+      const hasCompleteTeamPair = Boolean(
+        homeLocalTeamId
+        && awayLocalTeamId
+        && homeLocalTeamId !== awayLocalTeamId
+      );
+      if (!hasCompleteTeamPair) {
+        if (eventCandidateIds.has(summary.providerMatchId)) {
+          throw new Error(
+            `match ${summary.providerMatchId} detail did not resolve two distinct local teams`,
+          );
+        }
+        continue;
       }
-      if (awayLocalTeamId) {
-        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: awayLocalTeamId, is_active: true, metadata: {} });
+      const safeHomeLocalTeamId = homeLocalTeamId;
+      const safeAwayLocalTeamId = awayLocalTeamId;
+
+      if (safeHomeLocalTeamId) {
+        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: safeHomeLocalTeamId, is_active: true, metadata: {} });
+      }
+      if (safeAwayLocalTeamId) {
+        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: safeAwayLocalTeamId, is_active: true, metadata: {} });
       }
 
       matchRows.push({
@@ -915,8 +1175,8 @@ serve(async (req: Request) => {
         kickoff_at: detail?.dateutc ? toIso(detail.dateutc) : summary.kickoffAt,
         status: detail?.status ? normalizeStatus(detail.status) : summary.status,
         venue_name: pickString(detail?.venue?.name, detail?.venueName),
-        home_team_id: homeLocalTeamId,
-        away_team_id: awayLocalTeamId,
+        home_team_id: safeHomeLocalTeamId,
+        away_team_id: safeAwayLocalTeamId,
         home_score: toNumber(sides?.homeScore ?? summary.homeScore),
         away_score: toNumber(sides?.awayScore ?? summary.awayScore),
         home_ht_score: toNumber(sides?.homeHtScore),
@@ -997,66 +1257,314 @@ serve(async (req: Request) => {
       }
     }
 
-    const finalHydrationTargets = hydrationCandidates.filter((summary) => {
+    // Event ingestion targets: only the candidates that actually asked for an
+    // event attempt, and only those whose refreshed row is a completed match.
+    const finalHydrationTargets = detailCandidates.filter((summary) => {
+      if (!eventCandidateIds.has(summary.providerMatchId)) return false;
       const matchRow = refreshedMatchMap.get(summary.providerMatchId);
-      return matchRow && isFinalStatus(matchRow.status);
+      return Boolean(matchRow) && isFinalStatus(matchRow.status);
     });
 
+    // Real fetch counters, recorded on sync_runs.metadata at the end of the run.
+    const eventFetchCounters = {
+      event_fetch_requests: 0,
+      event_fetch_succeeded: 0,
+      event_fetch_failed: 0,
+      event_fetch_deferred_no_stats: 0,
+      empty_payloads: 0,
+      events_fetched: 0,
+      event_replacements: 0,
+      event_rows_stored: 0,
+      matches_reconciled: 0,
+      matches_count_mismatch: 0,
+      matches_failed: 0,
+      matches_deferred_no_stats: 0,
+      matches_skipped_claimed: 0,
+      events_rejected: 0,
+      unmapped_provider_team_events: 0,
+      teamless_events: 0,
+    };
+
+    // Claim before the outbound event request so overlapping runs do not fetch the same match.
     const hydratedEvents = includeEvents
       ? await mapWithConcurrency(finalHydrationTargets, eventConcurrency, async (summary) => {
-        const payload = await wyscoutFetch(`/matches/${summary.providerMatchId}/events`);
-        return {
-          providerMatchId: summary.providerMatchId,
-          events: Array.isArray(payload?.events) ? payload.events : Array.isArray(payload) ? payload : [],
-        };
-      })
-      : [];
-    const eventMap = new Map<number, any[]>(hydratedEvents.map((row) => [row.providerMatchId, row.events]));
+        const matchRow = refreshedMatchMap.get(summary.providerMatchId);
+        if (!matchRow) return { providerMatchId: summary.providerMatchId, events: [], error: "missing local match", attemptId: null, skipped: false };
+        const { data: attemptId, error: claimError } = await supabase.rpc("claim_match_event_sync", {
+          p_match_id: matchRow.id, p_run_id: runIdText, p_lease_seconds: 900,
+        });
+        if (claimError) throw claimError;
+        if (!attemptId) {
+          eventFetchCounters.matches_skipped_claimed += 1;
+          return { providerMatchId: summary.providerMatchId, events: [], error: null, attemptId: null, skipped: true };
+        }
+        eventFetchCounters.event_fetch_requests += 1;
+        try {
+          const payload = await wyscoutFetch(`/matches/${summary.providerMatchId}/events`);
+          const events = Array.isArray(payload?.events) ? payload.events : Array.isArray(payload) ? payload : null;
+          if (events === null) {
+            eventFetchCounters.event_fetch_failed += 1;
+            return { providerMatchId: summary.providerMatchId, events: [], error: "provider response contained no events array", attemptId, skipped: false };
+          }
+          eventFetchCounters.event_fetch_succeeded += 1;
+          eventFetchCounters.events_fetched += events.length;
+          if (events.length === 0) eventFetchCounters.empty_payloads += 1;
+          return { providerMatchId: summary.providerMatchId, events, error: null, attemptId, skipped: false };
+        } catch (error) {
+          const errorMessage = serializeError(error);
+          const errorKind = isProviderNoStatsMessage(errorMessage) ? "provider_no_stats" : "failed";
+          if (errorKind === "provider_no_stats") {
+            eventFetchCounters.event_fetch_deferred_no_stats += 1;
+          } else {
+            eventFetchCounters.event_fetch_failed += 1;
+          }
+          return {
+            providerMatchId: summary.providerMatchId,
+            events: [],
+            error: errorMessage,
+            errorKind,
+            attemptId,
+            skipped: false,
+          };
+        }
+      }) : [];
+    const hydrationMap = new Map<number, any>(hydratedEvents.map((row) => [row.providerMatchId, row]));
 
     let eventsUpserted = 0;
+    const eventSyncResults: Array<Record<string, unknown>> = [];
+
     for (const summary of finalHydrationTargets) {
       const matchRow = refreshedMatchMap.get(summary.providerMatchId);
       const detail = detailMap.get(summary.providerMatchId);
       if (!matchRow || !detail) continue;
 
-      const events = eventMap.get(summary.providerMatchId) ?? [];
+      const hydration = hydrationMap.get(summary.providerMatchId);
+      if (!hydration || hydration.skipped) {
+        eventSyncResults.push({ match_id: matchRow.id, skipped: "claimed_by_another_run" });
+        continue;
+      }
+      const events = hydration.events ?? [];
+      const fetchError = hydration.error ?? null;
+      const fetchErrorKind = String(hydration.errorKind ?? "failed");
+      const attemptId = hydration.attemptId;
       const homeStatKey = `${matchRow.id}:${matchRow.home_team_id}`;
       const awayStatKey = `${matchRow.id}:${matchRow.away_team_id}`;
-      const statRows = buildTeamStatRows(matchRow, detail, events, {
-        existingHomeStat: existingStatsByMatchTeam.get(homeStatKey) ?? null,
-        existingAwayStat: existingStatsByMatchTeam.get(awayStatKey) ?? null,
-        preserveExistingMetrics: !includeEvents,
-      });
-      if (statRows.length) {
-        const { error: deleteStatsError } = await supabase
-          .from("team_match_stats")
-          .delete()
-          .eq("match_id", matchRow.id);
-        if (deleteStatsError) throw deleteStatsError;
 
-        const { error: upsertStatsError } = await supabase
-          .from("team_match_stats")
-          .insert(statRows);
-        if (upsertStatsError) throw upsertStatsError;
-      }
-
-      if (includeEvents) {
-        const eventRows = buildEventRows(matchRow, events, providerToLocalTeamId);
-        const { error: deleteEventsError } = await supabase
-          .from("events")
-          .delete()
-          .eq("match_id", matchRow.id);
-        if (deleteEventsError) throw deleteEventsError;
-
-        if (eventRows.length) {
-          const { error: insertEventsError } = await supabase
-            .from("events")
-            .insert(eventRows);
-          if (insertEventsError) throw insertEventsError;
-          eventsUpserted += eventRows.length;
+      // ---------------------------------------------------------------------
+      // Path A: events were not requested. Never touch public.events, and
+      // update aggregates while preserving previously computed metrics.
+      // ---------------------------------------------------------------------
+      if (!includeEvents) {
+        const statRows = buildTeamStatRows(matchRow, detail, [], {
+          existingHomeStat: existingStatsByMatchTeam.get(homeStatKey) ?? null,
+          existingAwayStat: existingStatsByMatchTeam.get(awayStatKey) ?? null,
+          preserveExistingMetrics: true,
+        });
+        if (statRows.length === 2) {
+          const { error: upsertStatsError } = await supabase
+            .from("team_match_stats")
+            .upsert(statRows, { onConflict: "match_id,team_id" });
+          if (upsertStatsError) throw upsertStatsError;
         }
+        continue;
       }
+
+      // ---------------------------------------------------------------------
+      // Path B: transactional replacement of events + both aggregate rows.
+      // ---------------------------------------------------------------------
+      // A fetch failure must not delete anything: record the failed attempt
+      // (which schedules the next retry via events_next_retry_at) and move on.
+      if (fetchError) {
+        if (fetchErrorKind === "provider_no_stats") {
+          // A definite provider no-stats response is a resolved, uncovered state,
+          // not a transport or normalization failure. Keep two fixture-derived
+          // team rows so completed-match integrity and standings remain valid.
+          const unavailableStatRows = withCoverageFlags(
+            buildTeamStatRows(matchRow, detail, [], {
+              existingHomeStat: existingStatsByMatchTeam.get(homeStatKey) ?? null,
+              existingAwayStat: existingStatsByMatchTeam.get(awayStatKey) ?? null,
+              preserveExistingMetrics: false,
+            }),
+            [],
+          );
+
+          if (unavailableStatRows.length !== 2) {
+            const { error: failError } = await supabase.rpc("fail_match_event_sync", {
+              p_match_id: matchRow.id,
+              p_run_id: runIdText,
+              p_attempt_id: attemptId,
+              p_error: "provider returned no stats and both fixture stat rows could not be built",
+              p_attempt_status: "failed",
+            });
+            if (failError) throw failError;
+            eventFetchCounters.matches_failed += 1;
+            eventSyncResults.push({
+              match_id: matchRow.id,
+              status: "failed",
+              reason: "provider_no_stats_missing_team_mapping",
+            });
+            continue;
+          }
+
+          const { error: upsertUnavailableStatsError } = await supabase
+            .from("team_match_stats")
+            .upsert(unavailableStatRows, { onConflict: "match_id,team_id" });
+          if (upsertUnavailableStatsError) throw upsertUnavailableStatsError;
+
+          const { error: unavailableError } = await supabase.rpc("mark_match_event_unavailable", {
+            p_match_id: matchRow.id,
+            p_run_id: runIdText,
+            p_attempt_id: attemptId,
+            p_reason: `provider_no_stats: ${fetchError}`,
+            p_retry_after: "7 days",
+          });
+          if (unavailableError) throw unavailableError;
+
+          eventFetchCounters.matches_deferred_no_stats += 1;
+          eventSyncResults.push({
+            match_id: matchRow.id,
+            status: "unavailable",
+            reason: "provider_no_stats",
+          });
+          continue;
+        }
+
+        const { error: failError } = await supabase.rpc("fail_match_event_sync", {
+          p_match_id: matchRow.id,
+          p_run_id: runIdText,
+          p_attempt_id: attemptId,
+          p_error: `event fetch failed: ${fetchError}`,
+          p_attempt_status: "failed",
+        });
+        if (failError) throw failError;
+        eventFetchCounters.matches_failed += 1;
+        eventSyncResults.push({
+          match_id: matchRow.id,
+          status: "failed",
+          reason: "event_fetch_failed",
+        });
+        continue;
+      }
+
+      const sourcePayloadCount = events.length;
+      const normalized = buildEventRows(matchRow, events, providerToLocalTeamId);
+      const eventRows = normalized.rows;
+      eventFetchCounters.events_rejected += normalized.rejected.length;
+      eventFetchCounters.unmapped_provider_team_events += normalized.unmappedProviderTeamCount;
+      eventFetchCounters.teamless_events += normalized.teamlessCount;
+
+      // Any rejected event means the payload could not be represented
+      // faithfully. Never store a partial event set as if it were complete.
+      if (normalized.rejected.length > 0) {
+        const reasons = Array.from(new Set(normalized.rejected.map((r) => r.reason))).join(", ");
+        const { error: failError } = await supabase.rpc("fail_match_event_sync", {
+          p_match_id: matchRow.id,
+          p_run_id: runIdText,
+          p_attempt_id: attemptId,
+          p_error: `rejected ${normalized.rejected.length}/${sourcePayloadCount} events (${reasons})`,
+          p_attempt_status: "failed",
+          p_source_payload_count: sourcePayloadCount,
+          p_normalized_count: eventRows.length,
+          p_rejected_count: normalized.rejected.length,
+          p_unmapped_provider_team_count: normalized.unmappedProviderTeamCount,
+        });
+        if (failError) throw failError;
+        eventFetchCounters.matches_failed += 1;
+        eventSyncResults.push({
+          match_id: matchRow.id,
+          status: "failed",
+          reason: "event_normalization_rejected",
+          rejected_count: normalized.rejected.length,
+          unmapped_provider_team_count: normalized.unmappedProviderTeamCount,
+        });
+        continue;
+      }
+
+      const statRows = withCoverageFlags(
+        buildTeamStatRows(matchRow, detail, events, {
+          existingHomeStat: existingStatsByMatchTeam.get(homeStatKey) ?? null,
+          existingAwayStat: existingStatsByMatchTeam.get(awayStatKey) ?? null,
+          preserveExistingMetrics: false,
+        }),
+        eventRows,
+      );
+
+      if (statRows.length !== 2) {
+        const { error: failError } = await supabase.rpc("fail_match_event_sync", {
+          p_match_id: matchRow.id,
+          p_run_id: runIdText,
+          p_attempt_id: attemptId,
+          p_error: "could not build both team_match_stats rows (missing team mapping)",
+          p_attempt_status: "failed",
+          p_source_payload_count: sourcePayloadCount,
+          p_normalized_count: eventRows.length,
+        });
+        if (failError) throw failError;
+        eventFetchCounters.matches_failed += 1;
+        eventSyncResults.push({ match_id: matchRow.id, status: "failed", reason: "missing_team_mapping" });
+        continue;
+      }
+
+      const { data: replaceResult, error: replaceError } = await supabase.rpc("replace_match_events", {
+        p_match_id: matchRow.id,
+        p_run_id: runIdText,
+        p_attempt_id: attemptId,
+        p_source_payload_count: sourcePayloadCount,
+        p_events: eventRows,
+        p_team_stats: statRows,
+      });
+
+      if (replaceError) {
+        // The RPC raised, so PostgreSQL rolled the whole replacement back and
+        // the previously stored events and aggregates are still intact. The
+        // failure still schedules a retry through events_next_retry_at.
+        const isMismatch = /stored .* rows|source payload has|post-write count check|duplicate provider_event_id|missing provider_event_id/i
+          .test(serializeError(replaceError));
+        const { error: failError } = await supabase.rpc("fail_match_event_sync", {
+          p_match_id: matchRow.id,
+          p_run_id: runIdText,
+          p_attempt_id: attemptId,
+          p_error: serializeError(replaceError),
+          p_attempt_status: isMismatch ? "count_mismatch" : "failed",
+          p_source_payload_count: sourcePayloadCount,
+          p_normalized_count: eventRows.length,
+          p_rejected_count: Math.max(0, sourcePayloadCount - eventRows.length),
+        });
+        if (failError) throw failError;
+        if (isMismatch) eventFetchCounters.matches_count_mismatch += 1;
+        else eventFetchCounters.matches_failed += 1;
+        eventSyncResults.push({
+          match_id: matchRow.id,
+          status: isMismatch ? "count_mismatch" : "failed",
+          error: serializeError(replaceError),
+        });
+        continue;
+      }
+
+      const result = Array.isArray(replaceResult) ? replaceResult[0] : replaceResult;
+      const storedNow = Number(result?.stored_count ?? 0);
+      eventsUpserted += storedNow;
+      eventFetchCounters.event_replacements += 1;
+      eventFetchCounters.event_rows_stored += storedNow;
+      eventFetchCounters.matches_reconciled += 1;
+      eventSyncResults.push({
+        match_id: matchRow.id,
+        status: result?.data_status ?? "reconciled",
+        stored_count: result?.stored_count ?? 0,
+        source_payload_count: result?.source_payload_count ?? sourcePayloadCount,
+      });
     }
+
+    if (includeEvents) {
+      // Classify long-confirmed empty matches so 'provider_empty' cannot be
+      // retried forever and cannot masquerade as fresh coverage.
+      const { error: settleError } = await supabase.rpc("settle_provider_empty_matches", {
+        p_recent_hours: 168,
+        p_max_confirmations: 3,
+      });
+      if (settleError) throw settleError;
+    }
+
 
     const affectedSeasonIds = Array.from(new Set(matchRows.map((row) => row.season_id).filter(Boolean)));
     for (const seasonId of affectedSeasonIds) {
@@ -1073,38 +1581,134 @@ serve(async (req: Request) => {
       ),
     );
 
+    // Count work from the complete provider candidate set. Not-yet-inserted
+    // matches remain visible without creating invalid placeholder rows.
+    const remainingEventCandidates = Math.max(
+      0,
+      allEventCandidates.length - eventCandidates.length,
+    );
+    const continuationRequired = includeEvents && remainingEventCandidates > 0;
+
+    // Real, measured run telemetry. These are actual counters incremented at
+    // the fetch/ingest sites, not derived guesses from candidate list sizes.
+    const runTelemetry = {
+      detail_candidates: detailCandidates.length,
+      event_candidates_total: allEventCandidates.length,
+      event_hydration_candidates: eventCandidates.length,
+      event_batch_size: eventBatchSize,
+      remaining_event_candidates: remainingEventCandidates,
+      continuation_required: continuationRequired,
+      event_targets: finalHydrationTargets.length,
+      ...eventFetchCounters,
+    };
+
+    const hardFailureCount =
+      eventFetchCounters.matches_failed
+      + eventFetchCounters.matches_count_mismatch
+      + eventFetchCounters.matches_skipped_claimed;
+    const warningCount = eventFetchCounters.matches_deferred_no_stats;
+    const isRequestedFullSeasonScope =
+      mode === "full"
+      && maxMatches === 0
+      && teamNameKeywords.length === 0
+      && requestedSeasonIds.length > 0;
+    const isCompleteSeasonScope =
+      isRequestedFullSeasonScope
+      && !continuationRequired;
+
+    let ingestionPassed = hardFailureCount === 0;
+    let completenessPassed: boolean | null = null;
+    let completenessStatus = !isRequestedFullSeasonScope
+      ? "not_run_partial_scope"
+      : continuationRequired
+        ? "continuation_required"
+        : "pending_audit";
+    let completenessChecks: any[] = [];
+
+    if (isCompleteSeasonScope && ingestionPassed) {
+      const { data: auditRows, error: auditError } = await supabase.rpc(
+        "run_completeness_audit",
+        { p_season_ids: affectedSeasonIds },
+      );
+      if (auditError) throw auditError;
+      completenessChecks = Array.isArray(auditRows) ? auditRows : [];
+      const blockerFailures = completenessChecks.filter(
+        (check: any) => check?.severity === "blocker" && check?.passed === false,
+      );
+      completenessPassed = blockerFailures.length === 0;
+      completenessStatus = completenessPassed ? "passed" : "failed";
+      if (!completenessPassed) ingestionPassed = false;
+    } else if (isCompleteSeasonScope && !ingestionPassed) {
+      completenessPassed = false;
+      completenessStatus = "not_run_ingestion_failed";
+    }
+
+    const runStatus = !ingestionPassed
+      ? (mode === "full" ? "failed" : "completed_with_errors")
+      : continuationRequired || warningCount > 0
+        ? "completed_with_warnings"
+        : "succeeded";
+
     if (runId) {
+      const { data: runRow } = await supabase
+        .from("sync_runs")
+        .select("metadata")
+        .eq("id", runId)
+        .maybeSingle();
+
       const { error: finishRunError } = await supabase
         .from("sync_runs")
         .update({
-          status: "succeeded",
+          status: runStatus,
           finished_at: new Date().toISOString(),
           matches_scanned: selectedSummaries.length,
-          matches_hydrated: hydrationCandidates.length,
+          matches_hydrated: detailCandidates.length,
           matches_upserted: matchRows.length,
           events_upserted: eventsUpserted,
           affected_season_ids: affectedSeasonIds,
           affected_team_ids: affectedTeamIds,
+          metadata: {
+            ...(runRow?.metadata ?? {}),
+            event_sync: runTelemetry,
+            trust_gate: {
+              ingestion_passed: ingestionPassed,
+              completeness_passed: completenessPassed,
+              completeness_status: completenessStatus,
+              checks: completenessChecks,
+            },
+          },
         })
         .eq("id", runId);
       if (finishRunError) throw finishRunError;
     }
 
-    return jsonResponse(200, {
-      ok: true,
+    const responseStatus = mode === "full" && !ingestionPassed ? 409 : 200;
+    return jsonResponse(responseStatus, {
+      ok: ingestionPassed,
+      ingestion_passed: ingestionPassed,
+      completeness_passed: completenessPassed,
+      completeness_status: completenessStatus,
+      completeness_checks: completenessChecks,
+      failed_match_count: hardFailureCount,
+      warning_match_count: warningCount,
+      status: runStatus,
+      continuation_required: continuationRequired,
+      remaining_event_candidates: remainingEventCandidates,
+      event_batch_size: eventBatchSize,
       run_id: runId,
       provider_league_id: providerLeagueId,
       provider_season_ids: orderedSeasonIds,
       matches_scanned: selectedSummaries.length,
-      matches_hydrated: hydrationCandidates.length,
+      matches_hydrated: detailCandidates.length,
       matches_upserted: matchRows.length,
       events_upserted: eventsUpserted,
+      event_sync: runTelemetry,
       force_rehydrate_events: forceRehydrateEvents,
       max_matches: maxMatches,
       team_name_keywords: teamNameKeywords,
-      force_rehydrate_events: forceRehydrateEvents,
-      max_matches: maxMatches,
-      team_name_keywords: teamNameKeywords,
+      team_group_anchor: teamGroupAnchor || null,
+      team_group_team_count: teamGroupTeamCount,
+      event_sync_results: eventSyncResults,
       affected_season_ids: affectedSeasonIds,
       affected_team_ids: affectedTeamIds,
       note: "This sync only upserts league data and derived tables. It does not delete unrelated seasons, reports, or storage objects.",

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-07T23:54:44.931404+00:00",
-  "version": 3,
+  "generated_at": "2026-08-25T14:55:20.795002+00:00",
+  "version": 4,
   "storage": {
     "bucket": "plots",
     "prefix": ""
@@ -94,6 +94,14 @@
           "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/exports/competitions/division1_matches.csv"
         }
       }
+    }
+  },
+  "seasons": {
+    "192451": {
+      "provider_season_id": 192451,
+      "path": "reports/seasons/192451/index.json",
+      "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/index.json",
+      "generated_at": "2026-08-25T14:55:20.795002+00:00"
     }
   }
 }
