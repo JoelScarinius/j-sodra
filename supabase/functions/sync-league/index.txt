@@ -61,9 +61,6 @@ function jsonResponse(status: number, payload: Record<string, unknown>) {
 function normalizeStatus(value: unknown) {
   return String(value ?? "scheduled").trim().toLowerCase();
 }
-function normalizeSearchText(value: unknown) {
-  return String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
-}
 
 function isFinalStatus(value: unknown) {
   return FINAL_STATUSES.has(normalizeStatus(value));
@@ -769,15 +766,9 @@ serve(async (req: Request) => {
   const hydrateRecentHours = Math.max(0, Number(body?.hydrate_recent_hours ?? 168));
   const forceRehydrateEvents = Boolean(body?.force_rehydrate_events);
   const maxMatches = Math.max(0, Number(body?.max_matches ?? 0));
-  // Operational batch size. max_matches scopes the season listing for tests;
-  // event_batch_size bounds provider event payloads held by one worker.
-  const eventBatchSize = Math.max(1, Math.min(10, Number(body?.event_batch_size ?? 2)));
   const teamNameKeywords = Array.isArray(body?.team_name_keywords)
-    ? body.team_name_keywords.map((value: unknown) => normalizeSearchText(value)).filter(Boolean)
+    ? body.team_name_keywords.map((value: unknown) => String(value ?? "").trim().toLowerCase()).filter(Boolean)
     : [];
-  const teamGroupAnchor = normalizeSearchText(
-    body?.team_group_anchor ?? Deno.env.get("SYNC_TEAM_GROUP_ANCHOR") ?? "",
-  );
   wyscoutRequestDelayMs = Math.max(0, Number(body?.request_delay_ms ?? 0));
   wyscoutMaxRetries = Math.max(0, Math.min(8, Number(body?.wyscout_max_retries ?? 3)));
   const startedAt = new Date().toISOString();
@@ -786,15 +777,6 @@ serve(async (req: Request) => {
 
   let runId = null;
   try {
-    // Recover expired leases and abandoned run rows before candidate selection.
-    // This makes a new invocation resumable after a worker termination.
-    const { error: releaseBeforeRunError } = await supabase.rpc("release_stale_event_claims");
-    if (releaseBeforeRunError) throw releaseBeforeRunError;
-    const { error: settleRunsError } = await supabase.rpc("settle_stale_sync_runs", {
-      p_stale_after: "20 minutes",
-    });
-    if (settleRunsError) throw settleRunsError;
-
     const { data: insertedRun, error: runError } = await supabase
       .from("sync_runs")
       .insert({
@@ -831,46 +813,13 @@ serve(async (req: Request) => {
       ? summaries.filter((record) => requestedSeasonIds.includes(record.providerSeasonId))
       : summaries;
 
-    let teamGroupTeamCount: number | null = null;
-    if (teamGroupAnchor) {
-      const adjacency = new Map<string, Set<string>>();
-      for (const record of selectedSummaries) {
-        const home = normalizeSearchText(record.homeName);
-        const away = normalizeSearchText(record.awayName);
-        if (!home || !away) continue;
-        if (!adjacency.has(home)) adjacency.set(home, new Set());
-        if (!adjacency.has(away)) adjacency.set(away, new Set());
-        adjacency.get(home)!.add(away);
-        adjacency.get(away)!.add(home);
-      }
-      const anchorTeam = [...adjacency.keys()].find((name) =>
-        name.includes(teamGroupAnchor) || teamGroupAnchor.includes(name)
-      );
-      if (!anchorTeam) throw new Error(`team_group_anchor did not match a team: ${teamGroupAnchor}`);
-      const groupTeams = new Set<string>([anchorTeam]);
-      const queue = [anchorTeam];
-      while (queue.length) {
-        const current = queue.shift()!;
-        for (const opponent of adjacency.get(current) ?? []) {
-          if (groupTeams.has(opponent)) continue;
-          groupTeams.add(opponent);
-          queue.push(opponent);
-        }
-      }
-      teamGroupTeamCount = groupTeams.size;
-      selectedSummaries = selectedSummaries.filter((record) =>
-        groupTeams.has(normalizeSearchText(record.homeName))
-        && groupTeams.has(normalizeSearchText(record.awayName))
-      );
-    }
-
     if (teamNameKeywords.length) {
       selectedSummaries = selectedSummaries.filter((record) => {
         const haystack = [record.label, record.homeName, record.awayName]
           .filter(Boolean)
-          .join(" ");
-        const normalizedHaystack = normalizeSearchText(haystack);
-        return teamNameKeywords.some((keyword) => normalizedHaystack.includes(keyword));
+          .join(" ")
+          .toLowerCase();
+        return teamNameKeywords.some((keyword) => haystack.includes(keyword));
       });
     }
 
@@ -1052,25 +1001,11 @@ serve(async (req: Request) => {
       return retryDue(existing);
     };
 
-    const allEventCandidates = selectedSummaries
-      .filter(needsEventRefresh)
-      .sort((left, right) => {
-        const leftMs = Date.parse(left.kickoffAt ?? "");
-        const rightMs = Date.parse(right.kickoffAt ?? "");
-        const safeLeft = Number.isFinite(leftMs) ? leftMs : Number.POSITIVE_INFINITY;
-        const safeRight = Number.isFinite(rightMs) ? rightMs : Number.POSITIVE_INFINITY;
-        return safeLeft - safeRight
-          || Number(left.providerMatchId) - Number(right.providerMatchId);
-      });
-    const eventCandidates = allEventCandidates.slice(0, eventBatchSize);
-    const eventCandidateIds = new Set(eventCandidates.map((row) => row.providerMatchId));
-    // Bound detail hydration too. A completed match receives detail hydration
-    // only when it is in this event batch. Unplayed fixtures may still receive
-    // cheap detail refreshes, but completed unresolved matches wait their turn.
-    const detailCandidates = selectedSummaries.filter((summary) =>
-      eventCandidateIds.has(summary.providerMatchId)
-      || (!isFinalStatus(summary.status) && needsDetailRefresh(summary))
+    const detailCandidates = selectedSummaries.filter(
+      (summary) => needsDetailRefresh(summary) || needsEventRefresh(summary),
     );
+    const eventCandidates = selectedSummaries.filter(needsEventRefresh);
+    const eventCandidateIds = new Set(eventCandidates.map((s) => s.providerMatchId));
     // Kept for backwards-compatible telemetry field names.
 
     const hydratedDetails = await mapWithConcurrency(detailCandidates, detailConcurrency, async (summary) => {
@@ -1121,14 +1056,7 @@ serve(async (req: Request) => {
     const seasonTeamRows: any[] = [];
     const matchRows: any[] = [];
 
-    // The database requires two distinct participant ids. Only summaries with
-    // fetched detail, or already-valid existing rows, may be persisted.
-    const matchShellSummaries = selectedSummaries.filter((summary) =>
-      detailMap.has(summary.providerMatchId)
-      || existingMatchMap.has(summary.providerMatchId)
-    );
-
-    for (const summary of matchShellSummaries) {
+    for (const summary of selectedSummaries) {
       const existing = existingMatchMap.get(summary.providerMatchId);
       const detail = detailMap.get(summary.providerMatchId) ?? null;
       const sides = detail ? extractTeamIdsFromMatchDetail(detail) : null;
@@ -1138,30 +1066,12 @@ serve(async (req: Request) => {
       const awayLocalTeamId = sides?.awayProviderTeamId
         ? providerToLocalTeamId.get(sides.awayProviderTeamId) ?? existing?.away_team_id ?? null
         : existing?.away_team_id ?? null;
-      // Match shells may be upserted before this match enters the detail batch.
-      // Never persist a half-resolved participant pair because matches_check
-      // requires both team ids together (and distinct), or neither.
-      const hasCompleteTeamPair = Boolean(
-        homeLocalTeamId
-        && awayLocalTeamId
-        && homeLocalTeamId !== awayLocalTeamId
-      );
-      if (!hasCompleteTeamPair) {
-        if (eventCandidateIds.has(summary.providerMatchId)) {
-          throw new Error(
-            `match ${summary.providerMatchId} detail did not resolve two distinct local teams`,
-          );
-        }
-        continue;
-      }
-      const safeHomeLocalTeamId = homeLocalTeamId;
-      const safeAwayLocalTeamId = awayLocalTeamId;
 
-      if (safeHomeLocalTeamId) {
-        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: safeHomeLocalTeamId, is_active: true, metadata: {} });
+      if (homeLocalTeamId) {
+        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: homeLocalTeamId, is_active: true, metadata: {} });
       }
-      if (safeAwayLocalTeamId) {
-        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: safeAwayLocalTeamId, is_active: true, metadata: {} });
+      if (awayLocalTeamId) {
+        seasonTeamRows.push({ season_id: seasonIdMap.get(summary.providerSeasonId), league_id: localLeague.id, team_id: awayLocalTeamId, is_active: true, metadata: {} });
       }
 
       matchRows.push({
@@ -1175,8 +1085,8 @@ serve(async (req: Request) => {
         kickoff_at: detail?.dateutc ? toIso(detail.dateutc) : summary.kickoffAt,
         status: detail?.status ? normalizeStatus(detail.status) : summary.status,
         venue_name: pickString(detail?.venue?.name, detail?.venueName),
-        home_team_id: safeHomeLocalTeamId,
-        away_team_id: safeAwayLocalTeamId,
+        home_team_id: homeLocalTeamId,
+        away_team_id: awayLocalTeamId,
         home_score: toNumber(sides?.homeScore ?? summary.homeScore),
         away_score: toNumber(sides?.awayScore ?? summary.awayScore),
         home_ht_score: toNumber(sides?.homeHtScore),
@@ -1284,6 +1194,11 @@ serve(async (req: Request) => {
       unmapped_provider_team_events: 0,
       teamless_events: 0,
     };
+
+    if (includeEvents) {
+      const { error: releaseClaimsError } = await supabase.rpc("release_stale_event_claims");
+      if (releaseClaimsError) throw releaseClaimsError;
+    }
 
     // Claim before the outbound event request so overlapping runs do not fetch the same match.
     const hydratedEvents = includeEvents
@@ -1581,23 +1496,11 @@ serve(async (req: Request) => {
       ),
     );
 
-    // Count work from the complete provider candidate set. Not-yet-inserted
-    // matches remain visible without creating invalid placeholder rows.
-    const remainingEventCandidates = Math.max(
-      0,
-      allEventCandidates.length - eventCandidates.length,
-    );
-    const continuationRequired = includeEvents && remainingEventCandidates > 0;
-
     // Real, measured run telemetry. These are actual counters incremented at
     // the fetch/ingest sites, not derived guesses from candidate list sizes.
     const runTelemetry = {
       detail_candidates: detailCandidates.length,
-      event_candidates_total: allEventCandidates.length,
       event_hydration_candidates: eventCandidates.length,
-      event_batch_size: eventBatchSize,
-      remaining_event_candidates: remainingEventCandidates,
-      continuation_required: continuationRequired,
       event_targets: finalHydrationTargets.length,
       ...eventFetchCounters,
     };
@@ -1607,22 +1510,17 @@ serve(async (req: Request) => {
       + eventFetchCounters.matches_count_mismatch
       + eventFetchCounters.matches_skipped_claimed;
     const warningCount = eventFetchCounters.matches_deferred_no_stats;
-    const isRequestedFullSeasonScope =
+    const isCompleteSeasonScope =
       mode === "full"
       && maxMatches === 0
       && teamNameKeywords.length === 0
       && requestedSeasonIds.length > 0;
-    const isCompleteSeasonScope =
-      isRequestedFullSeasonScope
-      && !continuationRequired;
 
     let ingestionPassed = hardFailureCount === 0;
     let completenessPassed: boolean | null = null;
-    let completenessStatus = !isRequestedFullSeasonScope
-      ? "not_run_partial_scope"
-      : continuationRequired
-        ? "continuation_required"
-        : "pending_audit";
+    let completenessStatus = isCompleteSeasonScope
+      ? "pending_audit"
+      : "not_run_partial_scope";
     let completenessChecks: any[] = [];
 
     if (isCompleteSeasonScope && ingestionPassed) {
@@ -1631,6 +1529,7 @@ serve(async (req: Request) => {
         { p_season_ids: affectedSeasonIds },
       );
       if (auditError) throw auditError;
+
       completenessChecks = Array.isArray(auditRows) ? auditRows : [];
       const blockerFailures = completenessChecks.filter(
         (check: any) => check?.severity === "blocker" && check?.passed === false,
@@ -1645,7 +1544,7 @@ serve(async (req: Request) => {
 
     const runStatus = !ingestionPassed
       ? (mode === "full" ? "failed" : "completed_with_errors")
-      : continuationRequired || warningCount > 0
+      : warningCount > 0
         ? "completed_with_warnings"
         : "succeeded";
 
@@ -1692,9 +1591,6 @@ serve(async (req: Request) => {
       failed_match_count: hardFailureCount,
       warning_match_count: warningCount,
       status: runStatus,
-      continuation_required: continuationRequired,
-      remaining_event_candidates: remainingEventCandidates,
-      event_batch_size: eventBatchSize,
       run_id: runId,
       provider_league_id: providerLeagueId,
       provider_season_ids: orderedSeasonIds,
@@ -1706,8 +1602,6 @@ serve(async (req: Request) => {
       force_rehydrate_events: forceRehydrateEvents,
       max_matches: maxMatches,
       team_name_keywords: teamNameKeywords,
-      team_group_anchor: teamGroupAnchor || null,
-      team_group_team_count: teamGroupTeamCount,
       event_sync_results: eventSyncResults,
       affected_season_ids: affectedSeasonIds,
       affected_team_ids: affectedTeamIds,
