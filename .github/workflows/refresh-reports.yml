@@ -7,10 +7,18 @@ on:
         description: Client-visible run id from the Supabase refresh function
         required: false
         type: string
+
       requested_at:
         description: UTC timestamp when refresh was requested
         required: false
         type: string
+
+      report_season_id:
+        description: Wyscout provider season ID for report output
+        required: true
+        default: "192451"
+        type: string
+
       force_refresh:
         description: Bypass local report caches
         required: false
@@ -41,6 +49,7 @@ jobs:
 
     env:
       PYTHONUNBUFFERED: "1"
+      REPORT_SEASON_ID: ${{ github.event.inputs.report_season_id || '192451' }}
       UPLOAD_TO_SUPABASE_STORAGE: "1"
       SUPABASE_FUNCTION_URL: ${{ secrets.SUPABASE_FUNCTION_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -67,9 +76,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run analytics refresh
+        shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] &&
-             [ "${{ github.event.inputs.force_refresh }}" = "true" ]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" &&
+                "${{ github.event.inputs.force_refresh }}" == "true" ]]; then
             python run_pipeline.py --force-refresh
           else
             python run_pipeline.py
