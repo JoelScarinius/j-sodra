@@ -12,21 +12,33 @@ on:
         required: false
         type: string
       force_refresh:
-        description: Bypass caches and hit the Wyscout API
+        description: Bypass local report caches
         required: false
-        default: true
+        default: false
         type: boolean
-  schedule:
-    - cron: "17 * * * *"
+
+  workflow_run:
+    workflows:
+      - Sync League Warehouse
+    types:
+      - completed
 
 concurrency:
   group: j-sodra-refresh
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   refresh:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     env:
       PYTHONUNBUFFERED: "1"
       UPLOAD_TO_SUPABASE_STORAGE: "1"
@@ -38,6 +50,7 @@ jobs:
       SUPABASE_S3_SECRET_KEY: ${{ secrets.SUPABASE_S3_SECRET_KEY }}
       SUPABASE_S3_PREFIX: ${{ secrets.SUPABASE_S3_PREFIX }}
       SUPABASE_PUBLIC_BASE_URL: ${{ secrets.SUPABASE_PUBLIC_BASE_URL }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -46,7 +59,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-          cache: "pip"
+          cache: pip
 
       - name: Install dependencies
         run: |
@@ -54,4 +67,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run analytics refresh
-        run: python run_pipeline.py --force-refresh
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] &&
+             [ "${{ github.event.inputs.force_refresh }}" = "true" ]; then
+            python run_pipeline.py --force-refresh
+          else
+            python run_pipeline.py
+          fi
