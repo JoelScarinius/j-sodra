@@ -1,0 +1,119 @@
+{
+  "generated_at": "2026-08-25T14:55:20.795002+00:00",
+  "version": 4,
+  "scope": {
+    "provider_season_id": 192451,
+    "scope_key": "192451",
+    "report_prefix": "reports/seasons/192451"
+  },
+  "analytics": {
+    "source": "supabase_rpc",
+    "supports": {
+      "whole_season": true,
+      "last_n_matches": true,
+      "selected_matches": true
+    },
+    "contracts": {
+      "matches": "api_team_matches_v2",
+      "metrics": "api_team_metrics_v2",
+      "selected_matches": "api_team_matches_by_match_ids_v2",
+      "selected_metrics": "api_team_metrics_by_match_ids_v2",
+      "selected_events": "api_team_events_by_match_ids_v2"
+    }
+  },
+  "storage": {
+    "bucket": "plots",
+    "prefix": ""
+  },
+  "refresh": {
+    "supports_force_refresh": true,
+    "requires_server_side_trigger": true,
+    "webhook_url": "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports",
+    "webhook_method": "POST",
+    "status_method": "GET",
+    "status_url_template": "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/refresh-reports?run_id={run_id}",
+    "poll_interval_ms": 3000,
+    "server_command": "python run_pipeline.py --force-refresh",
+    "frontend_note": "Browser refetch alone only reloads published JSON. To recompute analytics, POST to the refresh webhook, poll the returned run_id until succeeded, then refetch reports/index.json with a cache-busting query string."
+  },
+  "sections": {
+    "team": {
+      "path": "reports/seasons/192451/entities/team.json",
+      "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/entities/team.json"
+    },
+    "next_opponent": {
+      "path": "reports/seasons/192451/entities/next_opponent.json",
+      "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/entities/next_opponent.json"
+    },
+    "matchup": {
+      "path": "reports/seasons/192451/matchup/current.json",
+      "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/matchup/current.json"
+    },
+    "overview": {
+      "team": {
+        "path": "reports/seasons/192451/overview/team.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/overview/team.json"
+      },
+      "next_opponent": {
+        "path": "reports/seasons/192451/overview/next_opponent.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/overview/next_opponent.json"
+      }
+    },
+    "fixtures": {
+      "upcoming": {
+        "path": "reports/seasons/192451/fixtures/upcoming.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/fixtures/upcoming.json"
+      }
+    },
+    "forms": {
+      "recent_form": {
+        "path": "reports/seasons/192451/forms/recent_form.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/forms/recent_form.json"
+      }
+    },
+    "head_to_head": {
+      "overview": {
+        "path": "reports/seasons/192451/head_to_head/overview.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/head_to_head/overview.json"
+      }
+    },
+    "corners": {
+      "analysis": {
+        "path": "reports/seasons/192451/corners/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/corners/analysis.json"
+      }
+    },
+    "open_play": {
+      "analysis": {
+        "path": "reports/seasons/192451/open_play/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/open_play/analysis.json"
+      }
+    },
+    "free_kicks": {
+      "analysis": {
+        "path": "reports/seasons/192451/free_kicks/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/free_kicks/analysis.json"
+      }
+    },
+    "throw_ins": {
+      "analysis": {
+        "path": "reports/seasons/192451/throw_ins/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/throw_ins/analysis.json"
+      }
+    },
+    "defensive": {
+      "analysis": {
+        "path": "reports/seasons/192451/defensive/analysis.json",
+        "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/defensive/analysis.json"
+      }
+    },
+    "exports": {
+      "competitions": {
+        "division1_matches": {
+          "path": "reports/seasons/192451/exports/competitions/division1_matches.csv",
+          "url": "https://ytzuftamjgafzgyogpke.supabase.co/storage/v1/object/public/plots/reports/seasons/192451/exports/competitions/division1_matches.csv"
+        }
+      }
+    }
+  }
+}

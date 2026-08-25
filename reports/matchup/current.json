@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-21T12:36:54.848616+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "home": {
+    "id": 6742,
+    "name": "Ängelholm",
+    "logo_url": "https://cdn5.wyscout.com/photos/team/public/1626_120x120.png",
+    "season_id": 192451
+  },
+  "away": {
     "id": 6849,
     "name": "Jönköpings Södra",
     "logo_url": "https://cdn5.wyscout.com/photos/team/public/1635_120x120.png",
     "season_id": 192451
   },
-  "away": {
-    "id": 6786,
-    "name": "Rosengård",
-    "logo_url": "https://cdn5.wyscout.com/photos/team/public/g4032_120x120.png",
-    "season_id": 192451
-  },
-  "dateutc": "2026-08-22T14:00:00+00:00",
+  "dateutc": "2026-08-29T11:00:00+00:00",
   "status": "Fixture",
   "season_id": 192451,
   "source": "fixtures",
-  "match_id": 5819343,
-  "label": "Jönköpings Södra - Rosengård, 0-0"
+  "match_id": 5819356,
+  "label": "Ängelholm - Jönköpings Södra, 0-0"
 }

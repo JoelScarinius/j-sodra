@@ -1,0 +1,143 @@
+{
+  "generated_at": "2026-08-25T14:55:20.795002+00:00",
+  "team": {
+    "matches": [
+      {
+        "match_id": 5819343,
+        "dateutc": "2026-08-22T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Jönköpings Södra - Rosengård, 0-0",
+        "result": "D",
+        "score": "0-0",
+        "goals_for": 0,
+        "goals_against": 0
+      },
+      {
+        "match_id": 5819327,
+        "dateutc": "2026-08-15T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Laholms FK - Jönköpings Södra, 0-0",
+        "result": "D",
+        "score": "0-0",
+        "goals_for": 0,
+        "goals_against": 0
+      },
+      {
+        "match_id": 5819314,
+        "dateutc": "2026-08-09T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Jönköpings Södra - Olympic, 2-0",
+        "result": "W",
+        "score": "2-0",
+        "goals_for": 2,
+        "goals_against": 0
+      },
+      {
+        "match_id": 5819297,
+        "dateutc": "2026-08-02T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Rosengård - Jönköpings Södra, 4-2",
+        "result": "L",
+        "score": "4-2",
+        "goals_for": 2,
+        "goals_against": 4
+      },
+      {
+        "match_id": 5819279,
+        "dateutc": "2026-06-27T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Ariana - Jönköpings Södra, 1-0",
+        "result": "L",
+        "score": "1-0",
+        "goals_for": 0,
+        "goals_against": 1
+      }
+    ],
+    "summary": {
+      "wins": 1,
+      "draws": 2,
+      "losses": 2,
+      "points": 5
+    }
+  },
+  "next_opponent": {
+    "matches": [
+      {
+        "match_id": 5819342,
+        "dateutc": "2026-08-22T14:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Åtvidaberg - Ängelholm, 4-1",
+        "result": "L",
+        "score": "4-1",
+        "goals_for": 1,
+        "goals_against": 4
+      },
+      {
+        "match_id": 5819324,
+        "dateutc": "2026-08-15T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Ängelholm - Trollhättan, 0-1",
+        "result": "L",
+        "score": "0-1",
+        "goals_for": 0,
+        "goals_against": 1
+      },
+      {
+        "match_id": 5819307,
+        "dateutc": "2026-08-07T17:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Kristianstad - Ängelholm, 1-0",
+        "result": "L",
+        "score": "1-0",
+        "goals_for": 0,
+        "goals_against": 1
+      },
+      {
+        "match_id": 5819292,
+        "dateutc": "2026-08-01T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Ängelholm - Ariana, 2-2",
+        "result": "D",
+        "score": "2-2",
+        "goals_for": 2,
+        "goals_against": 2
+      },
+      {
+        "match_id": 5819278,
+        "dateutc": "2026-06-27T11:00:00+00:00",
+        "season_id": 192451,
+        "competition_id": 810,
+        "status": "Played",
+        "label": "Trollhättan - Ängelholm, 1-1",
+        "result": "D",
+        "score": "1-1",
+        "goals_for": 1,
+        "goals_against": 1
+      }
+    ],
+    "summary": {
+      "wins": 0,
+      "draws": 2,
+      "losses": 3,
+      "points": 2
+    }
+  }
+}

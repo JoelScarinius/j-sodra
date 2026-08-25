@@ -1,32 +1,32 @@
 {
-  "generated_at": "2026-08-21T12:36:54.848616+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "section": "head_to_head",
   "overview": {
     "found": true,
     "team_id": 6849,
     "team_name": "Jönköpings Södra",
-    "opponent_id": 6786,
-    "opponent_name": "Rosengård",
+    "opponent_id": 6742,
+    "opponent_name": "Ängelholm",
     "summary": {
       "matches_played": 1,
-      "wins": 0,
+      "wins": 1,
       "draws": 0,
-      "losses": 1,
-      "goals_for": 2,
-      "goals_against": 4
+      "losses": 0,
+      "goals_for": 3,
+      "goals_against": 0
     },
     "meetings": [
       {
-        "match_id": 5819297,
-        "dateutc": "2026-08-02T14:00:00+00:00",
+        "match_id": 5819202,
+        "dateutc": "2026-05-24T14:00:00+00:00",
         "season_id": 192451,
         "competition_id": 810,
         "status": "Played",
-        "label": "Rosengård - Jönköpings Södra, 4-2",
-        "result": "L",
-        "score": "4-2",
-        "goals_for": 2,
-        "goals_against": 4
+        "label": "Jönköpings Södra - Ängelholm, 3-0",
+        "result": "W",
+        "score": "3-0",
+        "goals_for": 3,
+        "goals_against": 0
       }
     ],
     "scope": {
@@ -38,16 +38,16 @@
   },
   "last_meeting": {
     "found": true,
-    "match_id": 5819297,
-    "dateutc": "2026-08-02T14:00:00+00:00",
+    "match_id": 5819202,
+    "dateutc": "2026-05-24T14:00:00+00:00",
     "season_id": 192451,
     "competition_id": 810,
     "status": "Played",
-    "label": "Rosengård - Jönköpings Södra, 4-2",
-    "result": "L",
-    "score": "4-2",
-    "goals_for": 2,
-    "goals_against": 4
+    "label": "Jönköpings Södra - Ängelholm, 3-0",
+    "result": "W",
+    "score": "3-0",
+    "goals_for": 3,
+    "goals_against": 0
   },
   "files": {
     "plots": {

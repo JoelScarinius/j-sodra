@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-21T12:36:54.848616+00:00",
+  "generated_at": "2026-08-24T09:11:09.614764+00:00",
   "section": "defensive",
   "title": "Defensive",
   "description": "Simple defensive view showing ball wins, dangerous turnovers, and shot danger for both teams.",
@@ -8,205 +8,205 @@
     "id": 6849,
     "name": "Jönköpings Södra",
     "summary": {
-      "total": 2280,
-      "high_regain_share_pct": 25.31,
-      "own_third_share_pct": 48.64,
-      "average_height": 39.74,
-      "shot_count": 117,
-      "shots_for": 147,
-      "shots_against": 117,
-      "xg": 18.166,
-      "xg_for": 18.166,
-      "xg_against": 10.739,
-      "goals": 11,
-      "goals_for": 15,
-      "goals_against": 11,
+      "total": 3320,
+      "high_regain_share_pct": 26.42,
+      "own_third_share_pct": 47.95,
+      "average_height": 40.17,
+      "shot_count": 166,
+      "shots_for": 197,
+      "shots_against": 166,
+      "xg": 23.122,
+      "xg_for": 23.122,
+      "xg_against": 17.165,
+      "goals": 17,
+      "goals_for": 21,
+      "goals_against": 17,
       "action_mix": {
-        "Duels": 1040,
-        "Recoveries": 783,
-        "Interceptions": 396,
-        "Clearances": 61
+        "Duels": 1512,
+        "Recoveries": 1136,
+        "Interceptions": 585,
+        "Clearances": 87
       },
       "radar": {
         "selected_player": "A. Eriksson",
         "selection_rule": "Highest selection_score among players with enough appearances, unless a specific player name is requested.",
-        "comparison_size": 20,
-        "minimum_appearances": 3,
+        "comparison_size": 18,
+        "minimum_appearances": 5,
         "raw_values": {
-          "Prog. passes": 5.555555555555555,
-          "Prog. carries": 1.3333333333333333,
-          "Shot assists": 0.6666666666666666,
-          "Box touches": 4.777777777777778,
-          "xG": 0.11589444444444445,
-          "Def. actions": 24.333333333333332
+          "Prog. passes": 5.3076923076923075,
+          "Prog. carries": 1.6153846153846154,
+          "Shot assists": 0.6923076923076923,
+          "Box touches": 5.615384615384615,
+          "xG": 0.11473923076923076,
+          "Def. actions": 25.307692307692307
         }
       }
     },
     "metrics": [
       {
         "label": "Defensive actions",
-        "value": 2280,
+        "value": 3320,
         "format": "count"
       },
       {
         "label": "High regains",
-        "value": 25.3,
+        "value": 26.4,
         "format": "percent"
       },
       {
         "label": "Own-third share",
-        "value": 48.6,
+        "value": 48.0,
         "format": "percent"
       },
       {
         "label": "Average height",
-        "value": 39.7,
+        "value": 40.2,
         "format": "number"
       },
       {
         "label": "Shots against",
-        "value": 117,
+        "value": 166,
         "format": "count"
       },
       {
         "label": "xG for",
-        "value": 18.166,
+        "value": 23.122,
         "format": "0.000"
       },
       {
         "label": "xG against",
-        "value": 10.739,
+        "value": 17.165,
         "format": "0.000"
       },
       {
         "label": "Goals against",
-        "value": 11,
+        "value": 17,
         "format": "count"
       }
     ],
     "storylines": [
-      "Jönköpings Södra records 2280 defensive actions in the sampled window.",
-      "The average defensive action starts at pitch height 39.7, with 25% of actions occurring high up the pitch.",
-      "Most defensive volume comes from duels actions (1040 events).",
-      "Opponents produced 117 shots worth 10.74 xG against Jönköpings Södra in this sample.",
-      "For context, Jönköpings Södra produced 147 own shots worth 18.17 xG in the same match sample.",
-      "The shot-against sample includes 11 goals conceded.",
-      "The radar player is chosen as A. Eriksson because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 20 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
+      "Jönköpings Södra records 3320 defensive actions in the sampled window.",
+      "The average defensive action starts at pitch height 40.2, with 26% of actions occurring high up the pitch.",
+      "Most defensive volume comes from duels actions (1512 events).",
+      "Opponents produced 166 shots worth 17.16 xG against Jönköpings Södra in this sample.",
+      "For context, Jönköpings Södra produced 197 own shots worth 23.12 xG in the same match sample.",
+      "The shot-against sample includes 17 goals conceded.",
+      "The radar player is chosen as A. Eriksson because that player has the highest selection score among teammates with at least 5 appearances in the comparison set of 18 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
     ],
     "analysis_scope": {
-      "target_match_count": 12,
+      "target_match_count": 100,
       "current_season_id": 192451,
-      "current_season_played_matches_available": 48,
-      "current_season_matches_used": 12,
+      "current_season_played_matches_available": 18,
+      "current_season_matches_used": 18,
       "previous_season_id": null,
       "previous_season_matches_used": 0,
-      "analysis_matches_used": 12,
+      "analysis_matches_used": 18,
       "is_complemented_with_previous_season": false,
       "scope_label": "current_season_only"
     },
-    "analysis_match_count": 12
+    "analysis_match_count": 18
   },
   "next_opponent": {
-    "id": 6786,
-    "name": "Rosengård",
+    "id": 6742,
+    "name": "Ängelholm",
     "summary": {
-      "total": 2201,
-      "high_regain_share_pct": 31.21,
-      "own_third_share_pct": 40.03,
-      "average_height": 43.62,
-      "shot_count": 106,
-      "shots_for": 187,
-      "shots_against": 106,
-      "xg": 20.572,
-      "xg_for": 20.572,
-      "xg_against": 11.87,
-      "goals": 14,
-      "goals_for": 20,
-      "goals_against": 14,
+      "total": 3667,
+      "high_regain_share_pct": 21.82,
+      "own_third_share_pct": 49.36,
+      "average_height": 37.94,
+      "shot_count": 195,
+      "shots_for": 207,
+      "shots_against": 195,
+      "xg": 20.999,
+      "xg_for": 20.999,
+      "xg_against": 24.608,
+      "goals": 25,
+      "goals_for": 24,
+      "goals_against": 25,
       "action_mix": {
-        "Duels": 965,
-        "Recoveries": 797,
-        "Interceptions": 377,
-        "Clearances": 62
+        "Duels": 1613,
+        "Recoveries": 1164,
+        "Interceptions": 784,
+        "Clearances": 106
       },
       "radar": {
-        "selected_player": "R. Bonde",
+        "selected_player": "M. Ahmadi",
         "selection_rule": "Highest selection_score among players with enough appearances, unless a specific player name is requested.",
-        "comparison_size": 21,
-        "minimum_appearances": 3,
+        "comparison_size": 16,
+        "minimum_appearances": 5,
         "raw_values": {
-          "Prog. passes": 5.125,
-          "Prog. carries": 5.875,
-          "Shot assists": 0.625,
-          "Box touches": 3.375,
-          "xG": 0.00630875,
-          "Def. actions": 18.375
+          "Prog. passes": 6.411764705882353,
+          "Prog. carries": 3.235294117647059,
+          "Shot assists": 0.11764705882352941,
+          "Box touches": 2.1176470588235294,
+          "xG": 0.0877195294117647,
+          "Def. actions": 22.0
         }
       }
     },
     "metrics": [
       {
         "label": "Defensive actions",
-        "value": 2201,
+        "value": 3667,
         "format": "count"
       },
       {
         "label": "High regains",
-        "value": 31.2,
+        "value": 21.8,
         "format": "percent"
       },
       {
         "label": "Own-third share",
-        "value": 40.0,
+        "value": 49.4,
         "format": "percent"
       },
       {
         "label": "Average height",
-        "value": 43.6,
+        "value": 37.9,
         "format": "number"
       },
       {
         "label": "Shots against",
-        "value": 106,
+        "value": 195,
         "format": "count"
       },
       {
         "label": "xG for",
-        "value": 20.572,
+        "value": 20.999,
         "format": "0.000"
       },
       {
         "label": "xG against",
-        "value": 11.87,
+        "value": 24.608,
         "format": "0.000"
       },
       {
         "label": "Goals against",
-        "value": 14,
+        "value": 25,
         "format": "count"
       }
     ],
     "storylines": [
-      "Rosengård records 2201 defensive actions in the sampled window.",
-      "The average defensive action starts at pitch height 43.6, with 31% of actions occurring high up the pitch.",
-      "Most defensive volume comes from duels actions (965 events).",
-      "Opponents produced 106 shots worth 11.87 xG against Rosengård in this sample.",
-      "For context, Rosengård produced 187 own shots worth 20.57 xG in the same match sample.",
-      "The shot-against sample includes 14 goals conceded.",
-      "The radar player is chosen as R. Bonde because that player has the highest selection score among teammates with at least 3 appearances in the comparison set of 21 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
+      "Ängelholm records 3667 defensive actions in the sampled window.",
+      "The average defensive action starts at pitch height 37.9, with 22% of actions occurring high up the pitch.",
+      "Most defensive volume comes from duels actions (1613 events).",
+      "Opponents produced 195 shots worth 24.61 xG against Ängelholm in this sample.",
+      "For context, Ängelholm produced 207 own shots worth 21.00 xG in the same match sample.",
+      "The shot-against sample includes 25 goals conceded.",
+      "The radar player is chosen as M. Ahmadi because that player has the highest selection score among teammates with at least 5 appearances in the comparison set of 16 players. It changes automatically when another player's season performance overtakes that score or when a specific player is requested."
     ],
     "analysis_scope": {
-      "target_match_count": 12,
+      "target_match_count": 100,
       "current_season_id": 192451,
-      "current_season_played_matches_available": 48,
-      "current_season_matches_used": 12,
+      "current_season_played_matches_available": 18,
+      "current_season_matches_used": 18,
       "previous_season_id": null,
       "previous_season_matches_used": 0,
-      "analysis_matches_used": 12,
+      "analysis_matches_used": 18,
       "is_complemented_with_previous_season": false,
       "scope_label": "current_season_only"
     },
-    "analysis_match_count": 12
+    "analysis_match_count": 18
   },
   "files": {
     "data": {},
