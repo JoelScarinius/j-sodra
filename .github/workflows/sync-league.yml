@@ -9,7 +9,7 @@ on:
         default: "5"
         type: string
   schedule:
-    - cron: "17 * * * *"
+    - cron: "17 */6 * * *"
 
 concurrency:
   group: j-sodra-league-sync
