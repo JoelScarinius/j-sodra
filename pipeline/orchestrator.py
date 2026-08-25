@@ -254,6 +254,7 @@ def _write_index(
     if catalog_path.exists():
         try:
             import json
+
             loaded = json.loads(catalog_path.read_text(encoding="utf-8"))
             if isinstance(loaded, dict):
                 catalog = loaded
@@ -521,11 +522,7 @@ def run_pipeline(settings) -> int:
         section_refs[result.name] = result.index_entry
         section_files.extend(result.existing_files())
 
-    competition_paths = _export_competitions(service)
-    if competition_paths:
-        section_refs.setdefault("exports", {})["competitions"] = {
-            path.stem: build_ref(settings, path) for path in competition_paths
-        }
+    competition_paths = []
 
     index_path = _write_index(
         settings=settings,
