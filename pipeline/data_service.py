@@ -177,11 +177,12 @@ class DataService:
         if df.empty:
             return preferred_season_id
 
-        if (
-            preferred_season_id is not None
-            and df["seasonId"].eq(float(preferred_season_id)).any()
-        ):
-            return int(preferred_season_id)
+        if preferred_season_id is not None:
+            if df["seasonId"].eq(float(preferred_season_id)).any():
+                return int(preferred_season_id)
+            raise ValueError(
+                f"Requested provider season {preferred_season_id} is not present in the team match data"
+            )
 
         candidate_df = get_recent_played_matches(df, limit=None)
         if candidate_df.empty:

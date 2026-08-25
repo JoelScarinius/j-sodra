@@ -224,123 +224,274 @@ def shot_events(events_df: pd.DataFrame) -> pd.DataFrame:
 
 def build_pass_network(
     events_df: pd.DataFrame,
-    match_id: int | None,
     max_players: int = 11,
     min_link_count: int = 3,
-) -> dict[str, pd.DataFrame | dict]:
+) -> dict[str, dict | pd.DataFrame]:
     frame = prepare_event_frame(events_df)
+
     if frame.empty:
         return {
-            "positions": pd.DataFrame(),
-            "links": pd.DataFrame(),
-            "passes": pd.DataFrame(),
-            "meta": {},
+            "matches": {},
+            "season": {
+                "positions": pd.DataFrame(),
+                "links": pd.DataFrame(),
+                "passes": pd.DataFrame(),
+                "meta": {},
+            },
         }
 
-    match_frame = pd.DataFrame()
-    if match_id is not None:
-        match_frame = frame[frame["matchId"].eq(float(match_id))].copy()
-    if match_frame.empty:
-        pass_frame = frame[frame["event_type"].eq("pass")].copy()
-        candidate_frame = pass_frame if not pass_frame.empty else frame.copy()
-        candidate_match_ids = candidate_frame["matchId"].dropna().unique().tolist()
-        if candidate_match_ids:
-            candidate_frame = candidate_frame.copy()
-            candidate_frame["_clock"] = candidate_frame.apply(_event_clock, axis=1)
-            fallback_match_id = (
-                candidate_frame.groupby("matchId")["_clock"]
-                .max()
-                .sort_values(ascending=False)
-                .index[0]
+    match_ids = frame["matchId"].dropna().unique()
+    match_networks = {}
+
+    # ---------------------------------------------------------
+    # Build one pass network for every match
+    # ---------------------------------------------------------
+    for match_id in match_ids:
+        match_frame = frame[frame["matchId"].eq(match_id)].copy()
+
+        player_events = match_frame[match_frame["player_name"].ne("")].copy()
+
+        positions = (
+            player_events.groupby("player_name", as_index=False)
+            .agg(
+                average_x=("start_x", "mean"),
+                average_y=("start_y", "mean"),
+                touches=("player_name", "size"),
             )
-            match_frame = frame[frame["matchId"].eq(float(fallback_match_id))].copy()
-    if match_frame.empty:
-        return {
-            "positions": pd.DataFrame(),
-            "links": pd.DataFrame(),
-            "passes": pd.DataFrame(),
-            "meta": {},
-        }
-
-    player_events = match_frame[match_frame["player_name"].ne("")].copy()
-    positions = (
-        player_events.groupby("player_name", as_index=False)
-        .agg(
-            average_x=("start_x", "mean"),
-            average_y=("start_y", "mean"),
-            touches=("player_name", "size"),
+            .sort_values(by="touches", ascending=False)
+            .head(max_players)
+            .copy()
         )
-        .sort_values(by="touches", ascending=False)
-    )
-    positions = positions.head(max_players).copy()
-    player_pool = set(positions["player_name"])
 
-    passes = match_frame[
-        match_frame["event_type"].eq("pass")
-        & match_frame["pass_accurate"]
-        & match_frame["player_name"].ne("")
-        & match_frame["recipient_name"].ne("")
-    ].copy()
-    if passes.empty:
-        return {
-            "positions": positions,
-            "links": pd.DataFrame(),
-            "passes": passes,
-            "meta": {},
-        }
+        if positions.empty:
+            continue
 
-    passes = passes[~passes["set_piece"]].copy()
-    passes = passes[
-        passes["player_name"].isin(player_pool)
-        & passes["recipient_name"].isin(player_pool)
-    ].copy()
-    if passes.empty:
-        return {
-            "positions": positions,
-            "links": pd.DataFrame(),
-            "passes": passes,
-            "meta": {},
-        }
+        player_pool = set(positions["player_name"])
 
-    pairs = passes.apply(
-        lambda row: tuple(sorted((row["player_name"], row["recipient_name"]))),
-        axis=1,
-    )
-    all_links = pairs.value_counts().rename_axis("pair").reset_index(name="pass_count")
-    links = all_links.copy()
-    links["player_a"] = links["pair"].apply(lambda pair: pair[0])
-    links["player_b"] = links["pair"].apply(lambda pair: pair[1])
-    links = links.drop(columns=["pair"])
-    if not links.empty:
-        links = links[links["pass_count"].ge(min_link_count)].copy()
-        if links.empty:
-            links = all_links.copy()
+        passes = match_frame[
+            match_frame["event_type"].eq("pass")
+            & match_frame["pass_accurate"]
+            & match_frame["player_name"].ne("")
+            & match_frame["recipient_name"].ne("")
+            & ~match_frame["set_piece"]
+        ].copy()
+
+        passes = passes[
+            passes["player_name"].isin(player_pool)
+            & passes["recipient_name"].isin(player_pool)
+        ].copy()
+
+        if passes.empty:
+            links = pd.DataFrame(columns=["player_a", "player_b", "pass_count"])
+        else:
+            pairs = passes.apply(
+                lambda row: tuple(
+                    sorted(
+                        (
+                            row["player_name"],
+                            row["recipient_name"],
+                        )
+                    )
+                ),
+                axis=1,
+            )
+
+            links = (
+                pairs.value_counts().rename_axis("pair").reset_index(name="pass_count")
+            )
+
             links["player_a"] = links["pair"].apply(lambda pair: pair[0])
             links["player_b"] = links["pair"].apply(lambda pair: pair[1])
-            links = links.drop(columns=["pair"]).head(10)
 
+            links = links.drop(columns=["pair"])
+
+            links = links[links["pass_count"].ge(min_link_count)].copy()
+
+        strongest_link = None
+
+        if not links.empty:
+            top_link = links.sort_values(
+                by="pass_count",
+                ascending=False,
+            ).iloc[0]
+
+            strongest_link = {
+                "player_a": str(top_link["player_a"]),
+                "player_b": str(top_link["player_b"]),
+                "pass_count": int(top_link["pass_count"]),
+            }
+
+        network_height = None
+
+        if not positions.empty:
+            network_height = float(
+                np.average(
+                    positions["average_x"],
+                    weights=positions["touches"],
+                )
+            )
+
+        # Save this match's complete network
+        match_networks[match_id] = {
+            "positions": positions,
+            "links": links,
+            "passes": passes,
+            "meta": {
+                "match_id": match_id,
+                "network_height": network_height,
+                "strongest_link": strongest_link,
+            },
+        }
+
+    # ---------------------------------------------------------
+    # Build season-average network from all match networks
+    # ---------------------------------------------------------
+
+    if not match_networks:
+        return {
+            "matches": {},
+            "season": {
+                "positions": pd.DataFrame(),
+                "links": pd.DataFrame(),
+                "passes": pd.DataFrame(),
+                "meta": {},
+            },
+        }
+
+    # Combine player positions from every match
+    position_frames = []
+
+    for match_id, network in match_networks.items():
+        positions = network["positions"].copy()
+
+        if not positions.empty:
+            positions["match_id"] = match_id
+            position_frames.append(positions)
+
+    all_positions = pd.concat(
+        position_frames,
+        ignore_index=True,
+    )
+
+    season_positions = (
+        all_positions.groupby(
+            "player_name",
+            as_index=False,
+        )
+        .agg(
+            average_x=("average_x", "mean"),
+            average_y=("average_y", "mean"),
+            touches=("touches", "mean"),
+            matches=("match_id", "nunique"),
+        )
+        .sort_values(
+            by="touches",
+            ascending=False,
+        )
+        .head(max_players)
+        .copy()
+    )
+
+    # Only keep players that appear in the season network
+    season_player_pool = set(season_positions["player_name"])
+
+    # Combine links from every match
+    link_frames = []
+
+    for match_id, network in match_networks.items():
+        links = network["links"].copy()
+
+        if not links.empty:
+            links["match_id"] = match_id
+            link_frames.append(links)
+
+    if link_frames:
+        all_links = pd.concat(
+            link_frames,
+            ignore_index=True,
+        )
+
+        all_links = all_links[
+            all_links["player_a"].isin(season_player_pool)
+            & all_links["player_b"].isin(season_player_pool)
+        ].copy()
+
+        season_links = all_links.groupby(
+            ["player_a", "player_b"],
+            as_index=False,
+        ).agg(
+            pass_count=("pass_count", "mean"),
+            matches=("match_id", "nunique"),
+        )
+
+        season_links = season_links[
+            season_links["pass_count"].ge(min_link_count)
+        ].copy()
+
+    else:
+        season_links = pd.DataFrame(
+            columns=[
+                "player_a",
+                "player_b",
+                "pass_count",
+                "matches",
+            ]
+        )
+
+    # Combine all passes from every match
+    pass_frames = []
+
+    for match_id, network in match_networks.items():
+        passes = network["passes"].copy()
+
+        if not passes.empty:
+            pass_frames.append(passes)
+
+    if pass_frames:
+        season_passes = pd.concat(
+            pass_frames,
+            ignore_index=True,
+        )
+    else:
+        season_passes = pd.DataFrame()
+
+    # Strongest season-average link
     strongest_link = None
-    if not links.empty:
-        top_link = links.sort_values(by="pass_count", ascending=False).iloc[0]
+
+    if not season_links.empty:
+        top_link = season_links.sort_values(
+            by="pass_count",
+            ascending=False,
+        ).iloc[0]
+
         strongest_link = {
             "player_a": str(top_link["player_a"]),
             "player_b": str(top_link["player_b"]),
-            "pass_count": int(top_link["pass_count"]),
+            "pass_count": float(top_link["pass_count"]),
         }
 
+    # Season-average network height
     network_height = None
-    if not positions.empty:
+
+    if not season_positions.empty:
         network_height = float(
-            np.average(positions["average_x"], weights=positions["touches"])
+            np.average(
+                season_positions["average_x"],
+                weights=season_positions["touches"],
+            )
         )
 
     return {
-        "positions": positions,
-        "links": links,
-        "passes": passes,
-        "meta": {
-            "network_height": network_height,
-            "strongest_link": strongest_link,
+        "matches": match_networks,
+        "season": {
+            "positions": season_positions,
+            "links": season_links,
+            "passes": season_passes,
+            "meta": {
+                "matches": len(match_networks),
+                "network_height": network_height,
+                "strongest_link": strongest_link,
+            },
         },
     }
 
@@ -594,7 +745,6 @@ def select_player_radar(
     }
 
 
-
 def pitch_zone_label(x: float, y: float) -> str:
     """Convert 0-100 pitch coordinates into a coach-friendly zone label.
 
@@ -677,7 +827,9 @@ def add_possession_loss_context(dropped_df: pd.DataFrame) -> pd.DataFrame:
     return frame
 
 
-def possession_loss_player_summary(dropped_df: pd.DataFrame, limit: int = 10) -> list[dict]:
+def possession_loss_player_summary(
+    dropped_df: pd.DataFrame, limit: int = 10
+) -> list[dict]:
     """Aggregate full possession-loss data by player for frontend tables."""
 
     if dropped_df.empty:
@@ -705,9 +857,15 @@ def possession_loss_player_summary(dropped_df: pd.DataFrame, limit: int = 10) ->
         .set_index("player_name")["pickup_zone"]
         .to_dict()
     )
-    grouped["most_common_zone"] = grouped["player_name"].map(common_zone).fillna("unknown zone")
+    grouped["most_common_zone"] = (
+        grouped["player_name"].map(common_zone).fillna("unknown zone")
+    )
     grouped["risk_label"] = grouped["average_risk_score"].apply(
-        lambda score: "High risk" if score >= 3.6 else "Medium risk" if score >= 2.4 else "Low risk"
+        lambda score: (
+            "High risk"
+            if score >= 3.6
+            else "Medium risk" if score >= 2.4 else "Low risk"
+        )
     )
 
     grouped = grouped.sort_values(
@@ -730,7 +888,9 @@ def possession_loss_player_summary(dropped_df: pd.DataFrame, limit: int = 10) ->
     return rows
 
 
-def possession_loss_zone_summary(dropped_df: pd.DataFrame, limit: int = 9) -> list[dict]:
+def possession_loss_zone_summary(
+    dropped_df: pd.DataFrame, limit: int = 9
+) -> list[dict]:
     if dropped_df.empty:
         return []
     frame = add_possession_loss_context(dropped_df)
@@ -770,7 +930,12 @@ def possession_loss_summary(dropped_df: pd.DataFrame, dangerous_limit: int = 8) 
 
     frame = add_possession_loss_context(dropped_df)
     dangerous = frame.sort_values(
-        by=["risk_score", "pickup_in_attacking_half", "travel_distance", "pickup_delay"],
+        by=[
+            "risk_score",
+            "pickup_in_attacking_half",
+            "travel_distance",
+            "pickup_delay",
+        ],
         ascending=[False, False, False, True],
     ).head(dangerous_limit)
 

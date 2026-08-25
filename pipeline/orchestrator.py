@@ -202,7 +202,27 @@ def _write_index(
         settings.report_path("index.json"),
         {
             "generated_at": generated_at,
-            "version": 3,
+            "version": 4,
+            "scope": {
+                "provider_season_id": settings.report_season_id,
+                "scope_key": settings.report_scope_key,
+                "report_prefix": f"reports/seasons/{settings.report_scope_key}",
+            },
+            "analytics": {
+                "source": "supabase_rpc",
+                "supports": {
+                    "whole_season": True,
+                    "last_n_matches": True,
+                    "selected_matches": True,
+                },
+                "contracts": {
+                    "matches": "api_team_matches_v2",
+                    "metrics": "api_team_metrics_v2",
+                    "selected_matches": "api_team_matches_by_match_ids_v2",
+                    "selected_metrics": "api_team_metrics_by_match_ids_v2",
+                    "selected_events": "api_team_events_by_match_ids_v2",
+                },
+            },
             "storage": {
                 "bucket": settings.supabase_s3_bucket,
                 "prefix": settings.supabase_s3_prefix,
@@ -229,6 +249,25 @@ def _write_index(
             "sections": section_refs,
         },
     )
+    catalog_path = settings.reports_root_dir / "index.json"
+    catalog = {"version": 4, "generated_at": generated_at, "seasons": {}}
+    if catalog_path.exists():
+        try:
+            import json
+            loaded = json.loads(catalog_path.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                catalog = loaded
+        except Exception:
+            pass
+    catalog["version"] = 4
+    catalog.setdefault("seasons", {})[settings.report_scope_key] = {
+        "provider_season_id": settings.report_season_id,
+        "path": f"reports/seasons/{settings.report_scope_key}/index.json",
+        "url": build_ref(settings, index_path).get("url", ""),
+        "generated_at": generated_at,
+    }
+    catalog["generated_at"] = generated_at
+    write_json(catalog_path, catalog)
     return index_path
 
 
@@ -265,7 +304,7 @@ def run_pipeline(settings) -> int:
         team_id,
         team_name,
         settings.max_event_matches,
-        preferred_season_id=None,
+        preferred_season_id=settings.report_season_id,
         filter_to_active_season=settings.filter_to_active_season,
     )
     _print_scope_notes(settings, team_name, team_data)
@@ -495,7 +534,13 @@ def run_pipeline(settings) -> int:
         section_refs=section_refs,
     )
 
-    upload_candidates = [*core_files, *section_files, *competition_paths, index_path]
+    upload_candidates = [
+        *core_files,
+        *section_files,
+        *competition_paths,
+        index_path,
+        settings.reports_root_dir / "index.json",
+    ]
 
     print(f"Wrote modular outputs under {settings.reports_dir}")
 

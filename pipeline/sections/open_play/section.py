@@ -93,7 +93,6 @@ def _empty_shots_df() -> pd.DataFrame:
     )
 
 
-
 def _empty_possession_losses_df() -> pd.DataFrame:
     return pd.DataFrame(
         columns=[
@@ -141,7 +140,7 @@ def _build_side(
     )
     pass_network = build_pass_network(team_events_df, latest_match_id)
     player_table = player_metric_table(team_events_df)
-    radar_payload = select_player_radar(player_table)
+    # radar_payload = select_player_radar(player_table)
 
     if progressive_df.empty:
         progressive_df = pd.DataFrame(
@@ -213,10 +212,10 @@ def _build_side(
         storylines.append(
             f"The clearest passing relationship is {strongest_link['player_a']} to {strongest_link['player_b']} with {strongest_link['pass_count']} completed passes."
         )
-    if radar_payload and radar_payload.get("player"):
-        storylines.append(
-            f"The radar plot highlights {radar_payload['player']['player_name']} as the strongest all-round open-play profile in this sample."
-        )
+    # if radar_payload and radar_payload.get("player"):
+    #     storylines.append(
+    #         f"The radar plot highlights {radar_payload['player']['player_name']} as the strongest all-round open-play profile in this sample."
+    #     )
     storylines.append(
         "The published report includes the selected analysis match count and season scope so the frontend can keep the match slider in sync with the exposed data window."
     )
@@ -241,7 +240,11 @@ def _build_side(
             "format": "count",
         },
         {"label": "xG against", "value": summary["xg_against"], "format": "0.000"},
-        {"label": "Risky possession losses", "value": possession_losses_summary["total"], "format": "count"},
+        {
+            "label": "Risky possession losses",
+            "value": possession_losses_summary["total"],
+            "format": "count",
+        },
     ]
 
     return {
@@ -254,7 +257,7 @@ def _build_side(
         "shots_against_df": shots_against_df,
         "pass_network": pass_network,
         "possession_losses_df": possession_losses_df,
-        "radar_payload": radar_payload,
+        # "radar_payload": radar_payload,
         "analysis_scope": dataset.get("analysis_scope", {}),
         "analysis_match_count": len(dataset.get("analysis_selected_match_ids", [])),
     }
@@ -280,10 +283,10 @@ def _plot_subject(
         payload["possession_losses_df"],
         output_dir / f"{prefix}_possession_losses.png",
     )
-    if payload.get("radar_payload"):
-        plot_paths[f"{prefix}_player_radar"] = plot_player_radar(
-            subject, payload["radar_payload"], output_dir / f"{prefix}_player_radar.png"
-        )
+    # if payload.get("radar_payload"):
+    #     plot_paths[f"{prefix}_player_radar"] = plot_player_radar(
+    #         subject, payload["radar_payload"], output_dir / f"{prefix}_player_radar.png"
+    #     )
     return plot_paths
 
 
@@ -340,17 +343,17 @@ def _plot_refs(
                     ],
                 }
             )
-        elif name.endswith("player_radar"):
-            ref.update(
-                {
-                    "title": f"{subject_name} player radar",
-                    "description": "Shows one player's all-round profile compared with similar teammates.",
-                    "reading_guide": [
-                        "Each spoke is one simple stat.",
-                        "A bigger filled shape means a stronger profile on that stat.",
-                    ],
-                }
-            )
+        # elif name.endswith("player_radar"):
+        #     ref.update(
+        #         {
+        #             "title": f"{subject_name} player radar",
+        #             "description": "Shows one player's all-round profile compared with similar teammates.",
+        #             "reading_guide": [
+        #                 "Each spoke is one simple stat.",
+        #                 "A bigger filled shape means a stronger profile on that stat.",
+        #             ],
+        #         }
+        #     )
         refs[name] = ref
     return refs
 
@@ -481,9 +484,15 @@ def build_section(context) -> SectionResult:
             },
             "files": {
                 "data": {
-                    "possession_losses": build_ref(context.settings, possession_losses_path),
-                    "possession_loss_player_summary": build_ref(context.settings, possession_player_summary_path),
-                    "possession_loss_zone_summary": build_ref(context.settings, possession_zone_summary_path),
+                    "possession_losses": build_ref(
+                        context.settings, possession_losses_path
+                    ),
+                    "possession_loss_player_summary": build_ref(
+                        context.settings, possession_player_summary_path
+                    ),
+                    "possession_loss_zone_summary": build_ref(
+                        context.settings, possession_zone_summary_path
+                    ),
                 },
                 "plots": _plot_refs(
                     context, plot_paths, context.team_name, context.opponent_name
