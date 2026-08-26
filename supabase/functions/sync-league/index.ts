@@ -87,12 +87,13 @@ function sameInstant(left: unknown, right: unknown) {
   if (!left && !right) return true;
   const leftMs = Date.parse(String(left ?? ""));
   const rightMs = Date.parse(String(right ?? ""));
-  if (!Number.isFinite(leftMs) || !Number.isFinite(rightMs)) {
-    return String(left ?? "") === String(right ?? "");
-  }
+  if (!Number.isFinite(leftMs) || !Number.isFinite(rightMs)) return String(left ?? "") === String(right ?? "");
   return leftMs === rightMs;
 }
-
+function throwDatabaseError(stage: string, error: unknown) {
+  if (!error) return;
+  throw new Error(`${stage}: ${serializeError(error)}`);
+}
 function parseMatchScore(label: unknown) {
   const text = String(label ?? "").trim();
   const match = text.match(/^(.*?)-(.*?),(\s*)(\d+)\s*-\s*(\d+)$/);
@@ -799,11 +800,11 @@ serve(async (req: Request) => {
     // Recover expired leases and abandoned run rows before candidate selection.
     // This makes a new invocation resumable after a worker termination.
     const { error: releaseBeforeRunError } = await supabase.rpc("release_stale_event_claims");
-    if (releaseBeforeRunError) throw releaseBeforeRunError;
+    throwDatabaseError("release_stale_event_claims", releaseBeforeRunError);
     const { error: settleRunsError } = await supabase.rpc("settle_stale_sync_runs", {
       p_stale_after: "20 minutes",
     });
-    if (settleRunsError) throw settleRunsError;
+    throwDatabaseError("settle_stale_sync_runs", settleRunsError);
 
     const { data: insertedRun, error: runError } = await supabase
       .from("sync_runs")
@@ -1131,9 +1132,6 @@ serve(async (req: Request) => {
     const seasonTeamRows: any[] = [];
     const matchRows: any[] = [];
 
-    // Persist only rows that are new, hydrated in this bounded batch, or whose
-    // lightweight provider summary materially changed. Existing unchanged rows
-    // must not be rewritten on every incremental invocation.
     const summaryMateriallyChanged = (summary: any, existing: any) => {
       if (!existing) return true;
       return normalizeStatus(existing.status) !== normalizeStatus(summary.status)
@@ -1146,9 +1144,7 @@ serve(async (req: Request) => {
     };
     const matchShellSummaries = selectedSummaries.filter((summary) => {
       const existing = existingMatchMap.get(summary.providerMatchId);
-      return detailMap.has(summary.providerMatchId)
-        || !existing
-        || summaryMateriallyChanged(summary, existing);
+      return detailMap.has(summary.providerMatchId) || !existing || summaryMateriallyChanged(summary, existing);
     });
 
     for (const summary of matchShellSummaries) {
@@ -1226,7 +1222,7 @@ serve(async (req: Request) => {
       const { error: upsertMatchesError } = await supabase
         .from("matches")
         .upsert(matchRows, { onConflict: "provider,provider_match_id" });
-      if (upsertMatchesError) throw upsertMatchesError;
+      throwDatabaseError("upsert_matches", upsertMatchesError);
     }
 
     const refreshedMatches = await selectByProviderIds(supabase, "matches", "provider_match_id", providerMatchIds);
@@ -1580,20 +1576,15 @@ serve(async (req: Request) => {
       });
     }
 
-    if (includeEvents) {
-      // Classify long-confirmed empty matches so 'provider_empty' cannot be
-      // retried forever and cannot masquerade as fresh coverage.
+    if (includeEvents && finalHydrationTargets.length > 0) {
       const { error: settleError } = await supabase.rpc("settle_provider_empty_matches", {
         p_recent_hours: 168,
         p_max_confirmations: 3,
       });
-      if (settleError) throw settleError;
+      throwDatabaseError("settle_provider_empty_matches", settleError);
     }
 
 
-    // Audit scope is the requested provider-season scope, even on a no-change
-    // run. Derived tables are refreshed only when this invocation changed match,
-    // event, aggregate, or event-availability state.
     const affectedSeasonIds = Array.from(new Set(
       localSeasons.map((row) => Number(row.id)).filter(Number.isFinite),
     ));
@@ -1606,7 +1597,7 @@ serve(async (req: Request) => {
           p_season_id: seasonId,
           p_snapshot_key: "current",
         });
-        if (refreshError) throw refreshError;
+        throwDatabaseError("refresh_season_derived_data", refreshError);
       }
     }
 
@@ -1666,7 +1657,7 @@ serve(async (req: Request) => {
         "run_completeness_audit",
         { p_season_ids: affectedSeasonIds },
       );
-      if (auditError) throw auditError;
+      throwDatabaseError("run_completeness_audit", auditError);
       completenessChecks = Array.isArray(auditRows) ? auditRows : [];
       const blockerFailures = completenessChecks.filter(
         (check: any) => check?.severity === "blocker" && check?.passed === false,
