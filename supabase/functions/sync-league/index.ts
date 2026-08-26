@@ -83,6 +83,16 @@ function toIso(value: unknown) {
   return parsed.toISOString();
 }
 
+function sameInstant(left: unknown, right: unknown) {
+  if (!left && !right) return true;
+  const leftMs = Date.parse(String(left ?? ""));
+  const rightMs = Date.parse(String(right ?? ""));
+  if (!Number.isFinite(leftMs) || !Number.isFinite(rightMs)) {
+    return String(left ?? "") === String(right ?? "");
+  }
+  return leftMs === rightMs;
+}
+
 function parseMatchScore(label: unknown) {
   const text = String(label ?? "").trim();
   const match = text.match(/^(.*?)-(.*?),(\s*)(\d+)\s*-\s*(\d+)$/);
@@ -1121,12 +1131,25 @@ serve(async (req: Request) => {
     const seasonTeamRows: any[] = [];
     const matchRows: any[] = [];
 
-    // The database requires two distinct participant ids. Only summaries with
-    // fetched detail, or already-valid existing rows, may be persisted.
-    const matchShellSummaries = selectedSummaries.filter((summary) =>
-      detailMap.has(summary.providerMatchId)
-      || existingMatchMap.has(summary.providerMatchId)
-    );
+    // Persist only rows that are new, hydrated in this bounded batch, or whose
+    // lightweight provider summary materially changed. Existing unchanged rows
+    // must not be rewritten on every incremental invocation.
+    const summaryMateriallyChanged = (summary: any, existing: any) => {
+      if (!existing) return true;
+      return normalizeStatus(existing.status) !== normalizeStatus(summary.status)
+        || (toNumber(existing.home_score) ?? null) !== (summary.homeScore ?? null)
+        || (toNumber(existing.away_score) ?? null) !== (summary.awayScore ?? null)
+        || (toNumber(existing.round_number) ?? null) !== (summary.roundNumber ?? null)
+        || String(existing.stage_name ?? "") !== String(summary.stageName ?? "")
+        || String(existing.label ?? "") !== String(summary.label ?? "")
+        || !sameInstant(existing.kickoff_at, summary.kickoffAt);
+    };
+    const matchShellSummaries = selectedSummaries.filter((summary) => {
+      const existing = existingMatchMap.get(summary.providerMatchId);
+      return detailMap.has(summary.providerMatchId)
+        || !existing
+        || summaryMateriallyChanged(summary, existing);
+    });
 
     for (const summary of matchShellSummaries) {
       const existing = existingMatchMap.get(summary.providerMatchId);
@@ -1199,10 +1222,12 @@ serve(async (req: Request) => {
       if (seasonTeamsError) throw seasonTeamsError;
     }
 
-    const { error: upsertMatchesError } = await supabase
-      .from("matches")
-      .upsert(matchRows, { onConflict: "provider,provider_match_id" });
-    if (upsertMatchesError) throw upsertMatchesError;
+    if (matchRows.length) {
+      const { error: upsertMatchesError } = await supabase
+        .from("matches")
+        .upsert(matchRows, { onConflict: "provider,provider_match_id" });
+      if (upsertMatchesError) throw upsertMatchesError;
+    }
 
     const refreshedMatches = await selectByProviderIds(supabase, "matches", "provider_match_id", providerMatchIds);
     const refreshedMatchMap = new Map<number, any>(refreshedMatches.map((row) => [row.provider_match_id, row]));
@@ -1566,13 +1591,23 @@ serve(async (req: Request) => {
     }
 
 
-    const affectedSeasonIds = Array.from(new Set(matchRows.map((row) => row.season_id).filter(Boolean)));
-    for (const seasonId of affectedSeasonIds) {
-      const { error: refreshError } = await supabase.rpc("refresh_season_derived_data", {
-        p_season_id: seasonId,
-        p_snapshot_key: "current",
-      });
-      if (refreshError) throw refreshError;
+    // Audit scope is the requested provider-season scope, even on a no-change
+    // run. Derived tables are refreshed only when this invocation changed match,
+    // event, aggregate, or event-availability state.
+    const affectedSeasonIds = Array.from(new Set(
+      localSeasons.map((row) => Number(row.id)).filter(Number.isFinite),
+    ));
+    const warehouseChanged = matchRows.length > 0
+      || eventFetchCounters.event_replacements > 0
+      || eventFetchCounters.matches_deferred_no_stats > 0;
+    if (warehouseChanged) {
+      for (const seasonId of affectedSeasonIds) {
+        const { error: refreshError } = await supabase.rpc("refresh_season_derived_data", {
+          p_season_id: seasonId,
+          p_snapshot_key: "current",
+        });
+        if (refreshError) throw refreshError;
+      }
     }
 
     const affectedTeamIds = Array.from(
@@ -1598,6 +1633,7 @@ serve(async (req: Request) => {
       event_batch_size: eventBatchSize,
       remaining_event_candidates: remainingEventCandidates,
       continuation_required: continuationRequired,
+      warehouse_changed: warehouseChanged,
       event_targets: finalHydrationTargets.length,
       ...eventFetchCounters,
     };
@@ -1695,6 +1731,7 @@ serve(async (req: Request) => {
       continuation_required: continuationRequired,
       remaining_event_candidates: remainingEventCandidates,
       event_batch_size: eventBatchSize,
+      warehouse_changed: warehouseChanged,
       run_id: runId,
       provider_league_id: providerLeagueId,
       provider_season_ids: orderedSeasonIds,
