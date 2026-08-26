@@ -40,6 +40,7 @@ def main() -> int:
     parser.add_argument("--event-concurrency", type=int, default=1)
     parser.add_argument("--max-batches", type=int, default=500)
     parser.add_argument("--timeout", type=int, default=180)
+    parser.add_argument("--max-request-retries", type=int, default=5)
     args = parser.parse_args()
 
     token = os.getenv("LOCAL_SYNC_TOKEN") or os.getenv("SYNC_LEAGUE_TOKEN")
@@ -66,12 +67,39 @@ def main() -> int:
 
     previous_remaining = None
     no_progress = 0
+    retryable_http = {401, 409, 429, 500, 502, 503, 504}
+
     for batch_no in range(1, args.max_batches + 1):
-        try:
-            status_code, result = post_json(endpoint, token, payload, args.timeout)
-        except (URLError, TimeoutError) as exc:
-            print(f"Batch {batch_no}: request error: {exc}", file=sys.stderr)
-            return 1
+        result = {}
+        status_code = 0
+        for attempt in range(1, args.max_request_retries + 2):
+            try:
+                status_code, result = post_json(endpoint, token, payload, args.timeout)
+            except (URLError, TimeoutError) as exc:
+                status_code = 0
+                result = {"error": str(exc)}
+
+            details = str(result.get("details") or result.get("error") or "")
+            ingestion_ok = result.get("ingestion_passed", result.get("ok", False))
+            retryable_body = any(code in details for code in (
+                "57014", "statement timeout", "Unauthorized", "WORKER_LIMIT",
+            ))
+            should_retry = (
+                status_code in retryable_http
+                or status_code == 0
+                or (not ingestion_ok and retryable_body)
+            )
+            if not should_retry:
+                break
+            if attempt > args.max_request_retries:
+                break
+            delay = min(30, 2 ** (attempt - 1))
+            print(
+                f"Batch {batch_no}: transient failure HTTP {status_code}; "
+                f"retry {attempt}/{args.max_request_retries} in {delay}s",
+                flush=True,
+            )
+            time.sleep(delay)
 
         telemetry = result.get("event_sync") or {}
         remaining = result.get("remaining_event_candidates")
@@ -80,24 +108,25 @@ def main() -> int:
             f"fetched={telemetry.get('event_fetch_requests', 0)}; "
             f"reconciled={telemetry.get('matches_reconciled', 0)}; "
             f"unavailable={telemetry.get('matches_deferred_no_stats', 0)}; "
-            f"remaining={remaining}; completeness={result.get('completeness_status')}"
+            f"remaining={remaining}; completeness={result.get('completeness_status')}",
+            flush=True,
         )
 
         if not result.get("ingestion_passed", result.get("ok", False)):
-            print(json.dumps(result, indent=2), file=sys.stderr)
+            print(json.dumps(result, indent=2), file=sys.stderr, flush=True)
             return 1
 
         if result.get("continuation_required") is False:
             if result.get("completeness_passed") is True:
-                print("Backfill complete and completeness audit passed.")
+                print("Backfill complete and completeness audit passed.", flush=True)
                 return 0
-            print(json.dumps(result, indent=2), file=sys.stderr)
-            print("Backfill stopped without a passing completeness gate.", file=sys.stderr)
+            print(json.dumps(result, indent=2), file=sys.stderr, flush=True)
+            print("Backfill stopped without a passing completeness gate.", file=sys.stderr, flush=True)
             return 1
 
         if remaining is None:
-            print(json.dumps(result, indent=2), file=sys.stderr)
-            print("Response did not contain continuation fields.", file=sys.stderr)
+            print(json.dumps(result, indent=2), file=sys.stderr, flush=True)
+            print("Response did not contain continuation fields.", file=sys.stderr, flush=True)
             return 1
 
         if previous_remaining is not None and remaining >= previous_remaining:
@@ -106,11 +135,11 @@ def main() -> int:
             no_progress = 0
         previous_remaining = remaining
         if no_progress >= 3:
-            print("No progress across three batches. Inspect live claims and sync run logs.", file=sys.stderr)
+            print("No progress across three batches. Inspect live claims and sync run logs.", file=sys.stderr, flush=True)
             return 1
         time.sleep(1)
 
-    print("Maximum batch count reached before completion.", file=sys.stderr)
+    print("Maximum batch count reached before completion.", file=sys.stderr, flush=True)
     return 1
 
 if __name__ == "__main__":
