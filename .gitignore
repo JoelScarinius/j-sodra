@@ -207,3 +207,7 @@ marimo/_lsp/
 __marimo__/
 
 supabase/.env.local
+.DS_Store
+**/.DS_Store
+handoff/
+supabase/.temp/

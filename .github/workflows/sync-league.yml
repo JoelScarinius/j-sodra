@@ -16,7 +16,7 @@ on:
         type: string
 
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "17 */4 * * *"
 
 concurrency:
   group: j-sodra-league-sync
