@@ -35,17 +35,18 @@ def _clock_value(row: pd.Series) -> float:
     )
 
 
-def _landing_xy(row: pd.Series) -> tuple[float, float]:
+def _landing_xy(row: pd.Series) -> tuple[float | None, float | None]:
+    """Return a complete located endpoint without inventing coordinate zero."""
     for x_key, y_key in (
         ("pass_end_x", "pass_end_y"),
         ("carry_end_x", "carry_end_y"),
         ("start_x", "start_y"),
     ):
-        x = float(row.get(x_key, 0.0) or 0.0)
-        y = float(row.get(y_key, 0.0) or 0.0)
-        if x or y:
-            return x, y
-    return 0.0, 0.0
+        x = row.get(x_key)
+        y = row.get(y_key)
+        if pd.notna(x) and pd.notna(y):
+            return float(x), float(y)
+    return None, None
 
 
 def _third_from_x(value: float) -> str:
@@ -88,20 +89,27 @@ def _build_side(
     )
 
     records = []
-    for _, row in frame.sort_values(
-        by=["matchId", "period_order", "minute", "second", "event_id"], kind="mergesort"
-    ).iterrows():
+    if not frame.empty:
+        frame = frame.sort_values(
+            by=["matchId", "period_order", "minute", "second", "event_id"],
+            kind="mergesort",
+        )
+    for _, row in frame.iterrows():
+        start_x = row.get("start_x")
+        start_y = row.get("start_y")
         landed_x, landed_y = _landing_xy(row)
+        if any(pd.isna(value) for value in (start_x, start_y, landed_x, landed_y)):
+            continue
         created_shot, goal, shot_xg = _score_sequence(full_frame, row)
         records.append(
             {
                 "matchId": row.get("matchId"),
                 "player_name": row.get("player_name"),
-                "start_x": float(row.get("start_x", 0.0) or 0.0),
-                "start_y": float(row.get("start_y", 0.0) or 0.0),
-                "landing_x": landed_x,
-                "landing_y": landed_y,
-                "third": _third_from_x(float(row.get("start_x", 0.0) or 0.0)),
+                "start_x": float(start_x),
+                "start_y": float(start_y),
+                "landing_x": float(landed_x),
+                "landing_y": float(landed_y),
+                "third": _third_from_x(float(start_x)),
                 "created_shot": created_shot,
                 "goal": goal,
                 "shot_xg": shot_xg,
@@ -185,11 +193,19 @@ def _plot_map(
         footer_rect=(0.05, 0.03, 0.90, 0.11),
     )
     add_header(fig, title, subtitle)
+    data = data.copy()
+    for column in ("landing_x", "landing_y"):
+        if column in data.columns:
+            data[column] = pd.to_numeric(data[column], errors="coerce")
+    if {"landing_x", "landing_y"}.issubset(data.columns):
+        data = data.dropna(subset=["landing_x", "landing_y"])
+    else:
+        data = pd.DataFrame()
     if data.empty:
         ax.text(
             50,
             50,
-            "No free-kick data available",
+            "No located free-kick data available",
             color=STYLE["line"],
             fontsize=14,
             ha="center",

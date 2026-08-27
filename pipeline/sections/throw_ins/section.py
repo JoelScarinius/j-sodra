@@ -35,17 +35,18 @@ def _clock_value(row: pd.Series) -> float:
     )
 
 
-def _landing_xy(row: pd.Series) -> tuple[float, float]:
+def _landing_xy(row: pd.Series) -> tuple[float | None, float | None]:
+    """Return the first complete located endpoint without inventing (0, 0)."""
     for x_key, y_key in (
         ("pass_end_x", "pass_end_y"),
         ("carry_end_x", "carry_end_y"),
         ("start_x", "start_y"),
     ):
-        x = float(row.get(x_key, 0.0) or 0.0)
-        y = float(row.get(y_key, 0.0) or 0.0)
-        if x or y:
-            return x, y
-    return 0.0, 0.0
+        x = row.get(x_key)
+        y = row.get(y_key)
+        if pd.notna(x) and pd.notna(y):
+            return float(x), float(y)
+    return None, None
 
 
 def _third_from_x(value: float) -> str:
@@ -91,17 +92,21 @@ def _build_side(
     for _, row in frame.sort_values(
         by=["matchId", "period_order", "minute", "second", "event_id"], kind="mergesort"
     ).iterrows():
+        start_x = row.get("start_x")
+        start_y = row.get("start_y")
         landed_x, landed_y = _landing_xy(row)
+        if any(pd.isna(value) for value in (start_x, start_y, landed_x, landed_y)):
+            continue
         created_shot, goal, shot_xg = _score_sequence(full_frame, row)
         records.append(
             {
                 "matchId": row.get("matchId"),
                 "player_name": row.get("player_name"),
-                "start_x": float(row.get("start_x", 0.0) or 0.0),
-                "start_y": float(row.get("start_y", 0.0) or 0.0),
-                "landing_x": landed_x,
-                "landing_y": landed_y,
-                "third": _third_from_x(float(row.get("start_x", 0.0) or 0.0)),
+                "start_x": float(start_x),
+                "start_y": float(start_y),
+                "landing_x": float(landed_x),
+                "landing_y": float(landed_y),
+                "third": _third_from_x(float(start_x)),
                 "created_shot": created_shot,
                 "goal": goal,
                 "shot_xg": shot_xg,
@@ -130,7 +135,7 @@ def _build_side(
     total = int(len(actions_df))
     shots = int(actions_df["created_shot"].sum()) if total else 0
     goals = int(actions_df["goal"].sum()) if total else 0
-    retain_share = ((total - shots) / total * 100.0) if total else 0.0
+    no_shot_within_10s_share = ((total - shots) / total * 100.0) if total else None
     attack_share = (len(attacking_df) / total * 100.0) if total else 0.0
     defend_share = (len(defensive_df) / total * 100.0) if total else 0.0
     xg_for = round(float(actions_df["shot_xg"].sum()) if total else 0.0, 3)
@@ -141,7 +146,9 @@ def _build_side(
         "goals": goals,
         "xg": xg_for,
         "xg_for": xg_for,
-        "retention_pct": round(retain_share, 2),
+        "no_shot_within_10s_pct": (
+            round(no_shot_within_10s_share, 2) if no_shot_within_10s_share is not None else None
+        ),
         "attacking_third_share_pct": round(attack_share, 2),
         "defensive_third_share_pct": round(defend_share, 2),
         "competition_label": derive_competition_label(matches_df),
@@ -153,12 +160,21 @@ def _build_side(
         {"label": "Created shots", "value": shots, "format": "count"},
         {"label": "Goals", "value": goals, "format": "count"},
         {"label": "xG", "value": xg_for, "format": "0.000"},
-        {"label": "Retention", "value": round(retain_share, 1), "format": "percent"},
+        {
+            "label": "No shot within 10s",
+            "value": round(no_shot_within_10s_share, 1) if no_shot_within_10s_share is not None else None,
+            "format": "percent",
+        },
     ]
     storylines = [
         f"{team_name} took {attack_share:.0f}% of throw-ins from the attacking third and {defend_share:.0f}% from the defensive third.",
-        f"Throw-ins generated {shots} shots and {goals} goals in the sampled window.",
-        f"Most throw-ins were retained or recycled safely, with {retain_share:.0f}% not immediately ending in a shot.",
+        f"Throw-in sequences produced {shots} shots and {goals} goals within 10 seconds in the selected completed-match scope.",
+        (
+            f"{no_shot_within_10s_share:.0f}% of located throw-ins did not lead to a same-possession shot within 10 seconds. "
+            "This does not by itself prove possession was retained."
+            if no_shot_within_10s_share is not None
+            else "No located throw-ins were available for this scope."
+        ),
     ]
 
     return {

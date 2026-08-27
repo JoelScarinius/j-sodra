@@ -5,7 +5,24 @@ import math
 import numpy as np
 import pandas as pd
 
-from pipeline.common import safe_bool, safe_numeric
+from pipeline.common import numeric_or_nan, safe_bool, safe_numeric
+
+
+ANALYTIC_DEFINITIONS = {
+    "progressive_pass": (
+        "Accurate open-play pass tagged progressive by the provider, or moving at least "
+        "15 pitch-percentage points forward in the acting team's normalized direction."
+    ),
+    "defensive_action": (
+        "Located clearance, interception, goalkeeper exit, recovery, tackle, or defensive duel "
+        "identified by the provider event type or secondary tags."
+    ),
+    "qualified_turnover_sequence": (
+        "Open-play possession lasting at least 8 seconds and 4 events, ending with an inaccurate "
+        "pass followed by a located opponent event within 8 seconds. This is a sequence rule, "
+        "not a provider-labelled possession-loss metric."
+    ),
+}
 
 OPEN_PLAY_BLOCKERS = {
     "corner",
@@ -121,13 +138,13 @@ def prepare_event_frame(events_df: pd.DataFrame) -> pd.DataFrame:
     frame["period_order"] = (
         _column(frame, "matchPeriod", "").map(PERIOD_ORDER).fillna(9)
     )
-    frame["start_x"] = safe_numeric(_column(frame, "location.x", np.nan))
-    frame["start_y"] = safe_numeric(_column(frame, "location.y", np.nan))
-    frame["pass_end_x"] = safe_numeric(_column(frame, "pass.endLocation.x", np.nan))
-    frame["pass_end_y"] = safe_numeric(_column(frame, "pass.endLocation.y", np.nan))
-    frame["carry_end_x"] = safe_numeric(_column(frame, "carry.endLocation.x", np.nan))
-    frame["carry_end_y"] = safe_numeric(_column(frame, "carry.endLocation.y", np.nan))
-    frame["shot_xg"] = safe_numeric(_column(frame, "shot.xg", 0.0))
+    frame["start_x"] = numeric_or_nan(_column(frame, "location.x", np.nan))
+    frame["start_y"] = numeric_or_nan(_column(frame, "location.y", np.nan))
+    frame["pass_end_x"] = numeric_or_nan(_column(frame, "pass.endLocation.x", np.nan))
+    frame["pass_end_y"] = numeric_or_nan(_column(frame, "pass.endLocation.y", np.nan))
+    frame["carry_end_x"] = numeric_or_nan(_column(frame, "carry.endLocation.x", np.nan))
+    frame["carry_end_y"] = numeric_or_nan(_column(frame, "carry.endLocation.y", np.nan))
+    frame["shot_xg"] = numeric_or_nan(_column(frame, "shot.xg", np.nan))
     frame["pass_accurate"] = safe_bool(_column(frame, "pass.accurate", False))
     frame["shot_on_target"] = safe_bool(_column(frame, "shot.onTarget", False))
     return frame
@@ -138,7 +155,11 @@ def progressive_passes(events_df: pd.DataFrame) -> pd.DataFrame:
     if frame.empty:
         return pd.DataFrame()
 
-    passes = frame[frame["event_type"].eq("pass") & frame["pass_accurate"]].copy()
+    passes = frame[
+        frame["event_type"].eq("pass")
+        & frame["pass_accurate"]
+        & frame[["start_x", "start_y", "pass_end_x", "pass_end_y"]].notna().all(axis=1)
+    ].copy()
     if passes.empty:
         return passes
 
@@ -163,8 +184,9 @@ def progressive_carries(events_df: pd.DataFrame) -> pd.DataFrame:
         return pd.DataFrame()
 
     carries = frame[
-        frame["carry_end_x"].gt(0)
-        | frame["secondary_tags"].apply(lambda tags: "progressive_run" in tags)
+        frame[["start_x", "start_y", "carry_end_x", "carry_end_y"]].notna().all(axis=1)
+        & (frame["carry_end_x"].gt(0)
+        | frame["secondary_tags"].apply(lambda tags: "progressive_run" in tags))
     ].copy()
     if carries.empty:
         return carries
@@ -186,7 +208,9 @@ def defensive_actions(events_df: pd.DataFrame) -> pd.DataFrame:
     mask = mask | frame["secondary_tags"].apply(
         lambda tags: _has_any(tags, DEFENSIVE_TAGS)
     )
-    actions = frame[mask].copy()
+    actions = frame[
+        mask & frame[["start_x", "start_y"]].notna().all(axis=1)
+    ].copy()
     if actions.empty:
         return actions
 
@@ -210,7 +234,10 @@ def shot_events(events_df: pd.DataFrame) -> pd.DataFrame:
     if frame.empty:
         return pd.DataFrame()
 
-    shots = frame[frame["event_type"].eq("shot")].copy()
+    shots = frame[
+        frame["event_type"].eq("shot")
+        & frame[["start_x", "start_y"]].notna().all(axis=1)
+    ].copy()
     if shots.empty:
         return shots
 
@@ -224,9 +251,16 @@ def shot_events(events_df: pd.DataFrame) -> pd.DataFrame:
 
 def build_pass_network(
     events_df: pd.DataFrame,
+    match_id: int | None = None,
     max_players: int = 11,
     min_link_count: int = 3,
 ) -> dict[str, dict | pd.DataFrame]:
+    """Build truthful recipient-backed networks.
+
+    When match_id is supplied, return the flat network for that exact match for
+    compatibility with the static open-play section. Without match_id, return
+    per-match networks plus a season-average network. No recipient is inferred.
+    """
     frame = prepare_event_frame(events_df)
 
     if frame.empty:
@@ -246,8 +280,8 @@ def build_pass_network(
     # ---------------------------------------------------------
     # Build one pass network for every match
     # ---------------------------------------------------------
-    for match_id in match_ids:
-        match_frame = frame[frame["matchId"].eq(match_id)].copy()
+    for current_match_id in match_ids:
+        match_frame = frame[frame["matchId"].eq(current_match_id)].copy()
 
         player_events = match_frame[match_frame["player_name"].ne("")].copy()
 
@@ -332,12 +366,12 @@ def build_pass_network(
             )
 
         # Save this match's complete network
-        match_networks[match_id] = {
+        match_networks[current_match_id] = {
             "positions": positions,
             "links": links,
             "passes": passes,
             "meta": {
-                "match_id": match_id,
+                "match_id": current_match_id,
                 "network_height": network_height,
                 "strongest_link": strongest_link,
             },
@@ -481,6 +515,18 @@ def build_pass_network(
             )
         )
 
+    if match_id is not None:
+        requested = float(match_id)
+        for current_match_id, network in match_networks.items():
+            if float(current_match_id) == requested:
+                return network
+        return {
+            "positions": pd.DataFrame(),
+            "links": pd.DataFrame(),
+            "passes": pd.DataFrame(),
+            "meta": {"match_id": match_id, "status": "no_recipient_backed_passes"},
+        }
+
     return {
         "matches": match_networks,
         "season": {
@@ -554,14 +600,19 @@ def dropped_ball_turnovers(
         if pickup_delay < 0 or pickup_delay > max_pickup_delay:
             continue
 
-        drop_x = float(last_failed_pass["pass_end_x"] or 0.0)
-        drop_y = float(last_failed_pass["pass_end_y"] or 0.0)
-        if drop_x <= 0 and drop_y <= 0:
-            drop_x = float(last_failed_pass["start_x"])
-            drop_y = float(last_failed_pass["start_y"])
-
-        pickup_x = 100.0 - float(opponent_pickup["start_x"])
-        pickup_y = 100.0 - float(opponent_pickup["start_y"])
+        drop_x = last_failed_pass.get("pass_end_x")
+        drop_y = last_failed_pass.get("pass_end_y")
+        if pd.isna(drop_x) or pd.isna(drop_y):
+            drop_x = last_failed_pass.get("start_x")
+            drop_y = last_failed_pass.get("start_y")
+        pickup_start_x = opponent_pickup.get("start_x")
+        pickup_start_y = opponent_pickup.get("start_y")
+        if any(pd.isna(value) for value in (drop_x, drop_y, pickup_start_x, pickup_start_y)):
+            continue
+        drop_x = float(drop_x)
+        drop_y = float(drop_y)
+        pickup_x = 100.0 - float(pickup_start_x)
+        pickup_y = 100.0 - float(pickup_start_y)
         rows.append(
             {
                 "matchId": int(match_id),

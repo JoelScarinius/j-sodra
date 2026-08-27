@@ -150,6 +150,30 @@ def _short_name(name: str) -> str:
     return f"{parts[0][0]}. {parts[-1]}"
 
 
+def _numeric_spatial_rows(frame: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
+    """Return rows with finite numeric coordinates for all requested columns."""
+    if frame.empty or any(column not in frame.columns for column in columns):
+        return pd.DataFrame(columns=columns)
+    result = frame.copy()
+    for column in columns:
+        result[column] = pd.to_numeric(result[column], errors="coerce")
+    finite = np.isfinite(result[columns].to_numpy(dtype=float)).all(axis=1)
+    return result.loc[finite].copy()
+
+
+def _empty_plot(ax, message: str) -> None:
+    ax.text(
+        50,
+        50,
+        message,
+        color=STYLE["line"],
+        fontsize=14,
+        ha="center",
+        va="center",
+        fontweight="bold",
+    )
+
+
 def _draw_arrows(
     pitch,
     ax,
@@ -204,6 +228,10 @@ def plot_progressive_passes(
         footer_rect=(0.05, 0.03, 0.90, 0.10),
     )
 
+    progressive_df = _numeric_spatial_rows(
+        progressive_df,
+        ["start_x", "start_y", "pass_end_x", "pass_end_y"],
+    )
     display_df = progressive_df.head(42).copy()
     secondary_df = display_df.iloc[12:].copy()
     highlight_df = display_df.head(12).copy()
@@ -272,9 +300,9 @@ def plot_progressive_passes(
     _add_footer(
         footer_ax,
         [
-            "What it shows: the 42 biggest accurate open-play progressive passes from the 2026 season, ranked by forward gain.",
+            "What it shows: up to 42 of the largest located accurate open-play progressive passes in the selected scope, ranked by forward gain.",
             "Arrow start = pass origin. Arrow head = reception point. Gold arrows are the 12 biggest gains; green arrows are the next 30.",
-            f"Season total: {len(progressive_df)} accurate progressive passes | Final-third entries: {final_third_entries} | Mean gain: {progressive_df['progression_gain'].mean():.1f}m",
+            f"Scope total: {len(progressive_df)} located progressive passes | Final-third entries: {final_third_entries} | Mean forward gain: {progressive_df['progression_gain'].mean():.1f} pitch points" if not progressive_df.empty else "No located progressive passes are available for this scope.",
             "Most frequent progressive passers: "
             + ", ".join(
                 f"{_short_name(name)} ({count})" for name, count in top_players.items()
@@ -296,6 +324,19 @@ def plot_defensive_actions(
         footer_rect=(0.05, 0.03, 0.90, 0.10),
     )
 
+    defensive_df = _numeric_spatial_rows(defensive_df, ["start_x", "start_y"])
+    if defensive_df.empty:
+        _empty_plot(ax, "No located defensive-action data available")
+        subtitle = f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+        _add_header(fig, "Defensive Action Heatmap", subtitle)
+        _add_footer(
+            footer_ax,
+            [
+                "What it shows: the locations of provider-classified defensive actions in the selected scope.",
+                "No valid defensive-action coordinates are available, so no value is inferred or plotted as zero.",
+            ],
+        )
+        return _save(fig, output_path)
     cmap = LinearSegmentedColormap.from_list(
         "j_sodra_heat",
         [STYLE["bg"], STYLE["panel_alt"], STYLE["accent_2"], STYLE["highlight"]],
@@ -323,7 +364,7 @@ def plot_defensive_actions(
     _add_footer(
         footer_ax,
         [
-            "What it shows: where J-Sodra make defensive actions in the 2026 season.",
+            f"What it shows: where {dataset.team_name} made located defensive actions in the selected scope.",
             "Each square counts interceptions, recoveries, defensive duels, clearances, and goalkeeper exits. Brighter squares mean more actions in that zone.",
             f"Total actions: {len(defensive_df)} | Average defensive height: {average_height:.1f}m | High-regain share (x >= 60): {high_regain_share:.0f}% | Own-third share: {own_third_share:.0f}%",
             "Action mix: "
@@ -461,6 +502,22 @@ def plot_shot_map(dataset, shots_df: pd.DataFrame, output_path: Path) -> Path:
         footer_rect=(0.05, 0.03, 0.90, 0.11),
     )
 
+    shots_df = _numeric_spatial_rows(shots_df, ["start_x", "start_y"])
+    if shots_df.empty or "goal" not in shots_df.columns or "shot_on_target" not in shots_df.columns:
+        _empty_plot(ax, "No located shot data available")
+        subtitle = f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+        _add_header(fig, "Shot Map", subtitle)
+        _add_footer(
+            footer_ax,
+            [
+                "What it shows: located shots in the selected scope.",
+                "No valid located shot rows are available, so no shot count or xG value is inferred.",
+            ],
+        )
+        return _save(fig, output_path)
+    shots_df["goal"] = shots_df["goal"].fillna(False).astype(bool)
+    shots_df["shot_on_target"] = shots_df["shot_on_target"].fillna(False).astype(bool)
+    shots_df["shot_xg"] = pd.to_numeric(shots_df.get("shot_xg"), errors="coerce")
     non_goals = shots_df[~shots_df["goal"]].copy()
     goals = shots_df[shots_df["goal"]].copy()
     on_target_non_goals = non_goals[non_goals["shot_on_target"]].copy()
@@ -518,7 +575,7 @@ def plot_shot_map(dataset, shots_df: pd.DataFrame, output_path: Path) -> Path:
     _add_footer(
         footer_ax,
         [
-            "What it shows: every J-Sodra shot from the 2026 season.",
+            f"What it shows: every located {dataset.team_name} shot in the selected scope.",
             "Circle size = xG. Gold = goals. Bright green = on target without a goal. Dark green = off target or blocked.",
             f"Shots: {len(shots_df)} | Goals: {int(shots_df['goal'].sum())} | Total xG: {shots_df['shot_xg'].sum():.2f} | Box shots: {box_shots} | On target: {on_target}",
             f"Average shot distance: {shots_df['distance'].mean():.1f}m",
@@ -537,6 +594,22 @@ def plot_dropped_balls(dataset, dropped_df: pd.DataFrame, output_path: Path) -> 
         footer_rect=(0.05, 0.03, 0.90, 0.10),
     )
 
+    dropped_df = _numeric_spatial_rows(
+        dropped_df,
+        ["drop_x", "drop_y", "pickup_x", "pickup_y"],
+    )
+    if dropped_df.empty:
+        _empty_plot(ax, "No qualified turnover sequences available")
+        subtitle = f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+        _add_header(fig, "Qualified Turnover Sequences", subtitle)
+        _add_footer(
+            footer_ax,
+            [
+                "What it shows: a strict sequence rule for longer open-play possessions ending with an inaccurate pass and a quick located opponent event.",
+                "This is not a provider-labelled possession-loss metric. No missing coordinate is plotted as zero.",
+            ],
+        )
+        return _save(fig, output_path)
     cmap = LinearSegmentedColormap.from_list(
         "drop_heat",
         [STYLE["bg"], STYLE["panel_alt"], STYLE["danger"], STYLE["highlight"]],
@@ -598,13 +671,13 @@ def plot_dropped_balls(dataset, dropped_df: pd.DataFrame, output_path: Path) -> 
     subtitle = (
         f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
     )
-    _add_header(fig, "Dropped Possessions", subtitle)
+    _add_header(fig, "Qualified Turnover Sequences", subtitle)
     _add_footer(
         footer_ax,
         [
-            "What it shows: long J-Sodra possessions that end with a missed open-play pass.",
-            "Arrow start = failed pass end location. Arrow head = the opponent's first pickup location, mirrored into J-Sodra's attacking direction. The heatmap counts all pickup zones from those turnovers.",
-            "Only possessions lasting at least 8 seconds and 4 actions are counted.",
+            f"What it shows: longer {dataset.team_name} open-play possessions ending with an inaccurate pass and a quick located opponent event.",
+            "Arrow start = failed-pass end location. Arrow head = the first eligible located opponent event, mirrored into the analysed team's attacking direction. The heatmap counts those opponent-event zones.",
+            "Rule: possession lasted at least 8 seconds and 4 events; the opponent event occurred within 8 seconds. This is a derived sequence, not proof of controlled recovery.",
             f"Dropped possessions: {len(dropped_df)} | Opponent pickups in the attacking half: {int(dropped_df['pickup_in_attacking_half'].sum())} | Mean possession before loss: {dropped_df['possession_duration'].mean():.1f}s | Mean pickup delay: {dropped_df['pickup_delay'].mean():.1f}s",
             top_loser_text or "",
         ],
