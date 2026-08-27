@@ -32,6 +32,24 @@ def get_recent_played_matches(
     return df.head(limit) if limit is not None else df
 
 
+def get_completed_matches(matches_df: pd.DataFrame) -> pd.DataFrame:
+    """Return every completed match, newest first, without a display-size cap.
+
+    Unlike get_recent_played_matches, this strict collector never falls back to
+    scheduled fixtures when no completed match exists.
+    """
+    if matches_df.empty:
+        return pd.DataFrame()
+    df = matches_df.copy()
+    df = df[played_status_mask(df)]
+    if df.empty:
+        return pd.DataFrame(columns=matches_df.columns)
+    sort_col = match_sort_column(df)
+    if sort_col:
+        df = df.sort_values(by=sort_col, ascending=False, na_position="last")
+    return df
+
+
 def parse_match_label(label: str | None) -> dict | None:
     if not label or not isinstance(label, str):
         return None

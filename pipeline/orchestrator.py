@@ -46,15 +46,12 @@ def _empty_team_dataset(settings, season_id=None) -> dict:
         "analysis_with_events": [],
         "analysis_without_events": [],
         "analysis_scope": {
-            "target_match_count": int(settings.analysis_event_match_target),
             "current_season_id": season_id,
-            "current_season_played_matches_available": 0,
-            "current_season_matches_used": 0,
-            "previous_season_id": None,
-            "previous_season_matches_used": 0,
-            "analysis_matches_used": 0,
-            "is_complemented_with_previous_season": False,
-            "scope_label": "current_season_only",
+            "completed_matches_available": 0,
+            "completed_matches_used": 0,
+            "event_covered_matches": 0,
+            "event_unavailable_matches": 0,
+            "scope_label": "all_completed_current_season_matches",
         },
         "season_id": season_id,
     }
@@ -79,14 +76,13 @@ def _derive_refresh_webhook_url(settings) -> str | None:
 def _print_scope_notes(settings, team_name: str, dataset: dict):
     if settings.filter_to_active_season:
         print(f"Season scope for {team_name}: seasonId={dataset.get('season_id')}")
-
-    analysis_scope = dataset.get("analysis_scope", {})
-    if analysis_scope.get("is_complemented_with_previous_season"):
-        print(
-            "Analysis scope complemented with previous season "
-            f"for {team_name} (previous seasonId={analysis_scope.get('previous_season_id')}, "
-            f"added matches={analysis_scope.get('previous_season_matches_used')})."
-        )
+    scope = dataset.get("analysis_scope", {})
+    print(
+        f"Completed-season scope for {team_name}: "
+        f"matches={scope.get('completed_matches_used', 0)}, "
+        f"event-covered={scope.get('event_covered_matches', 0)}, "
+        f"event-unavailable={scope.get('event_unavailable_matches', 0)}"
+    )
 
 
 def _write_core_reports(
@@ -304,7 +300,6 @@ def run_pipeline(settings) -> int:
     team_data = service.collect_team_dataset(
         team_id,
         team_name,
-        settings.max_event_matches,
         preferred_season_id=settings.report_season_id,
         filter_to_active_season=settings.filter_to_active_season,
     )
@@ -358,7 +353,6 @@ def run_pipeline(settings) -> int:
         opponent_data = service.collect_team_dataset(
             opponent_id,
             opponent_name or "Next opponent",
-            settings.next_opponent_event_matches,
             preferred_season_id=opponent_season_id,
             filter_to_active_season=settings.filter_to_active_season,
         )
@@ -402,9 +396,7 @@ def run_pipeline(settings) -> int:
         opponent_name=opponent_name,
         matches_df=matches_df,
         active_season_id=active_season_id,
-        fallback_previous_season_id=team_data.get("analysis_scope", {}).get(
-            "previous_season_id"
-        ),
+        fallback_previous_season_id=None,
         max_h2h_matches=settings.max_h2h_matches,
         h2h_fallback_to_previous_season=settings.h2h_fallback_to_previous_season,
     )
@@ -466,21 +458,6 @@ def run_pipeline(settings) -> int:
         "analysis_scope": opponent_data.get("analysis_scope", {}),
         "results": opponent_result_summary,
     }
-
-    if team_data.get("analysis_scope", {}).get("previous_season_id") is not None:
-        team_summary["previous_season"] = {
-            "season_id": team_data["analysis_scope"].get("previous_season_id"),
-            "matches_used": team_data["analysis_scope"].get(
-                "previous_season_matches_used", 0
-            ),
-        }
-    if opponent_data.get("analysis_scope", {}).get("previous_season_id") is not None:
-        opponent_summary["previous_season"] = {
-            "season_id": opponent_data["analysis_scope"].get("previous_season_id"),
-            "matches_used": opponent_data["analysis_scope"].get(
-                "previous_season_matches_used", 0
-            ),
-        }
 
     context = PipelineContext(
         settings=settings,

@@ -53,16 +53,10 @@ class Settings:
     team_query: str
     target_team_keyword: str
 
-    recent_match_limit: int
-    max_event_matches: int
-    next_opponent_event_matches: int
     recent_form_matches: int
     upcoming_fixture_limit: int
     max_h2h_matches: int
-    analysis_event_match_target: int
-    max_previous_season_matches: int
 
-    enable_previous_season_complement: bool
     h2h_fallback_to_previous_season: bool
     filter_to_active_season: bool
     report_season_id: int | None
@@ -106,8 +100,6 @@ def load_settings(force_refresh: bool = False) -> Settings:
     report_scope_key = raw_report_season_id or "current"
     reports_dir = reports_root_dir / "seasons" / report_scope_key
 
-    max_event_matches = _env_int("MAX_EVENT_MATCHES", 100)
-    analysis_event_match_target = _env_int("ANALYSIS_EVENT_MATCH_TARGET", max_event_matches)
     env_force_refresh = _env_bool("FORCE_REFRESH_FROM_API", "0")
 
     return Settings(
@@ -119,15 +111,9 @@ def load_settings(force_refresh: bool = False) -> Settings:
         http_timeout_seconds=_env_int("HTTP_TIMEOUT_SECONDS", 30),
         team_query=os.getenv("TEAM_QUERY", "Jonkopings"),
         target_team_keyword=os.getenv("TARGET_TEAM_KEYWORD", "jonkopings sodra"),
-        recent_match_limit=_env_int("RECENT_MATCH_LIMIT", 100),
-        max_event_matches=max_event_matches,
-        next_opponent_event_matches=_env_int("NEXT_OPPONENT_EVENT_MATCHES", 100),
         recent_form_matches=_env_int("RECENT_FORM_MATCHES", 5),
         upcoming_fixture_limit=_env_int("UPCOMING_FIXTURE_LIMIT", 5),
         max_h2h_matches=_env_int("MAX_H2H_MATCHES", 5),
-        analysis_event_match_target=analysis_event_match_target,
-        max_previous_season_matches=_env_int("MAX_PREVIOUS_SEASON_MATCHES", analysis_event_match_target),
-        enable_previous_season_complement=_env_bool("ENABLE_PREVIOUS_SEASON_COMPLEMENT", "0"),
         h2h_fallback_to_previous_season=_env_bool("H2H_FALLBACK_TO_PREVIOUS_SEASON", "1"),
         filter_to_active_season=_env_bool("FILTER_TO_ACTIVE_SEASON", "1"),
         report_season_id=report_season_id,

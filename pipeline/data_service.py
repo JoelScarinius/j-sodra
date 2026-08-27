@@ -7,7 +7,7 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-from .analytics import get_recent_played_matches, parse_match_label
+from .analytics import get_completed_matches, get_recent_played_matches, parse_match_label
 from .common import (
     extract_list,
     extract_matches,
@@ -239,78 +239,6 @@ class DataService:
         if previous_df.empty:
             return None
         return int(previous_df.iloc[0]["seasonId"])
-
-    def build_analysis_match_scope(
-        self,
-        matches_df: pd.DataFrame,
-        active_season_id,
-        event_match_limit: int,
-        filter_to_active_season: bool,
-    ) -> dict:
-        target_match_count = max(
-            1,
-            int(
-                self.settings.analysis_event_match_target
-                if self.settings.analysis_event_match_target > 0
-                else event_match_limit
-            ),
-        )
-        empty_meta = {
-            "target_match_count": target_match_count,
-            "current_season_id": jsonable(active_season_id),
-            "current_season_played_matches_available": 0,
-            "current_season_matches_used": 0,
-            "previous_season_id": None,
-            "previous_season_matches_used": 0,
-            "analysis_matches_used": 0,
-            "is_complemented_with_previous_season": False,
-            "scope_label": "current_season_only",
-        }
-        if matches_df.empty:
-            return {
-                "matches_df": pd.DataFrame(),
-                "selected_match_ids": [],
-                "meta": empty_meta,
-            }
-
-        current_scope_df = (
-            self.filter_matches_to_season(matches_df, active_season_id)
-            if filter_to_active_season
-            else matches_df.copy()
-        )
-        current_played_df = get_recent_played_matches(
-            current_scope_df,
-            limit=max(self.settings.recent_match_limit, target_match_count * 4),
-        )
-        current_used_df = current_played_df.head(target_match_count)
-
-        analysis_matches_df = current_used_df.copy()
-        sort_col = match_sort_column(analysis_matches_df)
-        if sort_col and not analysis_matches_df.empty:
-            analysis_matches_df = analysis_matches_df.sort_values(
-                by=sort_col,
-                ascending=False,
-                na_position="last",
-            )
-        analysis_matches_df = analysis_matches_df.head(target_match_count)
-        selected_match_ids = [
-            int(value)
-            for value in analysis_matches_df.get("matchId", pd.Series(dtype=float))
-            .dropna()
-            .astype(int)
-            .tolist()
-        ]
-        return {
-            "matches_df": analysis_matches_df,
-            "selected_match_ids": selected_match_ids,
-            "meta": {
-                **empty_meta,
-                "current_season_played_matches_available": int(len(current_played_df)),
-                "current_season_matches_used": int(len(current_used_df)),
-                "analysis_matches_used": int(len(analysis_matches_df)),
-                "scope_label": "current_season_only",
-            },
-        }
 
     def _extract_side_name(self, side_payload) -> str | None:
         if not isinstance(side_payload, dict):
@@ -687,7 +615,6 @@ class DataService:
         self,
         team_id,
         team_name: str,
-        event_match_limit: int,
         preferred_season_id=None,
         filter_to_active_season: bool | None = None,
     ) -> dict:
@@ -697,14 +624,6 @@ class DataService:
         payload = self.fetch_api(f"/teams/{team_id}/matches")
         matches = extract_matches(payload)
         if not matches:
-            target_match_count = max(
-                1,
-                int(
-                    self.settings.analysis_event_match_target
-                    if self.settings.analysis_event_match_target > 0
-                    else event_match_limit
-                ),
-            )
             return {
                 "matches_df": pd.DataFrame(),
                 "season_matches_df": pd.DataFrame(),
@@ -719,15 +638,12 @@ class DataService:
                 "analysis_with_events": [],
                 "analysis_without_events": [],
                 "analysis_scope": {
-                    "target_match_count": target_match_count,
                     "current_season_id": None,
-                    "current_season_played_matches_available": 0,
-                    "current_season_matches_used": 0,
-                    "previous_season_id": None,
-                    "previous_season_matches_used": 0,
-                    "analysis_matches_used": 0,
-                    "is_complemented_with_previous_season": False,
-                    "scope_label": "current_season_only",
+                    "completed_matches_available": 0,
+                    "completed_matches_used": 0,
+                    "event_covered_matches": 0,
+                    "event_unavailable_matches": 0,
+                    "scope_label": "all_completed_current_season_matches",
                 },
                 "season_id": preferred_season_id,
             }
@@ -739,12 +655,11 @@ class DataService:
             if filter_to_active_season
             else matches_df.copy()
         )
-        recent_played_df = get_recent_played_matches(
-            season_matches_df,
-            limit=self.settings.recent_match_limit,
-        )
-
-        selected_df = recent_played_df.head(event_match_limit)
+        # Completeness scope: every completed match in the requested season.
+        # Display windows belong in individual report sections, not collection.
+        completed_matches_df = get_completed_matches(season_matches_df)
+        recent_played_df = completed_matches_df
+        selected_df = completed_matches_df
         selected_match_ids = [
             int(value)
             for value in selected_df.get("matchId", pd.Series(dtype=float))
@@ -757,25 +672,19 @@ class DataService:
         )
         events_df = pd.json_normalize(event_rows) if event_rows else pd.DataFrame()
 
-        analysis_scope = self.build_analysis_match_scope(
-            matches_df=matches_df,
-            active_season_id=season_id,
-            event_match_limit=event_match_limit,
-            filter_to_active_season=filter_to_active_season,
-        )
-        analysis_matches_df = analysis_scope.get("matches_df", pd.DataFrame())
-        analysis_selected_match_ids = analysis_scope.get("selected_match_ids", [])
-
+        analysis_matches_df = completed_matches_df.copy()
+        analysis_selected_match_ids = list(selected_match_ids)
         analysis_events_df = events_df.copy()
         analysis_with_events = list(with_events)
         analysis_without_events = list(without_events)
-        if analysis_selected_match_ids != selected_match_ids:
-            analysis_rows, analysis_with_events, analysis_without_events = (
-                self.fetch_events_for_match_ids(analysis_selected_match_ids)
-            )
-            analysis_events_df = (
-                pd.json_normalize(analysis_rows) if analysis_rows else pd.DataFrame()
-            )
+        analysis_scope = {
+            "current_season_id": jsonable(season_id),
+            "completed_matches_available": int(len(completed_matches_df)),
+            "completed_matches_used": int(len(completed_matches_df)),
+            "event_covered_matches": len(with_events),
+            "event_unavailable_matches": len(without_events),
+            "scope_label": "all_completed_current_season_matches",
+        }
 
         return {
             "matches_df": matches_df,
@@ -790,7 +699,7 @@ class DataService:
             "analysis_events_df": analysis_events_df,
             "analysis_with_events": analysis_with_events,
             "analysis_without_events": analysis_without_events,
-            "analysis_scope": analysis_scope.get("meta", {}),
+            "analysis_scope": analysis_scope,
             "season_id": season_id,
         }
 
