@@ -13,14 +13,19 @@ from pathlib import Path
 try:
     from dotenv import load_dotenv
 
-    load_dotenv(override=True)
+    load_dotenv(override=False)
 except Exception:
     # python-dotenv is optional in CI if environment variables are injected directly.
     pass
 
 
 def _env_bool(name: str, default: str | bool) -> bool:
-    return str(os.getenv(name, str(default))).strip().lower() in {"1", "true", "yes", "on"}
+    return str(os.getenv(name, str(default))).strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
 
 
 def _env_int(name: str, default: int) -> int:
@@ -30,7 +35,9 @@ def _env_int(name: str, default: int) -> int:
     try:
         return int(raw)
     except ValueError as exc:
-        raise ValueError(f"Environment variable {name} must be an integer, got {raw!r}") from exc
+        raise ValueError(
+            f"Environment variable {name} must be an integer, got {raw!r}"
+        ) from exc
 
 
 PLOT_STYLE = {
@@ -107,14 +114,17 @@ def load_settings(force_refresh: bool = False) -> Settings:
             "SUPABASE_FUNCTION_URL",
             "https://ytzuftamjgafzgyogpke.supabase.co/functions/v1/wyscout-proxy",
         ),
-        supabase_anon_key=os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
+        supabase_anon_key=os.getenv("SUPABASE_ANON_KEY")
+        or os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
         http_timeout_seconds=_env_int("HTTP_TIMEOUT_SECONDS", 30),
         team_query=os.getenv("TEAM_QUERY", "Jonkopings"),
         target_team_keyword=os.getenv("TARGET_TEAM_KEYWORD", "jonkopings sodra"),
         recent_form_matches=_env_int("RECENT_FORM_MATCHES", 5),
         upcoming_fixture_limit=_env_int("UPCOMING_FIXTURE_LIMIT", 5),
         max_h2h_matches=_env_int("MAX_H2H_MATCHES", 5),
-        h2h_fallback_to_previous_season=_env_bool("H2H_FALLBACK_TO_PREVIOUS_SEASON", "1"),
+        h2h_fallback_to_previous_season=_env_bool(
+            "H2H_FALLBACK_TO_PREVIOUS_SEASON", "1"
+        ),
         filter_to_active_season=_env_bool("FILTER_TO_ACTIVE_SEASON", "1"),
         report_season_id=report_season_id,
         report_scope_key=report_scope_key,
@@ -132,11 +142,16 @@ def load_settings(force_refresh: bool = False) -> Settings:
         supabase_s3_prefix=os.getenv("SUPABASE_S3_PREFIX", ""),
         supabase_public_base_url=os.getenv("SUPABASE_PUBLIC_BASE_URL", ""),
         enable_incremental_event_fetch=_env_bool("ENABLE_INCREMENTAL_EVENT_FETCH", "1"),
-        event_cache_recheck_missing_hours=max(0, _env_int("EVENT_CACHE_RECHECK_MISSING_HOURS", 24)),
+        event_cache_recheck_missing_hours=max(
+            0, _env_int("EVENT_CACHE_RECHECK_MISSING_HOURS", 24)
+        ),
         event_cache_dir=output_dir / os.getenv("EVENT_CACHE_DIR", "cache/events"),
-        enable_incremental_competition_fetch=_env_bool("ENABLE_INCREMENTAL_COMPETITION_FETCH", "1"),
+        enable_incremental_competition_fetch=_env_bool(
+            "ENABLE_INCREMENTAL_COMPETITION_FETCH", "1"
+        ),
         competition_cache_ttl_hours=max(0, _env_int("COMPETITION_CACHE_TTL_HOURS", 24)),
-        competition_cache_dir=output_dir / os.getenv("COMPETITION_CACHE_DIR", "cache/competitions"),
+        competition_cache_dir=output_dir
+        / os.getenv("COMPETITION_CACHE_DIR", "cache/competitions"),
         force_refresh_from_api=bool(force_refresh or env_force_refresh),
         plot_style=dict(PLOT_STYLE),
     )
