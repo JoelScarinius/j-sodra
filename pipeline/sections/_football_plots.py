@@ -153,7 +153,7 @@ def _short_name(name: str) -> str:
 def _numeric_spatial_rows(frame: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
     """Return rows with finite numeric coordinates for all requested columns."""
     if frame.empty or any(column not in frame.columns for column in columns):
-        return pd.DataFrame(columns=columns)
+        return frame.head(0).copy()
     result = frame.copy()
     for column in columns:
         result[column] = pd.to_numeric(result[column], errors="coerce")
@@ -285,6 +285,22 @@ def plot_progressive_passes(
             ax=ax,
             zorder=6,
         )
+
+    if progressive_df.empty:
+        subtitle = (
+            f"{dataset.team_name} | {dataset.competition_label} | {dataset.season_label}"
+        )
+        _empty_plot(ax, "No located progressive-pass data available")
+        _add_header(fig, "Progressive Pass Map", subtitle)
+        _add_footer(
+            footer_ax,
+            [
+                "What it shows: located accurate open-play progressive passes in the selected scope.",
+                "No valid progressive-pass coordinates are available, so no count, player ranking, or average gain is inferred.",
+            ],
+            width=130,
+        )
+        return _save(fig, output_path)
 
     top_players = (
         progressive_df.groupby("player_name")

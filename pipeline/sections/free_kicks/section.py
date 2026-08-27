@@ -193,6 +193,11 @@ def _plot_map(
         footer_rect=(0.05, 0.03, 0.90, 0.11),
     )
     add_header(fig, title, subtitle)
+    footer_lines = [
+        "What it shows: located free-kick origins and endpoints in the selected scope.",
+        "Missing coordinates are excluded and never placed at zero.",
+        note,
+    ]
     data = data.copy()
     for column in ("landing_x", "landing_y"):
         if column in data.columns:

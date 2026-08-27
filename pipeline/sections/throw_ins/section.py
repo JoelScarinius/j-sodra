@@ -89,9 +89,12 @@ def _build_side(
     )
 
     records = []
-    for _, row in frame.sort_values(
-        by=["matchId", "period_order", "minute", "second", "event_id"], kind="mergesort"
-    ).iterrows():
+    if not frame.empty:
+        frame = frame.sort_values(
+            by=["matchId", "period_order", "minute", "second", "event_id"],
+            kind="mergesort",
+        )
+    for _, row in frame.iterrows():
         start_x = row.get("start_x")
         start_y = row.get("start_y")
         landed_x, landed_y = _landing_xy(row)
@@ -198,6 +201,14 @@ def _plot_map(
         footer_rect=(0.05, 0.03, 0.90, 0.11),
     )
     add_header(fig, title, subtitle)
+    data = data.copy()
+    for column in ("landing_x", "landing_y"):
+        if column in data.columns:
+            data[column] = pd.to_numeric(data[column], errors="coerce")
+    if {"landing_x", "landing_y"}.issubset(data.columns):
+        data = data.dropna(subset=["landing_x", "landing_y"])
+    else:
+        data = pd.DataFrame()
     if data.empty:
         ax.text(
             50,
