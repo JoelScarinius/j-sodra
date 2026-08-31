@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
+from pathlib import Path
+
 import pandas as pd
 
 from pipeline.analytics import (
@@ -524,7 +526,8 @@ def run_pipeline(settings) -> int:
         root_catalog_path = settings.reports_root_dir / "index.json"
         commit_markers = {Path(index_path).resolve(), root_catalog_path.resolve()}
         module_candidates = [
-            path for path in upload_candidates
+            path
+            for path in upload_candidates
             if Path(path).resolve() not in commit_markers
         ]
         uploaded = upload_files_to_supabase(settings, module_candidates)
