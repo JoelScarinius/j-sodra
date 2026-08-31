@@ -437,7 +437,7 @@ function buildTeamStatRows(
       corners: preserveExistingMetrics ? toNumber(existingHomeStat?.corners) : matchHasEvents ? homeStats.corners : null,
       clean_sheet: finalMatch && awayScore === 0,
       event_count: preserveExistingMetrics ? toNumber(existingHomeStat?.event_count) : matchHasEvents ? homeStats.eventCount : null,
-      source_updated_at: new Date().toISOString(),
+      source_updated_at: toIso(detail?.updatedAt ?? detail?.lastUpdated ?? detail?.sourceUpdatedAt),
       payload: { source: "sync-league", detail },
     },
     {
@@ -466,7 +466,7 @@ function buildTeamStatRows(
       corners: preserveExistingMetrics ? toNumber(existingAwayStat?.corners) : matchHasEvents ? awayStats.corners : null,
       clean_sheet: finalMatch && homeScore === 0,
       event_count: preserveExistingMetrics ? toNumber(existingAwayStat?.event_count) : matchHasEvents ? awayStats.eventCount : null,
-      source_updated_at: new Date().toISOString(),
+      source_updated_at: toIso(detail?.updatedAt ?? detail?.lastUpdated ?? detail?.sourceUpdatedAt),
       payload: { source: "sync-league", detail },
     },
   ];
@@ -560,7 +560,7 @@ function buildEventRows(matchRow: any, events: any[], providerToLocalTeamId: Map
       xt: toNumber(event?.xt ?? event?.xT ?? event?.pass?.xT ?? event?.carry?.xT ?? event?.possession?.attack?.xT),
       is_shot: Boolean(event?.shot),
       is_goal: Boolean(event?.shot?.isGoal || secondary.includes("goal")),
-      source_updated_at: new Date().toISOString(),
+      source_updated_at: toIso(event?.updatedAt ?? event?.lastUpdated ?? event?.sourceUpdatedAt),
       payload: event,
     });
   });
