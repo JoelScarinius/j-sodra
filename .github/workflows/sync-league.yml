@@ -15,9 +15,6 @@ on:
         default: "5"
         type: string
 
-  schedule:
-    - cron: "17 */4 * * *"
-
 concurrency:
   group: j-sodra-league-sync
   cancel-in-progress: false
