@@ -521,15 +521,24 @@ def run_pipeline(settings) -> int:
     if settings.upload_to_supabase_storage:
         print("\nUploading modular artifacts to Supabase Storage...")
         delete_files_from_supabase(settings, [])
-        uploaded = upload_files_to_supabase(settings, upload_candidates)
-        if uploaded:
-            manifest_path = write_json(
-                settings.report_path("upload_manifest.json"),
-                {"generated_at": generated_at, "files": uploaded},
-            )
-            print(
-                f"Uploaded {len(uploaded)} files and wrote manifest -> {manifest_path}"
-            )
+        root_catalog_path = settings.reports_root_dir / "index.json"
+        commit_markers = {Path(index_path).resolve(), root_catalog_path.resolve()}
+        module_candidates = [
+            path for path in upload_candidates
+            if Path(path).resolve() not in commit_markers
+        ]
+        uploaded = upload_files_to_supabase(settings, module_candidates)
+        manifest_path = write_json(
+            settings.report_path("upload_manifest.json"),
+            {"generated_at": generated_at, "files": uploaded},
+        )
+        upload_files_to_supabase(settings, [manifest_path])
+        upload_files_to_supabase(settings, [index_path])
+        upload_files_to_supabase(settings, [root_catalog_path])
+        print(
+            f"Uploaded and verified {len(uploaded)} module files, manifest, "
+            "season index, and root catalog"
+        )
     else:
         print(
             "\nUpload disabled. Set UPLOAD_TO_SUPABASE_STORAGE=1 to push reports to the bucket."

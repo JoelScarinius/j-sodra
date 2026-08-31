@@ -85,15 +85,13 @@ def _supabase_storage_client(settings):
     if not settings.upload_to_supabase_storage:
         return None
     if not boto3:
-        print("Upload skipped: boto3 is not available.")
-        return None
+        raise RuntimeError("Supabase Storage upload is enabled but boto3 is unavailable")
     if (
         not settings.supabase_s3_bucket
         or not settings.supabase_s3_access_key
         or not settings.supabase_s3_secret_key
     ):
-        print("Upload skipped: missing Supabase S3 credentials.")
-        return None
+        raise RuntimeError("Supabase Storage upload is enabled but S3 credentials are incomplete")
 
     return boto3.client(
         "s3",
@@ -143,15 +141,15 @@ def _unique_existing_files(file_paths: list[Path]) -> list[Path]:
 def upload_files_to_supabase(settings, file_paths: list[Path]) -> list[dict]:
     client = _supabase_storage_client(settings)
     if client is None:
-        return []
-
+        raise RuntimeError("Supabase Storage client was not created")
+    candidates = _unique_existing_files(file_paths)
     uploaded: list[dict] = []
-    for file_path in _unique_existing_files(file_paths):
+    failures: list[str] = []
+    for file_path in candidates:
         object_key = storage_key_for_path(settings, file_path)
         content_type, _ = mimetypes.guess_type(file_path.name)
         if not content_type:
             content_type = "application/octet-stream"
-
         try:
             with open(file_path, "rb") as handle:
                 client.put_object(
@@ -160,15 +158,23 @@ def upload_files_to_supabase(settings, file_paths: list[Path]) -> list[dict]:
                     Body=handle,
                     ContentType=content_type,
                 )
-            uploaded.append(
-                {
-                    "local_path": str(file_path),
-                    "relative_path": relative_output_path(settings, file_path).as_posix(),
-                    "object_key": object_key,
-                    "public_url": public_url_for_path(settings, file_path),
-                }
-            )
+            client.head_object(Bucket=settings.supabase_s3_bucket, Key=object_key)
+            uploaded.append({
+                "local_path": str(file_path),
+                "relative_path": relative_output_path(settings, file_path).as_posix(),
+                "object_key": object_key,
+                "public_url": public_url_for_path(settings, file_path),
+            })
         except Exception as exc:
-            print(f"Upload failed for {file_path.name}: {exc}")
-
+            failures.append(f"{file_path}: {exc}")
+    if failures:
+        raise RuntimeError(
+            "Supabase Storage publication failed for required files:\n"
+            + "\n".join(failures)
+        )
+    if len(uploaded) != len(candidates):
+        raise RuntimeError(
+            f"Supabase Storage publication count mismatch: expected {len(candidates)}, "
+            f"uploaded {len(uploaded)}"
+        )
     return uploaded
