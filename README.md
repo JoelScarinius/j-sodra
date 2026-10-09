@@ -988,3 +988,11 @@ If a collaborator is unsure where code belongs, use this rule:
 > If it writes or uploads files, it belongs in `publishing.py`.  
 > If it coordinates the pipeline, it belongs in `orchestrator.py`.  
 > If it draws a football pitch, use `mplsoccer` and the shared repo colours.
+
+## Hardened Wyscout proxy authentication
+
+The server-side Python report pipeline calls `SUPABASE_FUNCTION_URL` with the `X-Proxy-Key` header. Set `WYSCOUT_PROXY_SHARED_SECRET` locally and as a GitHub Actions repository secret. Its value must equal the Supabase Edge Function secret `PROXY_SHARED_SECRET`.
+
+`SUPABASE_ANON_KEY` is not the proxy credential. Never place `WYSCOUT_PROXY_SHARED_SECRET`, `PROXY_SHARED_SECRET`, or Wyscout credentials in frontend code or `VITE_*` variables.
+
+The repository's `supabase/functions/wyscout-proxy/index.ts` is the production source for the shared proxy used by both this report pipeline and the historical Ettan downloader. Its allow-list intentionally covers only the endpoints used by those server-side consumers.
