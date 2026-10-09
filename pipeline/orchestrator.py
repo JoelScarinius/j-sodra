@@ -278,10 +278,9 @@ def run_pipeline(settings) -> int:
     print("Starting J-Södra analytics pipeline...")
     if settings.force_refresh_from_api:
         print("Force refresh enabled: bypassing local caches for live API refresh.")
-    if not settings.supabase_anon_key:
-        print(
-            "Warning: SUPABASE_ANON_KEY is not set. If verify JWT is enabled, calls may fail with 401."
-        )
+    if not settings.wyscout_proxy_shared_secret:
+        print("Error: WYSCOUT_PROXY_SHARED_SECRET is not configured.")
+        return 1
 
     service = DataService(settings)
 

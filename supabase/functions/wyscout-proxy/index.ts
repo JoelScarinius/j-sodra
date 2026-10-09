@@ -1,85 +1,105 @@
-// @ts-nocheck
+// Shared production Wyscout proxy.
+// Callers must send X-Proxy-Key matching PROXY_SHARED_SECRET.
+// Keep this credential server-side and never expose it in frontend/VITE_* code.
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
 const corsHeaders = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
-    "Access-Control-Allow-Methods": "GET, OPTIONS",
+  "Access-Control-Allow-Origin": Deno.env.get("CORS_ORIGIN") ?? "",
+  "Access-Control-Allow-Headers": "content-type,x-proxy-key",
+  "Access-Control-Allow-Methods": "GET,OPTIONS",
 };
 
-serve(async (req: Request) => {
-    if (req.method === "OPTIONS") {
-        return new Response("ok", { headers: corsHeaders });
-    }
+const allowedEndpoints = [
+  /^\/search$/,
+  /^\/competitions\/\d+\/(?:seasons|matches)$/,
+  /^\/seasons\/\d+(?:\/(?:teams|players|matches|standings|scorers|assistmen))?$/,
+  /^\/teams\/\d+(?:\/(?:fixtures|matches))?$/,
+  /^\/matches\/\d+(?:\/(?:events|formations|advancedstats(?:\/players)?))?$/,
+];
 
-    try {
-        const clientId = Deno.env.get("WYSCOUT_CLIENT_ID") ?? "";
-        const clientSecret =
-            Deno.env.get("WYSCOUT_CLIENT_SECRET") ?? Deno.env.get("WYSCOUT_SECRET") ?? "";
-        const baseUrl = Deno.env.get("WYSCOUT_BASE_URL") ?? "https://apirest.wyscout.com/v3";
+function jsonResponse(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "content-type": "application/json", ...corsHeaders },
+  });
+}
 
-        if (!clientId || !clientSecret) {
-            return new Response(
-                JSON.stringify({
-                    error: "Missing WYSCOUT_CLIENT_ID or WYSCOUT_CLIENT_SECRET/WYSCOUT_SECRET",
-                }),
-                {
-                    status: 500,
-                    headers: { "Content-Type": "application/json", ...corsHeaders },
-                },
-            );
-        }
+function constantTimeEqual(left: string, right: string) {
+  if (left.length !== right.length) return false;
+  let difference = 0;
+  for (let index = 0; index < left.length; index += 1) {
+    difference |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  }
+  return difference === 0;
+}
 
-        const requestUrl = new URL(req.url);
-        const endpoint = requestUrl.searchParams.get("endpoint");
+serve(async (request) => {
+  if (request.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+  if (request.method !== "GET") {
+    return jsonResponse({ error: "method_not_allowed" }, 405);
+  }
 
-        if (!endpoint) {
-            return new Response(JSON.stringify({ error: "Missing endpoint query parameter" }), {
-                status: 400,
-                headers: { "Content-Type": "application/json", ...corsHeaders },
-            });
-        }
+  const expectedSecret = Deno.env.get("PROXY_SHARED_SECRET") ?? "";
+  const suppliedSecret = request.headers.get("x-proxy-key") ?? "";
+  if (!expectedSecret || !constantTimeEqual(expectedSecret, suppliedSecret)) {
+    return jsonResponse({ error: "unauthorized" }, 401);
+  }
 
-        const normalizedBase = baseUrl.replace(/\/$/, "");
-        const normalizedEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-        const upstreamUrl = new URL(`${normalizedBase}${normalizedEndpoint}`);
+  const clientId = Deno.env.get("WYSCOUT_CLIENT_ID") ?? "";
+  const clientSecret =
+    Deno.env.get("WYSCOUT_CLIENT_SECRET") ?? Deno.env.get("WYSCOUT_SECRET") ?? "";
+  const baseUrl = (
+    Deno.env.get("WYSCOUT_BASE_URL") ?? "https://apirest.wyscout.com/v3"
+  ).replace(/\/$/, "");
 
-        // Forward every query param except "endpoint" itself.
-        requestUrl.searchParams.forEach((value, key) => {
-            if (key !== "endpoint") {
-                upstreamUrl.searchParams.append(key, value);
-            }
-        });
+  if (!clientId || !clientSecret) {
+    return jsonResponse({ error: "wyscout_credentials_not_configured" }, 500);
+  }
 
-        const basicAuth = "Basic " + btoa(`${clientId}:${clientSecret}`);
+  const incomingUrl = new URL(request.url);
+  const endpoint = incomingUrl.searchParams.get("endpoint") ?? "";
+  if (!allowedEndpoints.some((rule) => rule.test(endpoint))) {
+    return jsonResponse({ error: "endpoint_not_allowed", endpoint }, 403);
+  }
 
-        const upstreamResponse = await fetch(upstreamUrl.toString(), {
-            method: "GET",
-            headers: {
-                Authorization: basicAuth,
-                Accept: "application/json",
-            },
-        });
+  const upstreamUrl = new URL(baseUrl + endpoint);
+  incomingUrl.searchParams.forEach((value, key) => {
+    if (key !== "endpoint") upstreamUrl.searchParams.append(key, value);
+  });
 
-        const bodyText = await upstreamResponse.text();
-
-        return new Response(bodyText, {
-            status: upstreamResponse.status,
-            headers: {
-                "Content-Type": upstreamResponse.headers.get("content-type") ?? "application/json",
-                ...corsHeaders,
-            },
-        });
-    } catch (error) {
-        return new Response(
-            JSON.stringify({
-                error: "Proxy execution failed",
-                details: error instanceof Error ? error.message : String(error),
-            }),
-            {
-                status: 500,
-                headers: { "Content-Type": "application/json", ...corsHeaders },
-            },
-        );
-    }
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 85_000);
+  try {
+    const upstreamResponse = await fetch(upstreamUrl, {
+      method: "GET",
+      signal: controller.signal,
+      headers: {
+        Authorization: "Basic " + btoa(`${clientId}:${clientSecret}`),
+        Accept: "application/json",
+      },
+    });
+    const body = await upstreamResponse.arrayBuffer();
+    const headers = new Headers(corsHeaders);
+    headers.set(
+      "content-type",
+      upstreamResponse.headers.get("content-type") ?? "application/octet-stream",
+    );
+    headers.set("x-upstream-status", String(upstreamResponse.status));
+    const retryAfter = upstreamResponse.headers.get("retry-after");
+    if (retryAfter) headers.set("retry-after", retryAfter);
+    return new Response(body, { status: upstreamResponse.status, headers });
+  } catch (error) {
+    const isTimeout = error instanceof DOMException && error.name === "AbortError";
+    return jsonResponse(
+      {
+        error: isTimeout ? "upstream_timeout" : "upstream_failure",
+        detail: String(error),
+      },
+      isTimeout ? 504 : 502,
+    );
+  } finally {
+    clearTimeout(timeout);
+  }
 });

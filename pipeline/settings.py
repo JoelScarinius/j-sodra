@@ -55,6 +55,7 @@ PLOT_STYLE = {
 class Settings:
     supabase_function_url: str
     supabase_anon_key: str | None
+    wyscout_proxy_shared_secret: str | None
     http_timeout_seconds: int
 
     team_query: str
@@ -116,6 +117,7 @@ def load_settings(force_refresh: bool = False) -> Settings:
         ),
         supabase_anon_key=os.getenv("SUPABASE_ANON_KEY")
         or os.getenv("SUPABASE_SERVICE_ROLE_KEY"),
+        wyscout_proxy_shared_secret=os.getenv("WYSCOUT_PROXY_SHARED_SECRET") or None,
         http_timeout_seconds=_env_int("HTTP_TIMEOUT_SECONDS", 30),
         team_query=os.getenv("TEAM_QUERY", "Jonkopings"),
         target_team_keyword=os.getenv("TARGET_TEAM_KEYWORD", "jonkopings sodra"),

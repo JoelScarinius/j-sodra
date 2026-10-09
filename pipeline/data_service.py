@@ -31,10 +31,15 @@ class DataService:
         if params:
             query.update(params)
 
-        headers = {}
-        if self.settings.supabase_anon_key:
-            headers["Authorization"] = f"Bearer {self.settings.supabase_anon_key}"
-            headers["apikey"] = self.settings.supabase_anon_key
+        if not self.settings.wyscout_proxy_shared_secret:
+            raise RuntimeError(
+                "WYSCOUT_PROXY_SHARED_SECRET is required to call the Wyscout proxy"
+            )
+
+        headers = {
+            "Accept": "application/json",
+            "X-Proxy-Key": self.settings.wyscout_proxy_shared_secret,
+        }
 
         try:
             response = requests.get(

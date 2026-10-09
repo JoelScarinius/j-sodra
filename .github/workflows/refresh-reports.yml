@@ -53,6 +53,7 @@ jobs:
       UPLOAD_TO_SUPABASE_STORAGE: "1"
       SUPABASE_FUNCTION_URL: ${{ secrets.SUPABASE_FUNCTION_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      WYSCOUT_PROXY_SHARED_SECRET: ${{ secrets.WYSCOUT_PROXY_SHARED_SECRET }}
       SUPABASE_S3_ENDPOINT: ${{ secrets.SUPABASE_S3_ENDPOINT }}
       SUPABASE_S3_BUCKET: ${{ secrets.SUPABASE_S3_BUCKET }}
       SUPABASE_S3_ACCESS_KEY: ${{ secrets.SUPABASE_S3_ACCESS_KEY }}
@@ -83,8 +84,40 @@ jobs:
           test -n "$SUPABASE_S3_ACCESS_KEY"
           test -n "$SUPABASE_S3_SECRET_KEY"
           test -n "$SUPABASE_PUBLIC_BASE_URL"
+          test -n "$SUPABASE_FUNCTION_URL"
+          test -n "$WYSCOUT_PROXY_SHARED_SECRET"
 
-          echo "Publication configuration is present."
+          echo "Publication and proxy configuration is present."
+
+      - name: Validate Wyscout proxy access
+        shell: bash
+        run: |
+          response_file="$(mktemp)"
+          status="$(
+            curl --silent --show-error \
+              --output "$response_file" \
+              --write-out "%{http_code}" \
+              --get \
+              --header "Accept: application/json" \
+              --header "X-Proxy-Key: ${WYSCOUT_PROXY_SHARED_SECRET}" \
+              --data-urlencode "endpoint=/competitions/810/seasons" \
+              --data-urlencode "fetch=competition" \
+              "${SUPABASE_FUNCTION_URL}"
+          )"
+          if [[ "$status" != "200" ]]; then
+            echo "Proxy smoke test failed with HTTP ${status}"
+            cat "$response_file"
+            exit 1
+          fi
+          python - "$response_file" <<'PY'
+          import json
+          import sys
+          with open(sys.argv[1], encoding="utf-8") as handle:
+              payload = json.load(handle)
+          if not isinstance(payload, dict) or not isinstance(payload.get("seasons"), list):
+              raise SystemExit("Proxy response does not contain a seasons list")
+          print(f"Proxy smoke test succeeded: {len(payload['seasons'])} seasons")
+          PY
 
       - name: Run analytics refresh
         shell: bash
