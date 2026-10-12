@@ -838,9 +838,28 @@ serve(async (req: Request) => {
       .map(buildSummaryRecord)
       .filter((record) => record.providerMatchId && record.providerSeasonId);
 
-    let selectedSummaries = requestedSeasonIds.length
-      ? summaries.filter((record) => requestedSeasonIds.includes(record.providerSeasonId))
-      : summaries;
+    // Limit production ingestion to the years currently used by Supabase and Lovable.
+    // Override through function input or environment variables when the product scope changes.
+    const allowedSeasonYears = new Set(
+      String(body?.allowed_season_years ?? Deno.env.get("SYNC_ALLOWED_SEASON_YEARS") ?? "2025,2026")
+        .split(",")
+        .map((value) => Number(value.trim()))
+        .filter((value) => Number.isInteger(value)),
+    );
+    const earliestMatchYear = Math.max(
+      2023,
+      Number(body?.earliest_match_year ?? Deno.env.get("SYNC_EARLIEST_MATCH_YEAR") ?? 2023),
+    );
+
+    let selectedSummaries = summaries.filter((record) => {
+      if (requestedSeasonIds.length && !requestedSeasonIds.includes(record.providerSeasonId)) {
+        return false;
+      }
+      const kickoffYear = record.kickoffAt ? new Date(record.kickoffAt).getUTCFullYear() : NaN;
+      return Number.isInteger(kickoffYear)
+        && kickoffYear >= earliestMatchYear
+        && allowedSeasonYears.has(kickoffYear);
+    });
 
     let teamGroupTeamCount: number | null = null;
     if (teamGroupAnchor) {
@@ -1726,6 +1745,8 @@ serve(async (req: Request) => {
       run_id: runId,
       provider_league_id: providerLeagueId,
       provider_season_ids: orderedSeasonIds,
+      allowed_season_years: [...allowedSeasonYears].sort((a, b) => a - b),
+      earliest_match_year: earliestMatchYear,
       matches_scanned: selectedSummaries.length,
       matches_hydrated: detailCandidates.length,
       matches_upserted: matchRows.length,

@@ -7,29 +7,18 @@ on:
         description: Client-visible run id from the Supabase refresh function
         required: false
         type: string
-
       requested_at:
         description: UTC timestamp when refresh was requested
         required: false
         type: string
-
       report_season_id:
         description: Wyscout provider season ID for report output
         required: true
         default: "192451"
         type: string
-
-      force_refresh:
-        description: Bypass local report caches
-        required: false
-        default: false
-        type: boolean
-
   workflow_run:
-    workflows:
-      - Sync League Warehouse
-    types:
-      - completed
+    workflows: [Sync League Warehouse]
+    types: [completed]
 
 concurrency:
   group: j-sodra-refresh
@@ -40,17 +29,19 @@ permissions:
 
 jobs:
   refresh:
-    if: >
+    if: >-
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
-
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-
+    timeout-minutes: 120
     env:
       PYTHONUNBUFFERED: "1"
-      REPORT_SEASON_ID: ${{ github.event.inputs.report_season_id || '192451' }}
+      REPORT_SEASON_ID: ${{ inputs.report_season_id || '192451' }}
       UPLOAD_TO_SUPABASE_STORAGE: "1"
+      ENABLE_INCREMENTAL_EVENT_FETCH: "1"
+      ENABLE_INCREMENTAL_COMPETITION_FETCH: "1"
+      EVENT_CACHE_RECHECK_MISSING_HOURS: "87600"
+      COMPETITION_CACHE_TTL_HOURS: "24"
       SUPABASE_FUNCTION_URL: ${{ secrets.SUPABASE_FUNCTION_URL }}
       SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
       WYSCOUT_PROXY_SHARED_SECRET: ${{ secrets.WYSCOUT_PROXY_SHARED_SECRET }}
@@ -60,71 +51,60 @@ jobs:
       SUPABASE_S3_SECRET_KEY: ${{ secrets.SUPABASE_S3_SECRET_KEY }}
       SUPABASE_S3_PREFIX: ${{ secrets.SUPABASE_S3_PREFIX }}
       SUPABASE_PUBLIC_BASE_URL: ${{ secrets.SUPABASE_PUBLIC_BASE_URL }}
-
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
-
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
           cache: pip
-
+          cache-dependency-path: requirements.txt
+      - name: Restore incremental Wyscout caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            cache/events
+            cache/competitions
+          key: wyscout-cache-${{ runner.os }}-${{ env.REPORT_SEASON_ID }}-${{ github.run_id }}
+          restore-keys: |
+            wyscout-cache-${{ runner.os }}-${{ env.REPORT_SEASON_ID }}-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Validate publication configuration
+          python -m pip install -r requirements.txt
+      - name: Validate configuration
         shell: bash
         run: |
-          test -n "$SUPABASE_S3_ENDPOINT"
-          test -n "$SUPABASE_S3_BUCKET"
-          test -n "$SUPABASE_S3_ACCESS_KEY"
-          test -n "$SUPABASE_S3_SECRET_KEY"
-          test -n "$SUPABASE_PUBLIC_BASE_URL"
-          test -n "$SUPABASE_FUNCTION_URL"
-          test -n "$WYSCOUT_PROXY_SHARED_SECRET"
-
-          echo "Publication and proxy configuration is present."
-
-      - name: Validate Wyscout proxy access
+          required=(SUPABASE_S3_ENDPOINT SUPABASE_S3_BUCKET SUPABASE_S3_ACCESS_KEY SUPABASE_S3_SECRET_KEY SUPABASE_PUBLIC_BASE_URL SUPABASE_FUNCTION_URL WYSCOUT_PROXY_SHARED_SECRET)
+          for name in "${required[@]}"; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::Missing required secret: ${name}"
+              exit 1
+            fi
+          done
+      - name: Validate all required Wyscout proxy routes
         shell: bash
         run: |
-          response_file="$(mktemp)"
-          status="$(
-            curl --silent --show-error \
-              --output "$response_file" \
-              --write-out "%{http_code}" \
-              --get \
+          check_proxy() {
+            local endpoint="$1"
+            shift
+            local response_file status
+            response_file="$(mktemp)"
+            status="$(curl --silent --show-error --retry 3 --retry-all-errors --connect-timeout 20 --max-time 110 \
+              --output "$response_file" --write-out "%{http_code}" --get \
               --header "Accept: application/json" \
               --header "X-Proxy-Key: ${WYSCOUT_PROXY_SHARED_SECRET}" \
-              --data-urlencode "endpoint=/competitions/810/seasons" \
-              --data-urlencode "fetch=competition" \
-              "${SUPABASE_FUNCTION_URL}"
-          )"
-          if [[ "$status" != "200" ]]; then
-            echo "Proxy smoke test failed with HTTP ${status}"
-            cat "$response_file"
-            exit 1
-          fi
-          python - "$response_file" <<'PY'
-          import json
-          import sys
-          with open(sys.argv[1], encoding="utf-8") as handle:
-              payload = json.load(handle)
-          if not isinstance(payload, dict) or not isinstance(payload.get("seasons"), list):
-              raise SystemExit("Proxy response does not contain a seasons list")
-          print(f"Proxy smoke test succeeded: {len(payload['seasons'])} seasons")
-          PY
-
-      - name: Run analytics refresh
-        shell: bash
-        run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" &&
-                "${{ github.event.inputs.force_refresh }}" == "true" ]]; then
-            python run_pipeline.py --force-refresh
-          else
-            python run_pipeline.py
-          fi
+              --data-urlencode "endpoint=${endpoint}" "$@" "${SUPABASE_FUNCTION_URL}")"
+            if [[ "$status" != "200" ]]; then
+              echo "::error::Proxy rejected ${endpoint} with HTTP ${status}"
+              cat "$response_file"
+              rm -f "$response_file"
+              exit 1
+            fi
+            rm -f "$response_file"
+          }
+          check_proxy "/competitions/810/seasons" --data-urlencode "fetch=competition"
+          check_proxy "/search" --data-urlencode "query=Jonkopings" --data-urlencode "objType=team"
+      - name: Run incremental analytics refresh
+        run: python run_pipeline.py
