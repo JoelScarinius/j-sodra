@@ -61,7 +61,7 @@ jobs:
           cache: pip
           cache-dependency-path: requirements.txt
       - name: Restore incremental Wyscout caches
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             cache/events
