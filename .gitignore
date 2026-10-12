@@ -1,5 +1,9 @@
 docs/
 
+# Supabase local CLI state
+/supabase/.temp/
+/supabase/.branches/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
